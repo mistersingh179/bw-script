@@ -22,3 +22,8 @@
 new EventSource('/esbuild').addEventListener('change', () => location.reload())
 ```
 - now when new build is available, it will fire this event and then page will reload itself
+
+### SSL Server
+- used `easy-rsa` to generate a `request` for common name `server`, which then gave me a `key` & `cert`
+- added that cert to the keychain app and marked it to be trusted
+- using the key & cert when turning on the server

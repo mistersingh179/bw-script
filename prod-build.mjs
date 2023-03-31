@@ -6,6 +6,9 @@ const options = {
   outdir: './dist',
   sourcemap: true,
   minify: true,
+  define: {
+    'BW_DASHBOARD_BASE_URL': '"https://app.brandweaver.ai"',
+  },
 };
 
 let buildResult = await esbuild.build(options);

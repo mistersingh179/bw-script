@@ -13,5 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "esbuild": "0.17.14"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11"
   }
 }

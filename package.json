@@ -1,0 +1,17 @@
+{
+  "name": "bw-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node prod-build.mjs",
+    "dev": "node dev-build.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "0.17.14"
+  }
+}

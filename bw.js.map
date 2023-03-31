@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["bw.ts"],
-  "sourcesContent": ["console.log(\"i am bw.js in dev\");"],
-  "mappings": ";;AAAA,UAAQ,IAAI,mBAAmB;",
-  "names": []
-}

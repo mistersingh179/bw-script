@@ -3,7 +3,7 @@ import * as esbuild from 'esbuild'
 const options = {
   entryPoints: ['bw.ts'],
   bundle: true,
-  outfile: 'bw.js',
+  outdir: 'dist',
   sourcemap: true,
   minify: false,
 };
@@ -15,7 +15,7 @@ await ctx.watch()
 let { host, port } = await ctx.serve({
   port: 8000,
   host: '0.0.0.0',
-  servedir: '.'
+  servedir: './dist'
 })
 
 console.log("esbuild server is listening at: ", host, port)

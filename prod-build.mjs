@@ -3,7 +3,7 @@ import * as esbuild from 'esbuild'
 const options = {
   entryPoints: ['bw.ts'],
   bundle: true,
-  outfile: 'bw.js',
+  outdir: './dist',
   sourcemap: true,
   minify: true,
 };

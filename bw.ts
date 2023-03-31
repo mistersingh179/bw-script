@@ -1,1 +1,1 @@
-console.log("i am bw.js in dev");
+console.log("i am bw.js");

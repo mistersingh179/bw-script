@@ -9,18 +9,17 @@ console.log("i am bw.js: ", dashboardBaseUrl);
 const init = async () => {
   console.log("in bw.js from bw-script");
   const userId = getUserId();
-  console.log("script", document.currentScript);
   const body = {
-    foo: "bar",
+    userId,
+    url: window.document.location.href
   };
-  const params = new URLSearchParams({
-    a: "1",
-    b: "2",
-  });
-  const url = `${dashboardBaseUrl}/api/auctions?${params.toString()}`;
-  console.log(url);
-  const res = await fetch(url, {
+  console.log("body to post with: ", body);
+  const auctionEndpoint = `${dashboardBaseUrl}/api/auctions`;
+  const res = await fetch(auctionEndpoint, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(body),
   });
   const data = await res.json();

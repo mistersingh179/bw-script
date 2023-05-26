@@ -1,0 +1,24529 @@
+
+/**
+ * Client
+**/
+
+// @ts-ignore
+import * as runtime from '@prisma/client/runtime/library';
+type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
+type UnwrapTuple<Tuple extends readonly unknown[]> = {
+  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends Prisma.PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
+};
+
+export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+
+
+/**
+ * Model Account
+ * 
+ */
+export type Account = {
+  id: string
+  userId: string
+  type: string
+  provider: string
+  providerAccountId: string
+  refresh_token: string | null
+  access_token: string | null
+  expires_at: number | null
+  token_type: string | null
+  scope: string | null
+  id_token: string | null
+  session_state: string | null
+}
+
+/**
+ * Model Session
+ * 
+ */
+export type Session = {
+  id: string
+  sessionToken: string
+  userId: string
+  expires: Date
+}
+
+/**
+ * Model VerificationToken
+ * 
+ */
+export type VerificationToken = {
+  identifier: string
+  token: string
+  expires: Date
+}
+
+/**
+ * Model User
+ * 
+ */
+export type User = {
+  id: string
+  name: string | null
+  email: string | null
+  emailVerified: Date | null
+  image: string | null
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Setting
+ * 
+ */
+export type Setting = {
+  id: string
+  userId: string
+  scoreThreshold: number
+  status: boolean
+  addSponsoredWording: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Auction
+ * 
+ */
+export type Auction = {
+  id: string
+  userId: string
+  webpageId: string | null
+  url: string | null
+  userAgent: string
+  ip: string
+  endUserCuid: string
+  endUserFp: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Website
+ * 
+ */
+export type Website = {
+  id: string
+  userId: string
+  topLevelDomainUrl: string
+  sitemapUrl: string
+  status: boolean
+  processedOn: Date | null
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Webpage
+ * 
+ */
+export type Webpage = {
+  id: string
+  websiteId: string
+  url: string
+  status: boolean
+  lastModifiedAt: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Content
+ * 
+ */
+export type Content = {
+  id: string
+  webpageId: string
+  desktopHtml: string
+  mobileHtml: string | null
+  tabletHtml: string | null
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Category
+ * 
+ */
+export type Category = {
+  id: string
+  userId: string
+  name: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model AdvertisementSpot
+ * 
+ */
+export type AdvertisementSpot = {
+  id: string
+  webpageId: string
+  beforeText: string
+  afterText: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model ScoredCampaign
+ * 
+ */
+export type ScoredCampaign = {
+  id: string
+  webpageId: string
+  campaignId: string
+  score: number
+  reason: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Advertisement
+ * 
+ */
+export type Advertisement = {
+  id: string
+  scoredCampaignId: string
+  advertisementSpotId: string
+  advertText: string
+  status: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Campaign
+ * 
+ */
+export type Campaign = {
+  id: string
+  userId: string
+  name: string
+  start: Date
+  end: Date
+  impressionCap: number
+  fixedCpm: Prisma.Decimal
+  productName: string
+  productDescription: string
+  clickUrl: string
+  requiredCssSelector: string
+  pacing: boolean
+  status: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model Impression
+ * 
+ */
+export type Impression = {
+  id: string
+  advertisementId: string
+  auctionId: string
+  clicked: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+
+/**
+ * ##  Prisma Client ʲˢ
+ * 
+ * Type-safe database client for TypeScript & Node.js
+ * @example
+ * ```
+ * const prisma = new PrismaClient()
+ * // Fetch zero or more Accounts
+ * const accounts = await prisma.account.findMany()
+ * ```
+ *
+ * 
+ * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ */
+export class PrismaClient<
+  T extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
+  U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
+  GlobalReject extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined = 'rejectOnNotFound' extends keyof T
+    ? T['rejectOnNotFound']
+    : false
+      > {
+    /**
+   * ##  Prisma Client ʲˢ
+   * 
+   * Type-safe database client for TypeScript & Node.js
+   * @example
+   * ```
+   * const prisma = new PrismaClient()
+   * // Fetch zero or more Accounts
+   * const accounts = await prisma.account.findMany()
+   * ```
+   *
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   */
+
+  constructor(optionsArg ?: Prisma.Subset<T, Prisma.PrismaClientOptions>);
+  $on<V extends (U | 'beforeExit')>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : V extends 'beforeExit' ? () => Promise<void> : Prisma.LogEvent) => void): void;
+
+  /**
+   * Connect with the database
+   */
+  $connect(): Promise<void>;
+
+  /**
+   * Disconnect from the database
+   */
+  $disconnect(): Promise<void>;
+
+  /**
+   * Add a middleware
+   */
+  $use(cb: Prisma.Middleware): void
+
+/**
+   * Executes a prepared raw query and returns the number of affected rows.
+   * @example
+   * ```
+   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
+
+  /**
+   * Executes a raw query and returns the number of affected rows.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
+
+  /**
+   * Performs a prepared raw query and returns the `SELECT` data.
+   * @example
+   * ```
+   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
+
+  /**
+   * Performs a raw query and returns the `SELECT` data.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
+
+  /**
+   * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
+   * @example
+   * ```
+   * const [george, bob, alice] = await prisma.$transaction([
+   *   prisma.user.create({ data: { name: 'George' } }),
+   *   prisma.user.create({ data: { name: 'Bob' } }),
+   *   prisma.user.create({ data: { name: 'Alice' } }),
+   * ])
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   */
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>
+
+  $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
+
+      /**
+   * `prisma.account`: Exposes CRUD operations for the **Account** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Accounts
+    * const accounts = await prisma.account.findMany()
+    * ```
+    */
+  get account(): Prisma.AccountDelegate<GlobalReject>;
+
+  /**
+   * `prisma.session`: Exposes CRUD operations for the **Session** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Sessions
+    * const sessions = await prisma.session.findMany()
+    * ```
+    */
+  get session(): Prisma.SessionDelegate<GlobalReject>;
+
+  /**
+   * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VerificationTokens
+    * const verificationTokens = await prisma.verificationToken.findMany()
+    * ```
+    */
+  get verificationToken(): Prisma.VerificationTokenDelegate<GlobalReject>;
+
+  /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.UserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.setting`: Exposes CRUD operations for the **Setting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Settings
+    * const settings = await prisma.setting.findMany()
+    * ```
+    */
+  get setting(): Prisma.SettingDelegate<GlobalReject>;
+
+  /**
+   * `prisma.auction`: Exposes CRUD operations for the **Auction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Auctions
+    * const auctions = await prisma.auction.findMany()
+    * ```
+    */
+  get auction(): Prisma.AuctionDelegate<GlobalReject>;
+
+  /**
+   * `prisma.website`: Exposes CRUD operations for the **Website** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Websites
+    * const websites = await prisma.website.findMany()
+    * ```
+    */
+  get website(): Prisma.WebsiteDelegate<GlobalReject>;
+
+  /**
+   * `prisma.webpage`: Exposes CRUD operations for the **Webpage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Webpages
+    * const webpages = await prisma.webpage.findMany()
+    * ```
+    */
+  get webpage(): Prisma.WebpageDelegate<GlobalReject>;
+
+  /**
+   * `prisma.content`: Exposes CRUD operations for the **Content** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Contents
+    * const contents = await prisma.content.findMany()
+    * ```
+    */
+  get content(): Prisma.ContentDelegate<GlobalReject>;
+
+  /**
+   * `prisma.category`: Exposes CRUD operations for the **Category** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Categories
+    * const categories = await prisma.category.findMany()
+    * ```
+    */
+  get category(): Prisma.CategoryDelegate<GlobalReject>;
+
+  /**
+   * `prisma.advertisementSpot`: Exposes CRUD operations for the **AdvertisementSpot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AdvertisementSpots
+    * const advertisementSpots = await prisma.advertisementSpot.findMany()
+    * ```
+    */
+  get advertisementSpot(): Prisma.AdvertisementSpotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.scoredCampaign`: Exposes CRUD operations for the **ScoredCampaign** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScoredCampaigns
+    * const scoredCampaigns = await prisma.scoredCampaign.findMany()
+    * ```
+    */
+  get scoredCampaign(): Prisma.ScoredCampaignDelegate<GlobalReject>;
+
+  /**
+   * `prisma.advertisement`: Exposes CRUD operations for the **Advertisement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Advertisements
+    * const advertisements = await prisma.advertisement.findMany()
+    * ```
+    */
+  get advertisement(): Prisma.AdvertisementDelegate<GlobalReject>;
+
+  /**
+   * `prisma.campaign`: Exposes CRUD operations for the **Campaign** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Campaigns
+    * const campaigns = await prisma.campaign.findMany()
+    * ```
+    */
+  get campaign(): Prisma.CampaignDelegate<GlobalReject>;
+
+  /**
+   * `prisma.impression`: Exposes CRUD operations for the **Impression** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Impressions
+    * const impressions = await prisma.impression.findMany()
+    * ```
+    */
+  get impression(): Prisma.ImpressionDelegate<GlobalReject>;
+}
+
+export namespace Prisma {
+  export import DMMF = runtime.DMMF
+
+  export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+
+  /**
+   * Prisma Errors
+   */
+  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
+  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
+  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
+  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
+  export import PrismaClientValidationError = runtime.PrismaClientValidationError
+  export import NotFoundError = runtime.NotFoundError
+
+  /**
+   * Re-export of sql-template-tag
+   */
+  export import sql = runtime.sqltag
+  export import empty = runtime.empty
+  export import join = runtime.join
+  export import raw = runtime.raw
+  export import Sql = runtime.Sql
+
+  /**
+   * Decimal.js
+   */
+  export import Decimal = runtime.Decimal
+
+  export type DecimalJsLike = runtime.DecimalJsLike
+
+  /**
+   * Metrics 
+   */
+  export type Metrics = runtime.Metrics
+  export type Metric<T> = runtime.Metric<T>
+  export type MetricHistogram = runtime.MetricHistogram
+  export type MetricHistogramBucket = runtime.MetricHistogramBucket
+
+
+  /**
+   * Prisma Client JS version: 4.12.0
+   * Query Engine version: 659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
+   */
+  export type PrismaVersion = {
+    client: string
+  }
+
+  export const prismaVersion: PrismaVersion 
+
+  /**
+   * Utility Types
+   */
+
+  /**
+   * From https://github.com/sindresorhus/type-fest/
+   * Matches a JSON object.
+   * This type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from. 
+   */
+  export type JsonObject = {[Key in string]?: JsonValue}
+
+  /**
+   * From https://github.com/sindresorhus/type-fest/
+   * Matches a JSON array.
+   */
+  export interface JsonArray extends Array<JsonValue> {}
+
+  /**
+   * From https://github.com/sindresorhus/type-fest/
+   * Matches any valid JSON value.
+   */
+  export type JsonValue = string | number | boolean | JsonObject | JsonArray | null
+
+  /**
+   * Matches a JSON object.
+   * Unlike `JsonObject`, this type allows undefined and read-only properties.
+   */
+  export type InputJsonObject = {readonly [Key in string]?: InputJsonValue | null}
+
+  /**
+   * Matches a JSON array.
+   * Unlike `JsonArray`, readonly arrays are assignable to this type.
+   */
+  export interface InputJsonArray extends ReadonlyArray<InputJsonValue | null> {}
+
+  /**
+   * Matches any valid value that can be used as an input for operations like
+   * create and update as the value of a JSON field. Unlike `JsonValue`, this
+   * type allows read-only arrays and read-only object properties and disallows
+   * `null` at the top level.
+   *
+   * `null` cannot be used as the value of a JSON field because its meaning
+   * would be ambiguous. Use `Prisma.JsonNull` to store the JSON null value or
+   * `Prisma.DbNull` to clear the JSON value and set the field to the database
+   * NULL value instead.
+   *
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-by-null-values
+   */
+  export type InputJsonValue = string | number | boolean | InputJsonObject | InputJsonArray
+
+  /**
+   * Types of the values used to represent different kinds of `null` values when working with JSON fields.
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  namespace NullTypes {
+    /**
+    * Type of `Prisma.DbNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class DbNull {
+      private DbNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.JsonNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class JsonNull {
+      private JsonNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.AnyNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class AnyNull {
+      private AnyNull: never
+      private constructor()
+    }
+  }
+
+  /**
+   * Helper for filtering JSON entries that have `null` on the database (empty on the db)
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const DbNull: NullTypes.DbNull
+
+  /**
+   * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const JsonNull: NullTypes.JsonNull
+
+  /**
+   * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const AnyNull: NullTypes.AnyNull
+
+  type SelectAndInclude = {
+    select: any
+    include: any
+  }
+  type HasSelect = {
+    select: any
+  }
+  type HasInclude = {
+    include: any
+  }
+  type CheckSelect<T, S, U> = T extends SelectAndInclude
+    ? 'Please either choose `select` or `include`'
+    : T extends HasSelect
+    ? U
+    : T extends HasInclude
+    ? U
+    : S
+
+  /**
+   * Get the type of the value, that the Promise holds.
+   */
+  export type PromiseType<T extends PromiseLike<any>> = T extends PromiseLike<infer U> ? U : T;
+
+  /**
+   * Get the return type of a function which returns a Promise.
+   */
+  export type PromiseReturnType<T extends (...args: any) => Promise<any>> = PromiseType<ReturnType<T>>
+
+  /**
+   * From T, pick a set of properties whose keys are in the union K
+   */
+  type Prisma__Pick<T, K extends keyof T> = {
+      [P in K]: T[P];
+  };
+
+
+  export type Enumerable<T> = T | Array<T>;
+
+  export type RequiredKeys<T> = {
+    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
+  }[keyof T]
+
+  export type TruthyKeys<T> = keyof {
+    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K
+  }
+
+  export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>
+
+  /**
+   * Subset
+   * @desc From `T` pick properties that exist in `U`. Simple version of Intersection
+   */
+  export type Subset<T, U> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never;
+  };
+
+  /**
+   * SelectSubset
+   * @desc From `T` pick properties that exist in `U`. Simple version of Intersection.
+   * Additionally, it validates, if both select and include are present. If the case, it errors.
+   */
+  export type SelectSubset<T, U> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never
+  } &
+    (T extends SelectAndInclude
+      ? 'Please either choose `select` or `include`.'
+      : {})
+
+  /**
+   * Subset + Intersection
+   * @desc From `T` pick properties that exist in `U` and intersect `K`
+   */
+  export type SubsetIntersection<T, U, K> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never
+  } &
+    K
+
+  type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+
+  /**
+   * XOR is needed to have a real mutually exclusive union type
+   * https://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types
+   */
+  type XOR<T, U> =
+    T extends object ?
+    U extends object ?
+      (Without<T, U> & U) | (Without<U, T> & T)
+    : U : T
+
+
+  /**
+   * Is T a Record?
+   */
+  type IsObject<T extends any> = T extends Array<any>
+  ? False
+  : T extends Date
+  ? False
+  : T extends Uint8Array
+  ? False
+  : T extends BigInt
+  ? False
+  : T extends object
+  ? True
+  : False
+
+
+  /**
+   * If it's T[], return T
+   */
+  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T
+
+  /**
+   * From ts-toolbelt
+   */
+
+  type __Either<O extends object, K extends Key> = Omit<O, K> &
+    {
+      // Merge all but K
+      [P in K]: Prisma__Pick<O, P & keyof O> // With K possibilities
+    }[K]
+
+  type EitherStrict<O extends object, K extends Key> = Strict<__Either<O, K>>
+
+  type EitherLoose<O extends object, K extends Key> = ComputeRaw<__Either<O, K>>
+
+  type _Either<
+    O extends object,
+    K extends Key,
+    strict extends Boolean
+  > = {
+    1: EitherStrict<O, K>
+    0: EitherLoose<O, K>
+  }[strict]
+
+  type Either<
+    O extends object,
+    K extends Key,
+    strict extends Boolean = 1
+  > = O extends unknown ? _Either<O, K, strict> : never
+
+  export type Union = any
+
+  type PatchUndefined<O extends object, O1 extends object> = {
+    [K in keyof O]: O[K] extends undefined ? At<O1, K> : O[K]
+  } & {}
+
+  /** Helper Types for "Merge" **/
+  export type IntersectOf<U extends Union> = (
+    U extends unknown ? (k: U) => void : never
+  ) extends (k: infer I) => void
+    ? I
+    : never
+
+  export type Overwrite<O extends object, O1 extends object> = {
+      [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
+  } & {};
+
+  type _Merge<U extends object> = IntersectOf<Overwrite<U, {
+      [K in keyof U]-?: At<U, K>;
+  }>>;
+
+  type Key = string | number | symbol;
+  type AtBasic<O extends object, K extends Key> = K extends keyof O ? O[K] : never;
+  type AtStrict<O extends object, K extends Key> = O[K & keyof O];
+  type AtLoose<O extends object, K extends Key> = O extends unknown ? AtStrict<O, K> : never;
+  export type At<O extends object, K extends Key, strict extends Boolean = 1> = {
+      1: AtStrict<O, K>;
+      0: AtLoose<O, K>;
+  }[strict];
+
+  export type ComputeRaw<A extends any> = A extends Function ? A : {
+    [K in keyof A]: A[K];
+  } & {};
+
+  export type OptionalFlat<O> = {
+    [K in keyof O]?: O[K];
+  } & {};
+
+  type _Record<K extends keyof any, T> = {
+    [P in K]: T;
+  };
+
+  // cause typescript not to expand types and preserve names
+  type NoExpand<T> = T extends unknown ? T : never;
+
+  // this type assumes the passed object is entirely optional
+  type AtLeast<O extends object, K extends string> = NoExpand<
+    O extends unknown
+    ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
+      | {[P in keyof O as P extends K ? K : never]-?: O[P]} & O
+    : never>;
+
+  type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
+
+  export type Strict<U extends object> = ComputeRaw<_Strict<U>>;
+  /** End Helper Types for "Merge" **/
+
+  export type Merge<U extends object> = ComputeRaw<_Merge<Strict<U>>>;
+
+  /**
+  A [[Boolean]]
+  */
+  export type Boolean = True | False
+
+  // /**
+  // 1
+  // */
+  export type True = 1
+
+  /**
+  0
+  */
+  export type False = 0
+
+  export type Not<B extends Boolean> = {
+    0: 1
+    1: 0
+  }[B]
+
+  export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
+    ? 0 // anything `never` is false
+    : A1 extends A2
+    ? 1
+    : 0
+
+  export type Has<U extends Union, U1 extends Union> = Not<
+    Extends<Exclude<U1, U>, U1>
+  >
+
+  export type Or<B1 extends Boolean, B2 extends Boolean> = {
+    0: {
+      0: 0
+      1: 1
+    }
+    1: {
+      0: 1
+      1: 1
+    }
+  }[B1][B2]
+
+  export type Keys<U extends Union> = U extends unknown ? keyof U : never
+
+  type Cast<A, B> = A extends B ? A : B;
+
+  export const type: unique symbol;
+
+  export function validator<V>(): <S>(select: runtime.Types.Utils.LegacyExact<S, V>) => S;
+
+  /**
+   * Used by group by
+   */
+
+  export type GetScalarType<T, O> = O extends object ? {
+    [P in keyof T]: P extends keyof O
+      ? O[P]
+      : never
+  } : never
+
+  type FieldPaths<
+    T,
+    U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>
+  > = IsObject<T> extends True ? U : T
+
+  type GetHavingFields<T> = {
+    [K in keyof T]: Or<
+      Or<Extends<'OR', K>, Extends<'AND', K>>,
+      Extends<'NOT', K>
+    > extends True
+      ? // infer is only needed to not hit TS limit
+        // based on the brilliant idea of Pierre-Antoine Mills
+        // https://github.com/microsoft/TypeScript/issues/30188#issuecomment-478938437
+        T[K] extends infer TK
+        ? GetHavingFields<UnEnumerate<TK> extends object ? Merge<UnEnumerate<TK>> : never>
+        : never
+      : {} extends FieldPaths<T[K]>
+      ? never
+      : K
+  }[keyof T]
+
+  /**
+   * Convert tuple to union
+   */
+  type _TupleToUnion<T> = T extends (infer E)[] ? E : never
+  type TupleToUnion<K extends readonly any[]> = _TupleToUnion<K>
+  type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T
+
+  /**
+   * Like `Pick`, but with an array
+   */
+  type PickArray<T, K extends Array<keyof T>> = Prisma__Pick<T, TupleToUnion<K>>
+
+  /**
+   * Exclude all keys with underscores
+   */
+  type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T
+
+
+  export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>
+
+  type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
+
+
+  export const ModelName: {
+    Account: 'Account',
+    Session: 'Session',
+    VerificationToken: 'VerificationToken',
+    User: 'User',
+    Setting: 'Setting',
+    Auction: 'Auction',
+    Website: 'Website',
+    Webpage: 'Webpage',
+    Content: 'Content',
+    Category: 'Category',
+    AdvertisementSpot: 'AdvertisementSpot',
+    ScoredCampaign: 'ScoredCampaign',
+    Advertisement: 'Advertisement',
+    Campaign: 'Campaign',
+    Impression: 'Impression'
+  };
+
+  export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+
+
+  export type Datasources = {
+    db?: Datasource
+  }
+
+  export type DefaultPrismaClient = PrismaClient
+  export type RejectOnNotFound = boolean | ((error: Error) => Error)
+  export type RejectPerModel = { [P in ModelName]?: RejectOnNotFound }
+  export type RejectPerOperation =  { [P in "findUnique" | "findFirst"]?: RejectPerModel | RejectOnNotFound } 
+  type IsReject<T> = T extends true ? True : T extends (err: Error) => Error ? True : False
+  export type HasReject<
+    GlobalRejectSettings extends Prisma.PrismaClientOptions['rejectOnNotFound'],
+    LocalRejectSettings,
+    Action extends PrismaAction,
+    Model extends ModelName
+  > = LocalRejectSettings extends RejectOnNotFound
+    ? IsReject<LocalRejectSettings>
+    : GlobalRejectSettings extends RejectPerOperation
+    ? Action extends keyof GlobalRejectSettings
+      ? GlobalRejectSettings[Action] extends RejectOnNotFound
+        ? IsReject<GlobalRejectSettings[Action]>
+        : GlobalRejectSettings[Action] extends RejectPerModel
+        ? Model extends keyof GlobalRejectSettings[Action]
+          ? IsReject<GlobalRejectSettings[Action][Model]>
+          : False
+        : False
+      : False
+    : IsReject<GlobalRejectSettings>
+  export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
+
+  export interface PrismaClientOptions {
+    /**
+     * Configure findUnique/findFirst to throw an error if the query returns null. 
+     * @deprecated since 4.0.0. Use `findUniqueOrThrow`/`findFirstOrThrow` methods instead.
+     * @example
+     * ```
+     * // Reject on both findUnique/findFirst
+     * rejectOnNotFound: true
+     * // Reject only on findFirst with a custom error
+     * rejectOnNotFound: { findFirst: (err) => new Error("Custom Error")}
+     * // Reject on user.findUnique with a custom error
+     * rejectOnNotFound: { findUnique: {User: (err) => new Error("User not found")}}
+     * ```
+     */
+    rejectOnNotFound?: RejectOnNotFound | RejectPerOperation
+    /**
+     * Overwrites the datasource url from your schema.prisma file
+     */
+    datasources?: Datasources
+
+    /**
+     * @default "colorless"
+     */
+    errorFormat?: ErrorFormat
+
+    /**
+     * @example
+     * ```
+     * // Defaults to stdout
+     * log: ['query', 'info', 'warn', 'error']
+     * 
+     * // Emit as events
+     * log: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * ]
+     * ```
+     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     */
+    log?: Array<LogLevel | LogDefinition>
+  }
+
+  /* Types for Logging */
+  export type LogLevel = 'info' | 'query' | 'warn' | 'error'
+  export type LogDefinition = {
+    level: LogLevel
+    emit: 'stdout' | 'event'
+  }
+
+  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
+  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+    : never
+
+  export type QueryEvent = {
+    timestamp: Date
+    query: string
+    params: string
+    duration: number
+    target: string
+  }
+
+  export type LogEvent = {
+    timestamp: Date
+    message: string
+    target: string
+  }
+  /* End Types for Logging */
+
+
+  export type PrismaAction =
+    | 'findUnique'
+    | 'findMany'
+    | 'findFirst'
+    | 'create'
+    | 'createMany'
+    | 'update'
+    | 'updateMany'
+    | 'upsert'
+    | 'delete'
+    | 'deleteMany'
+    | 'executeRaw'
+    | 'queryRaw'
+    | 'aggregate'
+    | 'count'
+    | 'runCommandRaw'
+    | 'findRaw'
+
+  /**
+   * These options are being passed into the middleware as "params"
+   */
+  export type MiddlewareParams = {
+    model?: ModelName
+    action: PrismaAction
+    args: any
+    dataPath: string[]
+    runInTransaction: boolean
+  }
+
+  /**
+   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+   */
+  export type Middleware<T = any> = (
+    params: MiddlewareParams,
+    next: (params: MiddlewareParams) => Promise<T>,
+  ) => Promise<T>
+
+  // tested in getLogLevel.test.ts
+  export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
+
+  /**
+   * `PrismaClient` proxy available in interactive transactions.
+   */
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'>
+
+  export type Datasource = {
+    url?: string
+  }
+
+  /**
+   * Count Types
+   */
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+
+  export type UserCountOutputType = {
+    accounts: number
+    sessions: number
+    auctions: number
+    campaigns: number
+    websites: number
+    categories: number
+  }
+
+  export type UserCountOutputTypeSelect = {
+    accounts?: boolean | UserCountOutputTypeCountAccountsArgs
+    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    auctions?: boolean | UserCountOutputTypeCountAuctionsArgs
+    campaigns?: boolean | UserCountOutputTypeCountCampaignsArgs
+    websites?: boolean | UserCountOutputTypeCountWebsitesArgs
+    categories?: boolean | UserCountOutputTypeCountCategoriesArgs
+  }
+
+  export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserCountOutputTypeArgs)
+    ? UserCountOutputType 
+    : S extends { select: any } & (UserCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
+  } 
+      : UserCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAccountsArgs = {
+    where?: AccountWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSessionsArgs = {
+    where?: SessionWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAuctionsArgs = {
+    where?: AuctionWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCampaignsArgs = {
+    where?: CampaignWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWebsitesArgs = {
+    where?: WebsiteWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCategoriesArgs = {
+    where?: CategoryWhereInput
+  }
+
+
+
+  /**
+   * Count Type AuctionCountOutputType
+   */
+
+
+  export type AuctionCountOutputType = {
+    impressions: number
+  }
+
+  export type AuctionCountOutputTypeSelect = {
+    impressions?: boolean | AuctionCountOutputTypeCountImpressionsArgs
+  }
+
+  export type AuctionCountOutputTypeGetPayload<S extends boolean | null | undefined | AuctionCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AuctionCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AuctionCountOutputTypeArgs)
+    ? AuctionCountOutputType 
+    : S extends { select: any } & (AuctionCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof AuctionCountOutputType ? AuctionCountOutputType[P] : never
+  } 
+      : AuctionCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AuctionCountOutputType without action
+   */
+  export type AuctionCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the AuctionCountOutputType
+     */
+    select?: AuctionCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AuctionCountOutputType without action
+   */
+  export type AuctionCountOutputTypeCountImpressionsArgs = {
+    where?: ImpressionWhereInput
+  }
+
+
+
+  /**
+   * Count Type WebsiteCountOutputType
+   */
+
+
+  export type WebsiteCountOutputType = {
+    webpages: number
+  }
+
+  export type WebsiteCountOutputTypeSelect = {
+    webpages?: boolean | WebsiteCountOutputTypeCountWebpagesArgs
+  }
+
+  export type WebsiteCountOutputTypeGetPayload<S extends boolean | null | undefined | WebsiteCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? WebsiteCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (WebsiteCountOutputTypeArgs)
+    ? WebsiteCountOutputType 
+    : S extends { select: any } & (WebsiteCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof WebsiteCountOutputType ? WebsiteCountOutputType[P] : never
+  } 
+      : WebsiteCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * WebsiteCountOutputType without action
+   */
+  export type WebsiteCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteCountOutputType
+     */
+    select?: WebsiteCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * WebsiteCountOutputType without action
+   */
+  export type WebsiteCountOutputTypeCountWebpagesArgs = {
+    where?: WebpageWhereInput
+  }
+
+
+
+  /**
+   * Count Type WebpageCountOutputType
+   */
+
+
+  export type WebpageCountOutputType = {
+    scoredCampaigns: number
+    advertisementSpots: number
+    categories: number
+    auctions: number
+  }
+
+  export type WebpageCountOutputTypeSelect = {
+    scoredCampaigns?: boolean | WebpageCountOutputTypeCountScoredCampaignsArgs
+    advertisementSpots?: boolean | WebpageCountOutputTypeCountAdvertisementSpotsArgs
+    categories?: boolean | WebpageCountOutputTypeCountCategoriesArgs
+    auctions?: boolean | WebpageCountOutputTypeCountAuctionsArgs
+  }
+
+  export type WebpageCountOutputTypeGetPayload<S extends boolean | null | undefined | WebpageCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? WebpageCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (WebpageCountOutputTypeArgs)
+    ? WebpageCountOutputType 
+    : S extends { select: any } & (WebpageCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof WebpageCountOutputType ? WebpageCountOutputType[P] : never
+  } 
+      : WebpageCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * WebpageCountOutputType without action
+   */
+  export type WebpageCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the WebpageCountOutputType
+     */
+    select?: WebpageCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * WebpageCountOutputType without action
+   */
+  export type WebpageCountOutputTypeCountScoredCampaignsArgs = {
+    where?: ScoredCampaignWhereInput
+  }
+
+
+  /**
+   * WebpageCountOutputType without action
+   */
+  export type WebpageCountOutputTypeCountAdvertisementSpotsArgs = {
+    where?: AdvertisementSpotWhereInput
+  }
+
+
+  /**
+   * WebpageCountOutputType without action
+   */
+  export type WebpageCountOutputTypeCountCategoriesArgs = {
+    where?: CategoryWhereInput
+  }
+
+
+  /**
+   * WebpageCountOutputType without action
+   */
+  export type WebpageCountOutputTypeCountAuctionsArgs = {
+    where?: AuctionWhereInput
+  }
+
+
+
+  /**
+   * Count Type CategoryCountOutputType
+   */
+
+
+  export type CategoryCountOutputType = {
+    webpages: number
+    campaigns: number
+  }
+
+  export type CategoryCountOutputTypeSelect = {
+    webpages?: boolean | CategoryCountOutputTypeCountWebpagesArgs
+    campaigns?: boolean | CategoryCountOutputTypeCountCampaignsArgs
+  }
+
+  export type CategoryCountOutputTypeGetPayload<S extends boolean | null | undefined | CategoryCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CategoryCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (CategoryCountOutputTypeArgs)
+    ? CategoryCountOutputType 
+    : S extends { select: any } & (CategoryCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof CategoryCountOutputType ? CategoryCountOutputType[P] : never
+  } 
+      : CategoryCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the CategoryCountOutputType
+     */
+    select?: CategoryCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountWebpagesArgs = {
+    where?: WebpageWhereInput
+  }
+
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountCampaignsArgs = {
+    where?: CampaignWhereInput
+  }
+
+
+
+  /**
+   * Count Type AdvertisementSpotCountOutputType
+   */
+
+
+  export type AdvertisementSpotCountOutputType = {
+    advertisements: number
+  }
+
+  export type AdvertisementSpotCountOutputTypeSelect = {
+    advertisements?: boolean | AdvertisementSpotCountOutputTypeCountAdvertisementsArgs
+  }
+
+  export type AdvertisementSpotCountOutputTypeGetPayload<S extends boolean | null | undefined | AdvertisementSpotCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AdvertisementSpotCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AdvertisementSpotCountOutputTypeArgs)
+    ? AdvertisementSpotCountOutputType 
+    : S extends { select: any } & (AdvertisementSpotCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof AdvertisementSpotCountOutputType ? AdvertisementSpotCountOutputType[P] : never
+  } 
+      : AdvertisementSpotCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AdvertisementSpotCountOutputType without action
+   */
+  export type AdvertisementSpotCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpotCountOutputType
+     */
+    select?: AdvertisementSpotCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AdvertisementSpotCountOutputType without action
+   */
+  export type AdvertisementSpotCountOutputTypeCountAdvertisementsArgs = {
+    where?: AdvertisementWhereInput
+  }
+
+
+
+  /**
+   * Count Type ScoredCampaignCountOutputType
+   */
+
+
+  export type ScoredCampaignCountOutputType = {
+    advertisements: number
+  }
+
+  export type ScoredCampaignCountOutputTypeSelect = {
+    advertisements?: boolean | ScoredCampaignCountOutputTypeCountAdvertisementsArgs
+  }
+
+  export type ScoredCampaignCountOutputTypeGetPayload<S extends boolean | null | undefined | ScoredCampaignCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ScoredCampaignCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ScoredCampaignCountOutputTypeArgs)
+    ? ScoredCampaignCountOutputType 
+    : S extends { select: any } & (ScoredCampaignCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ScoredCampaignCountOutputType ? ScoredCampaignCountOutputType[P] : never
+  } 
+      : ScoredCampaignCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ScoredCampaignCountOutputType without action
+   */
+  export type ScoredCampaignCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaignCountOutputType
+     */
+    select?: ScoredCampaignCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ScoredCampaignCountOutputType without action
+   */
+  export type ScoredCampaignCountOutputTypeCountAdvertisementsArgs = {
+    where?: AdvertisementWhereInput
+  }
+
+
+
+  /**
+   * Count Type AdvertisementCountOutputType
+   */
+
+
+  export type AdvertisementCountOutputType = {
+    impressions: number
+  }
+
+  export type AdvertisementCountOutputTypeSelect = {
+    impressions?: boolean | AdvertisementCountOutputTypeCountImpressionsArgs
+  }
+
+  export type AdvertisementCountOutputTypeGetPayload<S extends boolean | null | undefined | AdvertisementCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AdvertisementCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AdvertisementCountOutputTypeArgs)
+    ? AdvertisementCountOutputType 
+    : S extends { select: any } & (AdvertisementCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof AdvertisementCountOutputType ? AdvertisementCountOutputType[P] : never
+  } 
+      : AdvertisementCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AdvertisementCountOutputType without action
+   */
+  export type AdvertisementCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementCountOutputType
+     */
+    select?: AdvertisementCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AdvertisementCountOutputType without action
+   */
+  export type AdvertisementCountOutputTypeCountImpressionsArgs = {
+    where?: ImpressionWhereInput
+  }
+
+
+
+  /**
+   * Count Type CampaignCountOutputType
+   */
+
+
+  export type CampaignCountOutputType = {
+    scoredCampaigns: number
+    categories: number
+  }
+
+  export type CampaignCountOutputTypeSelect = {
+    scoredCampaigns?: boolean | CampaignCountOutputTypeCountScoredCampaignsArgs
+    categories?: boolean | CampaignCountOutputTypeCountCategoriesArgs
+  }
+
+  export type CampaignCountOutputTypeGetPayload<S extends boolean | null | undefined | CampaignCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CampaignCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (CampaignCountOutputTypeArgs)
+    ? CampaignCountOutputType 
+    : S extends { select: any } & (CampaignCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof CampaignCountOutputType ? CampaignCountOutputType[P] : never
+  } 
+      : CampaignCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * CampaignCountOutputType without action
+   */
+  export type CampaignCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the CampaignCountOutputType
+     */
+    select?: CampaignCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * CampaignCountOutputType without action
+   */
+  export type CampaignCountOutputTypeCountScoredCampaignsArgs = {
+    where?: ScoredCampaignWhereInput
+  }
+
+
+  /**
+   * CampaignCountOutputType without action
+   */
+  export type CampaignCountOutputTypeCountCategoriesArgs = {
+    where?: CategoryWhereInput
+  }
+
+
+
+  /**
+   * Models
+   */
+
+  /**
+   * Model Account
+   */
+
+
+  export type AggregateAccount = {
+    _count: AccountCountAggregateOutputType | null
+    _avg: AccountAvgAggregateOutputType | null
+    _sum: AccountSumAggregateOutputType | null
+    _min: AccountMinAggregateOutputType | null
+    _max: AccountMaxAggregateOutputType | null
+  }
+
+  export type AccountAvgAggregateOutputType = {
+    expires_at: number | null
+  }
+
+  export type AccountSumAggregateOutputType = {
+    expires_at: number | null
+  }
+
+  export type AccountMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    provider: string | null
+    providerAccountId: string | null
+    refresh_token: string | null
+    access_token: string | null
+    expires_at: number | null
+    token_type: string | null
+    scope: string | null
+    id_token: string | null
+    session_state: string | null
+  }
+
+  export type AccountMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    provider: string | null
+    providerAccountId: string | null
+    refresh_token: string | null
+    access_token: string | null
+    expires_at: number | null
+    token_type: string | null
+    scope: string | null
+    id_token: string | null
+    session_state: string | null
+  }
+
+  export type AccountCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    provider: number
+    providerAccountId: number
+    refresh_token: number
+    access_token: number
+    expires_at: number
+    token_type: number
+    scope: number
+    id_token: number
+    session_state: number
+    _all: number
+  }
+
+
+  export type AccountAvgAggregateInputType = {
+    expires_at?: true
+  }
+
+  export type AccountSumAggregateInputType = {
+    expires_at?: true
+  }
+
+  export type AccountMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    provider?: true
+    providerAccountId?: true
+    refresh_token?: true
+    access_token?: true
+    expires_at?: true
+    token_type?: true
+    scope?: true
+    id_token?: true
+    session_state?: true
+  }
+
+  export type AccountMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    provider?: true
+    providerAccountId?: true
+    refresh_token?: true
+    access_token?: true
+    expires_at?: true
+    token_type?: true
+    scope?: true
+    id_token?: true
+    session_state?: true
+  }
+
+  export type AccountCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    provider?: true
+    providerAccountId?: true
+    refresh_token?: true
+    access_token?: true
+    expires_at?: true
+    token_type?: true
+    scope?: true
+    id_token?: true
+    session_state?: true
+    _all?: true
+  }
+
+  export type AccountAggregateArgs = {
+    /**
+     * Filter which Account to aggregate.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Accounts
+    **/
+    _count?: true | AccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AccountAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AccountSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccountMaxAggregateInputType
+  }
+
+  export type GetAccountAggregateType<T extends AccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccount[P]>
+      : GetScalarType<T[P], AggregateAccount[P]>
+  }
+
+
+
+
+  export type AccountGroupByArgs = {
+    where?: AccountWhereInput
+    orderBy?: Enumerable<AccountOrderByWithAggregationInput>
+    by: AccountScalarFieldEnum[]
+    having?: AccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccountCountAggregateInputType | true
+    _avg?: AccountAvgAggregateInputType
+    _sum?: AccountSumAggregateInputType
+    _min?: AccountMinAggregateInputType
+    _max?: AccountMaxAggregateInputType
+  }
+
+
+  export type AccountGroupByOutputType = {
+    id: string
+    userId: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token: string | null
+    access_token: string | null
+    expires_at: number | null
+    token_type: string | null
+    scope: string | null
+    id_token: string | null
+    session_state: string | null
+    _count: AccountCountAggregateOutputType | null
+    _avg: AccountAvgAggregateOutputType | null
+    _sum: AccountSumAggregateOutputType | null
+    _min: AccountMinAggregateOutputType | null
+    _max: AccountMaxAggregateOutputType | null
+  }
+
+  type GetAccountGroupByPayload<T extends AccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccountGroupByOutputType[P]>
+            : GetScalarType<T[P], AccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccountSelect = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    provider?: boolean
+    providerAccountId?: boolean
+    refresh_token?: boolean
+    access_token?: boolean
+    expires_at?: boolean
+    token_type?: boolean
+    scope?: boolean
+    id_token?: boolean
+    session_state?: boolean
+    user?: boolean | UserArgs
+  }
+
+
+  export type AccountInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type AccountGetPayload<S extends boolean | null | undefined | AccountArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Account :
+    S extends undefined ? never :
+    S extends { include: any } & (AccountArgs | AccountFindManyArgs)
+    ? Account  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AccountArgs | AccountFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Account ? Account[P] : never
+  } 
+      : Account
+
+
+  type AccountCountArgs = 
+    Omit<AccountFindManyArgs, 'select' | 'include'> & {
+      select?: AccountCountAggregateInputType | true
+    }
+
+  export interface AccountDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Account that matches the filter.
+     * @param {AccountFindUniqueArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AccountFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AccountFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Account'> extends True ? Prisma__AccountClient<AccountGetPayload<T>> : Prisma__AccountClient<AccountGetPayload<T> | null, null>
+
+    /**
+     * Find one Account that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AccountFindUniqueOrThrowArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AccountFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AccountFindUniqueOrThrowArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
+
+    /**
+     * Find the first Account that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindFirstArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AccountFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AccountFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Account'> extends True ? Prisma__AccountClient<AccountGetPayload<T>> : Prisma__AccountClient<AccountGetPayload<T> | null, null>
+
+    /**
+     * Find the first Account that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindFirstOrThrowArgs} args - Arguments to find a Account
+     * @example
+     * // Get one Account
+     * const account = await prisma.account.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AccountFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AccountFindFirstOrThrowArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
+
+    /**
+     * Find zero or more Accounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Accounts
+     * const accounts = await prisma.account.findMany()
+     * 
+     * // Get first 10 Accounts
+     * const accounts = await prisma.account.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accountWithIdOnly = await prisma.account.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends AccountFindManyArgs>(
+      args?: SelectSubset<T, AccountFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AccountGetPayload<T>>>
+
+    /**
+     * Create a Account.
+     * @param {AccountCreateArgs} args - Arguments to create a Account.
+     * @example
+     * // Create one Account
+     * const Account = await prisma.account.create({
+     *   data: {
+     *     // ... data to create a Account
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AccountCreateArgs>(
+      args: SelectSubset<T, AccountCreateArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
+
+    /**
+     * Create many Accounts.
+     *     @param {AccountCreateManyArgs} args - Arguments to create many Accounts.
+     *     @example
+     *     // Create many Accounts
+     *     const account = await prisma.account.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AccountCreateManyArgs>(
+      args?: SelectSubset<T, AccountCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Account.
+     * @param {AccountDeleteArgs} args - Arguments to delete one Account.
+     * @example
+     * // Delete one Account
+     * const Account = await prisma.account.delete({
+     *   where: {
+     *     // ... filter to delete one Account
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AccountDeleteArgs>(
+      args: SelectSubset<T, AccountDeleteArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
+
+    /**
+     * Update one Account.
+     * @param {AccountUpdateArgs} args - Arguments to update one Account.
+     * @example
+     * // Update one Account
+     * const account = await prisma.account.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AccountUpdateArgs>(
+      args: SelectSubset<T, AccountUpdateArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
+
+    /**
+     * Delete zero or more Accounts.
+     * @param {AccountDeleteManyArgs} args - Arguments to filter Accounts to delete.
+     * @example
+     * // Delete a few Accounts
+     * const { count } = await prisma.account.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AccountDeleteManyArgs>(
+      args?: SelectSubset<T, AccountDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Accounts
+     * const account = await prisma.account.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AccountUpdateManyArgs>(
+      args: SelectSubset<T, AccountUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Account.
+     * @param {AccountUpsertArgs} args - Arguments to update or create a Account.
+     * @example
+     * // Update or create a Account
+     * const account = await prisma.account.upsert({
+     *   create: {
+     *     // ... data to create a Account
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Account we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AccountUpsertArgs>(
+      args: SelectSubset<T, AccountUpsertArgs>
+    ): Prisma__AccountClient<AccountGetPayload<T>>
+
+    /**
+     * Count the number of Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountCountArgs} args - Arguments to filter Accounts to count.
+     * @example
+     * // Count the number of Accounts
+     * const count = await prisma.account.count({
+     *   where: {
+     *     // ... the filter for the Accounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccountCountArgs>(
+      args?: Subset<T, AccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Account.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccountAggregateArgs>(args: Subset<T, AccountAggregateArgs>): Prisma.PrismaPromise<GetAccountAggregateType<T>>
+
+    /**
+     * Group by Account.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccountGroupByArgs['orderBy'] }
+        : { orderBy?: AccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Account.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AccountClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Account base type for findUnique actions
+   */
+  export type AccountFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+  /**
+   * Account findUnique
+   */
+  export interface AccountFindUniqueArgs extends AccountFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Account findUniqueOrThrow
+   */
+  export type AccountFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+
+  /**
+   * Account base type for findFirst actions
+   */
+  export type AccountFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accounts.
+     */
+    distinct?: Enumerable<AccountScalarFieldEnum>
+  }
+
+  /**
+   * Account findFirst
+   */
+  export interface AccountFindFirstArgs extends AccountFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Account findFirstOrThrow
+   */
+  export type AccountFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Account to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accounts.
+     */
+    distinct?: Enumerable<AccountScalarFieldEnum>
+  }
+
+
+  /**
+   * Account findMany
+   */
+  export type AccountFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     */
+    where?: AccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     */
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Accounts.
+     */
+    cursor?: AccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     */
+    skip?: number
+    distinct?: Enumerable<AccountScalarFieldEnum>
+  }
+
+
+  /**
+   * Account create
+   */
+  export type AccountCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * The data needed to create a Account.
+     */
+    data: XOR<AccountCreateInput, AccountUncheckedCreateInput>
+  }
+
+
+  /**
+   * Account createMany
+   */
+  export type AccountCreateManyArgs = {
+    /**
+     * The data used to create many Accounts.
+     */
+    data: Enumerable<AccountCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Account update
+   */
+  export type AccountUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * The data needed to update a Account.
+     */
+    data: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
+    /**
+     * Choose, which Account to update.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+
+  /**
+   * Account updateMany
+   */
+  export type AccountUpdateManyArgs = {
+    /**
+     * The data used to update Accounts.
+     */
+    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyInput>
+    /**
+     * Filter which Accounts to update
+     */
+    where?: AccountWhereInput
+  }
+
+
+  /**
+   * Account upsert
+   */
+  export type AccountUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * The filter to search for the Account to update in case it exists.
+     */
+    where: AccountWhereUniqueInput
+    /**
+     * In case the Account found by the `where` argument doesn't exist, create a new Account with this data.
+     */
+    create: XOR<AccountCreateInput, AccountUncheckedCreateInput>
+    /**
+     * In case the Account was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccountUpdateInput, AccountUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Account delete
+   */
+  export type AccountDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    /**
+     * Filter which Account to delete.
+     */
+    where: AccountWhereUniqueInput
+  }
+
+
+  /**
+   * Account deleteMany
+   */
+  export type AccountDeleteManyArgs = {
+    /**
+     * Filter which Accounts to delete
+     */
+    where?: AccountWhereInput
+  }
+
+
+  /**
+   * Account without action
+   */
+  export type AccountArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+  }
+
+
+
+  /**
+   * Model Session
+   */
+
+
+  export type AggregateSession = {
+    _count: SessionCountAggregateOutputType | null
+    _min: SessionMinAggregateOutputType | null
+    _max: SessionMaxAggregateOutputType | null
+  }
+
+  export type SessionMinAggregateOutputType = {
+    id: string | null
+    sessionToken: string | null
+    userId: string | null
+    expires: Date | null
+  }
+
+  export type SessionMaxAggregateOutputType = {
+    id: string | null
+    sessionToken: string | null
+    userId: string | null
+    expires: Date | null
+  }
+
+  export type SessionCountAggregateOutputType = {
+    id: number
+    sessionToken: number
+    userId: number
+    expires: number
+    _all: number
+  }
+
+
+  export type SessionMinAggregateInputType = {
+    id?: true
+    sessionToken?: true
+    userId?: true
+    expires?: true
+  }
+
+  export type SessionMaxAggregateInputType = {
+    id?: true
+    sessionToken?: true
+    userId?: true
+    expires?: true
+  }
+
+  export type SessionCountAggregateInputType = {
+    id?: true
+    sessionToken?: true
+    userId?: true
+    expires?: true
+    _all?: true
+  }
+
+  export type SessionAggregateArgs = {
+    /**
+     * Filter which Session to aggregate.
+     */
+    where?: SessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sessions to fetch.
+     */
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Sessions
+    **/
+    _count?: true | SessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SessionMaxAggregateInputType
+  }
+
+  export type GetSessionAggregateType<T extends SessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSession[P]>
+      : GetScalarType<T[P], AggregateSession[P]>
+  }
+
+
+
+
+  export type SessionGroupByArgs = {
+    where?: SessionWhereInput
+    orderBy?: Enumerable<SessionOrderByWithAggregationInput>
+    by: SessionScalarFieldEnum[]
+    having?: SessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SessionCountAggregateInputType | true
+    _min?: SessionMinAggregateInputType
+    _max?: SessionMaxAggregateInputType
+  }
+
+
+  export type SessionGroupByOutputType = {
+    id: string
+    sessionToken: string
+    userId: string
+    expires: Date
+    _count: SessionCountAggregateOutputType | null
+    _min: SessionMinAggregateOutputType | null
+    _max: SessionMaxAggregateOutputType | null
+  }
+
+  type GetSessionGroupByPayload<T extends SessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<SessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SessionGroupByOutputType[P]>
+            : GetScalarType<T[P], SessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SessionSelect = {
+    id?: boolean
+    sessionToken?: boolean
+    userId?: boolean
+    expires?: boolean
+    user?: boolean | UserArgs
+  }
+
+
+  export type SessionInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type SessionGetPayload<S extends boolean | null | undefined | SessionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Session :
+    S extends undefined ? never :
+    S extends { include: any } & (SessionArgs | SessionFindManyArgs)
+    ? Session  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (SessionArgs | SessionFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Session ? Session[P] : never
+  } 
+      : Session
+
+
+  type SessionCountArgs = 
+    Omit<SessionFindManyArgs, 'select' | 'include'> & {
+      select?: SessionCountAggregateInputType | true
+    }
+
+  export interface SessionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Session that matches the filter.
+     * @param {SessionFindUniqueArgs} args - Arguments to find a Session
+     * @example
+     * // Get one Session
+     * const session = await prisma.session.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SessionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SessionFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Session'> extends True ? Prisma__SessionClient<SessionGetPayload<T>> : Prisma__SessionClient<SessionGetPayload<T> | null, null>
+
+    /**
+     * Find one Session that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SessionFindUniqueOrThrowArgs} args - Arguments to find a Session
+     * @example
+     * // Get one Session
+     * const session = await prisma.session.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SessionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SessionFindUniqueOrThrowArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
+
+    /**
+     * Find the first Session that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionFindFirstArgs} args - Arguments to find a Session
+     * @example
+     * // Get one Session
+     * const session = await prisma.session.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SessionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SessionFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Session'> extends True ? Prisma__SessionClient<SessionGetPayload<T>> : Prisma__SessionClient<SessionGetPayload<T> | null, null>
+
+    /**
+     * Find the first Session that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionFindFirstOrThrowArgs} args - Arguments to find a Session
+     * @example
+     * // Get one Session
+     * const session = await prisma.session.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SessionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SessionFindFirstOrThrowArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
+
+    /**
+     * Find zero or more Sessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Sessions
+     * const sessions = await prisma.session.findMany()
+     * 
+     * // Get first 10 Sessions
+     * const sessions = await prisma.session.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sessionWithIdOnly = await prisma.session.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SessionFindManyArgs>(
+      args?: SelectSubset<T, SessionFindManyArgs>
+    ): Prisma.PrismaPromise<Array<SessionGetPayload<T>>>
+
+    /**
+     * Create a Session.
+     * @param {SessionCreateArgs} args - Arguments to create a Session.
+     * @example
+     * // Create one Session
+     * const Session = await prisma.session.create({
+     *   data: {
+     *     // ... data to create a Session
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SessionCreateArgs>(
+      args: SelectSubset<T, SessionCreateArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
+
+    /**
+     * Create many Sessions.
+     *     @param {SessionCreateManyArgs} args - Arguments to create many Sessions.
+     *     @example
+     *     // Create many Sessions
+     *     const session = await prisma.session.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SessionCreateManyArgs>(
+      args?: SelectSubset<T, SessionCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Session.
+     * @param {SessionDeleteArgs} args - Arguments to delete one Session.
+     * @example
+     * // Delete one Session
+     * const Session = await prisma.session.delete({
+     *   where: {
+     *     // ... filter to delete one Session
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SessionDeleteArgs>(
+      args: SelectSubset<T, SessionDeleteArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
+
+    /**
+     * Update one Session.
+     * @param {SessionUpdateArgs} args - Arguments to update one Session.
+     * @example
+     * // Update one Session
+     * const session = await prisma.session.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SessionUpdateArgs>(
+      args: SelectSubset<T, SessionUpdateArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
+
+    /**
+     * Delete zero or more Sessions.
+     * @param {SessionDeleteManyArgs} args - Arguments to filter Sessions to delete.
+     * @example
+     * // Delete a few Sessions
+     * const { count } = await prisma.session.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SessionDeleteManyArgs>(
+      args?: SelectSubset<T, SessionDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Sessions
+     * const session = await prisma.session.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SessionUpdateManyArgs>(
+      args: SelectSubset<T, SessionUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Session.
+     * @param {SessionUpsertArgs} args - Arguments to update or create a Session.
+     * @example
+     * // Update or create a Session
+     * const session = await prisma.session.upsert({
+     *   create: {
+     *     // ... data to create a Session
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Session we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SessionUpsertArgs>(
+      args: SelectSubset<T, SessionUpsertArgs>
+    ): Prisma__SessionClient<SessionGetPayload<T>>
+
+    /**
+     * Count the number of Sessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionCountArgs} args - Arguments to filter Sessions to count.
+     * @example
+     * // Count the number of Sessions
+     * const count = await prisma.session.count({
+     *   where: {
+     *     // ... the filter for the Sessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends SessionCountArgs>(
+      args?: Subset<T, SessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Session.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SessionAggregateArgs>(args: Subset<T, SessionAggregateArgs>): Prisma.PrismaPromise<GetSessionAggregateType<T>>
+
+    /**
+     * Group by Session.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SessionGroupByArgs['orderBy'] }
+        : { orderBy?: SessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Session.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SessionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Session base type for findUnique actions
+   */
+  export type SessionFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Session to fetch.
+     */
+    where: SessionWhereUniqueInput
+  }
+
+  /**
+   * Session findUnique
+   */
+  export interface SessionFindUniqueArgs extends SessionFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Session findUniqueOrThrow
+   */
+  export type SessionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Session to fetch.
+     */
+    where: SessionWhereUniqueInput
+  }
+
+
+  /**
+   * Session base type for findFirst actions
+   */
+  export type SessionFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Session to fetch.
+     */
+    where?: SessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sessions to fetch.
+     */
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sessions.
+     */
+    cursor?: SessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sessions.
+     */
+    distinct?: Enumerable<SessionScalarFieldEnum>
+  }
+
+  /**
+   * Session findFirst
+   */
+  export interface SessionFindFirstArgs extends SessionFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Session findFirstOrThrow
+   */
+  export type SessionFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Session to fetch.
+     */
+    where?: SessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sessions to fetch.
+     */
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sessions.
+     */
+    cursor?: SessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sessions.
+     */
+    distinct?: Enumerable<SessionScalarFieldEnum>
+  }
+
+
+  /**
+   * Session findMany
+   */
+  export type SessionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter, which Sessions to fetch.
+     */
+    where?: SessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sessions to fetch.
+     */
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Sessions.
+     */
+    cursor?: SessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sessions.
+     */
+    skip?: number
+    distinct?: Enumerable<SessionScalarFieldEnum>
+  }
+
+
+  /**
+   * Session create
+   */
+  export type SessionCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * The data needed to create a Session.
+     */
+    data: XOR<SessionCreateInput, SessionUncheckedCreateInput>
+  }
+
+
+  /**
+   * Session createMany
+   */
+  export type SessionCreateManyArgs = {
+    /**
+     * The data used to create many Sessions.
+     */
+    data: Enumerable<SessionCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Session update
+   */
+  export type SessionUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * The data needed to update a Session.
+     */
+    data: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
+    /**
+     * Choose, which Session to update.
+     */
+    where: SessionWhereUniqueInput
+  }
+
+
+  /**
+   * Session updateMany
+   */
+  export type SessionUpdateManyArgs = {
+    /**
+     * The data used to update Sessions.
+     */
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyInput>
+    /**
+     * Filter which Sessions to update
+     */
+    where?: SessionWhereInput
+  }
+
+
+  /**
+   * Session upsert
+   */
+  export type SessionUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * The filter to search for the Session to update in case it exists.
+     */
+    where: SessionWhereUniqueInput
+    /**
+     * In case the Session found by the `where` argument doesn't exist, create a new Session with this data.
+     */
+    create: XOR<SessionCreateInput, SessionUncheckedCreateInput>
+    /**
+     * In case the Session was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Session delete
+   */
+  export type SessionDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    /**
+     * Filter which Session to delete.
+     */
+    where: SessionWhereUniqueInput
+  }
+
+
+  /**
+   * Session deleteMany
+   */
+  export type SessionDeleteManyArgs = {
+    /**
+     * Filter which Sessions to delete
+     */
+    where?: SessionWhereInput
+  }
+
+
+  /**
+   * Session without action
+   */
+  export type SessionArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+  }
+
+
+
+  /**
+   * Model VerificationToken
+   */
+
+
+  export type AggregateVerificationToken = {
+    _count: VerificationTokenCountAggregateOutputType | null
+    _min: VerificationTokenMinAggregateOutputType | null
+    _max: VerificationTokenMaxAggregateOutputType | null
+  }
+
+  export type VerificationTokenMinAggregateOutputType = {
+    identifier: string | null
+    token: string | null
+    expires: Date | null
+  }
+
+  export type VerificationTokenMaxAggregateOutputType = {
+    identifier: string | null
+    token: string | null
+    expires: Date | null
+  }
+
+  export type VerificationTokenCountAggregateOutputType = {
+    identifier: number
+    token: number
+    expires: number
+    _all: number
+  }
+
+
+  export type VerificationTokenMinAggregateInputType = {
+    identifier?: true
+    token?: true
+    expires?: true
+  }
+
+  export type VerificationTokenMaxAggregateInputType = {
+    identifier?: true
+    token?: true
+    expires?: true
+  }
+
+  export type VerificationTokenCountAggregateInputType = {
+    identifier?: true
+    token?: true
+    expires?: true
+    _all?: true
+  }
+
+  export type VerificationTokenAggregateArgs = {
+    /**
+     * Filter which VerificationToken to aggregate.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VerificationTokens
+    **/
+    _count?: true | VerificationTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VerificationTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VerificationTokenMaxAggregateInputType
+  }
+
+  export type GetVerificationTokenAggregateType<T extends VerificationTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateVerificationToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVerificationToken[P]>
+      : GetScalarType<T[P], AggregateVerificationToken[P]>
+  }
+
+
+
+
+  export type VerificationTokenGroupByArgs = {
+    where?: VerificationTokenWhereInput
+    orderBy?: Enumerable<VerificationTokenOrderByWithAggregationInput>
+    by: VerificationTokenScalarFieldEnum[]
+    having?: VerificationTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VerificationTokenCountAggregateInputType | true
+    _min?: VerificationTokenMinAggregateInputType
+    _max?: VerificationTokenMaxAggregateInputType
+  }
+
+
+  export type VerificationTokenGroupByOutputType = {
+    identifier: string
+    token: string
+    expires: Date
+    _count: VerificationTokenCountAggregateOutputType | null
+    _min: VerificationTokenMinAggregateOutputType | null
+    _max: VerificationTokenMaxAggregateOutputType | null
+  }
+
+  type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<VerificationTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VerificationTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VerificationTokenSelect = {
+    identifier?: boolean
+    token?: boolean
+    expires?: boolean
+  }
+
+
+  export type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? VerificationToken :
+    S extends undefined ? never :
+    S extends { include: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
+    ? VerificationToken 
+    : S extends { select: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof VerificationToken ? VerificationToken[P] : never
+  } 
+      : VerificationToken
+
+
+  type VerificationTokenCountArgs = 
+    Omit<VerificationTokenFindManyArgs, 'select' | 'include'> & {
+      select?: VerificationTokenCountAggregateInputType | true
+    }
+
+  export interface VerificationTokenDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one VerificationToken that matches the filter.
+     * @param {VerificationTokenFindUniqueArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends VerificationTokenFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, VerificationTokenFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'VerificationToken'> extends True ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>> : Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null, null>
+
+    /**
+     * Find one VerificationToken that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
+
+    /**
+     * Find the first VerificationToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends VerificationTokenFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, VerificationTokenFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'VerificationToken'> extends True ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>> : Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null, null>
+
+    /**
+     * Find the first VerificationToken that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
+
+    /**
+     * Find zero or more VerificationTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VerificationTokens
+     * const verificationTokens = await prisma.verificationToken.findMany()
+     * 
+     * // Get first 10 VerificationTokens
+     * const verificationTokens = await prisma.verificationToken.findMany({ take: 10 })
+     * 
+     * // Only select the `identifier`
+     * const verificationTokenWithIdentifierOnly = await prisma.verificationToken.findMany({ select: { identifier: true } })
+     * 
+    **/
+    findMany<T extends VerificationTokenFindManyArgs>(
+      args?: SelectSubset<T, VerificationTokenFindManyArgs>
+    ): Prisma.PrismaPromise<Array<VerificationTokenGetPayload<T>>>
+
+    /**
+     * Create a VerificationToken.
+     * @param {VerificationTokenCreateArgs} args - Arguments to create a VerificationToken.
+     * @example
+     * // Create one VerificationToken
+     * const VerificationToken = await prisma.verificationToken.create({
+     *   data: {
+     *     // ... data to create a VerificationToken
+     *   }
+     * })
+     * 
+    **/
+    create<T extends VerificationTokenCreateArgs>(
+      args: SelectSubset<T, VerificationTokenCreateArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
+
+    /**
+     * Create many VerificationTokens.
+     *     @param {VerificationTokenCreateManyArgs} args - Arguments to create many VerificationTokens.
+     *     @example
+     *     // Create many VerificationTokens
+     *     const verificationToken = await prisma.verificationToken.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends VerificationTokenCreateManyArgs>(
+      args?: SelectSubset<T, VerificationTokenCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a VerificationToken.
+     * @param {VerificationTokenDeleteArgs} args - Arguments to delete one VerificationToken.
+     * @example
+     * // Delete one VerificationToken
+     * const VerificationToken = await prisma.verificationToken.delete({
+     *   where: {
+     *     // ... filter to delete one VerificationToken
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends VerificationTokenDeleteArgs>(
+      args: SelectSubset<T, VerificationTokenDeleteArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
+
+    /**
+     * Update one VerificationToken.
+     * @param {VerificationTokenUpdateArgs} args - Arguments to update one VerificationToken.
+     * @example
+     * // Update one VerificationToken
+     * const verificationToken = await prisma.verificationToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends VerificationTokenUpdateArgs>(
+      args: SelectSubset<T, VerificationTokenUpdateArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
+
+    /**
+     * Delete zero or more VerificationTokens.
+     * @param {VerificationTokenDeleteManyArgs} args - Arguments to filter VerificationTokens to delete.
+     * @example
+     * // Delete a few VerificationTokens
+     * const { count } = await prisma.verificationToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends VerificationTokenDeleteManyArgs>(
+      args?: SelectSubset<T, VerificationTokenDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends VerificationTokenUpdateManyArgs>(
+      args: SelectSubset<T, VerificationTokenUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one VerificationToken.
+     * @param {VerificationTokenUpsertArgs} args - Arguments to update or create a VerificationToken.
+     * @example
+     * // Update or create a VerificationToken
+     * const verificationToken = await prisma.verificationToken.upsert({
+     *   create: {
+     *     // ... data to create a VerificationToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VerificationToken we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends VerificationTokenUpsertArgs>(
+      args: SelectSubset<T, VerificationTokenUpsertArgs>
+    ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
+
+    /**
+     * Count the number of VerificationTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenCountArgs} args - Arguments to filter VerificationTokens to count.
+     * @example
+     * // Count the number of VerificationTokens
+     * const count = await prisma.verificationToken.count({
+     *   where: {
+     *     // ... the filter for the VerificationTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends VerificationTokenCountArgs>(
+      args?: Subset<T, VerificationTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VerificationTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VerificationToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>
+
+    /**
+     * Group by VerificationToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VerificationTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VerificationTokenGroupByArgs['orderBy'] }
+        : { orderBy?: VerificationTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VerificationToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__VerificationTokenClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * VerificationToken base type for findUnique actions
+   */
+  export type VerificationTokenFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken findUnique
+   */
+  export interface VerificationTokenFindUniqueArgs extends VerificationTokenFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * VerificationToken findUniqueOrThrow
+   */
+  export type VerificationTokenFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+
+  /**
+   * VerificationToken base type for findFirst actions
+   */
+  export type VerificationTokenFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: Enumerable<VerificationTokenScalarFieldEnum>
+  }
+
+  /**
+   * VerificationToken findFirst
+   */
+  export interface VerificationTokenFindFirstArgs extends VerificationTokenFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * VerificationToken findFirstOrThrow
+   */
+  export type VerificationTokenFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: Enumerable<VerificationTokenScalarFieldEnum>
+  }
+
+
+  /**
+   * VerificationToken findMany
+   */
+  export type VerificationTokenFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter, which VerificationTokens to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    distinct?: Enumerable<VerificationTokenScalarFieldEnum>
+  }
+
+
+  /**
+   * VerificationToken create
+   */
+  export type VerificationTokenCreateArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * The data needed to create a VerificationToken.
+     */
+    data: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+  }
+
+
+  /**
+   * VerificationToken createMany
+   */
+  export type VerificationTokenCreateManyArgs = {
+    /**
+     * The data used to create many VerificationTokens.
+     */
+    data: Enumerable<VerificationTokenCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * VerificationToken update
+   */
+  export type VerificationTokenUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * The data needed to update a VerificationToken.
+     */
+    data: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+    /**
+     * Choose, which VerificationToken to update.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+
+  /**
+   * VerificationToken updateMany
+   */
+  export type VerificationTokenUpdateManyArgs = {
+    /**
+     * The data used to update VerificationTokens.
+     */
+    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationTokens to update
+     */
+    where?: VerificationTokenWhereInput
+  }
+
+
+  /**
+   * VerificationToken upsert
+   */
+  export type VerificationTokenUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * The filter to search for the VerificationToken to update in case it exists.
+     */
+    where: VerificationTokenWhereUniqueInput
+    /**
+     * In case the VerificationToken found by the `where` argument doesn't exist, create a new VerificationToken with this data.
+     */
+    create: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+    /**
+     * In case the VerificationToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+  }
+
+
+  /**
+   * VerificationToken delete
+   */
+  export type VerificationTokenDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+    /**
+     * Filter which VerificationToken to delete.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+
+  /**
+   * VerificationToken deleteMany
+   */
+  export type VerificationTokenDeleteManyArgs = {
+    /**
+     * Filter which VerificationTokens to delete
+     */
+    where?: VerificationTokenWhereInput
+  }
+
+
+  /**
+   * VerificationToken without action
+   */
+  export type VerificationTokenArgs = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect | null
+  }
+
+
+
+  /**
+   * Model User
+   */
+
+
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    emailVerified: Date | null
+    image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    emailVerified: Date | null
+    image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    emailVerified: number
+    image: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    emailVerified?: true
+    image?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    emailVerified?: true
+    image?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    emailVerified?: true
+    image?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserAggregateArgs = {
+    /**
+     * Filter which User to aggregate.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Users
+    **/
+    _count?: true | UserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>
+  }
+
+
+
+
+  export type UserGroupByArgs = {
+    where?: UserWhereInput
+    orderBy?: Enumerable<UserOrderByWithAggregationInput>
+    by: UserScalarFieldEnum[]
+    having?: UserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCountAggregateInputType | true
+    _min?: UserMinAggregateInputType
+    _max?: UserMaxAggregateInputType
+  }
+
+
+  export type UserGroupByOutputType = {
+    id: string
+    name: string | null
+    email: string | null
+    emailVerified: Date | null
+    image: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UserCountAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSelect = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    emailVerified?: boolean
+    image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    accounts?: boolean | User$accountsArgs
+    sessions?: boolean | User$sessionsArgs
+    auctions?: boolean | User$auctionsArgs
+    campaigns?: boolean | User$campaignsArgs
+    websites?: boolean | User$websitesArgs
+    categories?: boolean | User$categoriesArgs
+    setting?: boolean | User$settingArgs
+    _count?: boolean | UserCountOutputTypeArgs
+  }
+
+
+  export type UserInclude = {
+    accounts?: boolean | User$accountsArgs
+    sessions?: boolean | User$sessionsArgs
+    auctions?: boolean | User$auctionsArgs
+    campaigns?: boolean | User$campaignsArgs
+    websites?: boolean | User$websitesArgs
+    categories?: boolean | User$categoriesArgs
+    setting?: boolean | User$settingArgs
+    _count?: boolean | UserCountOutputTypeArgs
+  }
+
+  export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? User :
+    S extends undefined ? never :
+    S extends { include: any } & (UserArgs | UserFindManyArgs)
+    ? User  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? Array < AccountGetPayload<S['include'][P]>>  :
+        P extends 'sessions' ? Array < SessionGetPayload<S['include'][P]>>  :
+        P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
+        P extends 'campaigns' ? Array < CampaignGetPayload<S['include'][P]>>  :
+        P extends 'websites' ? Array < WebsiteGetPayload<S['include'][P]>>  :
+        P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+        P extends 'setting' ? SettingGetPayload<S['include'][P]> | null :
+        P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UserArgs | UserFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? Array < AccountGetPayload<S['select'][P]>>  :
+        P extends 'sessions' ? Array < SessionGetPayload<S['select'][P]>>  :
+        P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
+        P extends 'campaigns' ? Array < CampaignGetPayload<S['select'][P]>>  :
+        P extends 'websites' ? Array < WebsiteGetPayload<S['select'][P]>>  :
+        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+        P extends 'setting' ? SettingGetPayload<S['select'][P]> | null :
+        P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
+  } 
+      : User
+
+
+  type UserCountArgs = 
+    Omit<UserFindManyArgs, 'select' | 'include'> & {
+      select?: UserCountAggregateInputType | true
+    }
+
+  export interface UserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
+
+    /**
+     * Find one User that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserFindUniqueOrThrowArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
+
+    /**
+     * Find the first User that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
+
+    /**
+     * Find the first User that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserFindFirstOrThrowArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.user.findMany()
+     * 
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends UserFindManyArgs>(
+      args?: SelectSubset<T, UserFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserGetPayload<T>>>
+
+    /**
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @example
+     * // Create one User
+     * const User = await prisma.user.create({
+     *   data: {
+     *     // ... data to create a User
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserCreateArgs>(
+      args: SelectSubset<T, UserCreateArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
+
+    /**
+     * Create many Users.
+     *     @param {UserCreateManyArgs} args - Arguments to create many Users.
+     *     @example
+     *     // Create many Users
+     *     const user = await prisma.user.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserCreateManyArgs>(
+      args?: SelectSubset<T, UserCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @example
+     * // Delete one User
+     * const User = await prisma.user.delete({
+     *   where: {
+     *     // ... filter to delete one User
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserDeleteArgs>(
+      args: SelectSubset<T, UserDeleteArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
+
+    /**
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @example
+     * // Update one User
+     * const user = await prisma.user.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserUpdateArgs>(
+      args: SelectSubset<T, UserUpdateArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
+
+    /**
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserDeleteManyArgs>(
+      args?: SelectSubset<T, UserDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserUpdateManyArgs>(
+      args: SelectSubset<T, UserUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @example
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
+     *   create: {
+     *     // ... data to create a User
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserUpsertArgs>(
+      args: SelectSubset<T, UserUpsertArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
+
+    /**
+     * Count the number of Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @example
+     * // Count the number of Users
+     * const count = await prisma.user.count({
+     *   where: {
+     *     // ... the filter for the Users we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
+
+    /**
+     * Group by User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for User.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UserClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    accounts<T extends User$accountsArgs= {}>(args?: Subset<T, User$accountsArgs>): Prisma.PrismaPromise<Array<AccountGetPayload<T>>| Null>;
+
+    sessions<T extends User$sessionsArgs= {}>(args?: Subset<T, User$sessionsArgs>): Prisma.PrismaPromise<Array<SessionGetPayload<T>>| Null>;
+
+    auctions<T extends User$auctionsArgs= {}>(args?: Subset<T, User$auctionsArgs>): Prisma.PrismaPromise<Array<AuctionGetPayload<T>>| Null>;
+
+    campaigns<T extends User$campaignsArgs= {}>(args?: Subset<T, User$campaignsArgs>): Prisma.PrismaPromise<Array<CampaignGetPayload<T>>| Null>;
+
+    websites<T extends User$websitesArgs= {}>(args?: Subset<T, User$websitesArgs>): Prisma.PrismaPromise<Array<WebsiteGetPayload<T>>| Null>;
+
+    categories<T extends User$categoriesArgs= {}>(args?: Subset<T, User$categoriesArgs>): Prisma.PrismaPromise<Array<CategoryGetPayload<T>>| Null>;
+
+    setting<T extends User$settingArgs= {}>(args?: Subset<T, User$settingArgs>): Prisma__SettingClient<SettingGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * User base type for findUnique actions
+   */
+  export type UserFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findUnique
+   */
+  export interface UserFindUniqueArgs extends UserFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * User findUniqueOrThrow
+   */
+  export type UserFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+
+  /**
+   * User base type for findFirst actions
+   */
+  export type UserFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: Enumerable<UserScalarFieldEnum>
+  }
+
+  /**
+   * User findFirst
+   */
+  export interface UserFindFirstArgs extends UserFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * User findFirstOrThrow
+   */
+  export type UserFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: Enumerable<UserScalarFieldEnum>
+  }
+
+
+  /**
+   * User findMany
+   */
+  export type UserFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    distinct?: Enumerable<UserScalarFieldEnum>
+  }
+
+
+  /**
+   * User create
+   */
+  export type UserCreateArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * The data needed to create a User.
+     */
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+  }
+
+
+  /**
+   * User createMany
+   */
+  export type UserCreateManyArgs = {
+    /**
+     * The data used to create many Users.
+     */
+    data: Enumerable<UserCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * User update
+   */
+  export type UserUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * The data needed to update a User.
+     */
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    /**
+     * Choose, which User to update.
+     */
+    where: UserWhereUniqueInput
+  }
+
+
+  /**
+   * User updateMany
+   */
+  export type UserUpdateManyArgs = {
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+  }
+
+
+  /**
+   * User upsert
+   */
+  export type UserUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * The filter to search for the User to update in case it exists.
+     */
+    where: UserWhereUniqueInput
+    /**
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     */
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    /**
+     * In case the User was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+  }
+
+
+  /**
+   * User delete
+   */
+  export type UserDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
+     * Filter which User to delete.
+     */
+    where: UserWhereUniqueInput
+  }
+
+
+  /**
+   * User deleteMany
+   */
+  export type UserDeleteManyArgs = {
+    /**
+     * Filter which Users to delete
+     */
+    where?: UserWhereInput
+  }
+
+
+  /**
+   * User.accounts
+   */
+  export type User$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AccountInclude | null
+    where?: AccountWhereInput
+    orderBy?: Enumerable<AccountOrderByWithRelationInput>
+    cursor?: AccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AccountScalarFieldEnum>
+  }
+
+
+  /**
+   * User.sessions
+   */
+  export type User$sessionsArgs = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SessionInclude | null
+    where?: SessionWhereInput
+    orderBy?: Enumerable<SessionOrderByWithRelationInput>
+    cursor?: SessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<SessionScalarFieldEnum>
+  }
+
+
+  /**
+   * User.auctions
+   */
+  export type User$auctionsArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    where?: AuctionWhereInput
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    cursor?: AuctionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AuctionScalarFieldEnum>
+  }
+
+
+  /**
+   * User.campaigns
+   */
+  export type User$campaignsArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    where?: CampaignWhereInput
+    orderBy?: Enumerable<CampaignOrderByWithRelationInput>
+    cursor?: CampaignWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * User.websites
+   */
+  export type User$websitesArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    where?: WebsiteWhereInput
+    orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
+    cursor?: WebsiteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<WebsiteScalarFieldEnum>
+  }
+
+
+  /**
+   * User.categories
+   */
+  export type User$categoriesArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    where?: CategoryWhereInput
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    cursor?: CategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CategoryScalarFieldEnum>
+  }
+
+
+  /**
+   * User.setting
+   */
+  export type User$settingArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    where?: SettingWhereInput
+  }
+
+
+  /**
+   * User without action
+   */
+  export type UserArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+  }
+
+
+
+  /**
+   * Model Setting
+   */
+
+
+  export type AggregateSetting = {
+    _count: SettingCountAggregateOutputType | null
+    _avg: SettingAvgAggregateOutputType | null
+    _sum: SettingSumAggregateOutputType | null
+    _min: SettingMinAggregateOutputType | null
+    _max: SettingMaxAggregateOutputType | null
+  }
+
+  export type SettingAvgAggregateOutputType = {
+    scoreThreshold: number | null
+  }
+
+  export type SettingSumAggregateOutputType = {
+    scoreThreshold: number | null
+  }
+
+  export type SettingMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    scoreThreshold: number | null
+    status: boolean | null
+    addSponsoredWording: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SettingMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    scoreThreshold: number | null
+    status: boolean | null
+    addSponsoredWording: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SettingCountAggregateOutputType = {
+    id: number
+    userId: number
+    scoreThreshold: number
+    status: number
+    addSponsoredWording: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SettingAvgAggregateInputType = {
+    scoreThreshold?: true
+  }
+
+  export type SettingSumAggregateInputType = {
+    scoreThreshold?: true
+  }
+
+  export type SettingMinAggregateInputType = {
+    id?: true
+    userId?: true
+    scoreThreshold?: true
+    status?: true
+    addSponsoredWording?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SettingMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    scoreThreshold?: true
+    status?: true
+    addSponsoredWording?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SettingCountAggregateInputType = {
+    id?: true
+    userId?: true
+    scoreThreshold?: true
+    status?: true
+    addSponsoredWording?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SettingAggregateArgs = {
+    /**
+     * Filter which Setting to aggregate.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: Enumerable<SettingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Settings
+    **/
+    _count?: true | SettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SettingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SettingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SettingMaxAggregateInputType
+  }
+
+  export type GetSettingAggregateType<T extends SettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetting[P]>
+      : GetScalarType<T[P], AggregateSetting[P]>
+  }
+
+
+
+
+  export type SettingGroupByArgs = {
+    where?: SettingWhereInput
+    orderBy?: Enumerable<SettingOrderByWithAggregationInput>
+    by: SettingScalarFieldEnum[]
+    having?: SettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SettingCountAggregateInputType | true
+    _avg?: SettingAvgAggregateInputType
+    _sum?: SettingSumAggregateInputType
+    _min?: SettingMinAggregateInputType
+    _max?: SettingMaxAggregateInputType
+  }
+
+
+  export type SettingGroupByOutputType = {
+    id: string
+    userId: string
+    scoreThreshold: number
+    status: boolean
+    addSponsoredWording: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: SettingCountAggregateOutputType | null
+    _avg: SettingAvgAggregateOutputType | null
+    _sum: SettingSumAggregateOutputType | null
+    _min: SettingMinAggregateOutputType | null
+    _max: SettingMaxAggregateOutputType | null
+  }
+
+  type GetSettingGroupByPayload<T extends SettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<SettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SettingGroupByOutputType[P]>
+            : GetScalarType<T[P], SettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SettingSelect = {
+    id?: boolean
+    userId?: boolean
+    scoreThreshold?: boolean
+    status?: boolean
+    addSponsoredWording?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserArgs
+  }
+
+
+  export type SettingInclude = {
+    user?: boolean | UserArgs
+  }
+
+  export type SettingGetPayload<S extends boolean | null | undefined | SettingArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Setting :
+    S extends undefined ? never :
+    S extends { include: any } & (SettingArgs | SettingFindManyArgs)
+    ? Setting  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (SettingArgs | SettingFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Setting ? Setting[P] : never
+  } 
+      : Setting
+
+
+  type SettingCountArgs = 
+    Omit<SettingFindManyArgs, 'select' | 'include'> & {
+      select?: SettingCountAggregateInputType | true
+    }
+
+  export interface SettingDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Setting that matches the filter.
+     * @param {SettingFindUniqueArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SettingFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SettingFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Setting'> extends True ? Prisma__SettingClient<SettingGetPayload<T>> : Prisma__SettingClient<SettingGetPayload<T> | null, null>
+
+    /**
+     * Find one Setting that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SettingFindUniqueOrThrowArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SettingFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SettingFindUniqueOrThrowArgs>
+    ): Prisma__SettingClient<SettingGetPayload<T>>
+
+    /**
+     * Find the first Setting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingFindFirstArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SettingFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SettingFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Setting'> extends True ? Prisma__SettingClient<SettingGetPayload<T>> : Prisma__SettingClient<SettingGetPayload<T> | null, null>
+
+    /**
+     * Find the first Setting that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingFindFirstOrThrowArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SettingFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SettingFindFirstOrThrowArgs>
+    ): Prisma__SettingClient<SettingGetPayload<T>>
+
+    /**
+     * Find zero or more Settings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Settings
+     * const settings = await prisma.setting.findMany()
+     * 
+     * // Get first 10 Settings
+     * const settings = await prisma.setting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const settingWithIdOnly = await prisma.setting.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SettingFindManyArgs>(
+      args?: SelectSubset<T, SettingFindManyArgs>
+    ): Prisma.PrismaPromise<Array<SettingGetPayload<T>>>
+
+    /**
+     * Create a Setting.
+     * @param {SettingCreateArgs} args - Arguments to create a Setting.
+     * @example
+     * // Create one Setting
+     * const Setting = await prisma.setting.create({
+     *   data: {
+     *     // ... data to create a Setting
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SettingCreateArgs>(
+      args: SelectSubset<T, SettingCreateArgs>
+    ): Prisma__SettingClient<SettingGetPayload<T>>
+
+    /**
+     * Create many Settings.
+     *     @param {SettingCreateManyArgs} args - Arguments to create many Settings.
+     *     @example
+     *     // Create many Settings
+     *     const setting = await prisma.setting.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SettingCreateManyArgs>(
+      args?: SelectSubset<T, SettingCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Setting.
+     * @param {SettingDeleteArgs} args - Arguments to delete one Setting.
+     * @example
+     * // Delete one Setting
+     * const Setting = await prisma.setting.delete({
+     *   where: {
+     *     // ... filter to delete one Setting
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SettingDeleteArgs>(
+      args: SelectSubset<T, SettingDeleteArgs>
+    ): Prisma__SettingClient<SettingGetPayload<T>>
+
+    /**
+     * Update one Setting.
+     * @param {SettingUpdateArgs} args - Arguments to update one Setting.
+     * @example
+     * // Update one Setting
+     * const setting = await prisma.setting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SettingUpdateArgs>(
+      args: SelectSubset<T, SettingUpdateArgs>
+    ): Prisma__SettingClient<SettingGetPayload<T>>
+
+    /**
+     * Delete zero or more Settings.
+     * @param {SettingDeleteManyArgs} args - Arguments to filter Settings to delete.
+     * @example
+     * // Delete a few Settings
+     * const { count } = await prisma.setting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SettingDeleteManyArgs>(
+      args?: SelectSubset<T, SettingDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Settings
+     * const setting = await prisma.setting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SettingUpdateManyArgs>(
+      args: SelectSubset<T, SettingUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Setting.
+     * @param {SettingUpsertArgs} args - Arguments to update or create a Setting.
+     * @example
+     * // Update or create a Setting
+     * const setting = await prisma.setting.upsert({
+     *   create: {
+     *     // ... data to create a Setting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Setting we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SettingUpsertArgs>(
+      args: SelectSubset<T, SettingUpsertArgs>
+    ): Prisma__SettingClient<SettingGetPayload<T>>
+
+    /**
+     * Count the number of Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingCountArgs} args - Arguments to filter Settings to count.
+     * @example
+     * // Count the number of Settings
+     * const count = await prisma.setting.count({
+     *   where: {
+     *     // ... the filter for the Settings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SettingCountArgs>(
+      args?: Subset<T, SettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Setting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SettingAggregateArgs>(args: Subset<T, SettingAggregateArgs>): Prisma.PrismaPromise<GetSettingAggregateType<T>>
+
+    /**
+     * Group by Setting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SettingGroupByArgs['orderBy'] }
+        : { orderBy?: SettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Setting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SettingClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Setting base type for findUnique actions
+   */
+  export type SettingFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+  /**
+   * Setting findUnique
+   */
+  export interface SettingFindUniqueArgs extends SettingFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Setting findUniqueOrThrow
+   */
+  export type SettingFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+
+  /**
+   * Setting base type for findFirst actions
+   */
+  export type SettingFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: Enumerable<SettingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Settings.
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: Enumerable<SettingScalarFieldEnum>
+  }
+
+  /**
+   * Setting findFirst
+   */
+  export interface SettingFindFirstArgs extends SettingFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Setting findFirstOrThrow
+   */
+  export type SettingFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: Enumerable<SettingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Settings.
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: Enumerable<SettingScalarFieldEnum>
+  }
+
+
+  /**
+   * Setting findMany
+   */
+  export type SettingFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: Enumerable<SettingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Settings.
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    distinct?: Enumerable<SettingScalarFieldEnum>
+  }
+
+
+  /**
+   * Setting create
+   */
+  export type SettingCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * The data needed to create a Setting.
+     */
+    data: XOR<SettingCreateInput, SettingUncheckedCreateInput>
+  }
+
+
+  /**
+   * Setting createMany
+   */
+  export type SettingCreateManyArgs = {
+    /**
+     * The data used to create many Settings.
+     */
+    data: Enumerable<SettingCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Setting update
+   */
+  export type SettingUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * The data needed to update a Setting.
+     */
+    data: XOR<SettingUpdateInput, SettingUncheckedUpdateInput>
+    /**
+     * Choose, which Setting to update.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+
+  /**
+   * Setting updateMany
+   */
+  export type SettingUpdateManyArgs = {
+    /**
+     * The data used to update Settings.
+     */
+    data: XOR<SettingUpdateManyMutationInput, SettingUncheckedUpdateManyInput>
+    /**
+     * Filter which Settings to update
+     */
+    where?: SettingWhereInput
+  }
+
+
+  /**
+   * Setting upsert
+   */
+  export type SettingUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * The filter to search for the Setting to update in case it exists.
+     */
+    where: SettingWhereUniqueInput
+    /**
+     * In case the Setting found by the `where` argument doesn't exist, create a new Setting with this data.
+     */
+    create: XOR<SettingCreateInput, SettingUncheckedCreateInput>
+    /**
+     * In case the Setting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SettingUpdateInput, SettingUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Setting delete
+   */
+  export type SettingDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+    /**
+     * Filter which Setting to delete.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+
+  /**
+   * Setting deleteMany
+   */
+  export type SettingDeleteManyArgs = {
+    /**
+     * Filter which Settings to delete
+     */
+    where?: SettingWhereInput
+  }
+
+
+  /**
+   * Setting without action
+   */
+  export type SettingArgs = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SettingInclude | null
+  }
+
+
+
+  /**
+   * Model Auction
+   */
+
+
+  export type AggregateAuction = {
+    _count: AuctionCountAggregateOutputType | null
+    _min: AuctionMinAggregateOutputType | null
+    _max: AuctionMaxAggregateOutputType | null
+  }
+
+  export type AuctionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    webpageId: string | null
+    url: string | null
+    userAgent: string | null
+    ip: string | null
+    endUserCuid: string | null
+    endUserFp: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AuctionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    webpageId: string | null
+    url: string | null
+    userAgent: string | null
+    ip: string | null
+    endUserCuid: string | null
+    endUserFp: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AuctionCountAggregateOutputType = {
+    id: number
+    userId: number
+    webpageId: number
+    url: number
+    userAgent: number
+    ip: number
+    endUserCuid: number
+    endUserFp: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AuctionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    webpageId?: true
+    url?: true
+    userAgent?: true
+    ip?: true
+    endUserCuid?: true
+    endUserFp?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AuctionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    webpageId?: true
+    url?: true
+    userAgent?: true
+    ip?: true
+    endUserCuid?: true
+    endUserFp?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AuctionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    webpageId?: true
+    url?: true
+    userAgent?: true
+    ip?: true
+    endUserCuid?: true
+    endUserFp?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AuctionAggregateArgs = {
+    /**
+     * Filter which Auction to aggregate.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Auctions
+    **/
+    _count?: true | AuctionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuctionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuctionMaxAggregateInputType
+  }
+
+  export type GetAuctionAggregateType<T extends AuctionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuction[P]>
+      : GetScalarType<T[P], AggregateAuction[P]>
+  }
+
+
+
+
+  export type AuctionGroupByArgs = {
+    where?: AuctionWhereInput
+    orderBy?: Enumerable<AuctionOrderByWithAggregationInput>
+    by: AuctionScalarFieldEnum[]
+    having?: AuctionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuctionCountAggregateInputType | true
+    _min?: AuctionMinAggregateInputType
+    _max?: AuctionMaxAggregateInputType
+  }
+
+
+  export type AuctionGroupByOutputType = {
+    id: string
+    userId: string
+    webpageId: string | null
+    url: string | null
+    userAgent: string
+    ip: string
+    endUserCuid: string
+    endUserFp: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AuctionCountAggregateOutputType | null
+    _min: AuctionMinAggregateOutputType | null
+    _max: AuctionMaxAggregateOutputType | null
+  }
+
+  type GetAuctionGroupByPayload<T extends AuctionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AuctionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuctionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+            : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuctionSelect = {
+    id?: boolean
+    userId?: boolean
+    webpageId?: boolean
+    url?: boolean
+    userAgent?: boolean
+    ip?: boolean
+    endUserCuid?: boolean
+    endUserFp?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserArgs
+    webpage?: boolean | Auction$webpageArgs
+    impressions?: boolean | Auction$impressionsArgs
+    _count?: boolean | AuctionCountOutputTypeArgs
+  }
+
+
+  export type AuctionInclude = {
+    user?: boolean | UserArgs
+    webpage?: boolean | Auction$webpageArgs
+    impressions?: boolean | Auction$impressionsArgs
+    _count?: boolean | AuctionCountOutputTypeArgs
+  }
+
+  export type AuctionGetPayload<S extends boolean | null | undefined | AuctionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Auction :
+    S extends undefined ? never :
+    S extends { include: any } & (AuctionArgs | AuctionFindManyArgs)
+    ? Auction  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :
+        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> | null :
+        P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
+        P extends '_count' ? AuctionCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AuctionArgs | AuctionFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :
+        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> | null :
+        P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
+        P extends '_count' ? AuctionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Auction ? Auction[P] : never
+  } 
+      : Auction
+
+
+  type AuctionCountArgs = 
+    Omit<AuctionFindManyArgs, 'select' | 'include'> & {
+      select?: AuctionCountAggregateInputType | true
+    }
+
+  export interface AuctionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Auction that matches the filter.
+     * @param {AuctionFindUniqueArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AuctionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AuctionFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Auction'> extends True ? Prisma__AuctionClient<AuctionGetPayload<T>> : Prisma__AuctionClient<AuctionGetPayload<T> | null, null>
+
+    /**
+     * Find one Auction that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AuctionFindUniqueOrThrowArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AuctionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AuctionFindUniqueOrThrowArgs>
+    ): Prisma__AuctionClient<AuctionGetPayload<T>>
+
+    /**
+     * Find the first Auction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindFirstArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AuctionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AuctionFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Auction'> extends True ? Prisma__AuctionClient<AuctionGetPayload<T>> : Prisma__AuctionClient<AuctionGetPayload<T> | null, null>
+
+    /**
+     * Find the first Auction that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindFirstOrThrowArgs} args - Arguments to find a Auction
+     * @example
+     * // Get one Auction
+     * const auction = await prisma.auction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AuctionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AuctionFindFirstOrThrowArgs>
+    ): Prisma__AuctionClient<AuctionGetPayload<T>>
+
+    /**
+     * Find zero or more Auctions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Auctions
+     * const auctions = await prisma.auction.findMany()
+     * 
+     * // Get first 10 Auctions
+     * const auctions = await prisma.auction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const auctionWithIdOnly = await prisma.auction.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends AuctionFindManyArgs>(
+      args?: SelectSubset<T, AuctionFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AuctionGetPayload<T>>>
+
+    /**
+     * Create a Auction.
+     * @param {AuctionCreateArgs} args - Arguments to create a Auction.
+     * @example
+     * // Create one Auction
+     * const Auction = await prisma.auction.create({
+     *   data: {
+     *     // ... data to create a Auction
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AuctionCreateArgs>(
+      args: SelectSubset<T, AuctionCreateArgs>
+    ): Prisma__AuctionClient<AuctionGetPayload<T>>
+
+    /**
+     * Create many Auctions.
+     *     @param {AuctionCreateManyArgs} args - Arguments to create many Auctions.
+     *     @example
+     *     // Create many Auctions
+     *     const auction = await prisma.auction.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AuctionCreateManyArgs>(
+      args?: SelectSubset<T, AuctionCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Auction.
+     * @param {AuctionDeleteArgs} args - Arguments to delete one Auction.
+     * @example
+     * // Delete one Auction
+     * const Auction = await prisma.auction.delete({
+     *   where: {
+     *     // ... filter to delete one Auction
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AuctionDeleteArgs>(
+      args: SelectSubset<T, AuctionDeleteArgs>
+    ): Prisma__AuctionClient<AuctionGetPayload<T>>
+
+    /**
+     * Update one Auction.
+     * @param {AuctionUpdateArgs} args - Arguments to update one Auction.
+     * @example
+     * // Update one Auction
+     * const auction = await prisma.auction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AuctionUpdateArgs>(
+      args: SelectSubset<T, AuctionUpdateArgs>
+    ): Prisma__AuctionClient<AuctionGetPayload<T>>
+
+    /**
+     * Delete zero or more Auctions.
+     * @param {AuctionDeleteManyArgs} args - Arguments to filter Auctions to delete.
+     * @example
+     * // Delete a few Auctions
+     * const { count } = await prisma.auction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AuctionDeleteManyArgs>(
+      args?: SelectSubset<T, AuctionDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Auctions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Auctions
+     * const auction = await prisma.auction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AuctionUpdateManyArgs>(
+      args: SelectSubset<T, AuctionUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Auction.
+     * @param {AuctionUpsertArgs} args - Arguments to update or create a Auction.
+     * @example
+     * // Update or create a Auction
+     * const auction = await prisma.auction.upsert({
+     *   create: {
+     *     // ... data to create a Auction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Auction we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AuctionUpsertArgs>(
+      args: SelectSubset<T, AuctionUpsertArgs>
+    ): Prisma__AuctionClient<AuctionGetPayload<T>>
+
+    /**
+     * Count the number of Auctions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionCountArgs} args - Arguments to filter Auctions to count.
+     * @example
+     * // Count the number of Auctions
+     * const count = await prisma.auction.count({
+     *   where: {
+     *     // ... the filter for the Auctions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuctionCountArgs>(
+      args?: Subset<T, AuctionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuctionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Auction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuctionAggregateArgs>(args: Subset<T, AuctionAggregateArgs>): Prisma.PrismaPromise<GetAuctionAggregateType<T>>
+
+    /**
+     * Group by Auction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuctionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuctionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuctionGroupByArgs['orderBy'] }
+        : { orderBy?: AuctionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuctionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuctionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Auction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AuctionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    webpage<T extends Auction$webpageArgs= {}>(args?: Subset<T, Auction$webpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
+
+    impressions<T extends Auction$impressionsArgs= {}>(args?: Subset<T, Auction$impressionsArgs>): Prisma.PrismaPromise<Array<ImpressionGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Auction base type for findUnique actions
+   */
+  export type AuctionFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+  /**
+   * Auction findUnique
+   */
+  export interface AuctionFindUniqueArgs extends AuctionFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Auction findUniqueOrThrow
+   */
+  export type AuctionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+
+  /**
+   * Auction base type for findFirst actions
+   */
+  export type AuctionFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Auctions.
+     */
+    distinct?: Enumerable<AuctionScalarFieldEnum>
+  }
+
+  /**
+   * Auction findFirst
+   */
+  export interface AuctionFindFirstArgs extends AuctionFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Auction findFirstOrThrow
+   */
+  export type AuctionFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * Filter, which Auction to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Auctions.
+     */
+    distinct?: Enumerable<AuctionScalarFieldEnum>
+  }
+
+
+  /**
+   * Auction findMany
+   */
+  export type AuctionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * Filter, which Auctions to fetch.
+     */
+    where?: AuctionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Auctions to fetch.
+     */
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Auctions.
+     */
+    cursor?: AuctionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Auctions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Auctions.
+     */
+    skip?: number
+    distinct?: Enumerable<AuctionScalarFieldEnum>
+  }
+
+
+  /**
+   * Auction create
+   */
+  export type AuctionCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * The data needed to create a Auction.
+     */
+    data: XOR<AuctionCreateInput, AuctionUncheckedCreateInput>
+  }
+
+
+  /**
+   * Auction createMany
+   */
+  export type AuctionCreateManyArgs = {
+    /**
+     * The data used to create many Auctions.
+     */
+    data: Enumerable<AuctionCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Auction update
+   */
+  export type AuctionUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * The data needed to update a Auction.
+     */
+    data: XOR<AuctionUpdateInput, AuctionUncheckedUpdateInput>
+    /**
+     * Choose, which Auction to update.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+
+  /**
+   * Auction updateMany
+   */
+  export type AuctionUpdateManyArgs = {
+    /**
+     * The data used to update Auctions.
+     */
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyInput>
+    /**
+     * Filter which Auctions to update
+     */
+    where?: AuctionWhereInput
+  }
+
+
+  /**
+   * Auction upsert
+   */
+  export type AuctionUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * The filter to search for the Auction to update in case it exists.
+     */
+    where: AuctionWhereUniqueInput
+    /**
+     * In case the Auction found by the `where` argument doesn't exist, create a new Auction with this data.
+     */
+    create: XOR<AuctionCreateInput, AuctionUncheckedCreateInput>
+    /**
+     * In case the Auction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuctionUpdateInput, AuctionUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Auction delete
+   */
+  export type AuctionDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    /**
+     * Filter which Auction to delete.
+     */
+    where: AuctionWhereUniqueInput
+  }
+
+
+  /**
+   * Auction deleteMany
+   */
+  export type AuctionDeleteManyArgs = {
+    /**
+     * Filter which Auctions to delete
+     */
+    where?: AuctionWhereInput
+  }
+
+
+  /**
+   * Auction.webpage
+   */
+  export type Auction$webpageArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    where?: WebpageWhereInput
+  }
+
+
+  /**
+   * Auction.impressions
+   */
+  export type Auction$impressionsArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    where?: ImpressionWhereInput
+    orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
+    cursor?: ImpressionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * Auction without action
+   */
+  export type AuctionArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+  }
+
+
+
+  /**
+   * Model Website
+   */
+
+
+  export type AggregateWebsite = {
+    _count: WebsiteCountAggregateOutputType | null
+    _min: WebsiteMinAggregateOutputType | null
+    _max: WebsiteMaxAggregateOutputType | null
+  }
+
+  export type WebsiteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    topLevelDomainUrl: string | null
+    sitemapUrl: string | null
+    status: boolean | null
+    processedOn: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebsiteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    topLevelDomainUrl: string | null
+    sitemapUrl: string | null
+    status: boolean | null
+    processedOn: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebsiteCountAggregateOutputType = {
+    id: number
+    userId: number
+    topLevelDomainUrl: number
+    sitemapUrl: number
+    status: number
+    processedOn: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WebsiteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    topLevelDomainUrl?: true
+    sitemapUrl?: true
+    status?: true
+    processedOn?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebsiteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    topLevelDomainUrl?: true
+    sitemapUrl?: true
+    status?: true
+    processedOn?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebsiteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    topLevelDomainUrl?: true
+    sitemapUrl?: true
+    status?: true
+    processedOn?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WebsiteAggregateArgs = {
+    /**
+     * Filter which Website to aggregate.
+     */
+    where?: WebsiteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Websites to fetch.
+     */
+    orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebsiteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Websites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Websites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Websites
+    **/
+    _count?: true | WebsiteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebsiteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebsiteMaxAggregateInputType
+  }
+
+  export type GetWebsiteAggregateType<T extends WebsiteAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebsite]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebsite[P]>
+      : GetScalarType<T[P], AggregateWebsite[P]>
+  }
+
+
+
+
+  export type WebsiteGroupByArgs = {
+    where?: WebsiteWhereInput
+    orderBy?: Enumerable<WebsiteOrderByWithAggregationInput>
+    by: WebsiteScalarFieldEnum[]
+    having?: WebsiteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebsiteCountAggregateInputType | true
+    _min?: WebsiteMinAggregateInputType
+    _max?: WebsiteMaxAggregateInputType
+  }
+
+
+  export type WebsiteGroupByOutputType = {
+    id: string
+    userId: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WebsiteCountAggregateOutputType | null
+    _min: WebsiteMinAggregateOutputType | null
+    _max: WebsiteMaxAggregateOutputType | null
+  }
+
+  type GetWebsiteGroupByPayload<T extends WebsiteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<WebsiteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebsiteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebsiteGroupByOutputType[P]>
+            : GetScalarType<T[P], WebsiteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebsiteSelect = {
+    id?: boolean
+    userId?: boolean
+    topLevelDomainUrl?: boolean
+    sitemapUrl?: boolean
+    status?: boolean
+    processedOn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserArgs
+    webpages?: boolean | Website$webpagesArgs
+    _count?: boolean | WebsiteCountOutputTypeArgs
+  }
+
+
+  export type WebsiteInclude = {
+    user?: boolean | UserArgs
+    webpages?: boolean | Website$webpagesArgs
+    _count?: boolean | WebsiteCountOutputTypeArgs
+  }
+
+  export type WebsiteGetPayload<S extends boolean | null | undefined | WebsiteArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Website :
+    S extends undefined ? never :
+    S extends { include: any } & (WebsiteArgs | WebsiteFindManyArgs)
+    ? Website  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :
+        P extends 'webpages' ? Array < WebpageGetPayload<S['include'][P]>>  :
+        P extends '_count' ? WebsiteCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (WebsiteArgs | WebsiteFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :
+        P extends 'webpages' ? Array < WebpageGetPayload<S['select'][P]>>  :
+        P extends '_count' ? WebsiteCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Website ? Website[P] : never
+  } 
+      : Website
+
+
+  type WebsiteCountArgs = 
+    Omit<WebsiteFindManyArgs, 'select' | 'include'> & {
+      select?: WebsiteCountAggregateInputType | true
+    }
+
+  export interface WebsiteDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Website that matches the filter.
+     * @param {WebsiteFindUniqueArgs} args - Arguments to find a Website
+     * @example
+     * // Get one Website
+     * const website = await prisma.website.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends WebsiteFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, WebsiteFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Website'> extends True ? Prisma__WebsiteClient<WebsiteGetPayload<T>> : Prisma__WebsiteClient<WebsiteGetPayload<T> | null, null>
+
+    /**
+     * Find one Website that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {WebsiteFindUniqueOrThrowArgs} args - Arguments to find a Website
+     * @example
+     * // Get one Website
+     * const website = await prisma.website.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends WebsiteFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, WebsiteFindUniqueOrThrowArgs>
+    ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
+
+    /**
+     * Find the first Website that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFindFirstArgs} args - Arguments to find a Website
+     * @example
+     * // Get one Website
+     * const website = await prisma.website.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends WebsiteFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, WebsiteFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Website'> extends True ? Prisma__WebsiteClient<WebsiteGetPayload<T>> : Prisma__WebsiteClient<WebsiteGetPayload<T> | null, null>
+
+    /**
+     * Find the first Website that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFindFirstOrThrowArgs} args - Arguments to find a Website
+     * @example
+     * // Get one Website
+     * const website = await prisma.website.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends WebsiteFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, WebsiteFindFirstOrThrowArgs>
+    ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
+
+    /**
+     * Find zero or more Websites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Websites
+     * const websites = await prisma.website.findMany()
+     * 
+     * // Get first 10 Websites
+     * const websites = await prisma.website.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const websiteWithIdOnly = await prisma.website.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends WebsiteFindManyArgs>(
+      args?: SelectSubset<T, WebsiteFindManyArgs>
+    ): Prisma.PrismaPromise<Array<WebsiteGetPayload<T>>>
+
+    /**
+     * Create a Website.
+     * @param {WebsiteCreateArgs} args - Arguments to create a Website.
+     * @example
+     * // Create one Website
+     * const Website = await prisma.website.create({
+     *   data: {
+     *     // ... data to create a Website
+     *   }
+     * })
+     * 
+    **/
+    create<T extends WebsiteCreateArgs>(
+      args: SelectSubset<T, WebsiteCreateArgs>
+    ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
+
+    /**
+     * Create many Websites.
+     *     @param {WebsiteCreateManyArgs} args - Arguments to create many Websites.
+     *     @example
+     *     // Create many Websites
+     *     const website = await prisma.website.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends WebsiteCreateManyArgs>(
+      args?: SelectSubset<T, WebsiteCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Website.
+     * @param {WebsiteDeleteArgs} args - Arguments to delete one Website.
+     * @example
+     * // Delete one Website
+     * const Website = await prisma.website.delete({
+     *   where: {
+     *     // ... filter to delete one Website
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends WebsiteDeleteArgs>(
+      args: SelectSubset<T, WebsiteDeleteArgs>
+    ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
+
+    /**
+     * Update one Website.
+     * @param {WebsiteUpdateArgs} args - Arguments to update one Website.
+     * @example
+     * // Update one Website
+     * const website = await prisma.website.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends WebsiteUpdateArgs>(
+      args: SelectSubset<T, WebsiteUpdateArgs>
+    ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
+
+    /**
+     * Delete zero or more Websites.
+     * @param {WebsiteDeleteManyArgs} args - Arguments to filter Websites to delete.
+     * @example
+     * // Delete a few Websites
+     * const { count } = await prisma.website.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends WebsiteDeleteManyArgs>(
+      args?: SelectSubset<T, WebsiteDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Websites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Websites
+     * const website = await prisma.website.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends WebsiteUpdateManyArgs>(
+      args: SelectSubset<T, WebsiteUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Website.
+     * @param {WebsiteUpsertArgs} args - Arguments to update or create a Website.
+     * @example
+     * // Update or create a Website
+     * const website = await prisma.website.upsert({
+     *   create: {
+     *     // ... data to create a Website
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Website we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends WebsiteUpsertArgs>(
+      args: SelectSubset<T, WebsiteUpsertArgs>
+    ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
+
+    /**
+     * Count the number of Websites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteCountArgs} args - Arguments to filter Websites to count.
+     * @example
+     * // Count the number of Websites
+     * const count = await prisma.website.count({
+     *   where: {
+     *     // ... the filter for the Websites we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebsiteCountArgs>(
+      args?: Subset<T, WebsiteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebsiteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Website.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebsiteAggregateArgs>(args: Subset<T, WebsiteAggregateArgs>): Prisma.PrismaPromise<GetWebsiteAggregateType<T>>
+
+    /**
+     * Group by Website.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebsiteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebsiteGroupByArgs['orderBy'] }
+        : { orderBy?: WebsiteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebsiteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebsiteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Website.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__WebsiteClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    webpages<T extends Website$webpagesArgs= {}>(args?: Subset<T, Website$webpagesArgs>): Prisma.PrismaPromise<Array<WebpageGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Website base type for findUnique actions
+   */
+  export type WebsiteFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * Filter, which Website to fetch.
+     */
+    where: WebsiteWhereUniqueInput
+  }
+
+  /**
+   * Website findUnique
+   */
+  export interface WebsiteFindUniqueArgs extends WebsiteFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Website findUniqueOrThrow
+   */
+  export type WebsiteFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * Filter, which Website to fetch.
+     */
+    where: WebsiteWhereUniqueInput
+  }
+
+
+  /**
+   * Website base type for findFirst actions
+   */
+  export type WebsiteFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * Filter, which Website to fetch.
+     */
+    where?: WebsiteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Websites to fetch.
+     */
+    orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Websites.
+     */
+    cursor?: WebsiteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Websites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Websites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Websites.
+     */
+    distinct?: Enumerable<WebsiteScalarFieldEnum>
+  }
+
+  /**
+   * Website findFirst
+   */
+  export interface WebsiteFindFirstArgs extends WebsiteFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Website findFirstOrThrow
+   */
+  export type WebsiteFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * Filter, which Website to fetch.
+     */
+    where?: WebsiteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Websites to fetch.
+     */
+    orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Websites.
+     */
+    cursor?: WebsiteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Websites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Websites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Websites.
+     */
+    distinct?: Enumerable<WebsiteScalarFieldEnum>
+  }
+
+
+  /**
+   * Website findMany
+   */
+  export type WebsiteFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * Filter, which Websites to fetch.
+     */
+    where?: WebsiteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Websites to fetch.
+     */
+    orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Websites.
+     */
+    cursor?: WebsiteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Websites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Websites.
+     */
+    skip?: number
+    distinct?: Enumerable<WebsiteScalarFieldEnum>
+  }
+
+
+  /**
+   * Website create
+   */
+  export type WebsiteCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * The data needed to create a Website.
+     */
+    data: XOR<WebsiteCreateInput, WebsiteUncheckedCreateInput>
+  }
+
+
+  /**
+   * Website createMany
+   */
+  export type WebsiteCreateManyArgs = {
+    /**
+     * The data used to create many Websites.
+     */
+    data: Enumerable<WebsiteCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Website update
+   */
+  export type WebsiteUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * The data needed to update a Website.
+     */
+    data: XOR<WebsiteUpdateInput, WebsiteUncheckedUpdateInput>
+    /**
+     * Choose, which Website to update.
+     */
+    where: WebsiteWhereUniqueInput
+  }
+
+
+  /**
+   * Website updateMany
+   */
+  export type WebsiteUpdateManyArgs = {
+    /**
+     * The data used to update Websites.
+     */
+    data: XOR<WebsiteUpdateManyMutationInput, WebsiteUncheckedUpdateManyInput>
+    /**
+     * Filter which Websites to update
+     */
+    where?: WebsiteWhereInput
+  }
+
+
+  /**
+   * Website upsert
+   */
+  export type WebsiteUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * The filter to search for the Website to update in case it exists.
+     */
+    where: WebsiteWhereUniqueInput
+    /**
+     * In case the Website found by the `where` argument doesn't exist, create a new Website with this data.
+     */
+    create: XOR<WebsiteCreateInput, WebsiteUncheckedCreateInput>
+    /**
+     * In case the Website was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebsiteUpdateInput, WebsiteUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Website delete
+   */
+  export type WebsiteDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    /**
+     * Filter which Website to delete.
+     */
+    where: WebsiteWhereUniqueInput
+  }
+
+
+  /**
+   * Website deleteMany
+   */
+  export type WebsiteDeleteManyArgs = {
+    /**
+     * Filter which Websites to delete
+     */
+    where?: WebsiteWhereInput
+  }
+
+
+  /**
+   * Website.webpages
+   */
+  export type Website$webpagesArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    where?: WebpageWhereInput
+    orderBy?: Enumerable<WebpageOrderByWithRelationInput>
+    cursor?: WebpageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<WebpageScalarFieldEnum>
+  }
+
+
+  /**
+   * Website without action
+   */
+  export type WebsiteArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+  }
+
+
+
+  /**
+   * Model Webpage
+   */
+
+
+  export type AggregateWebpage = {
+    _count: WebpageCountAggregateOutputType | null
+    _min: WebpageMinAggregateOutputType | null
+    _max: WebpageMaxAggregateOutputType | null
+  }
+
+  export type WebpageMinAggregateOutputType = {
+    id: string | null
+    websiteId: string | null
+    url: string | null
+    status: boolean | null
+    lastModifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebpageMaxAggregateOutputType = {
+    id: string | null
+    websiteId: string | null
+    url: string | null
+    status: boolean | null
+    lastModifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebpageCountAggregateOutputType = {
+    id: number
+    websiteId: number
+    url: number
+    status: number
+    lastModifiedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WebpageMinAggregateInputType = {
+    id?: true
+    websiteId?: true
+    url?: true
+    status?: true
+    lastModifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebpageMaxAggregateInputType = {
+    id?: true
+    websiteId?: true
+    url?: true
+    status?: true
+    lastModifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebpageCountAggregateInputType = {
+    id?: true
+    websiteId?: true
+    url?: true
+    status?: true
+    lastModifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WebpageAggregateArgs = {
+    /**
+     * Filter which Webpage to aggregate.
+     */
+    where?: WebpageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webpages to fetch.
+     */
+    orderBy?: Enumerable<WebpageOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebpageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webpages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webpages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Webpages
+    **/
+    _count?: true | WebpageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebpageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebpageMaxAggregateInputType
+  }
+
+  export type GetWebpageAggregateType<T extends WebpageAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebpage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebpage[P]>
+      : GetScalarType<T[P], AggregateWebpage[P]>
+  }
+
+
+
+
+  export type WebpageGroupByArgs = {
+    where?: WebpageWhereInput
+    orderBy?: Enumerable<WebpageOrderByWithAggregationInput>
+    by: WebpageScalarFieldEnum[]
+    having?: WebpageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebpageCountAggregateInputType | true
+    _min?: WebpageMinAggregateInputType
+    _max?: WebpageMaxAggregateInputType
+  }
+
+
+  export type WebpageGroupByOutputType = {
+    id: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: WebpageCountAggregateOutputType | null
+    _min: WebpageMinAggregateOutputType | null
+    _max: WebpageMaxAggregateOutputType | null
+  }
+
+  type GetWebpageGroupByPayload<T extends WebpageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<WebpageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebpageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebpageGroupByOutputType[P]>
+            : GetScalarType<T[P], WebpageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebpageSelect = {
+    id?: boolean
+    websiteId?: boolean
+    url?: boolean
+    status?: boolean
+    lastModifiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    website?: boolean | WebsiteArgs
+    scoredCampaigns?: boolean | Webpage$scoredCampaignsArgs
+    advertisementSpots?: boolean | Webpage$advertisementSpotsArgs
+    categories?: boolean | Webpage$categoriesArgs
+    auctions?: boolean | Webpage$auctionsArgs
+    content?: boolean | Webpage$contentArgs
+    _count?: boolean | WebpageCountOutputTypeArgs
+  }
+
+
+  export type WebpageInclude = {
+    website?: boolean | WebsiteArgs
+    scoredCampaigns?: boolean | Webpage$scoredCampaignsArgs
+    advertisementSpots?: boolean | Webpage$advertisementSpotsArgs
+    categories?: boolean | Webpage$categoriesArgs
+    auctions?: boolean | Webpage$auctionsArgs
+    content?: boolean | Webpage$contentArgs
+    _count?: boolean | WebpageCountOutputTypeArgs
+  }
+
+  export type WebpageGetPayload<S extends boolean | null | undefined | WebpageArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Webpage :
+    S extends undefined ? never :
+    S extends { include: any } & (WebpageArgs | WebpageFindManyArgs)
+    ? Webpage  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'website' ? WebsiteGetPayload<S['include'][P]> :
+        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
+        P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['include'][P]>>  :
+        P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+        P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
+        P extends 'content' ? ContentGetPayload<S['include'][P]> | null :
+        P extends '_count' ? WebpageCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (WebpageArgs | WebpageFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'website' ? WebsiteGetPayload<S['select'][P]> :
+        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
+        P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['select'][P]>>  :
+        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+        P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
+        P extends 'content' ? ContentGetPayload<S['select'][P]> | null :
+        P extends '_count' ? WebpageCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Webpage ? Webpage[P] : never
+  } 
+      : Webpage
+
+
+  type WebpageCountArgs = 
+    Omit<WebpageFindManyArgs, 'select' | 'include'> & {
+      select?: WebpageCountAggregateInputType | true
+    }
+
+  export interface WebpageDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Webpage that matches the filter.
+     * @param {WebpageFindUniqueArgs} args - Arguments to find a Webpage
+     * @example
+     * // Get one Webpage
+     * const webpage = await prisma.webpage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends WebpageFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, WebpageFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Webpage'> extends True ? Prisma__WebpageClient<WebpageGetPayload<T>> : Prisma__WebpageClient<WebpageGetPayload<T> | null, null>
+
+    /**
+     * Find one Webpage that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {WebpageFindUniqueOrThrowArgs} args - Arguments to find a Webpage
+     * @example
+     * // Get one Webpage
+     * const webpage = await prisma.webpage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends WebpageFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, WebpageFindUniqueOrThrowArgs>
+    ): Prisma__WebpageClient<WebpageGetPayload<T>>
+
+    /**
+     * Find the first Webpage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageFindFirstArgs} args - Arguments to find a Webpage
+     * @example
+     * // Get one Webpage
+     * const webpage = await prisma.webpage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends WebpageFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, WebpageFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Webpage'> extends True ? Prisma__WebpageClient<WebpageGetPayload<T>> : Prisma__WebpageClient<WebpageGetPayload<T> | null, null>
+
+    /**
+     * Find the first Webpage that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageFindFirstOrThrowArgs} args - Arguments to find a Webpage
+     * @example
+     * // Get one Webpage
+     * const webpage = await prisma.webpage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends WebpageFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, WebpageFindFirstOrThrowArgs>
+    ): Prisma__WebpageClient<WebpageGetPayload<T>>
+
+    /**
+     * Find zero or more Webpages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Webpages
+     * const webpages = await prisma.webpage.findMany()
+     * 
+     * // Get first 10 Webpages
+     * const webpages = await prisma.webpage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webpageWithIdOnly = await prisma.webpage.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends WebpageFindManyArgs>(
+      args?: SelectSubset<T, WebpageFindManyArgs>
+    ): Prisma.PrismaPromise<Array<WebpageGetPayload<T>>>
+
+    /**
+     * Create a Webpage.
+     * @param {WebpageCreateArgs} args - Arguments to create a Webpage.
+     * @example
+     * // Create one Webpage
+     * const Webpage = await prisma.webpage.create({
+     *   data: {
+     *     // ... data to create a Webpage
+     *   }
+     * })
+     * 
+    **/
+    create<T extends WebpageCreateArgs>(
+      args: SelectSubset<T, WebpageCreateArgs>
+    ): Prisma__WebpageClient<WebpageGetPayload<T>>
+
+    /**
+     * Create many Webpages.
+     *     @param {WebpageCreateManyArgs} args - Arguments to create many Webpages.
+     *     @example
+     *     // Create many Webpages
+     *     const webpage = await prisma.webpage.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends WebpageCreateManyArgs>(
+      args?: SelectSubset<T, WebpageCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Webpage.
+     * @param {WebpageDeleteArgs} args - Arguments to delete one Webpage.
+     * @example
+     * // Delete one Webpage
+     * const Webpage = await prisma.webpage.delete({
+     *   where: {
+     *     // ... filter to delete one Webpage
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends WebpageDeleteArgs>(
+      args: SelectSubset<T, WebpageDeleteArgs>
+    ): Prisma__WebpageClient<WebpageGetPayload<T>>
+
+    /**
+     * Update one Webpage.
+     * @param {WebpageUpdateArgs} args - Arguments to update one Webpage.
+     * @example
+     * // Update one Webpage
+     * const webpage = await prisma.webpage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends WebpageUpdateArgs>(
+      args: SelectSubset<T, WebpageUpdateArgs>
+    ): Prisma__WebpageClient<WebpageGetPayload<T>>
+
+    /**
+     * Delete zero or more Webpages.
+     * @param {WebpageDeleteManyArgs} args - Arguments to filter Webpages to delete.
+     * @example
+     * // Delete a few Webpages
+     * const { count } = await prisma.webpage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends WebpageDeleteManyArgs>(
+      args?: SelectSubset<T, WebpageDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Webpages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Webpages
+     * const webpage = await prisma.webpage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends WebpageUpdateManyArgs>(
+      args: SelectSubset<T, WebpageUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Webpage.
+     * @param {WebpageUpsertArgs} args - Arguments to update or create a Webpage.
+     * @example
+     * // Update or create a Webpage
+     * const webpage = await prisma.webpage.upsert({
+     *   create: {
+     *     // ... data to create a Webpage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Webpage we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends WebpageUpsertArgs>(
+      args: SelectSubset<T, WebpageUpsertArgs>
+    ): Prisma__WebpageClient<WebpageGetPayload<T>>
+
+    /**
+     * Count the number of Webpages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageCountArgs} args - Arguments to filter Webpages to count.
+     * @example
+     * // Count the number of Webpages
+     * const count = await prisma.webpage.count({
+     *   where: {
+     *     // ... the filter for the Webpages we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebpageCountArgs>(
+      args?: Subset<T, WebpageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebpageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Webpage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebpageAggregateArgs>(args: Subset<T, WebpageAggregateArgs>): Prisma.PrismaPromise<GetWebpageAggregateType<T>>
+
+    /**
+     * Group by Webpage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebpageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebpageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebpageGroupByArgs['orderBy'] }
+        : { orderBy?: WebpageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebpageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebpageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Webpage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__WebpageClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    website<T extends WebsiteArgs= {}>(args?: Subset<T, WebsiteArgs>): Prisma__WebsiteClient<WebsiteGetPayload<T> | Null>;
+
+    scoredCampaigns<T extends Webpage$scoredCampaignsArgs= {}>(args?: Subset<T, Webpage$scoredCampaignsArgs>): Prisma.PrismaPromise<Array<ScoredCampaignGetPayload<T>>| Null>;
+
+    advertisementSpots<T extends Webpage$advertisementSpotsArgs= {}>(args?: Subset<T, Webpage$advertisementSpotsArgs>): Prisma.PrismaPromise<Array<AdvertisementSpotGetPayload<T>>| Null>;
+
+    categories<T extends Webpage$categoriesArgs= {}>(args?: Subset<T, Webpage$categoriesArgs>): Prisma.PrismaPromise<Array<CategoryGetPayload<T>>| Null>;
+
+    auctions<T extends Webpage$auctionsArgs= {}>(args?: Subset<T, Webpage$auctionsArgs>): Prisma.PrismaPromise<Array<AuctionGetPayload<T>>| Null>;
+
+    content<T extends Webpage$contentArgs= {}>(args?: Subset<T, Webpage$contentArgs>): Prisma__ContentClient<ContentGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Webpage base type for findUnique actions
+   */
+  export type WebpageFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * Filter, which Webpage to fetch.
+     */
+    where: WebpageWhereUniqueInput
+  }
+
+  /**
+   * Webpage findUnique
+   */
+  export interface WebpageFindUniqueArgs extends WebpageFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Webpage findUniqueOrThrow
+   */
+  export type WebpageFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * Filter, which Webpage to fetch.
+     */
+    where: WebpageWhereUniqueInput
+  }
+
+
+  /**
+   * Webpage base type for findFirst actions
+   */
+  export type WebpageFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * Filter, which Webpage to fetch.
+     */
+    where?: WebpageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webpages to fetch.
+     */
+    orderBy?: Enumerable<WebpageOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Webpages.
+     */
+    cursor?: WebpageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webpages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webpages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Webpages.
+     */
+    distinct?: Enumerable<WebpageScalarFieldEnum>
+  }
+
+  /**
+   * Webpage findFirst
+   */
+  export interface WebpageFindFirstArgs extends WebpageFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Webpage findFirstOrThrow
+   */
+  export type WebpageFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * Filter, which Webpage to fetch.
+     */
+    where?: WebpageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webpages to fetch.
+     */
+    orderBy?: Enumerable<WebpageOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Webpages.
+     */
+    cursor?: WebpageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webpages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webpages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Webpages.
+     */
+    distinct?: Enumerable<WebpageScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage findMany
+   */
+  export type WebpageFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * Filter, which Webpages to fetch.
+     */
+    where?: WebpageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webpages to fetch.
+     */
+    orderBy?: Enumerable<WebpageOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Webpages.
+     */
+    cursor?: WebpageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webpages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webpages.
+     */
+    skip?: number
+    distinct?: Enumerable<WebpageScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage create
+   */
+  export type WebpageCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * The data needed to create a Webpage.
+     */
+    data: XOR<WebpageCreateInput, WebpageUncheckedCreateInput>
+  }
+
+
+  /**
+   * Webpage createMany
+   */
+  export type WebpageCreateManyArgs = {
+    /**
+     * The data used to create many Webpages.
+     */
+    data: Enumerable<WebpageCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Webpage update
+   */
+  export type WebpageUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * The data needed to update a Webpage.
+     */
+    data: XOR<WebpageUpdateInput, WebpageUncheckedUpdateInput>
+    /**
+     * Choose, which Webpage to update.
+     */
+    where: WebpageWhereUniqueInput
+  }
+
+
+  /**
+   * Webpage updateMany
+   */
+  export type WebpageUpdateManyArgs = {
+    /**
+     * The data used to update Webpages.
+     */
+    data: XOR<WebpageUpdateManyMutationInput, WebpageUncheckedUpdateManyInput>
+    /**
+     * Filter which Webpages to update
+     */
+    where?: WebpageWhereInput
+  }
+
+
+  /**
+   * Webpage upsert
+   */
+  export type WebpageUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * The filter to search for the Webpage to update in case it exists.
+     */
+    where: WebpageWhereUniqueInput
+    /**
+     * In case the Webpage found by the `where` argument doesn't exist, create a new Webpage with this data.
+     */
+    create: XOR<WebpageCreateInput, WebpageUncheckedCreateInput>
+    /**
+     * In case the Webpage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebpageUpdateInput, WebpageUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Webpage delete
+   */
+  export type WebpageDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    /**
+     * Filter which Webpage to delete.
+     */
+    where: WebpageWhereUniqueInput
+  }
+
+
+  /**
+   * Webpage deleteMany
+   */
+  export type WebpageDeleteManyArgs = {
+    /**
+     * Filter which Webpages to delete
+     */
+    where?: WebpageWhereInput
+  }
+
+
+  /**
+   * Webpage.scoredCampaigns
+   */
+  export type Webpage$scoredCampaignsArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    where?: ScoredCampaignWhereInput
+    orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
+    cursor?: ScoredCampaignWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage.advertisementSpots
+   */
+  export type Webpage$advertisementSpotsArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    where?: AdvertisementSpotWhereInput
+    orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
+    cursor?: AdvertisementSpotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage.categories
+   */
+  export type Webpage$categoriesArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    where?: CategoryWhereInput
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    cursor?: CategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CategoryScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage.auctions
+   */
+  export type Webpage$auctionsArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    where?: AuctionWhereInput
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    cursor?: AuctionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AuctionScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage.content
+   */
+  export type Webpage$contentArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    where?: ContentWhereInput
+  }
+
+
+  /**
+   * Webpage without action
+   */
+  export type WebpageArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+  }
+
+
+
+  /**
+   * Model Content
+   */
+
+
+  export type AggregateContent = {
+    _count: ContentCountAggregateOutputType | null
+    _min: ContentMinAggregateOutputType | null
+    _max: ContentMaxAggregateOutputType | null
+  }
+
+  export type ContentMinAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    desktopHtml: string | null
+    mobileHtml: string | null
+    tabletHtml: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ContentMaxAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    desktopHtml: string | null
+    mobileHtml: string | null
+    tabletHtml: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ContentCountAggregateOutputType = {
+    id: number
+    webpageId: number
+    desktopHtml: number
+    mobileHtml: number
+    tabletHtml: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ContentMinAggregateInputType = {
+    id?: true
+    webpageId?: true
+    desktopHtml?: true
+    mobileHtml?: true
+    tabletHtml?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ContentMaxAggregateInputType = {
+    id?: true
+    webpageId?: true
+    desktopHtml?: true
+    mobileHtml?: true
+    tabletHtml?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ContentCountAggregateInputType = {
+    id?: true
+    webpageId?: true
+    desktopHtml?: true
+    mobileHtml?: true
+    tabletHtml?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ContentAggregateArgs = {
+    /**
+     * Filter which Content to aggregate.
+     */
+    where?: ContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: Enumerable<ContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Contents
+    **/
+    _count?: true | ContentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContentMaxAggregateInputType
+  }
+
+  export type GetContentAggregateType<T extends ContentAggregateArgs> = {
+        [P in keyof T & keyof AggregateContent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContent[P]>
+      : GetScalarType<T[P], AggregateContent[P]>
+  }
+
+
+
+
+  export type ContentGroupByArgs = {
+    where?: ContentWhereInput
+    orderBy?: Enumerable<ContentOrderByWithAggregationInput>
+    by: ContentScalarFieldEnum[]
+    having?: ContentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContentCountAggregateInputType | true
+    _min?: ContentMinAggregateInputType
+    _max?: ContentMaxAggregateInputType
+  }
+
+
+  export type ContentGroupByOutputType = {
+    id: string
+    webpageId: string
+    desktopHtml: string
+    mobileHtml: string | null
+    tabletHtml: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ContentCountAggregateOutputType | null
+    _min: ContentMinAggregateOutputType | null
+    _max: ContentMaxAggregateOutputType | null
+  }
+
+  type GetContentGroupByPayload<T extends ContentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ContentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContentGroupByOutputType[P]>
+            : GetScalarType<T[P], ContentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContentSelect = {
+    id?: boolean
+    webpageId?: boolean
+    desktopHtml?: boolean
+    mobileHtml?: boolean
+    tabletHtml?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    webpage?: boolean | WebpageArgs
+  }
+
+
+  export type ContentInclude = {
+    webpage?: boolean | WebpageArgs
+  }
+
+  export type ContentGetPayload<S extends boolean | null | undefined | ContentArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Content :
+    S extends undefined ? never :
+    S extends { include: any } & (ContentArgs | ContentFindManyArgs)
+    ? Content  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ContentArgs | ContentFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :  P extends keyof Content ? Content[P] : never
+  } 
+      : Content
+
+
+  type ContentCountArgs = 
+    Omit<ContentFindManyArgs, 'select' | 'include'> & {
+      select?: ContentCountAggregateInputType | true
+    }
+
+  export interface ContentDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Content that matches the filter.
+     * @param {ContentFindUniqueArgs} args - Arguments to find a Content
+     * @example
+     * // Get one Content
+     * const content = await prisma.content.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ContentFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ContentFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Content'> extends True ? Prisma__ContentClient<ContentGetPayload<T>> : Prisma__ContentClient<ContentGetPayload<T> | null, null>
+
+    /**
+     * Find one Content that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ContentFindUniqueOrThrowArgs} args - Arguments to find a Content
+     * @example
+     * // Get one Content
+     * const content = await prisma.content.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ContentFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ContentFindUniqueOrThrowArgs>
+    ): Prisma__ContentClient<ContentGetPayload<T>>
+
+    /**
+     * Find the first Content that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentFindFirstArgs} args - Arguments to find a Content
+     * @example
+     * // Get one Content
+     * const content = await prisma.content.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ContentFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ContentFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Content'> extends True ? Prisma__ContentClient<ContentGetPayload<T>> : Prisma__ContentClient<ContentGetPayload<T> | null, null>
+
+    /**
+     * Find the first Content that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentFindFirstOrThrowArgs} args - Arguments to find a Content
+     * @example
+     * // Get one Content
+     * const content = await prisma.content.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ContentFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ContentFindFirstOrThrowArgs>
+    ): Prisma__ContentClient<ContentGetPayload<T>>
+
+    /**
+     * Find zero or more Contents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Contents
+     * const contents = await prisma.content.findMany()
+     * 
+     * // Get first 10 Contents
+     * const contents = await prisma.content.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const contentWithIdOnly = await prisma.content.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ContentFindManyArgs>(
+      args?: SelectSubset<T, ContentFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ContentGetPayload<T>>>
+
+    /**
+     * Create a Content.
+     * @param {ContentCreateArgs} args - Arguments to create a Content.
+     * @example
+     * // Create one Content
+     * const Content = await prisma.content.create({
+     *   data: {
+     *     // ... data to create a Content
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ContentCreateArgs>(
+      args: SelectSubset<T, ContentCreateArgs>
+    ): Prisma__ContentClient<ContentGetPayload<T>>
+
+    /**
+     * Create many Contents.
+     *     @param {ContentCreateManyArgs} args - Arguments to create many Contents.
+     *     @example
+     *     // Create many Contents
+     *     const content = await prisma.content.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ContentCreateManyArgs>(
+      args?: SelectSubset<T, ContentCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Content.
+     * @param {ContentDeleteArgs} args - Arguments to delete one Content.
+     * @example
+     * // Delete one Content
+     * const Content = await prisma.content.delete({
+     *   where: {
+     *     // ... filter to delete one Content
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ContentDeleteArgs>(
+      args: SelectSubset<T, ContentDeleteArgs>
+    ): Prisma__ContentClient<ContentGetPayload<T>>
+
+    /**
+     * Update one Content.
+     * @param {ContentUpdateArgs} args - Arguments to update one Content.
+     * @example
+     * // Update one Content
+     * const content = await prisma.content.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ContentUpdateArgs>(
+      args: SelectSubset<T, ContentUpdateArgs>
+    ): Prisma__ContentClient<ContentGetPayload<T>>
+
+    /**
+     * Delete zero or more Contents.
+     * @param {ContentDeleteManyArgs} args - Arguments to filter Contents to delete.
+     * @example
+     * // Delete a few Contents
+     * const { count } = await prisma.content.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ContentDeleteManyArgs>(
+      args?: SelectSubset<T, ContentDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Contents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Contents
+     * const content = await prisma.content.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ContentUpdateManyArgs>(
+      args: SelectSubset<T, ContentUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Content.
+     * @param {ContentUpsertArgs} args - Arguments to update or create a Content.
+     * @example
+     * // Update or create a Content
+     * const content = await prisma.content.upsert({
+     *   create: {
+     *     // ... data to create a Content
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Content we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ContentUpsertArgs>(
+      args: SelectSubset<T, ContentUpsertArgs>
+    ): Prisma__ContentClient<ContentGetPayload<T>>
+
+    /**
+     * Count the number of Contents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentCountArgs} args - Arguments to filter Contents to count.
+     * @example
+     * // Count the number of Contents
+     * const count = await prisma.content.count({
+     *   where: {
+     *     // ... the filter for the Contents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContentCountArgs>(
+      args?: Subset<T, ContentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Content.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContentAggregateArgs>(args: Subset<T, ContentAggregateArgs>): Prisma.PrismaPromise<GetContentAggregateType<T>>
+
+    /**
+     * Group by Content.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContentGroupByArgs['orderBy'] }
+        : { orderBy?: ContentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Content.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ContentClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    webpage<T extends WebpageArgs= {}>(args?: Subset<T, WebpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Content base type for findUnique actions
+   */
+  export type ContentFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * Filter, which Content to fetch.
+     */
+    where: ContentWhereUniqueInput
+  }
+
+  /**
+   * Content findUnique
+   */
+  export interface ContentFindUniqueArgs extends ContentFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Content findUniqueOrThrow
+   */
+  export type ContentFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * Filter, which Content to fetch.
+     */
+    where: ContentWhereUniqueInput
+  }
+
+
+  /**
+   * Content base type for findFirst actions
+   */
+  export type ContentFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * Filter, which Content to fetch.
+     */
+    where?: ContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: Enumerable<ContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contents.
+     */
+    cursor?: ContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contents.
+     */
+    distinct?: Enumerable<ContentScalarFieldEnum>
+  }
+
+  /**
+   * Content findFirst
+   */
+  export interface ContentFindFirstArgs extends ContentFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Content findFirstOrThrow
+   */
+  export type ContentFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * Filter, which Content to fetch.
+     */
+    where?: ContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: Enumerable<ContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Contents.
+     */
+    cursor?: ContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Contents.
+     */
+    distinct?: Enumerable<ContentScalarFieldEnum>
+  }
+
+
+  /**
+   * Content findMany
+   */
+  export type ContentFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * Filter, which Contents to fetch.
+     */
+    where?: ContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Contents to fetch.
+     */
+    orderBy?: Enumerable<ContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Contents.
+     */
+    cursor?: ContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Contents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Contents.
+     */
+    skip?: number
+    distinct?: Enumerable<ContentScalarFieldEnum>
+  }
+
+
+  /**
+   * Content create
+   */
+  export type ContentCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * The data needed to create a Content.
+     */
+    data: XOR<ContentCreateInput, ContentUncheckedCreateInput>
+  }
+
+
+  /**
+   * Content createMany
+   */
+  export type ContentCreateManyArgs = {
+    /**
+     * The data used to create many Contents.
+     */
+    data: Enumerable<ContentCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Content update
+   */
+  export type ContentUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * The data needed to update a Content.
+     */
+    data: XOR<ContentUpdateInput, ContentUncheckedUpdateInput>
+    /**
+     * Choose, which Content to update.
+     */
+    where: ContentWhereUniqueInput
+  }
+
+
+  /**
+   * Content updateMany
+   */
+  export type ContentUpdateManyArgs = {
+    /**
+     * The data used to update Contents.
+     */
+    data: XOR<ContentUpdateManyMutationInput, ContentUncheckedUpdateManyInput>
+    /**
+     * Filter which Contents to update
+     */
+    where?: ContentWhereInput
+  }
+
+
+  /**
+   * Content upsert
+   */
+  export type ContentUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * The filter to search for the Content to update in case it exists.
+     */
+    where: ContentWhereUniqueInput
+    /**
+     * In case the Content found by the `where` argument doesn't exist, create a new Content with this data.
+     */
+    create: XOR<ContentCreateInput, ContentUncheckedCreateInput>
+    /**
+     * In case the Content was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContentUpdateInput, ContentUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Content delete
+   */
+  export type ContentDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+    /**
+     * Filter which Content to delete.
+     */
+    where: ContentWhereUniqueInput
+  }
+
+
+  /**
+   * Content deleteMany
+   */
+  export type ContentDeleteManyArgs = {
+    /**
+     * Filter which Contents to delete
+     */
+    where?: ContentWhereInput
+  }
+
+
+  /**
+   * Content without action
+   */
+  export type ContentArgs = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ContentInclude | null
+  }
+
+
+
+  /**
+   * Model Category
+   */
+
+
+  export type AggregateCategory = {
+    _count: CategoryCountAggregateOutputType | null
+    _min: CategoryMinAggregateOutputType | null
+    _max: CategoryMaxAggregateOutputType | null
+  }
+
+  export type CategoryMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CategoryMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CategoryCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CategoryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CategoryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CategoryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CategoryAggregateArgs = {
+    /**
+     * Filter which Category to aggregate.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Categories
+    **/
+    _count?: true | CategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CategoryMaxAggregateInputType
+  }
+
+  export type GetCategoryAggregateType<T extends CategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCategory[P]>
+      : GetScalarType<T[P], AggregateCategory[P]>
+  }
+
+
+
+
+  export type CategoryGroupByArgs = {
+    where?: CategoryWhereInput
+    orderBy?: Enumerable<CategoryOrderByWithAggregationInput>
+    by: CategoryScalarFieldEnum[]
+    having?: CategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CategoryCountAggregateInputType | true
+    _min?: CategoryMinAggregateInputType
+    _max?: CategoryMaxAggregateInputType
+  }
+
+
+  export type CategoryGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CategoryCountAggregateOutputType | null
+    _min: CategoryMinAggregateOutputType | null
+    _max: CategoryMaxAggregateOutputType | null
+  }
+
+  type GetCategoryGroupByPayload<T extends CategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<CategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CategorySelect = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserArgs
+    webpages?: boolean | Category$webpagesArgs
+    campaigns?: boolean | Category$campaignsArgs
+    _count?: boolean | CategoryCountOutputTypeArgs
+  }
+
+
+  export type CategoryInclude = {
+    user?: boolean | UserArgs
+    webpages?: boolean | Category$webpagesArgs
+    campaigns?: boolean | Category$campaignsArgs
+    _count?: boolean | CategoryCountOutputTypeArgs
+  }
+
+  export type CategoryGetPayload<S extends boolean | null | undefined | CategoryArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Category :
+    S extends undefined ? never :
+    S extends { include: any } & (CategoryArgs | CategoryFindManyArgs)
+    ? Category  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :
+        P extends 'webpages' ? Array < WebpageGetPayload<S['include'][P]>>  :
+        P extends 'campaigns' ? Array < CampaignGetPayload<S['include'][P]>>  :
+        P extends '_count' ? CategoryCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (CategoryArgs | CategoryFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :
+        P extends 'webpages' ? Array < WebpageGetPayload<S['select'][P]>>  :
+        P extends 'campaigns' ? Array < CampaignGetPayload<S['select'][P]>>  :
+        P extends '_count' ? CategoryCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Category ? Category[P] : never
+  } 
+      : Category
+
+
+  type CategoryCountArgs = 
+    Omit<CategoryFindManyArgs, 'select' | 'include'> & {
+      select?: CategoryCountAggregateInputType | true
+    }
+
+  export interface CategoryDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Category that matches the filter.
+     * @param {CategoryFindUniqueArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CategoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CategoryFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Category'> extends True ? Prisma__CategoryClient<CategoryGetPayload<T>> : Prisma__CategoryClient<CategoryGetPayload<T> | null, null>
+
+    /**
+     * Find one Category that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CategoryFindUniqueOrThrowArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CategoryFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CategoryFindUniqueOrThrowArgs>
+    ): Prisma__CategoryClient<CategoryGetPayload<T>>
+
+    /**
+     * Find the first Category that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindFirstArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CategoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CategoryFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Category'> extends True ? Prisma__CategoryClient<CategoryGetPayload<T>> : Prisma__CategoryClient<CategoryGetPayload<T> | null, null>
+
+    /**
+     * Find the first Category that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindFirstOrThrowArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CategoryFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CategoryFindFirstOrThrowArgs>
+    ): Prisma__CategoryClient<CategoryGetPayload<T>>
+
+    /**
+     * Find zero or more Categories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Categories
+     * const categories = await prisma.category.findMany()
+     * 
+     * // Get first 10 Categories
+     * const categories = await prisma.category.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const categoryWithIdOnly = await prisma.category.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CategoryFindManyArgs>(
+      args?: SelectSubset<T, CategoryFindManyArgs>
+    ): Prisma.PrismaPromise<Array<CategoryGetPayload<T>>>
+
+    /**
+     * Create a Category.
+     * @param {CategoryCreateArgs} args - Arguments to create a Category.
+     * @example
+     * // Create one Category
+     * const Category = await prisma.category.create({
+     *   data: {
+     *     // ... data to create a Category
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CategoryCreateArgs>(
+      args: SelectSubset<T, CategoryCreateArgs>
+    ): Prisma__CategoryClient<CategoryGetPayload<T>>
+
+    /**
+     * Create many Categories.
+     *     @param {CategoryCreateManyArgs} args - Arguments to create many Categories.
+     *     @example
+     *     // Create many Categories
+     *     const category = await prisma.category.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CategoryCreateManyArgs>(
+      args?: SelectSubset<T, CategoryCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Category.
+     * @param {CategoryDeleteArgs} args - Arguments to delete one Category.
+     * @example
+     * // Delete one Category
+     * const Category = await prisma.category.delete({
+     *   where: {
+     *     // ... filter to delete one Category
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CategoryDeleteArgs>(
+      args: SelectSubset<T, CategoryDeleteArgs>
+    ): Prisma__CategoryClient<CategoryGetPayload<T>>
+
+    /**
+     * Update one Category.
+     * @param {CategoryUpdateArgs} args - Arguments to update one Category.
+     * @example
+     * // Update one Category
+     * const category = await prisma.category.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CategoryUpdateArgs>(
+      args: SelectSubset<T, CategoryUpdateArgs>
+    ): Prisma__CategoryClient<CategoryGetPayload<T>>
+
+    /**
+     * Delete zero or more Categories.
+     * @param {CategoryDeleteManyArgs} args - Arguments to filter Categories to delete.
+     * @example
+     * // Delete a few Categories
+     * const { count } = await prisma.category.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CategoryDeleteManyArgs>(
+      args?: SelectSubset<T, CategoryDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Categories
+     * const category = await prisma.category.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CategoryUpdateManyArgs>(
+      args: SelectSubset<T, CategoryUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Category.
+     * @param {CategoryUpsertArgs} args - Arguments to update or create a Category.
+     * @example
+     * // Update or create a Category
+     * const category = await prisma.category.upsert({
+     *   create: {
+     *     // ... data to create a Category
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Category we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CategoryUpsertArgs>(
+      args: SelectSubset<T, CategoryUpsertArgs>
+    ): Prisma__CategoryClient<CategoryGetPayload<T>>
+
+    /**
+     * Count the number of Categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryCountArgs} args - Arguments to filter Categories to count.
+     * @example
+     * // Count the number of Categories
+     * const count = await prisma.category.count({
+     *   where: {
+     *     // ... the filter for the Categories we want to count
+     *   }
+     * })
+    **/
+    count<T extends CategoryCountArgs>(
+      args?: Subset<T, CategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Category.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CategoryAggregateArgs>(args: Subset<T, CategoryAggregateArgs>): Prisma.PrismaPromise<GetCategoryAggregateType<T>>
+
+    /**
+     * Group by Category.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CategoryGroupByArgs['orderBy'] }
+        : { orderBy?: CategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Category.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__CategoryClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    webpages<T extends Category$webpagesArgs= {}>(args?: Subset<T, Category$webpagesArgs>): Prisma.PrismaPromise<Array<WebpageGetPayload<T>>| Null>;
+
+    campaigns<T extends Category$campaignsArgs= {}>(args?: Subset<T, Category$campaignsArgs>): Prisma.PrismaPromise<Array<CampaignGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Category base type for findUnique actions
+   */
+  export type CategoryFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category findUnique
+   */
+  export interface CategoryFindUniqueArgs extends CategoryFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Category findUniqueOrThrow
+   */
+  export type CategoryFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+
+  /**
+   * Category base type for findFirst actions
+   */
+  export type CategoryFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Categories.
+     */
+    distinct?: Enumerable<CategoryScalarFieldEnum>
+  }
+
+  /**
+   * Category findFirst
+   */
+  export interface CategoryFindFirstArgs extends CategoryFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Category findFirstOrThrow
+   */
+  export type CategoryFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Categories.
+     */
+    distinct?: Enumerable<CategoryScalarFieldEnum>
+  }
+
+
+  /**
+   * Category findMany
+   */
+  export type CategoryFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * Filter, which Categories to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    distinct?: Enumerable<CategoryScalarFieldEnum>
+  }
+
+
+  /**
+   * Category create
+   */
+  export type CategoryCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * The data needed to create a Category.
+     */
+    data: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+  }
+
+
+  /**
+   * Category createMany
+   */
+  export type CategoryCreateManyArgs = {
+    /**
+     * The data used to create many Categories.
+     */
+    data: Enumerable<CategoryCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Category update
+   */
+  export type CategoryUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * The data needed to update a Category.
+     */
+    data: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+    /**
+     * Choose, which Category to update.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+
+  /**
+   * Category updateMany
+   */
+  export type CategoryUpdateManyArgs = {
+    /**
+     * The data used to update Categories.
+     */
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Categories to update
+     */
+    where?: CategoryWhereInput
+  }
+
+
+  /**
+   * Category upsert
+   */
+  export type CategoryUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * The filter to search for the Category to update in case it exists.
+     */
+    where: CategoryWhereUniqueInput
+    /**
+     * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+     */
+    create: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+    /**
+     * In case the Category was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Category delete
+   */
+  export type CategoryDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    /**
+     * Filter which Category to delete.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+
+  /**
+   * Category deleteMany
+   */
+  export type CategoryDeleteManyArgs = {
+    /**
+     * Filter which Categories to delete
+     */
+    where?: CategoryWhereInput
+  }
+
+
+  /**
+   * Category.webpages
+   */
+  export type Category$webpagesArgs = {
+    /**
+     * Select specific fields to fetch from the Webpage
+     */
+    select?: WebpageSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebpageInclude | null
+    where?: WebpageWhereInput
+    orderBy?: Enumerable<WebpageOrderByWithRelationInput>
+    cursor?: WebpageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<WebpageScalarFieldEnum>
+  }
+
+
+  /**
+   * Category.campaigns
+   */
+  export type Category$campaignsArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    where?: CampaignWhereInput
+    orderBy?: Enumerable<CampaignOrderByWithRelationInput>
+    cursor?: CampaignWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * Category without action
+   */
+  export type CategoryArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+  }
+
+
+
+  /**
+   * Model AdvertisementSpot
+   */
+
+
+  export type AggregateAdvertisementSpot = {
+    _count: AdvertisementSpotCountAggregateOutputType | null
+    _min: AdvertisementSpotMinAggregateOutputType | null
+    _max: AdvertisementSpotMaxAggregateOutputType | null
+  }
+
+  export type AdvertisementSpotMinAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    beforeText: string | null
+    afterText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AdvertisementSpotMaxAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    beforeText: string | null
+    afterText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AdvertisementSpotCountAggregateOutputType = {
+    id: number
+    webpageId: number
+    beforeText: number
+    afterText: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AdvertisementSpotMinAggregateInputType = {
+    id?: true
+    webpageId?: true
+    beforeText?: true
+    afterText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AdvertisementSpotMaxAggregateInputType = {
+    id?: true
+    webpageId?: true
+    beforeText?: true
+    afterText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AdvertisementSpotCountAggregateInputType = {
+    id?: true
+    webpageId?: true
+    beforeText?: true
+    afterText?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AdvertisementSpotAggregateArgs = {
+    /**
+     * Filter which AdvertisementSpot to aggregate.
+     */
+    where?: AdvertisementSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdvertisementSpots to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdvertisementSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdvertisementSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdvertisementSpots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AdvertisementSpots
+    **/
+    _count?: true | AdvertisementSpotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdvertisementSpotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdvertisementSpotMaxAggregateInputType
+  }
+
+  export type GetAdvertisementSpotAggregateType<T extends AdvertisementSpotAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdvertisementSpot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdvertisementSpot[P]>
+      : GetScalarType<T[P], AggregateAdvertisementSpot[P]>
+  }
+
+
+
+
+  export type AdvertisementSpotGroupByArgs = {
+    where?: AdvertisementSpotWhereInput
+    orderBy?: Enumerable<AdvertisementSpotOrderByWithAggregationInput>
+    by: AdvertisementSpotScalarFieldEnum[]
+    having?: AdvertisementSpotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdvertisementSpotCountAggregateInputType | true
+    _min?: AdvertisementSpotMinAggregateInputType
+    _max?: AdvertisementSpotMaxAggregateInputType
+  }
+
+
+  export type AdvertisementSpotGroupByOutputType = {
+    id: string
+    webpageId: string
+    beforeText: string
+    afterText: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AdvertisementSpotCountAggregateOutputType | null
+    _min: AdvertisementSpotMinAggregateOutputType | null
+    _max: AdvertisementSpotMaxAggregateOutputType | null
+  }
+
+  type GetAdvertisementSpotGroupByPayload<T extends AdvertisementSpotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AdvertisementSpotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdvertisementSpotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdvertisementSpotGroupByOutputType[P]>
+            : GetScalarType<T[P], AdvertisementSpotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdvertisementSpotSelect = {
+    id?: boolean
+    webpageId?: boolean
+    beforeText?: boolean
+    afterText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    webpage?: boolean | WebpageArgs
+    advertisements?: boolean | AdvertisementSpot$advertisementsArgs
+    _count?: boolean | AdvertisementSpotCountOutputTypeArgs
+  }
+
+
+  export type AdvertisementSpotInclude = {
+    webpage?: boolean | WebpageArgs
+    advertisements?: boolean | AdvertisementSpot$advertisementsArgs
+    _count?: boolean | AdvertisementSpotCountOutputTypeArgs
+  }
+
+  export type AdvertisementSpotGetPayload<S extends boolean | null | undefined | AdvertisementSpotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AdvertisementSpot :
+    S extends undefined ? never :
+    S extends { include: any } & (AdvertisementSpotArgs | AdvertisementSpotFindManyArgs)
+    ? AdvertisementSpot  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
+        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['include'][P]>>  :
+        P extends '_count' ? AdvertisementSpotCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AdvertisementSpotArgs | AdvertisementSpotFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
+        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['select'][P]>>  :
+        P extends '_count' ? AdvertisementSpotCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof AdvertisementSpot ? AdvertisementSpot[P] : never
+  } 
+      : AdvertisementSpot
+
+
+  type AdvertisementSpotCountArgs = 
+    Omit<AdvertisementSpotFindManyArgs, 'select' | 'include'> & {
+      select?: AdvertisementSpotCountAggregateInputType | true
+    }
+
+  export interface AdvertisementSpotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one AdvertisementSpot that matches the filter.
+     * @param {AdvertisementSpotFindUniqueArgs} args - Arguments to find a AdvertisementSpot
+     * @example
+     * // Get one AdvertisementSpot
+     * const advertisementSpot = await prisma.advertisementSpot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AdvertisementSpotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AdvertisementSpotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AdvertisementSpot'> extends True ? Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>> : Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T> | null, null>
+
+    /**
+     * Find one AdvertisementSpot that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AdvertisementSpotFindUniqueOrThrowArgs} args - Arguments to find a AdvertisementSpot
+     * @example
+     * // Get one AdvertisementSpot
+     * const advertisementSpot = await prisma.advertisementSpot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AdvertisementSpotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AdvertisementSpotFindUniqueOrThrowArgs>
+    ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
+
+    /**
+     * Find the first AdvertisementSpot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotFindFirstArgs} args - Arguments to find a AdvertisementSpot
+     * @example
+     * // Get one AdvertisementSpot
+     * const advertisementSpot = await prisma.advertisementSpot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AdvertisementSpotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AdvertisementSpotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AdvertisementSpot'> extends True ? Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>> : Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T> | null, null>
+
+    /**
+     * Find the first AdvertisementSpot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotFindFirstOrThrowArgs} args - Arguments to find a AdvertisementSpot
+     * @example
+     * // Get one AdvertisementSpot
+     * const advertisementSpot = await prisma.advertisementSpot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AdvertisementSpotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AdvertisementSpotFindFirstOrThrowArgs>
+    ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
+
+    /**
+     * Find zero or more AdvertisementSpots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AdvertisementSpots
+     * const advertisementSpots = await prisma.advertisementSpot.findMany()
+     * 
+     * // Get first 10 AdvertisementSpots
+     * const advertisementSpots = await prisma.advertisementSpot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const advertisementSpotWithIdOnly = await prisma.advertisementSpot.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends AdvertisementSpotFindManyArgs>(
+      args?: SelectSubset<T, AdvertisementSpotFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AdvertisementSpotGetPayload<T>>>
+
+    /**
+     * Create a AdvertisementSpot.
+     * @param {AdvertisementSpotCreateArgs} args - Arguments to create a AdvertisementSpot.
+     * @example
+     * // Create one AdvertisementSpot
+     * const AdvertisementSpot = await prisma.advertisementSpot.create({
+     *   data: {
+     *     // ... data to create a AdvertisementSpot
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AdvertisementSpotCreateArgs>(
+      args: SelectSubset<T, AdvertisementSpotCreateArgs>
+    ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
+
+    /**
+     * Create many AdvertisementSpots.
+     *     @param {AdvertisementSpotCreateManyArgs} args - Arguments to create many AdvertisementSpots.
+     *     @example
+     *     // Create many AdvertisementSpots
+     *     const advertisementSpot = await prisma.advertisementSpot.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AdvertisementSpotCreateManyArgs>(
+      args?: SelectSubset<T, AdvertisementSpotCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AdvertisementSpot.
+     * @param {AdvertisementSpotDeleteArgs} args - Arguments to delete one AdvertisementSpot.
+     * @example
+     * // Delete one AdvertisementSpot
+     * const AdvertisementSpot = await prisma.advertisementSpot.delete({
+     *   where: {
+     *     // ... filter to delete one AdvertisementSpot
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AdvertisementSpotDeleteArgs>(
+      args: SelectSubset<T, AdvertisementSpotDeleteArgs>
+    ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
+
+    /**
+     * Update one AdvertisementSpot.
+     * @param {AdvertisementSpotUpdateArgs} args - Arguments to update one AdvertisementSpot.
+     * @example
+     * // Update one AdvertisementSpot
+     * const advertisementSpot = await prisma.advertisementSpot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AdvertisementSpotUpdateArgs>(
+      args: SelectSubset<T, AdvertisementSpotUpdateArgs>
+    ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
+
+    /**
+     * Delete zero or more AdvertisementSpots.
+     * @param {AdvertisementSpotDeleteManyArgs} args - Arguments to filter AdvertisementSpots to delete.
+     * @example
+     * // Delete a few AdvertisementSpots
+     * const { count } = await prisma.advertisementSpot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AdvertisementSpotDeleteManyArgs>(
+      args?: SelectSubset<T, AdvertisementSpotDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AdvertisementSpots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AdvertisementSpots
+     * const advertisementSpot = await prisma.advertisementSpot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AdvertisementSpotUpdateManyArgs>(
+      args: SelectSubset<T, AdvertisementSpotUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AdvertisementSpot.
+     * @param {AdvertisementSpotUpsertArgs} args - Arguments to update or create a AdvertisementSpot.
+     * @example
+     * // Update or create a AdvertisementSpot
+     * const advertisementSpot = await prisma.advertisementSpot.upsert({
+     *   create: {
+     *     // ... data to create a AdvertisementSpot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AdvertisementSpot we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AdvertisementSpotUpsertArgs>(
+      args: SelectSubset<T, AdvertisementSpotUpsertArgs>
+    ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
+
+    /**
+     * Count the number of AdvertisementSpots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotCountArgs} args - Arguments to filter AdvertisementSpots to count.
+     * @example
+     * // Count the number of AdvertisementSpots
+     * const count = await prisma.advertisementSpot.count({
+     *   where: {
+     *     // ... the filter for the AdvertisementSpots we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdvertisementSpotCountArgs>(
+      args?: Subset<T, AdvertisementSpotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdvertisementSpotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AdvertisementSpot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdvertisementSpotAggregateArgs>(args: Subset<T, AdvertisementSpotAggregateArgs>): Prisma.PrismaPromise<GetAdvertisementSpotAggregateType<T>>
+
+    /**
+     * Group by AdvertisementSpot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementSpotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdvertisementSpotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdvertisementSpotGroupByArgs['orderBy'] }
+        : { orderBy?: AdvertisementSpotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdvertisementSpotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdvertisementSpotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AdvertisementSpot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AdvertisementSpotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    webpage<T extends WebpageArgs= {}>(args?: Subset<T, WebpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
+
+    advertisements<T extends AdvertisementSpot$advertisementsArgs= {}>(args?: Subset<T, AdvertisementSpot$advertisementsArgs>): Prisma.PrismaPromise<Array<AdvertisementGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AdvertisementSpot base type for findUnique actions
+   */
+  export type AdvertisementSpotFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * Filter, which AdvertisementSpot to fetch.
+     */
+    where: AdvertisementSpotWhereUniqueInput
+  }
+
+  /**
+   * AdvertisementSpot findUnique
+   */
+  export interface AdvertisementSpotFindUniqueArgs extends AdvertisementSpotFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * AdvertisementSpot findUniqueOrThrow
+   */
+  export type AdvertisementSpotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * Filter, which AdvertisementSpot to fetch.
+     */
+    where: AdvertisementSpotWhereUniqueInput
+  }
+
+
+  /**
+   * AdvertisementSpot base type for findFirst actions
+   */
+  export type AdvertisementSpotFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * Filter, which AdvertisementSpot to fetch.
+     */
+    where?: AdvertisementSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdvertisementSpots to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdvertisementSpots.
+     */
+    cursor?: AdvertisementSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdvertisementSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdvertisementSpots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdvertisementSpots.
+     */
+    distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
+  }
+
+  /**
+   * AdvertisementSpot findFirst
+   */
+  export interface AdvertisementSpotFindFirstArgs extends AdvertisementSpotFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * AdvertisementSpot findFirstOrThrow
+   */
+  export type AdvertisementSpotFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * Filter, which AdvertisementSpot to fetch.
+     */
+    where?: AdvertisementSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdvertisementSpots to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdvertisementSpots.
+     */
+    cursor?: AdvertisementSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdvertisementSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdvertisementSpots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdvertisementSpots.
+     */
+    distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
+  }
+
+
+  /**
+   * AdvertisementSpot findMany
+   */
+  export type AdvertisementSpotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * Filter, which AdvertisementSpots to fetch.
+     */
+    where?: AdvertisementSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdvertisementSpots to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AdvertisementSpots.
+     */
+    cursor?: AdvertisementSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdvertisementSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdvertisementSpots.
+     */
+    skip?: number
+    distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
+  }
+
+
+  /**
+   * AdvertisementSpot create
+   */
+  export type AdvertisementSpotCreateArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * The data needed to create a AdvertisementSpot.
+     */
+    data: XOR<AdvertisementSpotCreateInput, AdvertisementSpotUncheckedCreateInput>
+  }
+
+
+  /**
+   * AdvertisementSpot createMany
+   */
+  export type AdvertisementSpotCreateManyArgs = {
+    /**
+     * The data used to create many AdvertisementSpots.
+     */
+    data: Enumerable<AdvertisementSpotCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * AdvertisementSpot update
+   */
+  export type AdvertisementSpotUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * The data needed to update a AdvertisementSpot.
+     */
+    data: XOR<AdvertisementSpotUpdateInput, AdvertisementSpotUncheckedUpdateInput>
+    /**
+     * Choose, which AdvertisementSpot to update.
+     */
+    where: AdvertisementSpotWhereUniqueInput
+  }
+
+
+  /**
+   * AdvertisementSpot updateMany
+   */
+  export type AdvertisementSpotUpdateManyArgs = {
+    /**
+     * The data used to update AdvertisementSpots.
+     */
+    data: XOR<AdvertisementSpotUpdateManyMutationInput, AdvertisementSpotUncheckedUpdateManyInput>
+    /**
+     * Filter which AdvertisementSpots to update
+     */
+    where?: AdvertisementSpotWhereInput
+  }
+
+
+  /**
+   * AdvertisementSpot upsert
+   */
+  export type AdvertisementSpotUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * The filter to search for the AdvertisementSpot to update in case it exists.
+     */
+    where: AdvertisementSpotWhereUniqueInput
+    /**
+     * In case the AdvertisementSpot found by the `where` argument doesn't exist, create a new AdvertisementSpot with this data.
+     */
+    create: XOR<AdvertisementSpotCreateInput, AdvertisementSpotUncheckedCreateInput>
+    /**
+     * In case the AdvertisementSpot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdvertisementSpotUpdateInput, AdvertisementSpotUncheckedUpdateInput>
+  }
+
+
+  /**
+   * AdvertisementSpot delete
+   */
+  export type AdvertisementSpotDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+    /**
+     * Filter which AdvertisementSpot to delete.
+     */
+    where: AdvertisementSpotWhereUniqueInput
+  }
+
+
+  /**
+   * AdvertisementSpot deleteMany
+   */
+  export type AdvertisementSpotDeleteManyArgs = {
+    /**
+     * Filter which AdvertisementSpots to delete
+     */
+    where?: AdvertisementSpotWhereInput
+  }
+
+
+  /**
+   * AdvertisementSpot.advertisements
+   */
+  export type AdvertisementSpot$advertisementsArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    where?: AdvertisementWhereInput
+    orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
+    cursor?: AdvertisementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AdvertisementScalarFieldEnum>
+  }
+
+
+  /**
+   * AdvertisementSpot without action
+   */
+  export type AdvertisementSpotArgs = {
+    /**
+     * Select specific fields to fetch from the AdvertisementSpot
+     */
+    select?: AdvertisementSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementSpotInclude | null
+  }
+
+
+
+  /**
+   * Model ScoredCampaign
+   */
+
+
+  export type AggregateScoredCampaign = {
+    _count: ScoredCampaignCountAggregateOutputType | null
+    _avg: ScoredCampaignAvgAggregateOutputType | null
+    _sum: ScoredCampaignSumAggregateOutputType | null
+    _min: ScoredCampaignMinAggregateOutputType | null
+    _max: ScoredCampaignMaxAggregateOutputType | null
+  }
+
+  export type ScoredCampaignAvgAggregateOutputType = {
+    score: number | null
+  }
+
+  export type ScoredCampaignSumAggregateOutputType = {
+    score: number | null
+  }
+
+  export type ScoredCampaignMinAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    campaignId: string | null
+    score: number | null
+    reason: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScoredCampaignMaxAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    campaignId: string | null
+    score: number | null
+    reason: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScoredCampaignCountAggregateOutputType = {
+    id: number
+    webpageId: number
+    campaignId: number
+    score: number
+    reason: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScoredCampaignAvgAggregateInputType = {
+    score?: true
+  }
+
+  export type ScoredCampaignSumAggregateInputType = {
+    score?: true
+  }
+
+  export type ScoredCampaignMinAggregateInputType = {
+    id?: true
+    webpageId?: true
+    campaignId?: true
+    score?: true
+    reason?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScoredCampaignMaxAggregateInputType = {
+    id?: true
+    webpageId?: true
+    campaignId?: true
+    score?: true
+    reason?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScoredCampaignCountAggregateInputType = {
+    id?: true
+    webpageId?: true
+    campaignId?: true
+    score?: true
+    reason?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScoredCampaignAggregateArgs = {
+    /**
+     * Filter which ScoredCampaign to aggregate.
+     */
+    where?: ScoredCampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoredCampaigns to fetch.
+     */
+    orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScoredCampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoredCampaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoredCampaigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScoredCampaigns
+    **/
+    _count?: true | ScoredCampaignCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScoredCampaignAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScoredCampaignSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScoredCampaignMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScoredCampaignMaxAggregateInputType
+  }
+
+  export type GetScoredCampaignAggregateType<T extends ScoredCampaignAggregateArgs> = {
+        [P in keyof T & keyof AggregateScoredCampaign]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScoredCampaign[P]>
+      : GetScalarType<T[P], AggregateScoredCampaign[P]>
+  }
+
+
+
+
+  export type ScoredCampaignGroupByArgs = {
+    where?: ScoredCampaignWhereInput
+    orderBy?: Enumerable<ScoredCampaignOrderByWithAggregationInput>
+    by: ScoredCampaignScalarFieldEnum[]
+    having?: ScoredCampaignScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScoredCampaignCountAggregateInputType | true
+    _avg?: ScoredCampaignAvgAggregateInputType
+    _sum?: ScoredCampaignSumAggregateInputType
+    _min?: ScoredCampaignMinAggregateInputType
+    _max?: ScoredCampaignMaxAggregateInputType
+  }
+
+
+  export type ScoredCampaignGroupByOutputType = {
+    id: string
+    webpageId: string
+    campaignId: string
+    score: number
+    reason: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ScoredCampaignCountAggregateOutputType | null
+    _avg: ScoredCampaignAvgAggregateOutputType | null
+    _sum: ScoredCampaignSumAggregateOutputType | null
+    _min: ScoredCampaignMinAggregateOutputType | null
+    _max: ScoredCampaignMaxAggregateOutputType | null
+  }
+
+  type GetScoredCampaignGroupByPayload<T extends ScoredCampaignGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ScoredCampaignGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScoredCampaignGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScoredCampaignGroupByOutputType[P]>
+            : GetScalarType<T[P], ScoredCampaignGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScoredCampaignSelect = {
+    id?: boolean
+    webpageId?: boolean
+    campaignId?: boolean
+    score?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    webpage?: boolean | WebpageArgs
+    campaign?: boolean | CampaignArgs
+    advertisements?: boolean | ScoredCampaign$advertisementsArgs
+    _count?: boolean | ScoredCampaignCountOutputTypeArgs
+  }
+
+
+  export type ScoredCampaignInclude = {
+    webpage?: boolean | WebpageArgs
+    campaign?: boolean | CampaignArgs
+    advertisements?: boolean | ScoredCampaign$advertisementsArgs
+    _count?: boolean | ScoredCampaignCountOutputTypeArgs
+  }
+
+  export type ScoredCampaignGetPayload<S extends boolean | null | undefined | ScoredCampaignArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ScoredCampaign :
+    S extends undefined ? never :
+    S extends { include: any } & (ScoredCampaignArgs | ScoredCampaignFindManyArgs)
+    ? ScoredCampaign  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
+        P extends 'campaign' ? CampaignGetPayload<S['include'][P]> :
+        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ScoredCampaignCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ScoredCampaignArgs | ScoredCampaignFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
+        P extends 'campaign' ? CampaignGetPayload<S['select'][P]> :
+        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ScoredCampaignCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ScoredCampaign ? ScoredCampaign[P] : never
+  } 
+      : ScoredCampaign
+
+
+  type ScoredCampaignCountArgs = 
+    Omit<ScoredCampaignFindManyArgs, 'select' | 'include'> & {
+      select?: ScoredCampaignCountAggregateInputType | true
+    }
+
+  export interface ScoredCampaignDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one ScoredCampaign that matches the filter.
+     * @param {ScoredCampaignFindUniqueArgs} args - Arguments to find a ScoredCampaign
+     * @example
+     * // Get one ScoredCampaign
+     * const scoredCampaign = await prisma.scoredCampaign.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ScoredCampaignFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ScoredCampaignFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ScoredCampaign'> extends True ? Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>> : Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T> | null, null>
+
+    /**
+     * Find one ScoredCampaign that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ScoredCampaignFindUniqueOrThrowArgs} args - Arguments to find a ScoredCampaign
+     * @example
+     * // Get one ScoredCampaign
+     * const scoredCampaign = await prisma.scoredCampaign.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ScoredCampaignFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ScoredCampaignFindUniqueOrThrowArgs>
+    ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
+
+    /**
+     * Find the first ScoredCampaign that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignFindFirstArgs} args - Arguments to find a ScoredCampaign
+     * @example
+     * // Get one ScoredCampaign
+     * const scoredCampaign = await prisma.scoredCampaign.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ScoredCampaignFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ScoredCampaignFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ScoredCampaign'> extends True ? Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>> : Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T> | null, null>
+
+    /**
+     * Find the first ScoredCampaign that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignFindFirstOrThrowArgs} args - Arguments to find a ScoredCampaign
+     * @example
+     * // Get one ScoredCampaign
+     * const scoredCampaign = await prisma.scoredCampaign.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ScoredCampaignFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ScoredCampaignFindFirstOrThrowArgs>
+    ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
+
+    /**
+     * Find zero or more ScoredCampaigns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScoredCampaigns
+     * const scoredCampaigns = await prisma.scoredCampaign.findMany()
+     * 
+     * // Get first 10 ScoredCampaigns
+     * const scoredCampaigns = await prisma.scoredCampaign.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scoredCampaignWithIdOnly = await prisma.scoredCampaign.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ScoredCampaignFindManyArgs>(
+      args?: SelectSubset<T, ScoredCampaignFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ScoredCampaignGetPayload<T>>>
+
+    /**
+     * Create a ScoredCampaign.
+     * @param {ScoredCampaignCreateArgs} args - Arguments to create a ScoredCampaign.
+     * @example
+     * // Create one ScoredCampaign
+     * const ScoredCampaign = await prisma.scoredCampaign.create({
+     *   data: {
+     *     // ... data to create a ScoredCampaign
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ScoredCampaignCreateArgs>(
+      args: SelectSubset<T, ScoredCampaignCreateArgs>
+    ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
+
+    /**
+     * Create many ScoredCampaigns.
+     *     @param {ScoredCampaignCreateManyArgs} args - Arguments to create many ScoredCampaigns.
+     *     @example
+     *     // Create many ScoredCampaigns
+     *     const scoredCampaign = await prisma.scoredCampaign.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ScoredCampaignCreateManyArgs>(
+      args?: SelectSubset<T, ScoredCampaignCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ScoredCampaign.
+     * @param {ScoredCampaignDeleteArgs} args - Arguments to delete one ScoredCampaign.
+     * @example
+     * // Delete one ScoredCampaign
+     * const ScoredCampaign = await prisma.scoredCampaign.delete({
+     *   where: {
+     *     // ... filter to delete one ScoredCampaign
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ScoredCampaignDeleteArgs>(
+      args: SelectSubset<T, ScoredCampaignDeleteArgs>
+    ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
+
+    /**
+     * Update one ScoredCampaign.
+     * @param {ScoredCampaignUpdateArgs} args - Arguments to update one ScoredCampaign.
+     * @example
+     * // Update one ScoredCampaign
+     * const scoredCampaign = await prisma.scoredCampaign.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ScoredCampaignUpdateArgs>(
+      args: SelectSubset<T, ScoredCampaignUpdateArgs>
+    ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
+
+    /**
+     * Delete zero or more ScoredCampaigns.
+     * @param {ScoredCampaignDeleteManyArgs} args - Arguments to filter ScoredCampaigns to delete.
+     * @example
+     * // Delete a few ScoredCampaigns
+     * const { count } = await prisma.scoredCampaign.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ScoredCampaignDeleteManyArgs>(
+      args?: SelectSubset<T, ScoredCampaignDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScoredCampaigns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScoredCampaigns
+     * const scoredCampaign = await prisma.scoredCampaign.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ScoredCampaignUpdateManyArgs>(
+      args: SelectSubset<T, ScoredCampaignUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ScoredCampaign.
+     * @param {ScoredCampaignUpsertArgs} args - Arguments to update or create a ScoredCampaign.
+     * @example
+     * // Update or create a ScoredCampaign
+     * const scoredCampaign = await prisma.scoredCampaign.upsert({
+     *   create: {
+     *     // ... data to create a ScoredCampaign
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScoredCampaign we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ScoredCampaignUpsertArgs>(
+      args: SelectSubset<T, ScoredCampaignUpsertArgs>
+    ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
+
+    /**
+     * Count the number of ScoredCampaigns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignCountArgs} args - Arguments to filter ScoredCampaigns to count.
+     * @example
+     * // Count the number of ScoredCampaigns
+     * const count = await prisma.scoredCampaign.count({
+     *   where: {
+     *     // ... the filter for the ScoredCampaigns we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScoredCampaignCountArgs>(
+      args?: Subset<T, ScoredCampaignCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScoredCampaignCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScoredCampaign.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScoredCampaignAggregateArgs>(args: Subset<T, ScoredCampaignAggregateArgs>): Prisma.PrismaPromise<GetScoredCampaignAggregateType<T>>
+
+    /**
+     * Group by ScoredCampaign.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoredCampaignGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScoredCampaignGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScoredCampaignGroupByArgs['orderBy'] }
+        : { orderBy?: ScoredCampaignGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScoredCampaignGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScoredCampaignGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScoredCampaign.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ScoredCampaignClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    webpage<T extends WebpageArgs= {}>(args?: Subset<T, WebpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
+
+    campaign<T extends CampaignArgs= {}>(args?: Subset<T, CampaignArgs>): Prisma__CampaignClient<CampaignGetPayload<T> | Null>;
+
+    advertisements<T extends ScoredCampaign$advertisementsArgs= {}>(args?: Subset<T, ScoredCampaign$advertisementsArgs>): Prisma.PrismaPromise<Array<AdvertisementGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ScoredCampaign base type for findUnique actions
+   */
+  export type ScoredCampaignFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * Filter, which ScoredCampaign to fetch.
+     */
+    where: ScoredCampaignWhereUniqueInput
+  }
+
+  /**
+   * ScoredCampaign findUnique
+   */
+  export interface ScoredCampaignFindUniqueArgs extends ScoredCampaignFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ScoredCampaign findUniqueOrThrow
+   */
+  export type ScoredCampaignFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * Filter, which ScoredCampaign to fetch.
+     */
+    where: ScoredCampaignWhereUniqueInput
+  }
+
+
+  /**
+   * ScoredCampaign base type for findFirst actions
+   */
+  export type ScoredCampaignFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * Filter, which ScoredCampaign to fetch.
+     */
+    where?: ScoredCampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoredCampaigns to fetch.
+     */
+    orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScoredCampaigns.
+     */
+    cursor?: ScoredCampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoredCampaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoredCampaigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScoredCampaigns.
+     */
+    distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
+  }
+
+  /**
+   * ScoredCampaign findFirst
+   */
+  export interface ScoredCampaignFindFirstArgs extends ScoredCampaignFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ScoredCampaign findFirstOrThrow
+   */
+  export type ScoredCampaignFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * Filter, which ScoredCampaign to fetch.
+     */
+    where?: ScoredCampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoredCampaigns to fetch.
+     */
+    orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScoredCampaigns.
+     */
+    cursor?: ScoredCampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoredCampaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoredCampaigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScoredCampaigns.
+     */
+    distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * ScoredCampaign findMany
+   */
+  export type ScoredCampaignFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * Filter, which ScoredCampaigns to fetch.
+     */
+    where?: ScoredCampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScoredCampaigns to fetch.
+     */
+    orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScoredCampaigns.
+     */
+    cursor?: ScoredCampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScoredCampaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScoredCampaigns.
+     */
+    skip?: number
+    distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * ScoredCampaign create
+   */
+  export type ScoredCampaignCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * The data needed to create a ScoredCampaign.
+     */
+    data: XOR<ScoredCampaignCreateInput, ScoredCampaignUncheckedCreateInput>
+  }
+
+
+  /**
+   * ScoredCampaign createMany
+   */
+  export type ScoredCampaignCreateManyArgs = {
+    /**
+     * The data used to create many ScoredCampaigns.
+     */
+    data: Enumerable<ScoredCampaignCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ScoredCampaign update
+   */
+  export type ScoredCampaignUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * The data needed to update a ScoredCampaign.
+     */
+    data: XOR<ScoredCampaignUpdateInput, ScoredCampaignUncheckedUpdateInput>
+    /**
+     * Choose, which ScoredCampaign to update.
+     */
+    where: ScoredCampaignWhereUniqueInput
+  }
+
+
+  /**
+   * ScoredCampaign updateMany
+   */
+  export type ScoredCampaignUpdateManyArgs = {
+    /**
+     * The data used to update ScoredCampaigns.
+     */
+    data: XOR<ScoredCampaignUpdateManyMutationInput, ScoredCampaignUncheckedUpdateManyInput>
+    /**
+     * Filter which ScoredCampaigns to update
+     */
+    where?: ScoredCampaignWhereInput
+  }
+
+
+  /**
+   * ScoredCampaign upsert
+   */
+  export type ScoredCampaignUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * The filter to search for the ScoredCampaign to update in case it exists.
+     */
+    where: ScoredCampaignWhereUniqueInput
+    /**
+     * In case the ScoredCampaign found by the `where` argument doesn't exist, create a new ScoredCampaign with this data.
+     */
+    create: XOR<ScoredCampaignCreateInput, ScoredCampaignUncheckedCreateInput>
+    /**
+     * In case the ScoredCampaign was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScoredCampaignUpdateInput, ScoredCampaignUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ScoredCampaign delete
+   */
+  export type ScoredCampaignDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    /**
+     * Filter which ScoredCampaign to delete.
+     */
+    where: ScoredCampaignWhereUniqueInput
+  }
+
+
+  /**
+   * ScoredCampaign deleteMany
+   */
+  export type ScoredCampaignDeleteManyArgs = {
+    /**
+     * Filter which ScoredCampaigns to delete
+     */
+    where?: ScoredCampaignWhereInput
+  }
+
+
+  /**
+   * ScoredCampaign.advertisements
+   */
+  export type ScoredCampaign$advertisementsArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    where?: AdvertisementWhereInput
+    orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
+    cursor?: AdvertisementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AdvertisementScalarFieldEnum>
+  }
+
+
+  /**
+   * ScoredCampaign without action
+   */
+  export type ScoredCampaignArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+  }
+
+
+
+  /**
+   * Model Advertisement
+   */
+
+
+  export type AggregateAdvertisement = {
+    _count: AdvertisementCountAggregateOutputType | null
+    _min: AdvertisementMinAggregateOutputType | null
+    _max: AdvertisementMaxAggregateOutputType | null
+  }
+
+  export type AdvertisementMinAggregateOutputType = {
+    id: string | null
+    scoredCampaignId: string | null
+    advertisementSpotId: string | null
+    advertText: string | null
+    status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AdvertisementMaxAggregateOutputType = {
+    id: string | null
+    scoredCampaignId: string | null
+    advertisementSpotId: string | null
+    advertText: string | null
+    status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AdvertisementCountAggregateOutputType = {
+    id: number
+    scoredCampaignId: number
+    advertisementSpotId: number
+    advertText: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AdvertisementMinAggregateInputType = {
+    id?: true
+    scoredCampaignId?: true
+    advertisementSpotId?: true
+    advertText?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AdvertisementMaxAggregateInputType = {
+    id?: true
+    scoredCampaignId?: true
+    advertisementSpotId?: true
+    advertText?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AdvertisementCountAggregateInputType = {
+    id?: true
+    scoredCampaignId?: true
+    advertisementSpotId?: true
+    advertText?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AdvertisementAggregateArgs = {
+    /**
+     * Filter which Advertisement to aggregate.
+     */
+    where?: AdvertisementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Advertisements to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdvertisementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Advertisements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Advertisements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Advertisements
+    **/
+    _count?: true | AdvertisementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdvertisementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdvertisementMaxAggregateInputType
+  }
+
+  export type GetAdvertisementAggregateType<T extends AdvertisementAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdvertisement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdvertisement[P]>
+      : GetScalarType<T[P], AggregateAdvertisement[P]>
+  }
+
+
+
+
+  export type AdvertisementGroupByArgs = {
+    where?: AdvertisementWhereInput
+    orderBy?: Enumerable<AdvertisementOrderByWithAggregationInput>
+    by: AdvertisementScalarFieldEnum[]
+    having?: AdvertisementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdvertisementCountAggregateInputType | true
+    _min?: AdvertisementMinAggregateInputType
+    _max?: AdvertisementMaxAggregateInputType
+  }
+
+
+  export type AdvertisementGroupByOutputType = {
+    id: string
+    scoredCampaignId: string
+    advertisementSpotId: string
+    advertText: string
+    status: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: AdvertisementCountAggregateOutputType | null
+    _min: AdvertisementMinAggregateOutputType | null
+    _max: AdvertisementMaxAggregateOutputType | null
+  }
+
+  type GetAdvertisementGroupByPayload<T extends AdvertisementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AdvertisementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdvertisementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdvertisementGroupByOutputType[P]>
+            : GetScalarType<T[P], AdvertisementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdvertisementSelect = {
+    id?: boolean
+    scoredCampaignId?: boolean
+    advertisementSpotId?: boolean
+    advertText?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    scoredCampaign?: boolean | ScoredCampaignArgs
+    impressions?: boolean | Advertisement$impressionsArgs
+    advertisementSpot?: boolean | AdvertisementSpotArgs
+    _count?: boolean | AdvertisementCountOutputTypeArgs
+  }
+
+
+  export type AdvertisementInclude = {
+    scoredCampaign?: boolean | ScoredCampaignArgs
+    impressions?: boolean | Advertisement$impressionsArgs
+    advertisementSpot?: boolean | AdvertisementSpotArgs
+    _count?: boolean | AdvertisementCountOutputTypeArgs
+  }
+
+  export type AdvertisementGetPayload<S extends boolean | null | undefined | AdvertisementArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Advertisement :
+    S extends undefined ? never :
+    S extends { include: any } & (AdvertisementArgs | AdvertisementFindManyArgs)
+    ? Advertisement  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'scoredCampaign' ? ScoredCampaignGetPayload<S['include'][P]> :
+        P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
+        P extends 'advertisementSpot' ? AdvertisementSpotGetPayload<S['include'][P]> :
+        P extends '_count' ? AdvertisementCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AdvertisementArgs | AdvertisementFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'scoredCampaign' ? ScoredCampaignGetPayload<S['select'][P]> :
+        P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
+        P extends 'advertisementSpot' ? AdvertisementSpotGetPayload<S['select'][P]> :
+        P extends '_count' ? AdvertisementCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Advertisement ? Advertisement[P] : never
+  } 
+      : Advertisement
+
+
+  type AdvertisementCountArgs = 
+    Omit<AdvertisementFindManyArgs, 'select' | 'include'> & {
+      select?: AdvertisementCountAggregateInputType | true
+    }
+
+  export interface AdvertisementDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Advertisement that matches the filter.
+     * @param {AdvertisementFindUniqueArgs} args - Arguments to find a Advertisement
+     * @example
+     * // Get one Advertisement
+     * const advertisement = await prisma.advertisement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AdvertisementFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AdvertisementFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Advertisement'> extends True ? Prisma__AdvertisementClient<AdvertisementGetPayload<T>> : Prisma__AdvertisementClient<AdvertisementGetPayload<T> | null, null>
+
+    /**
+     * Find one Advertisement that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AdvertisementFindUniqueOrThrowArgs} args - Arguments to find a Advertisement
+     * @example
+     * // Get one Advertisement
+     * const advertisement = await prisma.advertisement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AdvertisementFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AdvertisementFindUniqueOrThrowArgs>
+    ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
+
+    /**
+     * Find the first Advertisement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementFindFirstArgs} args - Arguments to find a Advertisement
+     * @example
+     * // Get one Advertisement
+     * const advertisement = await prisma.advertisement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AdvertisementFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AdvertisementFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Advertisement'> extends True ? Prisma__AdvertisementClient<AdvertisementGetPayload<T>> : Prisma__AdvertisementClient<AdvertisementGetPayload<T> | null, null>
+
+    /**
+     * Find the first Advertisement that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementFindFirstOrThrowArgs} args - Arguments to find a Advertisement
+     * @example
+     * // Get one Advertisement
+     * const advertisement = await prisma.advertisement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AdvertisementFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AdvertisementFindFirstOrThrowArgs>
+    ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
+
+    /**
+     * Find zero or more Advertisements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Advertisements
+     * const advertisements = await prisma.advertisement.findMany()
+     * 
+     * // Get first 10 Advertisements
+     * const advertisements = await prisma.advertisement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const advertisementWithIdOnly = await prisma.advertisement.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends AdvertisementFindManyArgs>(
+      args?: SelectSubset<T, AdvertisementFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AdvertisementGetPayload<T>>>
+
+    /**
+     * Create a Advertisement.
+     * @param {AdvertisementCreateArgs} args - Arguments to create a Advertisement.
+     * @example
+     * // Create one Advertisement
+     * const Advertisement = await prisma.advertisement.create({
+     *   data: {
+     *     // ... data to create a Advertisement
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AdvertisementCreateArgs>(
+      args: SelectSubset<T, AdvertisementCreateArgs>
+    ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
+
+    /**
+     * Create many Advertisements.
+     *     @param {AdvertisementCreateManyArgs} args - Arguments to create many Advertisements.
+     *     @example
+     *     // Create many Advertisements
+     *     const advertisement = await prisma.advertisement.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AdvertisementCreateManyArgs>(
+      args?: SelectSubset<T, AdvertisementCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Advertisement.
+     * @param {AdvertisementDeleteArgs} args - Arguments to delete one Advertisement.
+     * @example
+     * // Delete one Advertisement
+     * const Advertisement = await prisma.advertisement.delete({
+     *   where: {
+     *     // ... filter to delete one Advertisement
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AdvertisementDeleteArgs>(
+      args: SelectSubset<T, AdvertisementDeleteArgs>
+    ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
+
+    /**
+     * Update one Advertisement.
+     * @param {AdvertisementUpdateArgs} args - Arguments to update one Advertisement.
+     * @example
+     * // Update one Advertisement
+     * const advertisement = await prisma.advertisement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AdvertisementUpdateArgs>(
+      args: SelectSubset<T, AdvertisementUpdateArgs>
+    ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
+
+    /**
+     * Delete zero or more Advertisements.
+     * @param {AdvertisementDeleteManyArgs} args - Arguments to filter Advertisements to delete.
+     * @example
+     * // Delete a few Advertisements
+     * const { count } = await prisma.advertisement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AdvertisementDeleteManyArgs>(
+      args?: SelectSubset<T, AdvertisementDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Advertisements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Advertisements
+     * const advertisement = await prisma.advertisement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AdvertisementUpdateManyArgs>(
+      args: SelectSubset<T, AdvertisementUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Advertisement.
+     * @param {AdvertisementUpsertArgs} args - Arguments to update or create a Advertisement.
+     * @example
+     * // Update or create a Advertisement
+     * const advertisement = await prisma.advertisement.upsert({
+     *   create: {
+     *     // ... data to create a Advertisement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Advertisement we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AdvertisementUpsertArgs>(
+      args: SelectSubset<T, AdvertisementUpsertArgs>
+    ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
+
+    /**
+     * Count the number of Advertisements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementCountArgs} args - Arguments to filter Advertisements to count.
+     * @example
+     * // Count the number of Advertisements
+     * const count = await prisma.advertisement.count({
+     *   where: {
+     *     // ... the filter for the Advertisements we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdvertisementCountArgs>(
+      args?: Subset<T, AdvertisementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdvertisementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Advertisement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdvertisementAggregateArgs>(args: Subset<T, AdvertisementAggregateArgs>): Prisma.PrismaPromise<GetAdvertisementAggregateType<T>>
+
+    /**
+     * Group by Advertisement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdvertisementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdvertisementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdvertisementGroupByArgs['orderBy'] }
+        : { orderBy?: AdvertisementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdvertisementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdvertisementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Advertisement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AdvertisementClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    scoredCampaign<T extends ScoredCampaignArgs= {}>(args?: Subset<T, ScoredCampaignArgs>): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T> | Null>;
+
+    impressions<T extends Advertisement$impressionsArgs= {}>(args?: Subset<T, Advertisement$impressionsArgs>): Prisma.PrismaPromise<Array<ImpressionGetPayload<T>>| Null>;
+
+    advertisementSpot<T extends AdvertisementSpotArgs= {}>(args?: Subset<T, AdvertisementSpotArgs>): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Advertisement base type for findUnique actions
+   */
+  export type AdvertisementFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * Filter, which Advertisement to fetch.
+     */
+    where: AdvertisementWhereUniqueInput
+  }
+
+  /**
+   * Advertisement findUnique
+   */
+  export interface AdvertisementFindUniqueArgs extends AdvertisementFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Advertisement findUniqueOrThrow
+   */
+  export type AdvertisementFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * Filter, which Advertisement to fetch.
+     */
+    where: AdvertisementWhereUniqueInput
+  }
+
+
+  /**
+   * Advertisement base type for findFirst actions
+   */
+  export type AdvertisementFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * Filter, which Advertisement to fetch.
+     */
+    where?: AdvertisementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Advertisements to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Advertisements.
+     */
+    cursor?: AdvertisementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Advertisements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Advertisements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Advertisements.
+     */
+    distinct?: Enumerable<AdvertisementScalarFieldEnum>
+  }
+
+  /**
+   * Advertisement findFirst
+   */
+  export interface AdvertisementFindFirstArgs extends AdvertisementFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Advertisement findFirstOrThrow
+   */
+  export type AdvertisementFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * Filter, which Advertisement to fetch.
+     */
+    where?: AdvertisementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Advertisements to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Advertisements.
+     */
+    cursor?: AdvertisementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Advertisements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Advertisements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Advertisements.
+     */
+    distinct?: Enumerable<AdvertisementScalarFieldEnum>
+  }
+
+
+  /**
+   * Advertisement findMany
+   */
+  export type AdvertisementFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * Filter, which Advertisements to fetch.
+     */
+    where?: AdvertisementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Advertisements to fetch.
+     */
+    orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Advertisements.
+     */
+    cursor?: AdvertisementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Advertisements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Advertisements.
+     */
+    skip?: number
+    distinct?: Enumerable<AdvertisementScalarFieldEnum>
+  }
+
+
+  /**
+   * Advertisement create
+   */
+  export type AdvertisementCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * The data needed to create a Advertisement.
+     */
+    data: XOR<AdvertisementCreateInput, AdvertisementUncheckedCreateInput>
+  }
+
+
+  /**
+   * Advertisement createMany
+   */
+  export type AdvertisementCreateManyArgs = {
+    /**
+     * The data used to create many Advertisements.
+     */
+    data: Enumerable<AdvertisementCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Advertisement update
+   */
+  export type AdvertisementUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * The data needed to update a Advertisement.
+     */
+    data: XOR<AdvertisementUpdateInput, AdvertisementUncheckedUpdateInput>
+    /**
+     * Choose, which Advertisement to update.
+     */
+    where: AdvertisementWhereUniqueInput
+  }
+
+
+  /**
+   * Advertisement updateMany
+   */
+  export type AdvertisementUpdateManyArgs = {
+    /**
+     * The data used to update Advertisements.
+     */
+    data: XOR<AdvertisementUpdateManyMutationInput, AdvertisementUncheckedUpdateManyInput>
+    /**
+     * Filter which Advertisements to update
+     */
+    where?: AdvertisementWhereInput
+  }
+
+
+  /**
+   * Advertisement upsert
+   */
+  export type AdvertisementUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * The filter to search for the Advertisement to update in case it exists.
+     */
+    where: AdvertisementWhereUniqueInput
+    /**
+     * In case the Advertisement found by the `where` argument doesn't exist, create a new Advertisement with this data.
+     */
+    create: XOR<AdvertisementCreateInput, AdvertisementUncheckedCreateInput>
+    /**
+     * In case the Advertisement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdvertisementUpdateInput, AdvertisementUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Advertisement delete
+   */
+  export type AdvertisementDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    /**
+     * Filter which Advertisement to delete.
+     */
+    where: AdvertisementWhereUniqueInput
+  }
+
+
+  /**
+   * Advertisement deleteMany
+   */
+  export type AdvertisementDeleteManyArgs = {
+    /**
+     * Filter which Advertisements to delete
+     */
+    where?: AdvertisementWhereInput
+  }
+
+
+  /**
+   * Advertisement.impressions
+   */
+  export type Advertisement$impressionsArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    where?: ImpressionWhereInput
+    orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
+    cursor?: ImpressionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * Advertisement without action
+   */
+  export type AdvertisementArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+  }
+
+
+
+  /**
+   * Model Campaign
+   */
+
+
+  export type AggregateCampaign = {
+    _count: CampaignCountAggregateOutputType | null
+    _avg: CampaignAvgAggregateOutputType | null
+    _sum: CampaignSumAggregateOutputType | null
+    _min: CampaignMinAggregateOutputType | null
+    _max: CampaignMaxAggregateOutputType | null
+  }
+
+  export type CampaignAvgAggregateOutputType = {
+    impressionCap: number | null
+    fixedCpm: Decimal | null
+  }
+
+  export type CampaignSumAggregateOutputType = {
+    impressionCap: number | null
+    fixedCpm: Decimal | null
+  }
+
+  export type CampaignMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    start: Date | null
+    end: Date | null
+    impressionCap: number | null
+    fixedCpm: Decimal | null
+    productName: string | null
+    productDescription: string | null
+    clickUrl: string | null
+    requiredCssSelector: string | null
+    pacing: boolean | null
+    status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CampaignMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    start: Date | null
+    end: Date | null
+    impressionCap: number | null
+    fixedCpm: Decimal | null
+    productName: string | null
+    productDescription: string | null
+    clickUrl: string | null
+    requiredCssSelector: string | null
+    pacing: boolean | null
+    status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CampaignCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    start: number
+    end: number
+    impressionCap: number
+    fixedCpm: number
+    productName: number
+    productDescription: number
+    clickUrl: number
+    requiredCssSelector: number
+    pacing: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CampaignAvgAggregateInputType = {
+    impressionCap?: true
+    fixedCpm?: true
+  }
+
+  export type CampaignSumAggregateInputType = {
+    impressionCap?: true
+    fixedCpm?: true
+  }
+
+  export type CampaignMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    start?: true
+    end?: true
+    impressionCap?: true
+    fixedCpm?: true
+    productName?: true
+    productDescription?: true
+    clickUrl?: true
+    requiredCssSelector?: true
+    pacing?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CampaignMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    start?: true
+    end?: true
+    impressionCap?: true
+    fixedCpm?: true
+    productName?: true
+    productDescription?: true
+    clickUrl?: true
+    requiredCssSelector?: true
+    pacing?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CampaignCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    start?: true
+    end?: true
+    impressionCap?: true
+    fixedCpm?: true
+    productName?: true
+    productDescription?: true
+    clickUrl?: true
+    requiredCssSelector?: true
+    pacing?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CampaignAggregateArgs = {
+    /**
+     * Filter which Campaign to aggregate.
+     */
+    where?: CampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Campaigns to fetch.
+     */
+    orderBy?: Enumerable<CampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Campaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Campaigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Campaigns
+    **/
+    _count?: true | CampaignCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CampaignAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CampaignSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CampaignMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CampaignMaxAggregateInputType
+  }
+
+  export type GetCampaignAggregateType<T extends CampaignAggregateArgs> = {
+        [P in keyof T & keyof AggregateCampaign]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCampaign[P]>
+      : GetScalarType<T[P], AggregateCampaign[P]>
+  }
+
+
+
+
+  export type CampaignGroupByArgs = {
+    where?: CampaignWhereInput
+    orderBy?: Enumerable<CampaignOrderByWithAggregationInput>
+    by: CampaignScalarFieldEnum[]
+    having?: CampaignScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CampaignCountAggregateInputType | true
+    _avg?: CampaignAvgAggregateInputType
+    _sum?: CampaignSumAggregateInputType
+    _min?: CampaignMinAggregateInputType
+    _max?: CampaignMaxAggregateInputType
+  }
+
+
+  export type CampaignGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    start: Date
+    end: Date
+    impressionCap: number
+    fixedCpm: Decimal
+    productName: string
+    productDescription: string
+    clickUrl: string
+    requiredCssSelector: string
+    pacing: boolean
+    status: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CampaignCountAggregateOutputType | null
+    _avg: CampaignAvgAggregateOutputType | null
+    _sum: CampaignSumAggregateOutputType | null
+    _min: CampaignMinAggregateOutputType | null
+    _max: CampaignMaxAggregateOutputType | null
+  }
+
+  type GetCampaignGroupByPayload<T extends CampaignGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<CampaignGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CampaignGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CampaignGroupByOutputType[P]>
+            : GetScalarType<T[P], CampaignGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CampaignSelect = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    start?: boolean
+    end?: boolean
+    impressionCap?: boolean
+    fixedCpm?: boolean
+    productName?: boolean
+    productDescription?: boolean
+    clickUrl?: boolean
+    requiredCssSelector?: boolean
+    pacing?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserArgs
+    scoredCampaigns?: boolean | Campaign$scoredCampaignsArgs
+    categories?: boolean | Campaign$categoriesArgs
+    _count?: boolean | CampaignCountOutputTypeArgs
+  }
+
+
+  export type CampaignInclude = {
+    user?: boolean | UserArgs
+    scoredCampaigns?: boolean | Campaign$scoredCampaignsArgs
+    categories?: boolean | Campaign$categoriesArgs
+    _count?: boolean | CampaignCountOutputTypeArgs
+  }
+
+  export type CampaignGetPayload<S extends boolean | null | undefined | CampaignArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Campaign :
+    S extends undefined ? never :
+    S extends { include: any } & (CampaignArgs | CampaignFindManyArgs)
+    ? Campaign  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :
+        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
+        P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+        P extends '_count' ? CampaignCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (CampaignArgs | CampaignFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :
+        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
+        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+        P extends '_count' ? CampaignCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Campaign ? Campaign[P] : never
+  } 
+      : Campaign
+
+
+  type CampaignCountArgs = 
+    Omit<CampaignFindManyArgs, 'select' | 'include'> & {
+      select?: CampaignCountAggregateInputType | true
+    }
+
+  export interface CampaignDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Campaign that matches the filter.
+     * @param {CampaignFindUniqueArgs} args - Arguments to find a Campaign
+     * @example
+     * // Get one Campaign
+     * const campaign = await prisma.campaign.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CampaignFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CampaignFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Campaign'> extends True ? Prisma__CampaignClient<CampaignGetPayload<T>> : Prisma__CampaignClient<CampaignGetPayload<T> | null, null>
+
+    /**
+     * Find one Campaign that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CampaignFindUniqueOrThrowArgs} args - Arguments to find a Campaign
+     * @example
+     * // Get one Campaign
+     * const campaign = await prisma.campaign.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CampaignFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CampaignFindUniqueOrThrowArgs>
+    ): Prisma__CampaignClient<CampaignGetPayload<T>>
+
+    /**
+     * Find the first Campaign that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignFindFirstArgs} args - Arguments to find a Campaign
+     * @example
+     * // Get one Campaign
+     * const campaign = await prisma.campaign.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CampaignFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CampaignFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Campaign'> extends True ? Prisma__CampaignClient<CampaignGetPayload<T>> : Prisma__CampaignClient<CampaignGetPayload<T> | null, null>
+
+    /**
+     * Find the first Campaign that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignFindFirstOrThrowArgs} args - Arguments to find a Campaign
+     * @example
+     * // Get one Campaign
+     * const campaign = await prisma.campaign.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CampaignFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CampaignFindFirstOrThrowArgs>
+    ): Prisma__CampaignClient<CampaignGetPayload<T>>
+
+    /**
+     * Find zero or more Campaigns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Campaigns
+     * const campaigns = await prisma.campaign.findMany()
+     * 
+     * // Get first 10 Campaigns
+     * const campaigns = await prisma.campaign.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const campaignWithIdOnly = await prisma.campaign.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CampaignFindManyArgs>(
+      args?: SelectSubset<T, CampaignFindManyArgs>
+    ): Prisma.PrismaPromise<Array<CampaignGetPayload<T>>>
+
+    /**
+     * Create a Campaign.
+     * @param {CampaignCreateArgs} args - Arguments to create a Campaign.
+     * @example
+     * // Create one Campaign
+     * const Campaign = await prisma.campaign.create({
+     *   data: {
+     *     // ... data to create a Campaign
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CampaignCreateArgs>(
+      args: SelectSubset<T, CampaignCreateArgs>
+    ): Prisma__CampaignClient<CampaignGetPayload<T>>
+
+    /**
+     * Create many Campaigns.
+     *     @param {CampaignCreateManyArgs} args - Arguments to create many Campaigns.
+     *     @example
+     *     // Create many Campaigns
+     *     const campaign = await prisma.campaign.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CampaignCreateManyArgs>(
+      args?: SelectSubset<T, CampaignCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Campaign.
+     * @param {CampaignDeleteArgs} args - Arguments to delete one Campaign.
+     * @example
+     * // Delete one Campaign
+     * const Campaign = await prisma.campaign.delete({
+     *   where: {
+     *     // ... filter to delete one Campaign
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CampaignDeleteArgs>(
+      args: SelectSubset<T, CampaignDeleteArgs>
+    ): Prisma__CampaignClient<CampaignGetPayload<T>>
+
+    /**
+     * Update one Campaign.
+     * @param {CampaignUpdateArgs} args - Arguments to update one Campaign.
+     * @example
+     * // Update one Campaign
+     * const campaign = await prisma.campaign.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CampaignUpdateArgs>(
+      args: SelectSubset<T, CampaignUpdateArgs>
+    ): Prisma__CampaignClient<CampaignGetPayload<T>>
+
+    /**
+     * Delete zero or more Campaigns.
+     * @param {CampaignDeleteManyArgs} args - Arguments to filter Campaigns to delete.
+     * @example
+     * // Delete a few Campaigns
+     * const { count } = await prisma.campaign.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CampaignDeleteManyArgs>(
+      args?: SelectSubset<T, CampaignDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Campaigns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Campaigns
+     * const campaign = await prisma.campaign.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CampaignUpdateManyArgs>(
+      args: SelectSubset<T, CampaignUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Campaign.
+     * @param {CampaignUpsertArgs} args - Arguments to update or create a Campaign.
+     * @example
+     * // Update or create a Campaign
+     * const campaign = await prisma.campaign.upsert({
+     *   create: {
+     *     // ... data to create a Campaign
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Campaign we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CampaignUpsertArgs>(
+      args: SelectSubset<T, CampaignUpsertArgs>
+    ): Prisma__CampaignClient<CampaignGetPayload<T>>
+
+    /**
+     * Count the number of Campaigns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignCountArgs} args - Arguments to filter Campaigns to count.
+     * @example
+     * // Count the number of Campaigns
+     * const count = await prisma.campaign.count({
+     *   where: {
+     *     // ... the filter for the Campaigns we want to count
+     *   }
+     * })
+    **/
+    count<T extends CampaignCountArgs>(
+      args?: Subset<T, CampaignCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CampaignCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Campaign.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CampaignAggregateArgs>(args: Subset<T, CampaignAggregateArgs>): Prisma.PrismaPromise<GetCampaignAggregateType<T>>
+
+    /**
+     * Group by Campaign.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CampaignGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CampaignGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CampaignGroupByArgs['orderBy'] }
+        : { orderBy?: CampaignGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CampaignGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCampaignGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Campaign.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__CampaignClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    scoredCampaigns<T extends Campaign$scoredCampaignsArgs= {}>(args?: Subset<T, Campaign$scoredCampaignsArgs>): Prisma.PrismaPromise<Array<ScoredCampaignGetPayload<T>>| Null>;
+
+    categories<T extends Campaign$categoriesArgs= {}>(args?: Subset<T, Campaign$categoriesArgs>): Prisma.PrismaPromise<Array<CategoryGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Campaign base type for findUnique actions
+   */
+  export type CampaignFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * Filter, which Campaign to fetch.
+     */
+    where: CampaignWhereUniqueInput
+  }
+
+  /**
+   * Campaign findUnique
+   */
+  export interface CampaignFindUniqueArgs extends CampaignFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Campaign findUniqueOrThrow
+   */
+  export type CampaignFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * Filter, which Campaign to fetch.
+     */
+    where: CampaignWhereUniqueInput
+  }
+
+
+  /**
+   * Campaign base type for findFirst actions
+   */
+  export type CampaignFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * Filter, which Campaign to fetch.
+     */
+    where?: CampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Campaigns to fetch.
+     */
+    orderBy?: Enumerable<CampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Campaigns.
+     */
+    cursor?: CampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Campaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Campaigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Campaigns.
+     */
+    distinct?: Enumerable<CampaignScalarFieldEnum>
+  }
+
+  /**
+   * Campaign findFirst
+   */
+  export interface CampaignFindFirstArgs extends CampaignFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Campaign findFirstOrThrow
+   */
+  export type CampaignFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * Filter, which Campaign to fetch.
+     */
+    where?: CampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Campaigns to fetch.
+     */
+    orderBy?: Enumerable<CampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Campaigns.
+     */
+    cursor?: CampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Campaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Campaigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Campaigns.
+     */
+    distinct?: Enumerable<CampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * Campaign findMany
+   */
+  export type CampaignFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * Filter, which Campaigns to fetch.
+     */
+    where?: CampaignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Campaigns to fetch.
+     */
+    orderBy?: Enumerable<CampaignOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Campaigns.
+     */
+    cursor?: CampaignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Campaigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Campaigns.
+     */
+    skip?: number
+    distinct?: Enumerable<CampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * Campaign create
+   */
+  export type CampaignCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * The data needed to create a Campaign.
+     */
+    data: XOR<CampaignCreateInput, CampaignUncheckedCreateInput>
+  }
+
+
+  /**
+   * Campaign createMany
+   */
+  export type CampaignCreateManyArgs = {
+    /**
+     * The data used to create many Campaigns.
+     */
+    data: Enumerable<CampaignCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Campaign update
+   */
+  export type CampaignUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * The data needed to update a Campaign.
+     */
+    data: XOR<CampaignUpdateInput, CampaignUncheckedUpdateInput>
+    /**
+     * Choose, which Campaign to update.
+     */
+    where: CampaignWhereUniqueInput
+  }
+
+
+  /**
+   * Campaign updateMany
+   */
+  export type CampaignUpdateManyArgs = {
+    /**
+     * The data used to update Campaigns.
+     */
+    data: XOR<CampaignUpdateManyMutationInput, CampaignUncheckedUpdateManyInput>
+    /**
+     * Filter which Campaigns to update
+     */
+    where?: CampaignWhereInput
+  }
+
+
+  /**
+   * Campaign upsert
+   */
+  export type CampaignUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * The filter to search for the Campaign to update in case it exists.
+     */
+    where: CampaignWhereUniqueInput
+    /**
+     * In case the Campaign found by the `where` argument doesn't exist, create a new Campaign with this data.
+     */
+    create: XOR<CampaignCreateInput, CampaignUncheckedCreateInput>
+    /**
+     * In case the Campaign was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CampaignUpdateInput, CampaignUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Campaign delete
+   */
+  export type CampaignDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+    /**
+     * Filter which Campaign to delete.
+     */
+    where: CampaignWhereUniqueInput
+  }
+
+
+  /**
+   * Campaign deleteMany
+   */
+  export type CampaignDeleteManyArgs = {
+    /**
+     * Filter which Campaigns to delete
+     */
+    where?: CampaignWhereInput
+  }
+
+
+  /**
+   * Campaign.scoredCampaigns
+   */
+  export type Campaign$scoredCampaignsArgs = {
+    /**
+     * Select specific fields to fetch from the ScoredCampaign
+     */
+    select?: ScoredCampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ScoredCampaignInclude | null
+    where?: ScoredCampaignWhereInput
+    orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
+    cursor?: ScoredCampaignWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
+  }
+
+
+  /**
+   * Campaign.categories
+   */
+  export type Campaign$categoriesArgs = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CategoryInclude | null
+    where?: CategoryWhereInput
+    orderBy?: Enumerable<CategoryOrderByWithRelationInput>
+    cursor?: CategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CategoryScalarFieldEnum>
+  }
+
+
+  /**
+   * Campaign without action
+   */
+  export type CampaignArgs = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CampaignInclude | null
+  }
+
+
+
+  /**
+   * Model Impression
+   */
+
+
+  export type AggregateImpression = {
+    _count: ImpressionCountAggregateOutputType | null
+    _min: ImpressionMinAggregateOutputType | null
+    _max: ImpressionMaxAggregateOutputType | null
+  }
+
+  export type ImpressionMinAggregateOutputType = {
+    id: string | null
+    advertisementId: string | null
+    auctionId: string | null
+    clicked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ImpressionMaxAggregateOutputType = {
+    id: string | null
+    advertisementId: string | null
+    auctionId: string | null
+    clicked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ImpressionCountAggregateOutputType = {
+    id: number
+    advertisementId: number
+    auctionId: number
+    clicked: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ImpressionMinAggregateInputType = {
+    id?: true
+    advertisementId?: true
+    auctionId?: true
+    clicked?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ImpressionMaxAggregateInputType = {
+    id?: true
+    advertisementId?: true
+    auctionId?: true
+    clicked?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ImpressionCountAggregateInputType = {
+    id?: true
+    advertisementId?: true
+    auctionId?: true
+    clicked?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ImpressionAggregateArgs = {
+    /**
+     * Filter which Impression to aggregate.
+     */
+    where?: ImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Impressions to fetch.
+     */
+    orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Impressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Impressions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Impressions
+    **/
+    _count?: true | ImpressionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ImpressionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ImpressionMaxAggregateInputType
+  }
+
+  export type GetImpressionAggregateType<T extends ImpressionAggregateArgs> = {
+        [P in keyof T & keyof AggregateImpression]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateImpression[P]>
+      : GetScalarType<T[P], AggregateImpression[P]>
+  }
+
+
+
+
+  export type ImpressionGroupByArgs = {
+    where?: ImpressionWhereInput
+    orderBy?: Enumerable<ImpressionOrderByWithAggregationInput>
+    by: ImpressionScalarFieldEnum[]
+    having?: ImpressionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ImpressionCountAggregateInputType | true
+    _min?: ImpressionMinAggregateInputType
+    _max?: ImpressionMaxAggregateInputType
+  }
+
+
+  export type ImpressionGroupByOutputType = {
+    id: string
+    advertisementId: string
+    auctionId: string
+    clicked: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ImpressionCountAggregateOutputType | null
+    _min: ImpressionMinAggregateOutputType | null
+    _max: ImpressionMaxAggregateOutputType | null
+  }
+
+  type GetImpressionGroupByPayload<T extends ImpressionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ImpressionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ImpressionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ImpressionGroupByOutputType[P]>
+            : GetScalarType<T[P], ImpressionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ImpressionSelect = {
+    id?: boolean
+    advertisementId?: boolean
+    auctionId?: boolean
+    clicked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    advertisement?: boolean | AdvertisementArgs
+    auction?: boolean | AuctionArgs
+  }
+
+
+  export type ImpressionInclude = {
+    advertisement?: boolean | AdvertisementArgs
+    auction?: boolean | AuctionArgs
+  }
+
+  export type ImpressionGetPayload<S extends boolean | null | undefined | ImpressionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Impression :
+    S extends undefined ? never :
+    S extends { include: any } & (ImpressionArgs | ImpressionFindManyArgs)
+    ? Impression  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'advertisement' ? AdvertisementGetPayload<S['include'][P]> :
+        P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ImpressionArgs | ImpressionFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'advertisement' ? AdvertisementGetPayload<S['select'][P]> :
+        P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof Impression ? Impression[P] : never
+  } 
+      : Impression
+
+
+  type ImpressionCountArgs = 
+    Omit<ImpressionFindManyArgs, 'select' | 'include'> & {
+      select?: ImpressionCountAggregateInputType | true
+    }
+
+  export interface ImpressionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Impression that matches the filter.
+     * @param {ImpressionFindUniqueArgs} args - Arguments to find a Impression
+     * @example
+     * // Get one Impression
+     * const impression = await prisma.impression.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ImpressionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ImpressionFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Impression'> extends True ? Prisma__ImpressionClient<ImpressionGetPayload<T>> : Prisma__ImpressionClient<ImpressionGetPayload<T> | null, null>
+
+    /**
+     * Find one Impression that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ImpressionFindUniqueOrThrowArgs} args - Arguments to find a Impression
+     * @example
+     * // Get one Impression
+     * const impression = await prisma.impression.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ImpressionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ImpressionFindUniqueOrThrowArgs>
+    ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
+
+    /**
+     * Find the first Impression that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionFindFirstArgs} args - Arguments to find a Impression
+     * @example
+     * // Get one Impression
+     * const impression = await prisma.impression.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ImpressionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ImpressionFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Impression'> extends True ? Prisma__ImpressionClient<ImpressionGetPayload<T>> : Prisma__ImpressionClient<ImpressionGetPayload<T> | null, null>
+
+    /**
+     * Find the first Impression that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionFindFirstOrThrowArgs} args - Arguments to find a Impression
+     * @example
+     * // Get one Impression
+     * const impression = await prisma.impression.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ImpressionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ImpressionFindFirstOrThrowArgs>
+    ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
+
+    /**
+     * Find zero or more Impressions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Impressions
+     * const impressions = await prisma.impression.findMany()
+     * 
+     * // Get first 10 Impressions
+     * const impressions = await prisma.impression.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const impressionWithIdOnly = await prisma.impression.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ImpressionFindManyArgs>(
+      args?: SelectSubset<T, ImpressionFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ImpressionGetPayload<T>>>
+
+    /**
+     * Create a Impression.
+     * @param {ImpressionCreateArgs} args - Arguments to create a Impression.
+     * @example
+     * // Create one Impression
+     * const Impression = await prisma.impression.create({
+     *   data: {
+     *     // ... data to create a Impression
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ImpressionCreateArgs>(
+      args: SelectSubset<T, ImpressionCreateArgs>
+    ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
+
+    /**
+     * Create many Impressions.
+     *     @param {ImpressionCreateManyArgs} args - Arguments to create many Impressions.
+     *     @example
+     *     // Create many Impressions
+     *     const impression = await prisma.impression.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ImpressionCreateManyArgs>(
+      args?: SelectSubset<T, ImpressionCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Impression.
+     * @param {ImpressionDeleteArgs} args - Arguments to delete one Impression.
+     * @example
+     * // Delete one Impression
+     * const Impression = await prisma.impression.delete({
+     *   where: {
+     *     // ... filter to delete one Impression
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ImpressionDeleteArgs>(
+      args: SelectSubset<T, ImpressionDeleteArgs>
+    ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
+
+    /**
+     * Update one Impression.
+     * @param {ImpressionUpdateArgs} args - Arguments to update one Impression.
+     * @example
+     * // Update one Impression
+     * const impression = await prisma.impression.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ImpressionUpdateArgs>(
+      args: SelectSubset<T, ImpressionUpdateArgs>
+    ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
+
+    /**
+     * Delete zero or more Impressions.
+     * @param {ImpressionDeleteManyArgs} args - Arguments to filter Impressions to delete.
+     * @example
+     * // Delete a few Impressions
+     * const { count } = await prisma.impression.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ImpressionDeleteManyArgs>(
+      args?: SelectSubset<T, ImpressionDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Impressions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Impressions
+     * const impression = await prisma.impression.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ImpressionUpdateManyArgs>(
+      args: SelectSubset<T, ImpressionUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Impression.
+     * @param {ImpressionUpsertArgs} args - Arguments to update or create a Impression.
+     * @example
+     * // Update or create a Impression
+     * const impression = await prisma.impression.upsert({
+     *   create: {
+     *     // ... data to create a Impression
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Impression we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ImpressionUpsertArgs>(
+      args: SelectSubset<T, ImpressionUpsertArgs>
+    ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
+
+    /**
+     * Count the number of Impressions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionCountArgs} args - Arguments to filter Impressions to count.
+     * @example
+     * // Count the number of Impressions
+     * const count = await prisma.impression.count({
+     *   where: {
+     *     // ... the filter for the Impressions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ImpressionCountArgs>(
+      args?: Subset<T, ImpressionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ImpressionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Impression.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ImpressionAggregateArgs>(args: Subset<T, ImpressionAggregateArgs>): Prisma.PrismaPromise<GetImpressionAggregateType<T>>
+
+    /**
+     * Group by Impression.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImpressionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ImpressionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ImpressionGroupByArgs['orderBy'] }
+        : { orderBy?: ImpressionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ImpressionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetImpressionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Impression.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ImpressionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    advertisement<T extends AdvertisementArgs= {}>(args?: Subset<T, AdvertisementArgs>): Prisma__AdvertisementClient<AdvertisementGetPayload<T> | Null>;
+
+    auction<T extends AuctionArgs= {}>(args?: Subset<T, AuctionArgs>): Prisma__AuctionClient<AuctionGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Impression base type for findUnique actions
+   */
+  export type ImpressionFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * Filter, which Impression to fetch.
+     */
+    where: ImpressionWhereUniqueInput
+  }
+
+  /**
+   * Impression findUnique
+   */
+  export interface ImpressionFindUniqueArgs extends ImpressionFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Impression findUniqueOrThrow
+   */
+  export type ImpressionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * Filter, which Impression to fetch.
+     */
+    where: ImpressionWhereUniqueInput
+  }
+
+
+  /**
+   * Impression base type for findFirst actions
+   */
+  export type ImpressionFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * Filter, which Impression to fetch.
+     */
+    where?: ImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Impressions to fetch.
+     */
+    orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Impressions.
+     */
+    cursor?: ImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Impressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Impressions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Impressions.
+     */
+    distinct?: Enumerable<ImpressionScalarFieldEnum>
+  }
+
+  /**
+   * Impression findFirst
+   */
+  export interface ImpressionFindFirstArgs extends ImpressionFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Impression findFirstOrThrow
+   */
+  export type ImpressionFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * Filter, which Impression to fetch.
+     */
+    where?: ImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Impressions to fetch.
+     */
+    orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Impressions.
+     */
+    cursor?: ImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Impressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Impressions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Impressions.
+     */
+    distinct?: Enumerable<ImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * Impression findMany
+   */
+  export type ImpressionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * Filter, which Impressions to fetch.
+     */
+    where?: ImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Impressions to fetch.
+     */
+    orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Impressions.
+     */
+    cursor?: ImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Impressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Impressions.
+     */
+    skip?: number
+    distinct?: Enumerable<ImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * Impression create
+   */
+  export type ImpressionCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * The data needed to create a Impression.
+     */
+    data: XOR<ImpressionCreateInput, ImpressionUncheckedCreateInput>
+  }
+
+
+  /**
+   * Impression createMany
+   */
+  export type ImpressionCreateManyArgs = {
+    /**
+     * The data used to create many Impressions.
+     */
+    data: Enumerable<ImpressionCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Impression update
+   */
+  export type ImpressionUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * The data needed to update a Impression.
+     */
+    data: XOR<ImpressionUpdateInput, ImpressionUncheckedUpdateInput>
+    /**
+     * Choose, which Impression to update.
+     */
+    where: ImpressionWhereUniqueInput
+  }
+
+
+  /**
+   * Impression updateMany
+   */
+  export type ImpressionUpdateManyArgs = {
+    /**
+     * The data used to update Impressions.
+     */
+    data: XOR<ImpressionUpdateManyMutationInput, ImpressionUncheckedUpdateManyInput>
+    /**
+     * Filter which Impressions to update
+     */
+    where?: ImpressionWhereInput
+  }
+
+
+  /**
+   * Impression upsert
+   */
+  export type ImpressionUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * The filter to search for the Impression to update in case it exists.
+     */
+    where: ImpressionWhereUniqueInput
+    /**
+     * In case the Impression found by the `where` argument doesn't exist, create a new Impression with this data.
+     */
+    create: XOR<ImpressionCreateInput, ImpressionUncheckedCreateInput>
+    /**
+     * In case the Impression was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ImpressionUpdateInput, ImpressionUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Impression delete
+   */
+  export type ImpressionDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+    /**
+     * Filter which Impression to delete.
+     */
+    where: ImpressionWhereUniqueInput
+  }
+
+
+  /**
+   * Impression deleteMany
+   */
+  export type ImpressionDeleteManyArgs = {
+    /**
+     * Filter which Impressions to delete
+     */
+    where?: ImpressionWhereInput
+  }
+
+
+  /**
+   * Impression without action
+   */
+  export type ImpressionArgs = {
+    /**
+     * Select specific fields to fetch from the Impression
+     */
+    select?: ImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ImpressionInclude | null
+  }
+
+
+
+  /**
+   * Enums
+   */
+
+  // Based on
+  // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+  export const AccountScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    provider: 'provider',
+    providerAccountId: 'providerAccountId',
+    refresh_token: 'refresh_token',
+    access_token: 'access_token',
+    expires_at: 'expires_at',
+    token_type: 'token_type',
+    scope: 'scope',
+    id_token: 'id_token',
+    session_state: 'session_state'
+  };
+
+  export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+  export const AdvertisementScalarFieldEnum: {
+    id: 'id',
+    scoredCampaignId: 'scoredCampaignId',
+    advertisementSpotId: 'advertisementSpotId',
+    advertText: 'advertText',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AdvertisementScalarFieldEnum = (typeof AdvertisementScalarFieldEnum)[keyof typeof AdvertisementScalarFieldEnum]
+
+
+  export const AdvertisementSpotScalarFieldEnum: {
+    id: 'id',
+    webpageId: 'webpageId',
+    beforeText: 'beforeText',
+    afterText: 'afterText',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AdvertisementSpotScalarFieldEnum = (typeof AdvertisementSpotScalarFieldEnum)[keyof typeof AdvertisementSpotScalarFieldEnum]
+
+
+  export const AuctionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    webpageId: 'webpageId',
+    url: 'url',
+    userAgent: 'userAgent',
+    ip: 'ip',
+    endUserCuid: 'endUserCuid',
+    endUserFp: 'endUserFp',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AuctionScalarFieldEnum = (typeof AuctionScalarFieldEnum)[keyof typeof AuctionScalarFieldEnum]
+
+
+  export const CampaignScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    start: 'start',
+    end: 'end',
+    impressionCap: 'impressionCap',
+    fixedCpm: 'fixedCpm',
+    productName: 'productName',
+    productDescription: 'productDescription',
+    clickUrl: 'clickUrl',
+    requiredCssSelector: 'requiredCssSelector',
+    pacing: 'pacing',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CampaignScalarFieldEnum = (typeof CampaignScalarFieldEnum)[keyof typeof CampaignScalarFieldEnum]
+
+
+  export const CategoryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+  export const ContentScalarFieldEnum: {
+    id: 'id',
+    webpageId: 'webpageId',
+    desktopHtml: 'desktopHtml',
+    mobileHtml: 'mobileHtml',
+    tabletHtml: 'tabletHtml',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeof ContentScalarFieldEnum]
+
+
+  export const ImpressionScalarFieldEnum: {
+    id: 'id',
+    advertisementId: 'advertisementId',
+    auctionId: 'auctionId',
+    clicked: 'clicked',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ImpressionScalarFieldEnum = (typeof ImpressionScalarFieldEnum)[keyof typeof ImpressionScalarFieldEnum]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const ScoredCampaignScalarFieldEnum: {
+    id: 'id',
+    webpageId: 'webpageId',
+    campaignId: 'campaignId',
+    score: 'score',
+    reason: 'reason',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScoredCampaignScalarFieldEnum = (typeof ScoredCampaignScalarFieldEnum)[keyof typeof ScoredCampaignScalarFieldEnum]
+
+
+  export const SessionScalarFieldEnum: {
+    id: 'id',
+    sessionToken: 'sessionToken',
+    userId: 'userId',
+    expires: 'expires'
+  };
+
+  export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+  export const SettingScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    scoreThreshold: 'scoreThreshold',
+    status: 'status',
+    addSponsoredWording: 'addSponsoredWording',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
+
+
+  export const SortOrder: {
+    asc: 'asc',
+    desc: 'desc'
+  };
+
+  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
+    Serializable: 'Serializable'
+  };
+
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    emailVerified: 'emailVerified',
+    image: 'image',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const VerificationTokenScalarFieldEnum: {
+    identifier: 'identifier',
+    token: 'token',
+    expires: 'expires'
+  };
+
+  export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+  export const WebpageScalarFieldEnum: {
+    id: 'id',
+    websiteId: 'websiteId',
+    url: 'url',
+    status: 'status',
+    lastModifiedAt: 'lastModifiedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WebpageScalarFieldEnum = (typeof WebpageScalarFieldEnum)[keyof typeof WebpageScalarFieldEnum]
+
+
+  export const WebsiteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    topLevelDomainUrl: 'topLevelDomainUrl',
+    sitemapUrl: 'sitemapUrl',
+    status: 'status',
+    processedOn: 'processedOn',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WebsiteScalarFieldEnum = (typeof WebsiteScalarFieldEnum)[keyof typeof WebsiteScalarFieldEnum]
+
+
+  /**
+   * Deep Input Types
+   */
+
+
+  export type AccountWhereInput = {
+    AND?: Enumerable<AccountWhereInput>
+    OR?: Enumerable<AccountWhereInput>
+    NOT?: Enumerable<AccountWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    type?: StringFilter | string
+    provider?: StringFilter | string
+    providerAccountId?: StringFilter | string
+    refresh_token?: StringNullableFilter | string | null
+    access_token?: StringNullableFilter | string | null
+    expires_at?: IntNullableFilter | number | null
+    token_type?: StringNullableFilter | string | null
+    scope?: StringNullableFilter | string | null
+    id_token?: StringNullableFilter | string | null
+    session_state?: StringNullableFilter | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type AccountOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    provider?: SortOrder
+    providerAccountId?: SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AccountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    provider_providerAccountId?: AccountProviderProviderAccountIdCompoundUniqueInput
+    AND?: Enumerable<AccountWhereInput>
+    OR?: Enumerable<AccountWhereInput>
+    NOT?: Enumerable<AccountWhereInput>
+    userId?: StringFilter | string
+    type?: StringFilter | string
+    provider?: StringFilter | string
+    providerAccountId?: StringFilter | string
+    refresh_token?: StringNullableFilter | string | null
+    access_token?: StringNullableFilter | string | null
+    expires_at?: IntNullableFilter | number | null
+    token_type?: StringNullableFilter | string | null
+    scope?: StringNullableFilter | string | null
+    id_token?: StringNullableFilter | string | null
+    session_state?: StringNullableFilter | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "provider_providerAccountId">
+
+  export type AccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    provider?: SortOrder
+    providerAccountId?: SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
+    _count?: AccountCountOrderByAggregateInput
+    _avg?: AccountAvgOrderByAggregateInput
+    _max?: AccountMaxOrderByAggregateInput
+    _min?: AccountMinOrderByAggregateInput
+    _sum?: AccountSumOrderByAggregateInput
+  }
+
+  export type AccountScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AccountScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AccountScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AccountScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    type?: StringWithAggregatesFilter | string
+    provider?: StringWithAggregatesFilter | string
+    providerAccountId?: StringWithAggregatesFilter | string
+    refresh_token?: StringNullableWithAggregatesFilter | string | null
+    access_token?: StringNullableWithAggregatesFilter | string | null
+    expires_at?: IntNullableWithAggregatesFilter | number | null
+    token_type?: StringNullableWithAggregatesFilter | string | null
+    scope?: StringNullableWithAggregatesFilter | string | null
+    id_token?: StringNullableWithAggregatesFilter | string | null
+    session_state?: StringNullableWithAggregatesFilter | string | null
+  }
+
+  export type SessionWhereInput = {
+    AND?: Enumerable<SessionWhereInput>
+    OR?: Enumerable<SessionWhereInput>
+    NOT?: Enumerable<SessionWhereInput>
+    id?: StringFilter | string
+    sessionToken?: StringFilter | string
+    userId?: StringFilter | string
+    expires?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type SessionOrderByWithRelationInput = {
+    id?: SortOrder
+    sessionToken?: SortOrder
+    userId?: SortOrder
+    expires?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    sessionToken?: string
+    AND?: Enumerable<SessionWhereInput>
+    OR?: Enumerable<SessionWhereInput>
+    NOT?: Enumerable<SessionWhereInput>
+    userId?: StringFilter | string
+    expires?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "sessionToken">
+
+  export type SessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    sessionToken?: SortOrder
+    userId?: SortOrder
+    expires?: SortOrder
+    _count?: SessionCountOrderByAggregateInput
+    _max?: SessionMaxOrderByAggregateInput
+    _min?: SessionMinOrderByAggregateInput
+  }
+
+  export type SessionScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SessionScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SessionScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SessionScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    sessionToken?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    expires?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type VerificationTokenWhereInput = {
+    AND?: Enumerable<VerificationTokenWhereInput>
+    OR?: Enumerable<VerificationTokenWhereInput>
+    NOT?: Enumerable<VerificationTokenWhereInput>
+    identifier?: StringFilter | string
+    token?: StringFilter | string
+    expires?: DateTimeFilter | Date | string
+  }
+
+  export type VerificationTokenOrderByWithRelationInput = {
+    identifier?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type VerificationTokenWhereUniqueInput = Prisma.AtLeast<{
+    token?: string
+    identifier_token?: VerificationTokenIdentifierTokenCompoundUniqueInput
+    AND?: Enumerable<VerificationTokenWhereInput>
+    OR?: Enumerable<VerificationTokenWhereInput>
+    NOT?: Enumerable<VerificationTokenWhereInput>
+    identifier?: StringFilter | string
+    expires?: DateTimeFilter | Date | string
+  }, "token" | "identifier_token">
+
+  export type VerificationTokenOrderByWithAggregationInput = {
+    identifier?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    _count?: VerificationTokenCountOrderByAggregateInput
+    _max?: VerificationTokenMaxOrderByAggregateInput
+    _min?: VerificationTokenMinOrderByAggregateInput
+  }
+
+  export type VerificationTokenScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<VerificationTokenScalarWhereWithAggregatesInput>
+    OR?: Enumerable<VerificationTokenScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<VerificationTokenScalarWhereWithAggregatesInput>
+    identifier?: StringWithAggregatesFilter | string
+    token?: StringWithAggregatesFilter | string
+    expires?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type UserWhereInput = {
+    AND?: Enumerable<UserWhereInput>
+    OR?: Enumerable<UserWhereInput>
+    NOT?: Enumerable<UserWhereInput>
+    id?: StringFilter | string
+    name?: StringNullableFilter | string | null
+    email?: StringNullableFilter | string | null
+    emailVerified?: DateTimeNullableFilter | Date | string | null
+    image?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    accounts?: AccountListRelationFilter
+    sessions?: SessionListRelationFilter
+    auctions?: AuctionListRelationFilter
+    campaigns?: CampaignListRelationFilter
+    websites?: WebsiteListRelationFilter
+    categories?: CategoryListRelationFilter
+    setting?: XOR<SettingRelationFilter, SettingWhereInput> | null
+  }
+
+  export type UserOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    accounts?: AccountOrderByRelationAggregateInput
+    sessions?: SessionOrderByRelationAggregateInput
+    auctions?: AuctionOrderByRelationAggregateInput
+    campaigns?: CampaignOrderByRelationAggregateInput
+    websites?: WebsiteOrderByRelationAggregateInput
+    categories?: CategoryOrderByRelationAggregateInput
+    setting?: SettingOrderByWithRelationInput
+  }
+
+  export type UserWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    email?: string
+    AND?: Enumerable<UserWhereInput>
+    OR?: Enumerable<UserWhereInput>
+    NOT?: Enumerable<UserWhereInput>
+    name?: StringNullableFilter | string | null
+    emailVerified?: DateTimeNullableFilter | Date | string | null
+    image?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    accounts?: AccountListRelationFilter
+    sessions?: SessionListRelationFilter
+    auctions?: AuctionListRelationFilter
+    campaigns?: CampaignListRelationFilter
+    websites?: WebsiteListRelationFilter
+    categories?: CategoryListRelationFilter
+    setting?: XOR<SettingRelationFilter, SettingWhereInput> | null
+  }, "id" | "email">
+
+  export type UserOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserCountOrderByAggregateInput
+    _max?: UserMaxOrderByAggregateInput
+    _min?: UserMinOrderByAggregateInput
+  }
+
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    name?: StringNullableWithAggregatesFilter | string | null
+    email?: StringNullableWithAggregatesFilter | string | null
+    emailVerified?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    image?: StringNullableWithAggregatesFilter | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type SettingWhereInput = {
+    AND?: Enumerable<SettingWhereInput>
+    OR?: Enumerable<SettingWhereInput>
+    NOT?: Enumerable<SettingWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    scoreThreshold?: IntFilter | number
+    status?: BoolFilter | boolean
+    addSponsoredWording?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type SettingOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    scoreThreshold?: SortOrder
+    status?: SortOrder
+    addSponsoredWording?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: Enumerable<SettingWhereInput>
+    OR?: Enumerable<SettingWhereInput>
+    NOT?: Enumerable<SettingWhereInput>
+    scoreThreshold?: IntFilter | number
+    status?: BoolFilter | boolean
+    addSponsoredWording?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type SettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    scoreThreshold?: SortOrder
+    status?: SortOrder
+    addSponsoredWording?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SettingCountOrderByAggregateInput
+    _avg?: SettingAvgOrderByAggregateInput
+    _max?: SettingMaxOrderByAggregateInput
+    _min?: SettingMinOrderByAggregateInput
+    _sum?: SettingSumOrderByAggregateInput
+  }
+
+  export type SettingScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SettingScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SettingScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SettingScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    scoreThreshold?: IntWithAggregatesFilter | number
+    status?: BoolWithAggregatesFilter | boolean
+    addSponsoredWording?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type AuctionWhereInput = {
+    AND?: Enumerable<AuctionWhereInput>
+    OR?: Enumerable<AuctionWhereInput>
+    NOT?: Enumerable<AuctionWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    webpageId?: StringNullableFilter | string | null
+    url?: StringNullableFilter | string | null
+    userAgent?: StringFilter | string
+    ip?: StringFilter | string
+    endUserCuid?: StringFilter | string
+    endUserFp?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
+    impressions?: ImpressionListRelationFilter
+  }
+
+  export type AuctionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    webpageId?: SortOrder
+    url?: SortOrder
+    userAgent?: SortOrder
+    ip?: SortOrder
+    endUserCuid?: SortOrder
+    endUserFp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    webpage?: WebpageOrderByWithRelationInput
+    impressions?: ImpressionOrderByRelationAggregateInput
+  }
+
+  export type AuctionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<AuctionWhereInput>
+    OR?: Enumerable<AuctionWhereInput>
+    NOT?: Enumerable<AuctionWhereInput>
+    userId?: StringFilter | string
+    webpageId?: StringNullableFilter | string | null
+    url?: StringNullableFilter | string | null
+    userAgent?: StringFilter | string
+    ip?: StringFilter | string
+    endUserCuid?: StringFilter | string
+    endUserFp?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
+    impressions?: ImpressionListRelationFilter
+  }, "id">
+
+  export type AuctionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    webpageId?: SortOrder
+    url?: SortOrder
+    userAgent?: SortOrder
+    ip?: SortOrder
+    endUserCuid?: SortOrder
+    endUserFp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AuctionCountOrderByAggregateInput
+    _max?: AuctionMaxOrderByAggregateInput
+    _min?: AuctionMinOrderByAggregateInput
+  }
+
+  export type AuctionScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AuctionScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AuctionScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AuctionScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    webpageId?: StringNullableWithAggregatesFilter | string | null
+    url?: StringNullableWithAggregatesFilter | string | null
+    userAgent?: StringWithAggregatesFilter | string
+    ip?: StringWithAggregatesFilter | string
+    endUserCuid?: StringWithAggregatesFilter | string
+    endUserFp?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type WebsiteWhereInput = {
+    AND?: Enumerable<WebsiteWhereInput>
+    OR?: Enumerable<WebsiteWhereInput>
+    NOT?: Enumerable<WebsiteWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    topLevelDomainUrl?: StringFilter | string
+    sitemapUrl?: StringFilter | string
+    status?: BoolFilter | boolean
+    processedOn?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    webpages?: WebpageListRelationFilter
+  }
+
+  export type WebsiteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topLevelDomainUrl?: SortOrder
+    sitemapUrl?: SortOrder
+    status?: SortOrder
+    processedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    webpages?: WebpageOrderByRelationAggregateInput
+  }
+
+  export type WebsiteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_topLevelDomainUrl?: WebsiteUserIdTopLevelDomainUrlCompoundUniqueInput
+    AND?: Enumerable<WebsiteWhereInput>
+    OR?: Enumerable<WebsiteWhereInput>
+    NOT?: Enumerable<WebsiteWhereInput>
+    userId?: StringFilter | string
+    topLevelDomainUrl?: StringFilter | string
+    sitemapUrl?: StringFilter | string
+    status?: BoolFilter | boolean
+    processedOn?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    webpages?: WebpageListRelationFilter
+  }, "id" | "userId_topLevelDomainUrl">
+
+  export type WebsiteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topLevelDomainUrl?: SortOrder
+    sitemapUrl?: SortOrder
+    status?: SortOrder
+    processedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WebsiteCountOrderByAggregateInput
+    _max?: WebsiteMaxOrderByAggregateInput
+    _min?: WebsiteMinOrderByAggregateInput
+  }
+
+  export type WebsiteScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<WebsiteScalarWhereWithAggregatesInput>
+    OR?: Enumerable<WebsiteScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<WebsiteScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    topLevelDomainUrl?: StringWithAggregatesFilter | string
+    sitemapUrl?: StringWithAggregatesFilter | string
+    status?: BoolWithAggregatesFilter | boolean
+    processedOn?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type WebpageWhereInput = {
+    AND?: Enumerable<WebpageWhereInput>
+    OR?: Enumerable<WebpageWhereInput>
+    NOT?: Enumerable<WebpageWhereInput>
+    id?: StringFilter | string
+    websiteId?: StringFilter | string
+    url?: StringFilter | string
+    status?: BoolFilter | boolean
+    lastModifiedAt?: DateTimeFilter | Date | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    website?: XOR<WebsiteRelationFilter, WebsiteWhereInput>
+    scoredCampaigns?: ScoredCampaignListRelationFilter
+    advertisementSpots?: AdvertisementSpotListRelationFilter
+    categories?: CategoryListRelationFilter
+    auctions?: AuctionListRelationFilter
+    content?: XOR<ContentRelationFilter, ContentWhereInput> | null
+  }
+
+  export type WebpageOrderByWithRelationInput = {
+    id?: SortOrder
+    websiteId?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    lastModifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    website?: WebsiteOrderByWithRelationInput
+    scoredCampaigns?: ScoredCampaignOrderByRelationAggregateInput
+    advertisementSpots?: AdvertisementSpotOrderByRelationAggregateInput
+    categories?: CategoryOrderByRelationAggregateInput
+    auctions?: AuctionOrderByRelationAggregateInput
+    content?: ContentOrderByWithRelationInput
+  }
+
+  export type WebpageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    websiteId_url?: WebpageWebsiteIdUrlCompoundUniqueInput
+    AND?: Enumerable<WebpageWhereInput>
+    OR?: Enumerable<WebpageWhereInput>
+    NOT?: Enumerable<WebpageWhereInput>
+    websiteId?: StringFilter | string
+    url?: StringFilter | string
+    status?: BoolFilter | boolean
+    lastModifiedAt?: DateTimeFilter | Date | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    website?: XOR<WebsiteRelationFilter, WebsiteWhereInput>
+    scoredCampaigns?: ScoredCampaignListRelationFilter
+    advertisementSpots?: AdvertisementSpotListRelationFilter
+    categories?: CategoryListRelationFilter
+    auctions?: AuctionListRelationFilter
+    content?: XOR<ContentRelationFilter, ContentWhereInput> | null
+  }, "id" | "websiteId_url">
+
+  export type WebpageOrderByWithAggregationInput = {
+    id?: SortOrder
+    websiteId?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    lastModifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WebpageCountOrderByAggregateInput
+    _max?: WebpageMaxOrderByAggregateInput
+    _min?: WebpageMinOrderByAggregateInput
+  }
+
+  export type WebpageScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<WebpageScalarWhereWithAggregatesInput>
+    OR?: Enumerable<WebpageScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<WebpageScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    websiteId?: StringWithAggregatesFilter | string
+    url?: StringWithAggregatesFilter | string
+    status?: BoolWithAggregatesFilter | boolean
+    lastModifiedAt?: DateTimeWithAggregatesFilter | Date | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type ContentWhereInput = {
+    AND?: Enumerable<ContentWhereInput>
+    OR?: Enumerable<ContentWhereInput>
+    NOT?: Enumerable<ContentWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    desktopHtml?: StringFilter | string
+    mobileHtml?: StringNullableFilter | string | null
+    tabletHtml?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+  }
+
+  export type ContentOrderByWithRelationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    desktopHtml?: SortOrder
+    mobileHtml?: SortOrder
+    tabletHtml?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    webpage?: WebpageOrderByWithRelationInput
+  }
+
+  export type ContentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    webpageId?: string
+    AND?: Enumerable<ContentWhereInput>
+    OR?: Enumerable<ContentWhereInput>
+    NOT?: Enumerable<ContentWhereInput>
+    desktopHtml?: StringFilter | string
+    mobileHtml?: StringNullableFilter | string | null
+    tabletHtml?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+  }, "id" | "webpageId">
+
+  export type ContentOrderByWithAggregationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    desktopHtml?: SortOrder
+    mobileHtml?: SortOrder
+    tabletHtml?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ContentCountOrderByAggregateInput
+    _max?: ContentMaxOrderByAggregateInput
+    _min?: ContentMinOrderByAggregateInput
+  }
+
+  export type ContentScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ContentScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ContentScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ContentScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    webpageId?: StringWithAggregatesFilter | string
+    desktopHtml?: StringWithAggregatesFilter | string
+    mobileHtml?: StringNullableWithAggregatesFilter | string | null
+    tabletHtml?: StringNullableWithAggregatesFilter | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type CategoryWhereInput = {
+    AND?: Enumerable<CategoryWhereInput>
+    OR?: Enumerable<CategoryWhereInput>
+    NOT?: Enumerable<CategoryWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    name?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    webpages?: WebpageListRelationFilter
+    campaigns?: CampaignListRelationFilter
+  }
+
+  export type CategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    webpages?: WebpageOrderByRelationAggregateInput
+    campaigns?: CampaignOrderByRelationAggregateInput
+  }
+
+  export type CategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_name?: CategoryUserIdNameCompoundUniqueInput
+    AND?: Enumerable<CategoryWhereInput>
+    OR?: Enumerable<CategoryWhereInput>
+    NOT?: Enumerable<CategoryWhereInput>
+    userId?: StringFilter | string
+    name?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    webpages?: WebpageListRelationFilter
+    campaigns?: CampaignListRelationFilter
+  }, "id" | "userId_name">
+
+  export type CategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CategoryCountOrderByAggregateInput
+    _max?: CategoryMaxOrderByAggregateInput
+    _min?: CategoryMinOrderByAggregateInput
+  }
+
+  export type CategoryScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CategoryScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CategoryScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CategoryScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type AdvertisementSpotWhereInput = {
+    AND?: Enumerable<AdvertisementSpotWhereInput>
+    OR?: Enumerable<AdvertisementSpotWhereInput>
+    NOT?: Enumerable<AdvertisementSpotWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    beforeText?: StringFilter | string
+    afterText?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+    advertisements?: AdvertisementListRelationFilter
+  }
+
+  export type AdvertisementSpotOrderByWithRelationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    beforeText?: SortOrder
+    afterText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    webpage?: WebpageOrderByWithRelationInput
+    advertisements?: AdvertisementOrderByRelationAggregateInput
+  }
+
+  export type AdvertisementSpotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    webpageId_beforeText_afterText?: AdvertisementSpotWebpageIdBeforeTextAfterTextCompoundUniqueInput
+    AND?: Enumerable<AdvertisementSpotWhereInput>
+    OR?: Enumerable<AdvertisementSpotWhereInput>
+    NOT?: Enumerable<AdvertisementSpotWhereInput>
+    webpageId?: StringFilter | string
+    beforeText?: StringFilter | string
+    afterText?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+    advertisements?: AdvertisementListRelationFilter
+  }, "id" | "webpageId_beforeText_afterText">
+
+  export type AdvertisementSpotOrderByWithAggregationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    beforeText?: SortOrder
+    afterText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AdvertisementSpotCountOrderByAggregateInput
+    _max?: AdvertisementSpotMaxOrderByAggregateInput
+    _min?: AdvertisementSpotMinOrderByAggregateInput
+  }
+
+  export type AdvertisementSpotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AdvertisementSpotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AdvertisementSpotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AdvertisementSpotScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    webpageId?: StringWithAggregatesFilter | string
+    beforeText?: StringWithAggregatesFilter | string
+    afterText?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type ScoredCampaignWhereInput = {
+    AND?: Enumerable<ScoredCampaignWhereInput>
+    OR?: Enumerable<ScoredCampaignWhereInput>
+    NOT?: Enumerable<ScoredCampaignWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    campaignId?: StringFilter | string
+    score?: IntFilter | number
+    reason?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+    campaign?: XOR<CampaignRelationFilter, CampaignWhereInput>
+    advertisements?: AdvertisementListRelationFilter
+  }
+
+  export type ScoredCampaignOrderByWithRelationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    campaignId?: SortOrder
+    score?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    webpage?: WebpageOrderByWithRelationInput
+    campaign?: CampaignOrderByWithRelationInput
+    advertisements?: AdvertisementOrderByRelationAggregateInput
+  }
+
+  export type ScoredCampaignWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    webpageId_campaignId?: ScoredCampaignWebpageIdCampaignIdCompoundUniqueInput
+    AND?: Enumerable<ScoredCampaignWhereInput>
+    OR?: Enumerable<ScoredCampaignWhereInput>
+    NOT?: Enumerable<ScoredCampaignWhereInput>
+    webpageId?: StringFilter | string
+    campaignId?: StringFilter | string
+    score?: IntFilter | number
+    reason?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+    campaign?: XOR<CampaignRelationFilter, CampaignWhereInput>
+    advertisements?: AdvertisementListRelationFilter
+  }, "id" | "webpageId_campaignId">
+
+  export type ScoredCampaignOrderByWithAggregationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    campaignId?: SortOrder
+    score?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScoredCampaignCountOrderByAggregateInput
+    _avg?: ScoredCampaignAvgOrderByAggregateInput
+    _max?: ScoredCampaignMaxOrderByAggregateInput
+    _min?: ScoredCampaignMinOrderByAggregateInput
+    _sum?: ScoredCampaignSumOrderByAggregateInput
+  }
+
+  export type ScoredCampaignScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ScoredCampaignScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ScoredCampaignScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ScoredCampaignScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    webpageId?: StringWithAggregatesFilter | string
+    campaignId?: StringWithAggregatesFilter | string
+    score?: IntWithAggregatesFilter | number
+    reason?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type AdvertisementWhereInput = {
+    AND?: Enumerable<AdvertisementWhereInput>
+    OR?: Enumerable<AdvertisementWhereInput>
+    NOT?: Enumerable<AdvertisementWhereInput>
+    id?: StringFilter | string
+    scoredCampaignId?: StringFilter | string
+    advertisementSpotId?: StringFilter | string
+    advertText?: StringFilter | string
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    scoredCampaign?: XOR<ScoredCampaignRelationFilter, ScoredCampaignWhereInput>
+    impressions?: ImpressionListRelationFilter
+    advertisementSpot?: XOR<AdvertisementSpotRelationFilter, AdvertisementSpotWhereInput>
+  }
+
+  export type AdvertisementOrderByWithRelationInput = {
+    id?: SortOrder
+    scoredCampaignId?: SortOrder
+    advertisementSpotId?: SortOrder
+    advertText?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    scoredCampaign?: ScoredCampaignOrderByWithRelationInput
+    impressions?: ImpressionOrderByRelationAggregateInput
+    advertisementSpot?: AdvertisementSpotOrderByWithRelationInput
+  }
+
+  export type AdvertisementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<AdvertisementWhereInput>
+    OR?: Enumerable<AdvertisementWhereInput>
+    NOT?: Enumerable<AdvertisementWhereInput>
+    scoredCampaignId?: StringFilter | string
+    advertisementSpotId?: StringFilter | string
+    advertText?: StringFilter | string
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    scoredCampaign?: XOR<ScoredCampaignRelationFilter, ScoredCampaignWhereInput>
+    impressions?: ImpressionListRelationFilter
+    advertisementSpot?: XOR<AdvertisementSpotRelationFilter, AdvertisementSpotWhereInput>
+  }, "id">
+
+  export type AdvertisementOrderByWithAggregationInput = {
+    id?: SortOrder
+    scoredCampaignId?: SortOrder
+    advertisementSpotId?: SortOrder
+    advertText?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AdvertisementCountOrderByAggregateInput
+    _max?: AdvertisementMaxOrderByAggregateInput
+    _min?: AdvertisementMinOrderByAggregateInput
+  }
+
+  export type AdvertisementScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AdvertisementScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AdvertisementScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AdvertisementScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    scoredCampaignId?: StringWithAggregatesFilter | string
+    advertisementSpotId?: StringWithAggregatesFilter | string
+    advertText?: StringWithAggregatesFilter | string
+    status?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type CampaignWhereInput = {
+    AND?: Enumerable<CampaignWhereInput>
+    OR?: Enumerable<CampaignWhereInput>
+    NOT?: Enumerable<CampaignWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    name?: StringFilter | string
+    start?: DateTimeFilter | Date | string
+    end?: DateTimeFilter | Date | string
+    impressionCap?: IntFilter | number
+    fixedCpm?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    productName?: StringFilter | string
+    productDescription?: StringFilter | string
+    clickUrl?: StringFilter | string
+    requiredCssSelector?: StringFilter | string
+    pacing?: BoolFilter | boolean
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    scoredCampaigns?: ScoredCampaignListRelationFilter
+    categories?: CategoryListRelationFilter
+  }
+
+  export type CampaignOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    end?: SortOrder
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+    productName?: SortOrder
+    productDescription?: SortOrder
+    clickUrl?: SortOrder
+    requiredCssSelector?: SortOrder
+    pacing?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    scoredCampaigns?: ScoredCampaignOrderByRelationAggregateInput
+    categories?: CategoryOrderByRelationAggregateInput
+  }
+
+  export type CampaignWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_name?: CampaignUserIdNameCompoundUniqueInput
+    AND?: Enumerable<CampaignWhereInput>
+    OR?: Enumerable<CampaignWhereInput>
+    NOT?: Enumerable<CampaignWhereInput>
+    userId?: StringFilter | string
+    name?: StringFilter | string
+    start?: DateTimeFilter | Date | string
+    end?: DateTimeFilter | Date | string
+    impressionCap?: IntFilter | number
+    fixedCpm?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    productName?: StringFilter | string
+    productDescription?: StringFilter | string
+    clickUrl?: StringFilter | string
+    requiredCssSelector?: StringFilter | string
+    pacing?: BoolFilter | boolean
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    scoredCampaigns?: ScoredCampaignListRelationFilter
+    categories?: CategoryListRelationFilter
+  }, "id" | "userId_name">
+
+  export type CampaignOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    end?: SortOrder
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+    productName?: SortOrder
+    productDescription?: SortOrder
+    clickUrl?: SortOrder
+    requiredCssSelector?: SortOrder
+    pacing?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CampaignCountOrderByAggregateInput
+    _avg?: CampaignAvgOrderByAggregateInput
+    _max?: CampaignMaxOrderByAggregateInput
+    _min?: CampaignMinOrderByAggregateInput
+    _sum?: CampaignSumOrderByAggregateInput
+  }
+
+  export type CampaignScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CampaignScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CampaignScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CampaignScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    userId?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    start?: DateTimeWithAggregatesFilter | Date | string
+    end?: DateTimeWithAggregatesFilter | Date | string
+    impressionCap?: IntWithAggregatesFilter | number
+    fixedCpm?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    productName?: StringWithAggregatesFilter | string
+    productDescription?: StringWithAggregatesFilter | string
+    clickUrl?: StringWithAggregatesFilter | string
+    requiredCssSelector?: StringWithAggregatesFilter | string
+    pacing?: BoolWithAggregatesFilter | boolean
+    status?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type ImpressionWhereInput = {
+    AND?: Enumerable<ImpressionWhereInput>
+    OR?: Enumerable<ImpressionWhereInput>
+    NOT?: Enumerable<ImpressionWhereInput>
+    id?: StringFilter | string
+    advertisementId?: StringFilter | string
+    auctionId?: StringFilter | string
+    clicked?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    advertisement?: XOR<AdvertisementRelationFilter, AdvertisementWhereInput>
+    auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
+  }
+
+  export type ImpressionOrderByWithRelationInput = {
+    id?: SortOrder
+    advertisementId?: SortOrder
+    auctionId?: SortOrder
+    clicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    advertisement?: AdvertisementOrderByWithRelationInput
+    auction?: AuctionOrderByWithRelationInput
+  }
+
+  export type ImpressionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<ImpressionWhereInput>
+    OR?: Enumerable<ImpressionWhereInput>
+    NOT?: Enumerable<ImpressionWhereInput>
+    advertisementId?: StringFilter | string
+    auctionId?: StringFilter | string
+    clicked?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    advertisement?: XOR<AdvertisementRelationFilter, AdvertisementWhereInput>
+    auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
+  }, "id">
+
+  export type ImpressionOrderByWithAggregationInput = {
+    id?: SortOrder
+    advertisementId?: SortOrder
+    auctionId?: SortOrder
+    clicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ImpressionCountOrderByAggregateInput
+    _max?: ImpressionMaxOrderByAggregateInput
+    _min?: ImpressionMinOrderByAggregateInput
+  }
+
+  export type ImpressionScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ImpressionScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ImpressionScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ImpressionScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    advertisementId?: StringWithAggregatesFilter | string
+    auctionId?: StringWithAggregatesFilter | string
+    clicked?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type AccountCreateInput = {
+    id?: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+    user: UserCreateNestedOneWithoutAccountsInput
+  }
+
+  export type AccountUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type AccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
+  }
+
+  export type AccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccountCreateManyInput = {
+    id?: string
+    userId: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type AccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SessionCreateInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+    user: UserCreateNestedOneWithoutSessionsInput
+  }
+
+  export type SessionUncheckedCreateInput = {
+    id?: string
+    sessionToken: string
+    userId: string
+    expires: Date | string
+  }
+
+  export type SessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSessionsNestedInput
+  }
+
+  export type SessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionCreateManyInput = {
+    id?: string
+    sessionToken: string
+    userId: string
+    expires: Date | string
+  }
+
+  export type SessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenCreateInput = {
+    identifier: string
+    token: string
+    expires: Date | string
+  }
+
+  export type VerificationTokenUncheckedCreateInput = {
+    identifier: string
+    token: string
+    expires: Date | string
+  }
+
+  export type VerificationTokenUpdateInput = {
+    identifier?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateInput = {
+    identifier?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenCreateManyInput = {
+    identifier: string
+    token: string
+    expires: Date | string
+  }
+
+  export type VerificationTokenUpdateManyMutationInput = {
+    identifier?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateManyInput = {
+    identifier?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateManyInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingCreateInput = {
+    id?: string
+    scoreThreshold: number
+    status: boolean
+    addSponsoredWording?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutSettingInput
+  }
+
+  export type SettingUncheckedCreateInput = {
+    id?: string
+    userId: string
+    scoreThreshold: number
+    status: boolean
+    addSponsoredWording?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoreThreshold?: IntFieldUpdateOperationsInput | number
+    status?: BoolFieldUpdateOperationsInput | boolean
+    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSettingNestedInput
+  }
+
+  export type SettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scoreThreshold?: IntFieldUpdateOperationsInput | number
+    status?: BoolFieldUpdateOperationsInput | boolean
+    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingCreateManyInput = {
+    id?: string
+    userId: string
+    scoreThreshold: number
+    status: boolean
+    addSponsoredWording?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoreThreshold?: IntFieldUpdateOperationsInput | number
+    status?: BoolFieldUpdateOperationsInput | boolean
+    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scoreThreshold?: IntFieldUpdateOperationsInput | number
+    status?: BoolFieldUpdateOperationsInput | boolean
+    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionCreateInput = {
+    id?: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAuctionsInput
+    webpage?: WebpageCreateNestedOneWithoutAuctionsInput
+    impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionCreateManyInput = {
+    id?: string
+    userId: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteCreateInput = {
+    id?: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWebsitesInput
+    webpages?: WebpageCreateNestedManyWithoutWebsiteInput
+  }
+
+  export type WebsiteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageUncheckedCreateNestedManyWithoutWebsiteInput
+  }
+
+  export type WebsiteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWebsitesNestedInput
+    webpages?: WebpageUpdateManyWithoutWebsiteNestedInput
+  }
+
+  export type WebsiteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUncheckedUpdateManyWithoutWebsiteNestedInput
+  }
+
+  export type WebsiteCreateManyInput = {
+    id?: string
+    userId: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebpageCreateInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageCreateManyInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebpageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebpageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentCreateInput = {
+    id?: string
+    desktopHtml: string
+    mobileHtml?: string | null
+    tabletHtml?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutContentInput
+  }
+
+  export type ContentUncheckedCreateInput = {
+    id?: string
+    webpageId: string
+    desktopHtml: string
+    mobileHtml?: string | null
+    tabletHtml?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    desktopHtml?: StringFieldUpdateOperationsInput | string
+    mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutContentNestedInput
+  }
+
+  export type ContentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    desktopHtml?: StringFieldUpdateOperationsInput | string
+    mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentCreateManyInput = {
+    id?: string
+    webpageId: string
+    desktopHtml: string
+    mobileHtml?: string | null
+    tabletHtml?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    desktopHtml?: StringFieldUpdateOperationsInput | string
+    mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    desktopHtml?: StringFieldUpdateOperationsInput | string
+    mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCategoriesInput
+    webpages?: WebpageCreateNestedManyWithoutCategoriesInput
+    campaigns?: CampaignCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageUncheckedCreateNestedManyWithoutCategoriesInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
+    webpages?: WebpageUpdateManyWithoutCategoriesNestedInput
+    campaigns?: CampaignUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type CategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUncheckedUpdateManyWithoutCategoriesNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type CategoryCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdvertisementSpotCreateInput = {
+    id?: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutAdvertisementSpotsInput
+    advertisements?: AdvertisementCreateNestedManyWithoutAdvertisementSpotInput
+  }
+
+  export type AdvertisementSpotUncheckedCreateInput = {
+    id?: string
+    webpageId: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisements?: AdvertisementUncheckedCreateNestedManyWithoutAdvertisementSpotInput
+  }
+
+  export type AdvertisementSpotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutAdvertisementSpotsNestedInput
+    advertisements?: AdvertisementUpdateManyWithoutAdvertisementSpotNestedInput
+  }
+
+  export type AdvertisementSpotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisements?: AdvertisementUncheckedUpdateManyWithoutAdvertisementSpotNestedInput
+  }
+
+  export type AdvertisementSpotCreateManyInput = {
+    id?: string
+    webpageId: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementSpotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdvertisementSpotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoredCampaignCreateInput = {
+    id?: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutScoredCampaignsInput
+    campaign: CampaignCreateNestedOneWithoutScoredCampaignsInput
+    advertisements?: AdvertisementCreateNestedManyWithoutScoredCampaignInput
+  }
+
+  export type ScoredCampaignUncheckedCreateInput = {
+    id?: string
+    webpageId: string
+    campaignId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisements?: AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput
+  }
+
+  export type ScoredCampaignUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutScoredCampaignsNestedInput
+    advertisements?: AdvertisementUpdateManyWithoutScoredCampaignNestedInput
+  }
+
+  export type ScoredCampaignUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisements?: AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput
+  }
+
+  export type ScoredCampaignCreateManyInput = {
+    id?: string
+    webpageId: string
+    campaignId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScoredCampaignUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoredCampaignUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdvertisementCreateInput = {
+    id?: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaign: ScoredCampaignCreateNestedOneWithoutAdvertisementsInput
+    impressions?: ImpressionCreateNestedManyWithoutAdvertisementInput
+    advertisementSpot: AdvertisementSpotCreateNestedOneWithoutAdvertisementsInput
+  }
+
+  export type AdvertisementUncheckedCreateInput = {
+    id?: string
+    scoredCampaignId: string
+    advertisementSpotId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAdvertisementInput
+  }
+
+  export type AdvertisementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaign?: ScoredCampaignUpdateOneRequiredWithoutAdvertisementsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAdvertisementNestedInput
+    advertisementSpot?: AdvertisementSpotUpdateOneRequiredWithoutAdvertisementsNestedInput
+  }
+
+  export type AdvertisementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoredCampaignId?: StringFieldUpdateOperationsInput | string
+    advertisementSpotId?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAdvertisementNestedInput
+  }
+
+  export type AdvertisementCreateManyInput = {
+    id?: string
+    scoredCampaignId: string
+    advertisementSpotId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdvertisementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoredCampaignId?: StringFieldUpdateOperationsInput | string
+    advertisementSpotId?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CampaignCreateInput = {
+    id?: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCampaignsInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutCampaignInput
+    categories?: CategoryCreateNestedManyWithoutCampaignsInput
+  }
+
+  export type CampaignUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutCampaignInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCampaignsInput
+  }
+
+  export type CampaignUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCampaignsNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutCampaignNestedInput
+    categories?: CategoryUpdateManyWithoutCampaignsNestedInput
+  }
+
+  export type CampaignUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutCampaignNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCampaignsNestedInput
+  }
+
+  export type CampaignCreateManyInput = {
+    id?: string
+    userId: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CampaignUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CampaignUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImpressionCreateInput = {
+    id?: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisement: AdvertisementCreateNestedOneWithoutImpressionsInput
+    auction: AuctionCreateNestedOneWithoutImpressionsInput
+  }
+
+  export type ImpressionUncheckedCreateInput = {
+    id?: string
+    advertisementId: string
+    auctionId: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImpressionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisement?: AdvertisementUpdateOneRequiredWithoutImpressionsNestedInput
+    auction?: AuctionUpdateOneRequiredWithoutImpressionsNestedInput
+  }
+
+  export type ImpressionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertisementId?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImpressionCreateManyInput = {
+    id?: string
+    advertisementId: string
+    auctionId: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImpressionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImpressionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertisementId?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringFilter | string
+  }
+
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type AccountProviderProviderAccountIdCompoundUniqueInput = {
+    provider: string
+    providerAccountId: string
+  }
+
+  export type AccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    provider?: SortOrder
+    providerAccountId?: SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
+  }
+
+  export type AccountAvgOrderByAggregateInput = {
+    expires_at?: SortOrder
+  }
+
+  export type AccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    provider?: SortOrder
+    providerAccountId?: SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
+  }
+
+  export type AccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    provider?: SortOrder
+    providerAccountId?: SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
+  }
+
+  export type AccountSumOrderByAggregateInput = {
+    expires_at?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type SessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    sessionToken?: SortOrder
+    userId?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type SessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    sessionToken?: SortOrder
+    userId?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type SessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    sessionToken?: SortOrder
+    userId?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
+    identifier: string
+    token: string
+  }
+
+  export type VerificationTokenCountOrderByAggregateInput = {
+    identifier?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type VerificationTokenMaxOrderByAggregateInput = {
+    identifier?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type VerificationTokenMinOrderByAggregateInput = {
+    identifier?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+  }
+
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type AccountListRelationFilter = {
+    every?: AccountWhereInput
+    some?: AccountWhereInput
+    none?: AccountWhereInput
+  }
+
+  export type SessionListRelationFilter = {
+    every?: SessionWhereInput
+    some?: SessionWhereInput
+    none?: SessionWhereInput
+  }
+
+  export type AuctionListRelationFilter = {
+    every?: AuctionWhereInput
+    some?: AuctionWhereInput
+    none?: AuctionWhereInput
+  }
+
+  export type CampaignListRelationFilter = {
+    every?: CampaignWhereInput
+    some?: CampaignWhereInput
+    none?: CampaignWhereInput
+  }
+
+  export type WebsiteListRelationFilter = {
+    every?: WebsiteWhereInput
+    some?: WebsiteWhereInput
+    none?: WebsiteWhereInput
+  }
+
+  export type CategoryListRelationFilter = {
+    every?: CategoryWhereInput
+    some?: CategoryWhereInput
+    none?: CategoryWhereInput
+  }
+
+  export type SettingRelationFilter = {
+    is?: SettingWhereInput | null
+    isNot?: SettingWhereInput | null
+  }
+
+  export type AccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AuctionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CampaignOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebsiteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type IntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
+  export type SettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    scoreThreshold?: SortOrder
+    status?: SortOrder
+    addSponsoredWording?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingAvgOrderByAggregateInput = {
+    scoreThreshold?: SortOrder
+  }
+
+  export type SettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    scoreThreshold?: SortOrder
+    status?: SortOrder
+    addSponsoredWording?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    scoreThreshold?: SortOrder
+    status?: SortOrder
+    addSponsoredWording?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingSumOrderByAggregateInput = {
+    scoreThreshold?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
+  export type WebpageRelationFilter = {
+    is?: WebpageWhereInput
+    isNot?: WebpageWhereInput
+  }
+
+  export type ImpressionListRelationFilter = {
+    every?: ImpressionWhereInput
+    some?: ImpressionWhereInput
+    none?: ImpressionWhereInput
+  }
+
+  export type ImpressionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AuctionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    webpageId?: SortOrder
+    url?: SortOrder
+    userAgent?: SortOrder
+    ip?: SortOrder
+    endUserCuid?: SortOrder
+    endUserFp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuctionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    webpageId?: SortOrder
+    url?: SortOrder
+    userAgent?: SortOrder
+    ip?: SortOrder
+    endUserCuid?: SortOrder
+    endUserFp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuctionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    webpageId?: SortOrder
+    url?: SortOrder
+    userAgent?: SortOrder
+    ip?: SortOrder
+    endUserCuid?: SortOrder
+    endUserFp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebpageListRelationFilter = {
+    every?: WebpageWhereInput
+    some?: WebpageWhereInput
+    none?: WebpageWhereInput
+  }
+
+  export type WebpageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebsiteUserIdTopLevelDomainUrlCompoundUniqueInput = {
+    userId: string
+    topLevelDomainUrl: string
+  }
+
+  export type WebsiteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topLevelDomainUrl?: SortOrder
+    sitemapUrl?: SortOrder
+    status?: SortOrder
+    processedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebsiteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topLevelDomainUrl?: SortOrder
+    sitemapUrl?: SortOrder
+    status?: SortOrder
+    processedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebsiteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    topLevelDomainUrl?: SortOrder
+    sitemapUrl?: SortOrder
+    status?: SortOrder
+    processedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebsiteRelationFilter = {
+    is?: WebsiteWhereInput
+    isNot?: WebsiteWhereInput
+  }
+
+  export type ScoredCampaignListRelationFilter = {
+    every?: ScoredCampaignWhereInput
+    some?: ScoredCampaignWhereInput
+    none?: ScoredCampaignWhereInput
+  }
+
+  export type AdvertisementSpotListRelationFilter = {
+    every?: AdvertisementSpotWhereInput
+    some?: AdvertisementSpotWhereInput
+    none?: AdvertisementSpotWhereInput
+  }
+
+  export type ContentRelationFilter = {
+    is?: ContentWhereInput | null
+    isNot?: ContentWhereInput | null
+  }
+
+  export type ScoredCampaignOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AdvertisementSpotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebpageWebsiteIdUrlCompoundUniqueInput = {
+    websiteId: string
+    url: string
+  }
+
+  export type WebpageCountOrderByAggregateInput = {
+    id?: SortOrder
+    websiteId?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    lastModifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebpageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    websiteId?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    lastModifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebpageMinOrderByAggregateInput = {
+    id?: SortOrder
+    websiteId?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    lastModifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContentCountOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    desktopHtml?: SortOrder
+    mobileHtml?: SortOrder
+    tabletHtml?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    desktopHtml?: SortOrder
+    mobileHtml?: SortOrder
+    tabletHtml?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContentMinOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    desktopHtml?: SortOrder
+    mobileHtml?: SortOrder
+    tabletHtml?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategoryUserIdNameCompoundUniqueInput = {
+    userId: string
+    name: string
+  }
+
+  export type CategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdvertisementListRelationFilter = {
+    every?: AdvertisementWhereInput
+    some?: AdvertisementWhereInput
+    none?: AdvertisementWhereInput
+  }
+
+  export type AdvertisementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AdvertisementSpotWebpageIdBeforeTextAfterTextCompoundUniqueInput = {
+    webpageId: string
+    beforeText: string
+    afterText: string
+  }
+
+  export type AdvertisementSpotCountOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    beforeText?: SortOrder
+    afterText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdvertisementSpotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    beforeText?: SortOrder
+    afterText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdvertisementSpotMinOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    beforeText?: SortOrder
+    afterText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CampaignRelationFilter = {
+    is?: CampaignWhereInput
+    isNot?: CampaignWhereInput
+  }
+
+  export type ScoredCampaignWebpageIdCampaignIdCompoundUniqueInput = {
+    webpageId: string
+    campaignId: string
+  }
+
+  export type ScoredCampaignCountOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    campaignId?: SortOrder
+    score?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScoredCampaignAvgOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type ScoredCampaignMaxOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    campaignId?: SortOrder
+    score?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScoredCampaignMinOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    campaignId?: SortOrder
+    score?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScoredCampaignSumOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type ScoredCampaignRelationFilter = {
+    is?: ScoredCampaignWhereInput
+    isNot?: ScoredCampaignWhereInput
+  }
+
+  export type AdvertisementSpotRelationFilter = {
+    is?: AdvertisementSpotWhereInput
+    isNot?: AdvertisementSpotWhereInput
+  }
+
+  export type AdvertisementCountOrderByAggregateInput = {
+    id?: SortOrder
+    scoredCampaignId?: SortOrder
+    advertisementSpotId?: SortOrder
+    advertText?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdvertisementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    scoredCampaignId?: SortOrder
+    advertisementSpotId?: SortOrder
+    advertText?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdvertisementMinOrderByAggregateInput = {
+    id?: SortOrder
+    scoredCampaignId?: SortOrder
+    advertisementSpotId?: SortOrder
+    advertText?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
+  }
+
+  export type CampaignUserIdNameCompoundUniqueInput = {
+    userId: string
+    name: string
+  }
+
+  export type CampaignCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    end?: SortOrder
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+    productName?: SortOrder
+    productDescription?: SortOrder
+    clickUrl?: SortOrder
+    requiredCssSelector?: SortOrder
+    pacing?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CampaignAvgOrderByAggregateInput = {
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+  }
+
+  export type CampaignMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    end?: SortOrder
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+    productName?: SortOrder
+    productDescription?: SortOrder
+    clickUrl?: SortOrder
+    requiredCssSelector?: SortOrder
+    pacing?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CampaignMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    start?: SortOrder
+    end?: SortOrder
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+    productName?: SortOrder
+    productDescription?: SortOrder
+    clickUrl?: SortOrder
+    requiredCssSelector?: SortOrder
+    pacing?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CampaignSumOrderByAggregateInput = {
+    impressionCap?: SortOrder
+    fixedCpm?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
+  }
+
+  export type AdvertisementRelationFilter = {
+    is?: AdvertisementWhereInput
+    isNot?: AdvertisementWhereInput
+  }
+
+  export type AuctionRelationFilter = {
+    is?: AuctionWhereInput
+    isNot?: AuctionWhereInput
+  }
+
+  export type ImpressionCountOrderByAggregateInput = {
+    id?: SortOrder
+    advertisementId?: SortOrder
+    auctionId?: SortOrder
+    clicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImpressionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    advertisementId?: SortOrder
+    auctionId?: SortOrder
+    clicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImpressionMinOrderByAggregateInput = {
+    id?: SortOrder
+    advertisementId?: SortOrder
+    auctionId?: SortOrder
+    clicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCreateNestedOneWithoutAccountsInput = {
+    create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
+    create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
+    upsert?: UserUpsertWithoutAccountsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type UserCreateNestedOneWithoutSessionsInput = {
+    create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
+    create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
+    upsert?: UserUpsertWithoutSessionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type AccountCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
+    createMany?: AccountCreateManyUserInputEnvelope
+    connect?: Enumerable<AccountWhereUniqueInput>
+  }
+
+  export type SessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<SessionCreateWithoutUserInput>, Enumerable<SessionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SessionCreateOrConnectWithoutUserInput>
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: Enumerable<SessionWhereUniqueInput>
+  }
+
+  export type AuctionCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutUserInput>, Enumerable<AuctionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutUserInput>
+    createMany?: AuctionCreateManyUserInputEnvelope
+    connect?: Enumerable<AuctionWhereUniqueInput>
+  }
+
+  export type CampaignCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutUserInput>, Enumerable<CampaignUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutUserInput>
+    createMany?: CampaignCreateManyUserInputEnvelope
+    connect?: Enumerable<CampaignWhereUniqueInput>
+  }
+
+  export type WebsiteCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<WebsiteCreateWithoutUserInput>, Enumerable<WebsiteUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<WebsiteCreateOrConnectWithoutUserInput>
+    createMany?: WebsiteCreateManyUserInputEnvelope
+    connect?: Enumerable<WebsiteWhereUniqueInput>
+  }
+
+  export type CategoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutUserInput>, Enumerable<CategoryUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutUserInput>
+    createMany?: CategoryCreateManyUserInputEnvelope
+    connect?: Enumerable<CategoryWhereUniqueInput>
+  }
+
+  export type SettingCreateNestedOneWithoutUserInput = {
+    create?: XOR<SettingCreateWithoutUserInput, SettingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SettingCreateOrConnectWithoutUserInput
+    connect?: SettingWhereUniqueInput
+  }
+
+  export type AccountUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
+    createMany?: AccountCreateManyUserInputEnvelope
+    connect?: Enumerable<AccountWhereUniqueInput>
+  }
+
+  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<SessionCreateWithoutUserInput>, Enumerable<SessionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SessionCreateOrConnectWithoutUserInput>
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: Enumerable<SessionWhereUniqueInput>
+  }
+
+  export type AuctionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutUserInput>, Enumerable<AuctionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutUserInput>
+    createMany?: AuctionCreateManyUserInputEnvelope
+    connect?: Enumerable<AuctionWhereUniqueInput>
+  }
+
+  export type CampaignUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutUserInput>, Enumerable<CampaignUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutUserInput>
+    createMany?: CampaignCreateManyUserInputEnvelope
+    connect?: Enumerable<CampaignWhereUniqueInput>
+  }
+
+  export type WebsiteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<WebsiteCreateWithoutUserInput>, Enumerable<WebsiteUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<WebsiteCreateOrConnectWithoutUserInput>
+    createMany?: WebsiteCreateManyUserInputEnvelope
+    connect?: Enumerable<WebsiteWhereUniqueInput>
+  }
+
+  export type CategoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutUserInput>, Enumerable<CategoryUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutUserInput>
+    createMany?: CategoryCreateManyUserInputEnvelope
+    connect?: Enumerable<CategoryWhereUniqueInput>
+  }
+
+  export type SettingUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<SettingCreateWithoutUserInput, SettingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SettingCreateOrConnectWithoutUserInput
+    connect?: SettingWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type AccountUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AccountUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AccountCreateManyUserInputEnvelope
+    set?: Enumerable<AccountWhereUniqueInput>
+    disconnect?: Enumerable<AccountWhereUniqueInput>
+    delete?: Enumerable<AccountWhereUniqueInput>
+    connect?: Enumerable<AccountWhereUniqueInput>
+    update?: Enumerable<AccountUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AccountUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AccountScalarWhereInput>
+  }
+
+  export type SessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<SessionCreateWithoutUserInput>, Enumerable<SessionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SessionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<SessionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: Enumerable<SessionWhereUniqueInput>
+    disconnect?: Enumerable<SessionWhereUniqueInput>
+    delete?: Enumerable<SessionWhereUniqueInput>
+    connect?: Enumerable<SessionWhereUniqueInput>
+    update?: Enumerable<SessionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<SessionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<SessionScalarWhereInput>
+  }
+
+  export type AuctionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutUserInput>, Enumerable<AuctionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AuctionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AuctionCreateManyUserInputEnvelope
+    set?: Enumerable<AuctionWhereUniqueInput>
+    disconnect?: Enumerable<AuctionWhereUniqueInput>
+    delete?: Enumerable<AuctionWhereUniqueInput>
+    connect?: Enumerable<AuctionWhereUniqueInput>
+    update?: Enumerable<AuctionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AuctionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AuctionScalarWhereInput>
+  }
+
+  export type CampaignUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutUserInput>, Enumerable<CampaignUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CampaignUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CampaignCreateManyUserInputEnvelope
+    set?: Enumerable<CampaignWhereUniqueInput>
+    disconnect?: Enumerable<CampaignWhereUniqueInput>
+    delete?: Enumerable<CampaignWhereUniqueInput>
+    connect?: Enumerable<CampaignWhereUniqueInput>
+    update?: Enumerable<CampaignUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CampaignUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CampaignScalarWhereInput>
+  }
+
+  export type WebsiteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<WebsiteCreateWithoutUserInput>, Enumerable<WebsiteUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<WebsiteCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<WebsiteUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: WebsiteCreateManyUserInputEnvelope
+    set?: Enumerable<WebsiteWhereUniqueInput>
+    disconnect?: Enumerable<WebsiteWhereUniqueInput>
+    delete?: Enumerable<WebsiteWhereUniqueInput>
+    connect?: Enumerable<WebsiteWhereUniqueInput>
+    update?: Enumerable<WebsiteUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<WebsiteUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<WebsiteScalarWhereInput>
+  }
+
+  export type CategoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutUserInput>, Enumerable<CategoryUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CategoryUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CategoryCreateManyUserInputEnvelope
+    set?: Enumerable<CategoryWhereUniqueInput>
+    disconnect?: Enumerable<CategoryWhereUniqueInput>
+    delete?: Enumerable<CategoryWhereUniqueInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+    update?: Enumerable<CategoryUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CategoryUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CategoryScalarWhereInput>
+  }
+
+  export type SettingUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SettingCreateWithoutUserInput, SettingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SettingCreateOrConnectWithoutUserInput
+    upsert?: SettingUpsertWithoutUserInput
+    disconnect?: SettingWhereInput | boolean
+    delete?: SettingWhereInput | boolean
+    connect?: SettingWhereUniqueInput
+    update?: XOR<XOR<SettingUpdateToOneWithWhereWithoutUserInput, SettingUpdateWithoutUserInput>, SettingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AccountUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AccountCreateManyUserInputEnvelope
+    set?: Enumerable<AccountWhereUniqueInput>
+    disconnect?: Enumerable<AccountWhereUniqueInput>
+    delete?: Enumerable<AccountWhereUniqueInput>
+    connect?: Enumerable<AccountWhereUniqueInput>
+    update?: Enumerable<AccountUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AccountUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AccountScalarWhereInput>
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<SessionCreateWithoutUserInput>, Enumerable<SessionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<SessionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<SessionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: Enumerable<SessionWhereUniqueInput>
+    disconnect?: Enumerable<SessionWhereUniqueInput>
+    delete?: Enumerable<SessionWhereUniqueInput>
+    connect?: Enumerable<SessionWhereUniqueInput>
+    update?: Enumerable<SessionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<SessionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<SessionScalarWhereInput>
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutUserInput>, Enumerable<AuctionUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AuctionUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AuctionCreateManyUserInputEnvelope
+    set?: Enumerable<AuctionWhereUniqueInput>
+    disconnect?: Enumerable<AuctionWhereUniqueInput>
+    delete?: Enumerable<AuctionWhereUniqueInput>
+    connect?: Enumerable<AuctionWhereUniqueInput>
+    update?: Enumerable<AuctionUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AuctionUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AuctionScalarWhereInput>
+  }
+
+  export type CampaignUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutUserInput>, Enumerable<CampaignUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CampaignUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CampaignCreateManyUserInputEnvelope
+    set?: Enumerable<CampaignWhereUniqueInput>
+    disconnect?: Enumerable<CampaignWhereUniqueInput>
+    delete?: Enumerable<CampaignWhereUniqueInput>
+    connect?: Enumerable<CampaignWhereUniqueInput>
+    update?: Enumerable<CampaignUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CampaignUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CampaignScalarWhereInput>
+  }
+
+  export type WebsiteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<WebsiteCreateWithoutUserInput>, Enumerable<WebsiteUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<WebsiteCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<WebsiteUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: WebsiteCreateManyUserInputEnvelope
+    set?: Enumerable<WebsiteWhereUniqueInput>
+    disconnect?: Enumerable<WebsiteWhereUniqueInput>
+    delete?: Enumerable<WebsiteWhereUniqueInput>
+    connect?: Enumerable<WebsiteWhereUniqueInput>
+    update?: Enumerable<WebsiteUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<WebsiteUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<WebsiteScalarWhereInput>
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutUserInput>, Enumerable<CategoryUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CategoryUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CategoryCreateManyUserInputEnvelope
+    set?: Enumerable<CategoryWhereUniqueInput>
+    disconnect?: Enumerable<CategoryWhereUniqueInput>
+    delete?: Enumerable<CategoryWhereUniqueInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+    update?: Enumerable<CategoryUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CategoryUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CategoryScalarWhereInput>
+  }
+
+  export type SettingUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SettingCreateWithoutUserInput, SettingUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SettingCreateOrConnectWithoutUserInput
+    upsert?: SettingUpsertWithoutUserInput
+    disconnect?: SettingWhereInput | boolean
+    delete?: SettingWhereInput | boolean
+    connect?: SettingWhereUniqueInput
+    update?: XOR<XOR<SettingUpdateToOneWithWhereWithoutUserInput, SettingUpdateWithoutUserInput>, SettingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCreateNestedOneWithoutSettingInput = {
+    create?: XOR<UserCreateWithoutSettingInput, UserUncheckedCreateWithoutSettingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSettingInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutSettingNestedInput = {
+    create?: XOR<UserCreateWithoutSettingInput, UserUncheckedCreateWithoutSettingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSettingInput
+    upsert?: UserUpsertWithoutSettingInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSettingInput, UserUpdateWithoutSettingInput>, UserUncheckedUpdateWithoutSettingInput>
+  }
+
+  export type UserCreateNestedOneWithoutAuctionsInput = {
+    create?: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuctionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WebpageCreateNestedOneWithoutAuctionsInput = {
+    create?: XOR<WebpageCreateWithoutAuctionsInput, WebpageUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutAuctionsInput
+    connect?: WebpageWhereUniqueInput
+  }
+
+  export type ImpressionCreateNestedManyWithoutAuctionInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAuctionInput>, Enumerable<ImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAuctionInput>
+    createMany?: ImpressionCreateManyAuctionInputEnvelope
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+  }
+
+  export type ImpressionUncheckedCreateNestedManyWithoutAuctionInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAuctionInput>, Enumerable<ImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAuctionInput>
+    createMany?: ImpressionCreateManyAuctionInputEnvelope
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAuctionsNestedInput = {
+    create?: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuctionsInput
+    upsert?: UserUpsertWithoutAuctionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuctionsInput, UserUpdateWithoutAuctionsInput>, UserUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type WebpageUpdateOneWithoutAuctionsNestedInput = {
+    create?: XOR<WebpageCreateWithoutAuctionsInput, WebpageUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutAuctionsInput
+    upsert?: WebpageUpsertWithoutAuctionsInput
+    disconnect?: WebpageWhereInput | boolean
+    delete?: WebpageWhereInput | boolean
+    connect?: WebpageWhereUniqueInput
+    update?: XOR<XOR<WebpageUpdateToOneWithWhereWithoutAuctionsInput, WebpageUpdateWithoutAuctionsInput>, WebpageUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type ImpressionUpdateManyWithoutAuctionNestedInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAuctionInput>, Enumerable<ImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAuctionInput>
+    upsert?: Enumerable<ImpressionUpsertWithWhereUniqueWithoutAuctionInput>
+    createMany?: ImpressionCreateManyAuctionInputEnvelope
+    set?: Enumerable<ImpressionWhereUniqueInput>
+    disconnect?: Enumerable<ImpressionWhereUniqueInput>
+    delete?: Enumerable<ImpressionWhereUniqueInput>
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+    update?: Enumerable<ImpressionUpdateWithWhereUniqueWithoutAuctionInput>
+    updateMany?: Enumerable<ImpressionUpdateManyWithWhereWithoutAuctionInput>
+    deleteMany?: Enumerable<ImpressionScalarWhereInput>
+  }
+
+  export type ImpressionUncheckedUpdateManyWithoutAuctionNestedInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAuctionInput>, Enumerable<ImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAuctionInput>
+    upsert?: Enumerable<ImpressionUpsertWithWhereUniqueWithoutAuctionInput>
+    createMany?: ImpressionCreateManyAuctionInputEnvelope
+    set?: Enumerable<ImpressionWhereUniqueInput>
+    disconnect?: Enumerable<ImpressionWhereUniqueInput>
+    delete?: Enumerable<ImpressionWhereUniqueInput>
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+    update?: Enumerable<ImpressionUpdateWithWhereUniqueWithoutAuctionInput>
+    updateMany?: Enumerable<ImpressionUpdateManyWithWhereWithoutAuctionInput>
+    deleteMany?: Enumerable<ImpressionScalarWhereInput>
+  }
+
+  export type UserCreateNestedOneWithoutWebsitesInput = {
+    create?: XOR<UserCreateWithoutWebsitesInput, UserUncheckedCreateWithoutWebsitesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWebsitesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WebpageCreateNestedManyWithoutWebsiteInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutWebsiteInput>, Enumerable<WebpageUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutWebsiteInput>
+    createMany?: WebpageCreateManyWebsiteInputEnvelope
+    connect?: Enumerable<WebpageWhereUniqueInput>
+  }
+
+  export type WebpageUncheckedCreateNestedManyWithoutWebsiteInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutWebsiteInput>, Enumerable<WebpageUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutWebsiteInput>
+    createMany?: WebpageCreateManyWebsiteInputEnvelope
+    connect?: Enumerable<WebpageWhereUniqueInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutWebsitesNestedInput = {
+    create?: XOR<UserCreateWithoutWebsitesInput, UserUncheckedCreateWithoutWebsitesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWebsitesInput
+    upsert?: UserUpsertWithoutWebsitesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWebsitesInput, UserUpdateWithoutWebsitesInput>, UserUncheckedUpdateWithoutWebsitesInput>
+  }
+
+  export type WebpageUpdateManyWithoutWebsiteNestedInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutWebsiteInput>, Enumerable<WebpageUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutWebsiteInput>
+    upsert?: Enumerable<WebpageUpsertWithWhereUniqueWithoutWebsiteInput>
+    createMany?: WebpageCreateManyWebsiteInputEnvelope
+    set?: Enumerable<WebpageWhereUniqueInput>
+    disconnect?: Enumerable<WebpageWhereUniqueInput>
+    delete?: Enumerable<WebpageWhereUniqueInput>
+    connect?: Enumerable<WebpageWhereUniqueInput>
+    update?: Enumerable<WebpageUpdateWithWhereUniqueWithoutWebsiteInput>
+    updateMany?: Enumerable<WebpageUpdateManyWithWhereWithoutWebsiteInput>
+    deleteMany?: Enumerable<WebpageScalarWhereInput>
+  }
+
+  export type WebpageUncheckedUpdateManyWithoutWebsiteNestedInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutWebsiteInput>, Enumerable<WebpageUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutWebsiteInput>
+    upsert?: Enumerable<WebpageUpsertWithWhereUniqueWithoutWebsiteInput>
+    createMany?: WebpageCreateManyWebsiteInputEnvelope
+    set?: Enumerable<WebpageWhereUniqueInput>
+    disconnect?: Enumerable<WebpageWhereUniqueInput>
+    delete?: Enumerable<WebpageWhereUniqueInput>
+    connect?: Enumerable<WebpageWhereUniqueInput>
+    update?: Enumerable<WebpageUpdateWithWhereUniqueWithoutWebsiteInput>
+    updateMany?: Enumerable<WebpageUpdateManyWithWhereWithoutWebsiteInput>
+    deleteMany?: Enumerable<WebpageScalarWhereInput>
+  }
+
+  export type WebsiteCreateNestedOneWithoutWebpagesInput = {
+    create?: XOR<WebsiteCreateWithoutWebpagesInput, WebsiteUncheckedCreateWithoutWebpagesInput>
+    connectOrCreate?: WebsiteCreateOrConnectWithoutWebpagesInput
+    connect?: WebsiteWhereUniqueInput
+  }
+
+  export type ScoredCampaignCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutWebpageInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutWebpageInput>
+    createMany?: ScoredCampaignCreateManyWebpageInputEnvelope
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+  }
+
+  export type AdvertisementSpotCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<AdvertisementSpotCreateWithoutWebpageInput>, Enumerable<AdvertisementSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AdvertisementSpotCreateOrConnectWithoutWebpageInput>
+    createMany?: AdvertisementSpotCreateManyWebpageInputEnvelope
+    connect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+  }
+
+  export type CategoryCreateNestedManyWithoutWebpagesInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutWebpagesInput>, Enumerable<CategoryUncheckedCreateWithoutWebpagesInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutWebpagesInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+  }
+
+  export type AuctionCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebpageInput>, Enumerable<AuctionUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebpageInput>
+    createMany?: AuctionCreateManyWebpageInputEnvelope
+    connect?: Enumerable<AuctionWhereUniqueInput>
+  }
+
+  export type ContentCreateNestedOneWithoutWebpageInput = {
+    create?: XOR<ContentCreateWithoutWebpageInput, ContentUncheckedCreateWithoutWebpageInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutWebpageInput
+    connect?: ContentWhereUniqueInput
+  }
+
+  export type ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutWebpageInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutWebpageInput>
+    createMany?: ScoredCampaignCreateManyWebpageInputEnvelope
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+  }
+
+  export type AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<AdvertisementSpotCreateWithoutWebpageInput>, Enumerable<AdvertisementSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AdvertisementSpotCreateOrConnectWithoutWebpageInput>
+    createMany?: AdvertisementSpotCreateManyWebpageInputEnvelope
+    connect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+  }
+
+  export type CategoryUncheckedCreateNestedManyWithoutWebpagesInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutWebpagesInput>, Enumerable<CategoryUncheckedCreateWithoutWebpagesInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutWebpagesInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+  }
+
+  export type AuctionUncheckedCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebpageInput>, Enumerable<AuctionUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebpageInput>
+    createMany?: AuctionCreateManyWebpageInputEnvelope
+    connect?: Enumerable<AuctionWhereUniqueInput>
+  }
+
+  export type ContentUncheckedCreateNestedOneWithoutWebpageInput = {
+    create?: XOR<ContentCreateWithoutWebpageInput, ContentUncheckedCreateWithoutWebpageInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutWebpageInput
+    connect?: ContentWhereUniqueInput
+  }
+
+  export type WebsiteUpdateOneRequiredWithoutWebpagesNestedInput = {
+    create?: XOR<WebsiteCreateWithoutWebpagesInput, WebsiteUncheckedCreateWithoutWebpagesInput>
+    connectOrCreate?: WebsiteCreateOrConnectWithoutWebpagesInput
+    upsert?: WebsiteUpsertWithoutWebpagesInput
+    connect?: WebsiteWhereUniqueInput
+    update?: XOR<XOR<WebsiteUpdateToOneWithWhereWithoutWebpagesInput, WebsiteUpdateWithoutWebpagesInput>, WebsiteUncheckedUpdateWithoutWebpagesInput>
+  }
+
+  export type ScoredCampaignUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutWebpageInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<ScoredCampaignUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: ScoredCampaignCreateManyWebpageInputEnvelope
+    set?: Enumerable<ScoredCampaignWhereUniqueInput>
+    disconnect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    delete?: Enumerable<ScoredCampaignWhereUniqueInput>
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    update?: Enumerable<ScoredCampaignUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<ScoredCampaignUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<ScoredCampaignScalarWhereInput>
+  }
+
+  export type AdvertisementSpotUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<AdvertisementSpotCreateWithoutWebpageInput>, Enumerable<AdvertisementSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AdvertisementSpotCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<AdvertisementSpotUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: AdvertisementSpotCreateManyWebpageInputEnvelope
+    set?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    disconnect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    delete?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    connect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    update?: Enumerable<AdvertisementSpotUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<AdvertisementSpotUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<AdvertisementSpotScalarWhereInput>
+  }
+
+  export type CategoryUpdateManyWithoutWebpagesNestedInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutWebpagesInput>, Enumerable<CategoryUncheckedCreateWithoutWebpagesInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutWebpagesInput>
+    upsert?: Enumerable<CategoryUpsertWithWhereUniqueWithoutWebpagesInput>
+    set?: Enumerable<CategoryWhereUniqueInput>
+    disconnect?: Enumerable<CategoryWhereUniqueInput>
+    delete?: Enumerable<CategoryWhereUniqueInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+    update?: Enumerable<CategoryUpdateWithWhereUniqueWithoutWebpagesInput>
+    updateMany?: Enumerable<CategoryUpdateManyWithWhereWithoutWebpagesInput>
+    deleteMany?: Enumerable<CategoryScalarWhereInput>
+  }
+
+  export type AuctionUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebpageInput>, Enumerable<AuctionUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<AuctionUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: AuctionCreateManyWebpageInputEnvelope
+    set?: Enumerable<AuctionWhereUniqueInput>
+    disconnect?: Enumerable<AuctionWhereUniqueInput>
+    delete?: Enumerable<AuctionWhereUniqueInput>
+    connect?: Enumerable<AuctionWhereUniqueInput>
+    update?: Enumerable<AuctionUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<AuctionUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<AuctionScalarWhereInput>
+  }
+
+  export type ContentUpdateOneWithoutWebpageNestedInput = {
+    create?: XOR<ContentCreateWithoutWebpageInput, ContentUncheckedCreateWithoutWebpageInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutWebpageInput
+    upsert?: ContentUpsertWithoutWebpageInput
+    disconnect?: ContentWhereInput | boolean
+    delete?: ContentWhereInput | boolean
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutWebpageInput, ContentUpdateWithoutWebpageInput>, ContentUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutWebpageInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<ScoredCampaignUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: ScoredCampaignCreateManyWebpageInputEnvelope
+    set?: Enumerable<ScoredCampaignWhereUniqueInput>
+    disconnect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    delete?: Enumerable<ScoredCampaignWhereUniqueInput>
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    update?: Enumerable<ScoredCampaignUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<ScoredCampaignUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<ScoredCampaignScalarWhereInput>
+  }
+
+  export type AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<AdvertisementSpotCreateWithoutWebpageInput>, Enumerable<AdvertisementSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AdvertisementSpotCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<AdvertisementSpotUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: AdvertisementSpotCreateManyWebpageInputEnvelope
+    set?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    disconnect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    delete?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    connect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+    update?: Enumerable<AdvertisementSpotUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<AdvertisementSpotUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<AdvertisementSpotScalarWhereInput>
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutWebpagesNestedInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutWebpagesInput>, Enumerable<CategoryUncheckedCreateWithoutWebpagesInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutWebpagesInput>
+    upsert?: Enumerable<CategoryUpsertWithWhereUniqueWithoutWebpagesInput>
+    set?: Enumerable<CategoryWhereUniqueInput>
+    disconnect?: Enumerable<CategoryWhereUniqueInput>
+    delete?: Enumerable<CategoryWhereUniqueInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+    update?: Enumerable<CategoryUpdateWithWhereUniqueWithoutWebpagesInput>
+    updateMany?: Enumerable<CategoryUpdateManyWithWhereWithoutWebpagesInput>
+    deleteMany?: Enumerable<CategoryScalarWhereInput>
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebpageInput>, Enumerable<AuctionUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<AuctionUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: AuctionCreateManyWebpageInputEnvelope
+    set?: Enumerable<AuctionWhereUniqueInput>
+    disconnect?: Enumerable<AuctionWhereUniqueInput>
+    delete?: Enumerable<AuctionWhereUniqueInput>
+    connect?: Enumerable<AuctionWhereUniqueInput>
+    update?: Enumerable<AuctionUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<AuctionUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<AuctionScalarWhereInput>
+  }
+
+  export type ContentUncheckedUpdateOneWithoutWebpageNestedInput = {
+    create?: XOR<ContentCreateWithoutWebpageInput, ContentUncheckedCreateWithoutWebpageInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutWebpageInput
+    upsert?: ContentUpsertWithoutWebpageInput
+    disconnect?: ContentWhereInput | boolean
+    delete?: ContentWhereInput | boolean
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutWebpageInput, ContentUpdateWithoutWebpageInput>, ContentUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type WebpageCreateNestedOneWithoutContentInput = {
+    create?: XOR<WebpageCreateWithoutContentInput, WebpageUncheckedCreateWithoutContentInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutContentInput
+    connect?: WebpageWhereUniqueInput
+  }
+
+  export type WebpageUpdateOneRequiredWithoutContentNestedInput = {
+    create?: XOR<WebpageCreateWithoutContentInput, WebpageUncheckedCreateWithoutContentInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutContentInput
+    upsert?: WebpageUpsertWithoutContentInput
+    connect?: WebpageWhereUniqueInput
+    update?: XOR<XOR<WebpageUpdateToOneWithWhereWithoutContentInput, WebpageUpdateWithoutContentInput>, WebpageUncheckedUpdateWithoutContentInput>
+  }
+
+  export type UserCreateNestedOneWithoutCategoriesInput = {
+    create?: XOR<UserCreateWithoutCategoriesInput, UserUncheckedCreateWithoutCategoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCategoriesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WebpageCreateNestedManyWithoutCategoriesInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutCategoriesInput>, Enumerable<WebpageUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutCategoriesInput>
+    connect?: Enumerable<WebpageWhereUniqueInput>
+  }
+
+  export type CampaignCreateNestedManyWithoutCategoriesInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutCategoriesInput>, Enumerable<CampaignUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutCategoriesInput>
+    connect?: Enumerable<CampaignWhereUniqueInput>
+  }
+
+  export type WebpageUncheckedCreateNestedManyWithoutCategoriesInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutCategoriesInput>, Enumerable<WebpageUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutCategoriesInput>
+    connect?: Enumerable<WebpageWhereUniqueInput>
+  }
+
+  export type CampaignUncheckedCreateNestedManyWithoutCategoriesInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutCategoriesInput>, Enumerable<CampaignUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutCategoriesInput>
+    connect?: Enumerable<CampaignWhereUniqueInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCategoriesNestedInput = {
+    create?: XOR<UserCreateWithoutCategoriesInput, UserUncheckedCreateWithoutCategoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCategoriesInput
+    upsert?: UserUpsertWithoutCategoriesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCategoriesInput, UserUpdateWithoutCategoriesInput>, UserUncheckedUpdateWithoutCategoriesInput>
+  }
+
+  export type WebpageUpdateManyWithoutCategoriesNestedInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutCategoriesInput>, Enumerable<WebpageUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutCategoriesInput>
+    upsert?: Enumerable<WebpageUpsertWithWhereUniqueWithoutCategoriesInput>
+    set?: Enumerable<WebpageWhereUniqueInput>
+    disconnect?: Enumerable<WebpageWhereUniqueInput>
+    delete?: Enumerable<WebpageWhereUniqueInput>
+    connect?: Enumerable<WebpageWhereUniqueInput>
+    update?: Enumerable<WebpageUpdateWithWhereUniqueWithoutCategoriesInput>
+    updateMany?: Enumerable<WebpageUpdateManyWithWhereWithoutCategoriesInput>
+    deleteMany?: Enumerable<WebpageScalarWhereInput>
+  }
+
+  export type CampaignUpdateManyWithoutCategoriesNestedInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutCategoriesInput>, Enumerable<CampaignUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutCategoriesInput>
+    upsert?: Enumerable<CampaignUpsertWithWhereUniqueWithoutCategoriesInput>
+    set?: Enumerable<CampaignWhereUniqueInput>
+    disconnect?: Enumerable<CampaignWhereUniqueInput>
+    delete?: Enumerable<CampaignWhereUniqueInput>
+    connect?: Enumerable<CampaignWhereUniqueInput>
+    update?: Enumerable<CampaignUpdateWithWhereUniqueWithoutCategoriesInput>
+    updateMany?: Enumerable<CampaignUpdateManyWithWhereWithoutCategoriesInput>
+    deleteMany?: Enumerable<CampaignScalarWhereInput>
+  }
+
+  export type WebpageUncheckedUpdateManyWithoutCategoriesNestedInput = {
+    create?: XOR<Enumerable<WebpageCreateWithoutCategoriesInput>, Enumerable<WebpageUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutCategoriesInput>
+    upsert?: Enumerable<WebpageUpsertWithWhereUniqueWithoutCategoriesInput>
+    set?: Enumerable<WebpageWhereUniqueInput>
+    disconnect?: Enumerable<WebpageWhereUniqueInput>
+    delete?: Enumerable<WebpageWhereUniqueInput>
+    connect?: Enumerable<WebpageWhereUniqueInput>
+    update?: Enumerable<WebpageUpdateWithWhereUniqueWithoutCategoriesInput>
+    updateMany?: Enumerable<WebpageUpdateManyWithWhereWithoutCategoriesInput>
+    deleteMany?: Enumerable<WebpageScalarWhereInput>
+  }
+
+  export type CampaignUncheckedUpdateManyWithoutCategoriesNestedInput = {
+    create?: XOR<Enumerable<CampaignCreateWithoutCategoriesInput>, Enumerable<CampaignUncheckedCreateWithoutCategoriesInput>>
+    connectOrCreate?: Enumerable<CampaignCreateOrConnectWithoutCategoriesInput>
+    upsert?: Enumerable<CampaignUpsertWithWhereUniqueWithoutCategoriesInput>
+    set?: Enumerable<CampaignWhereUniqueInput>
+    disconnect?: Enumerable<CampaignWhereUniqueInput>
+    delete?: Enumerable<CampaignWhereUniqueInput>
+    connect?: Enumerable<CampaignWhereUniqueInput>
+    update?: Enumerable<CampaignUpdateWithWhereUniqueWithoutCategoriesInput>
+    updateMany?: Enumerable<CampaignUpdateManyWithWhereWithoutCategoriesInput>
+    deleteMany?: Enumerable<CampaignScalarWhereInput>
+  }
+
+  export type WebpageCreateNestedOneWithoutAdvertisementSpotsInput = {
+    create?: XOR<WebpageCreateWithoutAdvertisementSpotsInput, WebpageUncheckedCreateWithoutAdvertisementSpotsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutAdvertisementSpotsInput
+    connect?: WebpageWhereUniqueInput
+  }
+
+  export type AdvertisementCreateNestedManyWithoutAdvertisementSpotInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutAdvertisementSpotInput>, Enumerable<AdvertisementUncheckedCreateWithoutAdvertisementSpotInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutAdvertisementSpotInput>
+    createMany?: AdvertisementCreateManyAdvertisementSpotInputEnvelope
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+  }
+
+  export type AdvertisementUncheckedCreateNestedManyWithoutAdvertisementSpotInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutAdvertisementSpotInput>, Enumerable<AdvertisementUncheckedCreateWithoutAdvertisementSpotInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutAdvertisementSpotInput>
+    createMany?: AdvertisementCreateManyAdvertisementSpotInputEnvelope
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+  }
+
+  export type WebpageUpdateOneRequiredWithoutAdvertisementSpotsNestedInput = {
+    create?: XOR<WebpageCreateWithoutAdvertisementSpotsInput, WebpageUncheckedCreateWithoutAdvertisementSpotsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutAdvertisementSpotsInput
+    upsert?: WebpageUpsertWithoutAdvertisementSpotsInput
+    connect?: WebpageWhereUniqueInput
+    update?: XOR<XOR<WebpageUpdateToOneWithWhereWithoutAdvertisementSpotsInput, WebpageUpdateWithoutAdvertisementSpotsInput>, WebpageUncheckedUpdateWithoutAdvertisementSpotsInput>
+  }
+
+  export type AdvertisementUpdateManyWithoutAdvertisementSpotNestedInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutAdvertisementSpotInput>, Enumerable<AdvertisementUncheckedCreateWithoutAdvertisementSpotInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutAdvertisementSpotInput>
+    upsert?: Enumerable<AdvertisementUpsertWithWhereUniqueWithoutAdvertisementSpotInput>
+    createMany?: AdvertisementCreateManyAdvertisementSpotInputEnvelope
+    set?: Enumerable<AdvertisementWhereUniqueInput>
+    disconnect?: Enumerable<AdvertisementWhereUniqueInput>
+    delete?: Enumerable<AdvertisementWhereUniqueInput>
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+    update?: Enumerable<AdvertisementUpdateWithWhereUniqueWithoutAdvertisementSpotInput>
+    updateMany?: Enumerable<AdvertisementUpdateManyWithWhereWithoutAdvertisementSpotInput>
+    deleteMany?: Enumerable<AdvertisementScalarWhereInput>
+  }
+
+  export type AdvertisementUncheckedUpdateManyWithoutAdvertisementSpotNestedInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutAdvertisementSpotInput>, Enumerable<AdvertisementUncheckedCreateWithoutAdvertisementSpotInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutAdvertisementSpotInput>
+    upsert?: Enumerable<AdvertisementUpsertWithWhereUniqueWithoutAdvertisementSpotInput>
+    createMany?: AdvertisementCreateManyAdvertisementSpotInputEnvelope
+    set?: Enumerable<AdvertisementWhereUniqueInput>
+    disconnect?: Enumerable<AdvertisementWhereUniqueInput>
+    delete?: Enumerable<AdvertisementWhereUniqueInput>
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+    update?: Enumerable<AdvertisementUpdateWithWhereUniqueWithoutAdvertisementSpotInput>
+    updateMany?: Enumerable<AdvertisementUpdateManyWithWhereWithoutAdvertisementSpotInput>
+    deleteMany?: Enumerable<AdvertisementScalarWhereInput>
+  }
+
+  export type WebpageCreateNestedOneWithoutScoredCampaignsInput = {
+    create?: XOR<WebpageCreateWithoutScoredCampaignsInput, WebpageUncheckedCreateWithoutScoredCampaignsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutScoredCampaignsInput
+    connect?: WebpageWhereUniqueInput
+  }
+
+  export type CampaignCreateNestedOneWithoutScoredCampaignsInput = {
+    create?: XOR<CampaignCreateWithoutScoredCampaignsInput, CampaignUncheckedCreateWithoutScoredCampaignsInput>
+    connectOrCreate?: CampaignCreateOrConnectWithoutScoredCampaignsInput
+    connect?: CampaignWhereUniqueInput
+  }
+
+  export type AdvertisementCreateNestedManyWithoutScoredCampaignInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutScoredCampaignInput>, Enumerable<AdvertisementUncheckedCreateWithoutScoredCampaignInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutScoredCampaignInput>
+    createMany?: AdvertisementCreateManyScoredCampaignInputEnvelope
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+  }
+
+  export type AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutScoredCampaignInput>, Enumerable<AdvertisementUncheckedCreateWithoutScoredCampaignInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutScoredCampaignInput>
+    createMany?: AdvertisementCreateManyScoredCampaignInputEnvelope
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+  }
+
+  export type WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput = {
+    create?: XOR<WebpageCreateWithoutScoredCampaignsInput, WebpageUncheckedCreateWithoutScoredCampaignsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutScoredCampaignsInput
+    upsert?: WebpageUpsertWithoutScoredCampaignsInput
+    connect?: WebpageWhereUniqueInput
+    update?: XOR<XOR<WebpageUpdateToOneWithWhereWithoutScoredCampaignsInput, WebpageUpdateWithoutScoredCampaignsInput>, WebpageUncheckedUpdateWithoutScoredCampaignsInput>
+  }
+
+  export type CampaignUpdateOneRequiredWithoutScoredCampaignsNestedInput = {
+    create?: XOR<CampaignCreateWithoutScoredCampaignsInput, CampaignUncheckedCreateWithoutScoredCampaignsInput>
+    connectOrCreate?: CampaignCreateOrConnectWithoutScoredCampaignsInput
+    upsert?: CampaignUpsertWithoutScoredCampaignsInput
+    connect?: CampaignWhereUniqueInput
+    update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutScoredCampaignsInput, CampaignUpdateWithoutScoredCampaignsInput>, CampaignUncheckedUpdateWithoutScoredCampaignsInput>
+  }
+
+  export type AdvertisementUpdateManyWithoutScoredCampaignNestedInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutScoredCampaignInput>, Enumerable<AdvertisementUncheckedCreateWithoutScoredCampaignInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutScoredCampaignInput>
+    upsert?: Enumerable<AdvertisementUpsertWithWhereUniqueWithoutScoredCampaignInput>
+    createMany?: AdvertisementCreateManyScoredCampaignInputEnvelope
+    set?: Enumerable<AdvertisementWhereUniqueInput>
+    disconnect?: Enumerable<AdvertisementWhereUniqueInput>
+    delete?: Enumerable<AdvertisementWhereUniqueInput>
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+    update?: Enumerable<AdvertisementUpdateWithWhereUniqueWithoutScoredCampaignInput>
+    updateMany?: Enumerable<AdvertisementUpdateManyWithWhereWithoutScoredCampaignInput>
+    deleteMany?: Enumerable<AdvertisementScalarWhereInput>
+  }
+
+  export type AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput = {
+    create?: XOR<Enumerable<AdvertisementCreateWithoutScoredCampaignInput>, Enumerable<AdvertisementUncheckedCreateWithoutScoredCampaignInput>>
+    connectOrCreate?: Enumerable<AdvertisementCreateOrConnectWithoutScoredCampaignInput>
+    upsert?: Enumerable<AdvertisementUpsertWithWhereUniqueWithoutScoredCampaignInput>
+    createMany?: AdvertisementCreateManyScoredCampaignInputEnvelope
+    set?: Enumerable<AdvertisementWhereUniqueInput>
+    disconnect?: Enumerable<AdvertisementWhereUniqueInput>
+    delete?: Enumerable<AdvertisementWhereUniqueInput>
+    connect?: Enumerable<AdvertisementWhereUniqueInput>
+    update?: Enumerable<AdvertisementUpdateWithWhereUniqueWithoutScoredCampaignInput>
+    updateMany?: Enumerable<AdvertisementUpdateManyWithWhereWithoutScoredCampaignInput>
+    deleteMany?: Enumerable<AdvertisementScalarWhereInput>
+  }
+
+  export type ScoredCampaignCreateNestedOneWithoutAdvertisementsInput = {
+    create?: XOR<ScoredCampaignCreateWithoutAdvertisementsInput, ScoredCampaignUncheckedCreateWithoutAdvertisementsInput>
+    connectOrCreate?: ScoredCampaignCreateOrConnectWithoutAdvertisementsInput
+    connect?: ScoredCampaignWhereUniqueInput
+  }
+
+  export type ImpressionCreateNestedManyWithoutAdvertisementInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAdvertisementInput>, Enumerable<ImpressionUncheckedCreateWithoutAdvertisementInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAdvertisementInput>
+    createMany?: ImpressionCreateManyAdvertisementInputEnvelope
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+  }
+
+  export type AdvertisementSpotCreateNestedOneWithoutAdvertisementsInput = {
+    create?: XOR<AdvertisementSpotCreateWithoutAdvertisementsInput, AdvertisementSpotUncheckedCreateWithoutAdvertisementsInput>
+    connectOrCreate?: AdvertisementSpotCreateOrConnectWithoutAdvertisementsInput
+    connect?: AdvertisementSpotWhereUniqueInput
+  }
+
+  export type ImpressionUncheckedCreateNestedManyWithoutAdvertisementInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAdvertisementInput>, Enumerable<ImpressionUncheckedCreateWithoutAdvertisementInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAdvertisementInput>
+    createMany?: ImpressionCreateManyAdvertisementInputEnvelope
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+  }
+
+  export type ScoredCampaignUpdateOneRequiredWithoutAdvertisementsNestedInput = {
+    create?: XOR<ScoredCampaignCreateWithoutAdvertisementsInput, ScoredCampaignUncheckedCreateWithoutAdvertisementsInput>
+    connectOrCreate?: ScoredCampaignCreateOrConnectWithoutAdvertisementsInput
+    upsert?: ScoredCampaignUpsertWithoutAdvertisementsInput
+    connect?: ScoredCampaignWhereUniqueInput
+    update?: XOR<XOR<ScoredCampaignUpdateToOneWithWhereWithoutAdvertisementsInput, ScoredCampaignUpdateWithoutAdvertisementsInput>, ScoredCampaignUncheckedUpdateWithoutAdvertisementsInput>
+  }
+
+  export type ImpressionUpdateManyWithoutAdvertisementNestedInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAdvertisementInput>, Enumerable<ImpressionUncheckedCreateWithoutAdvertisementInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAdvertisementInput>
+    upsert?: Enumerable<ImpressionUpsertWithWhereUniqueWithoutAdvertisementInput>
+    createMany?: ImpressionCreateManyAdvertisementInputEnvelope
+    set?: Enumerable<ImpressionWhereUniqueInput>
+    disconnect?: Enumerable<ImpressionWhereUniqueInput>
+    delete?: Enumerable<ImpressionWhereUniqueInput>
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+    update?: Enumerable<ImpressionUpdateWithWhereUniqueWithoutAdvertisementInput>
+    updateMany?: Enumerable<ImpressionUpdateManyWithWhereWithoutAdvertisementInput>
+    deleteMany?: Enumerable<ImpressionScalarWhereInput>
+  }
+
+  export type AdvertisementSpotUpdateOneRequiredWithoutAdvertisementsNestedInput = {
+    create?: XOR<AdvertisementSpotCreateWithoutAdvertisementsInput, AdvertisementSpotUncheckedCreateWithoutAdvertisementsInput>
+    connectOrCreate?: AdvertisementSpotCreateOrConnectWithoutAdvertisementsInput
+    upsert?: AdvertisementSpotUpsertWithoutAdvertisementsInput
+    connect?: AdvertisementSpotWhereUniqueInput
+    update?: XOR<XOR<AdvertisementSpotUpdateToOneWithWhereWithoutAdvertisementsInput, AdvertisementSpotUpdateWithoutAdvertisementsInput>, AdvertisementSpotUncheckedUpdateWithoutAdvertisementsInput>
+  }
+
+  export type ImpressionUncheckedUpdateManyWithoutAdvertisementNestedInput = {
+    create?: XOR<Enumerable<ImpressionCreateWithoutAdvertisementInput>, Enumerable<ImpressionUncheckedCreateWithoutAdvertisementInput>>
+    connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAdvertisementInput>
+    upsert?: Enumerable<ImpressionUpsertWithWhereUniqueWithoutAdvertisementInput>
+    createMany?: ImpressionCreateManyAdvertisementInputEnvelope
+    set?: Enumerable<ImpressionWhereUniqueInput>
+    disconnect?: Enumerable<ImpressionWhereUniqueInput>
+    delete?: Enumerable<ImpressionWhereUniqueInput>
+    connect?: Enumerable<ImpressionWhereUniqueInput>
+    update?: Enumerable<ImpressionUpdateWithWhereUniqueWithoutAdvertisementInput>
+    updateMany?: Enumerable<ImpressionUpdateManyWithWhereWithoutAdvertisementInput>
+    deleteMany?: Enumerable<ImpressionScalarWhereInput>
+  }
+
+  export type UserCreateNestedOneWithoutCampaignsInput = {
+    create?: XOR<UserCreateWithoutCampaignsInput, UserUncheckedCreateWithoutCampaignsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCampaignsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ScoredCampaignCreateNestedManyWithoutCampaignInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutCampaignInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutCampaignInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutCampaignInput>
+    createMany?: ScoredCampaignCreateManyCampaignInputEnvelope
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+  }
+
+  export type CategoryCreateNestedManyWithoutCampaignsInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutCampaignsInput>, Enumerable<CategoryUncheckedCreateWithoutCampaignsInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutCampaignsInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+  }
+
+  export type ScoredCampaignUncheckedCreateNestedManyWithoutCampaignInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutCampaignInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutCampaignInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutCampaignInput>
+    createMany?: ScoredCampaignCreateManyCampaignInputEnvelope
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+  }
+
+  export type CategoryUncheckedCreateNestedManyWithoutCampaignsInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutCampaignsInput>, Enumerable<CategoryUncheckedCreateWithoutCampaignsInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutCampaignsInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type UserUpdateOneRequiredWithoutCampaignsNestedInput = {
+    create?: XOR<UserCreateWithoutCampaignsInput, UserUncheckedCreateWithoutCampaignsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCampaignsInput
+    upsert?: UserUpsertWithoutCampaignsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCampaignsInput, UserUpdateWithoutCampaignsInput>, UserUncheckedUpdateWithoutCampaignsInput>
+  }
+
+  export type ScoredCampaignUpdateManyWithoutCampaignNestedInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutCampaignInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutCampaignInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutCampaignInput>
+    upsert?: Enumerable<ScoredCampaignUpsertWithWhereUniqueWithoutCampaignInput>
+    createMany?: ScoredCampaignCreateManyCampaignInputEnvelope
+    set?: Enumerable<ScoredCampaignWhereUniqueInput>
+    disconnect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    delete?: Enumerable<ScoredCampaignWhereUniqueInput>
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    update?: Enumerable<ScoredCampaignUpdateWithWhereUniqueWithoutCampaignInput>
+    updateMany?: Enumerable<ScoredCampaignUpdateManyWithWhereWithoutCampaignInput>
+    deleteMany?: Enumerable<ScoredCampaignScalarWhereInput>
+  }
+
+  export type CategoryUpdateManyWithoutCampaignsNestedInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutCampaignsInput>, Enumerable<CategoryUncheckedCreateWithoutCampaignsInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutCampaignsInput>
+    upsert?: Enumerable<CategoryUpsertWithWhereUniqueWithoutCampaignsInput>
+    set?: Enumerable<CategoryWhereUniqueInput>
+    disconnect?: Enumerable<CategoryWhereUniqueInput>
+    delete?: Enumerable<CategoryWhereUniqueInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+    update?: Enumerable<CategoryUpdateWithWhereUniqueWithoutCampaignsInput>
+    updateMany?: Enumerable<CategoryUpdateManyWithWhereWithoutCampaignsInput>
+    deleteMany?: Enumerable<CategoryScalarWhereInput>
+  }
+
+  export type ScoredCampaignUncheckedUpdateManyWithoutCampaignNestedInput = {
+    create?: XOR<Enumerable<ScoredCampaignCreateWithoutCampaignInput>, Enumerable<ScoredCampaignUncheckedCreateWithoutCampaignInput>>
+    connectOrCreate?: Enumerable<ScoredCampaignCreateOrConnectWithoutCampaignInput>
+    upsert?: Enumerable<ScoredCampaignUpsertWithWhereUniqueWithoutCampaignInput>
+    createMany?: ScoredCampaignCreateManyCampaignInputEnvelope
+    set?: Enumerable<ScoredCampaignWhereUniqueInput>
+    disconnect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    delete?: Enumerable<ScoredCampaignWhereUniqueInput>
+    connect?: Enumerable<ScoredCampaignWhereUniqueInput>
+    update?: Enumerable<ScoredCampaignUpdateWithWhereUniqueWithoutCampaignInput>
+    updateMany?: Enumerable<ScoredCampaignUpdateManyWithWhereWithoutCampaignInput>
+    deleteMany?: Enumerable<ScoredCampaignScalarWhereInput>
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutCampaignsNestedInput = {
+    create?: XOR<Enumerable<CategoryCreateWithoutCampaignsInput>, Enumerable<CategoryUncheckedCreateWithoutCampaignsInput>>
+    connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutCampaignsInput>
+    upsert?: Enumerable<CategoryUpsertWithWhereUniqueWithoutCampaignsInput>
+    set?: Enumerable<CategoryWhereUniqueInput>
+    disconnect?: Enumerable<CategoryWhereUniqueInput>
+    delete?: Enumerable<CategoryWhereUniqueInput>
+    connect?: Enumerable<CategoryWhereUniqueInput>
+    update?: Enumerable<CategoryUpdateWithWhereUniqueWithoutCampaignsInput>
+    updateMany?: Enumerable<CategoryUpdateManyWithWhereWithoutCampaignsInput>
+    deleteMany?: Enumerable<CategoryScalarWhereInput>
+  }
+
+  export type AdvertisementCreateNestedOneWithoutImpressionsInput = {
+    create?: XOR<AdvertisementCreateWithoutImpressionsInput, AdvertisementUncheckedCreateWithoutImpressionsInput>
+    connectOrCreate?: AdvertisementCreateOrConnectWithoutImpressionsInput
+    connect?: AdvertisementWhereUniqueInput
+  }
+
+  export type AuctionCreateNestedOneWithoutImpressionsInput = {
+    create?: XOR<AuctionCreateWithoutImpressionsInput, AuctionUncheckedCreateWithoutImpressionsInput>
+    connectOrCreate?: AuctionCreateOrConnectWithoutImpressionsInput
+    connect?: AuctionWhereUniqueInput
+  }
+
+  export type AdvertisementUpdateOneRequiredWithoutImpressionsNestedInput = {
+    create?: XOR<AdvertisementCreateWithoutImpressionsInput, AdvertisementUncheckedCreateWithoutImpressionsInput>
+    connectOrCreate?: AdvertisementCreateOrConnectWithoutImpressionsInput
+    upsert?: AdvertisementUpsertWithoutImpressionsInput
+    connect?: AdvertisementWhereUniqueInput
+    update?: XOR<XOR<AdvertisementUpdateToOneWithWhereWithoutImpressionsInput, AdvertisementUpdateWithoutImpressionsInput>, AdvertisementUncheckedUpdateWithoutImpressionsInput>
+  }
+
+  export type AuctionUpdateOneRequiredWithoutImpressionsNestedInput = {
+    create?: XOR<AuctionCreateWithoutImpressionsInput, AuctionUncheckedCreateWithoutImpressionsInput>
+    connectOrCreate?: AuctionCreateOrConnectWithoutImpressionsInput
+    upsert?: AuctionUpsertWithoutImpressionsInput
+    connect?: AuctionWhereUniqueInput
+    update?: XOR<XOR<AuctionUpdateToOneWithWhereWithoutImpressionsInput, AuctionUpdateWithoutImpressionsInput>, AuctionUncheckedUpdateWithoutImpressionsInput>
+  }
+
+  export type NestedStringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
+  }
+
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type NestedStringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
+  export type NestedIntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
+  export type NestedStringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type NestedIntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type NestedFloatNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableFilter | number | null
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
+  export type NestedIntWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
+  export type NestedFloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
+  export type NestedDecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
+  }
+
+  export type UserCreateWithoutAccountsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAccountsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAccountsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type UserUpsertWithoutAccountsInput = {
+    update: XOR<UserUpdateWithoutAccountsInput, UserUncheckedUpdateWithoutAccountsInput>
+    create: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAccountsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAccountsInput, UserUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type UserUpdateWithoutAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSessionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSessionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSessionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
+  }
+
+  export type UserUpsertWithoutSessionsInput = {
+    update: XOR<UserUpdateWithoutSessionsInput, UserUncheckedUpdateWithoutSessionsInput>
+    create: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSessionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSessionsInput, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserUpdateWithoutSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AccountCreateWithoutUserInput = {
+    id?: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type AccountUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type AccountCreateOrConnectWithoutUserInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput>
+  }
+
+  export type AccountCreateManyUserInputEnvelope = {
+    data: Enumerable<AccountCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type SessionCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type SessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type SessionCreateOrConnectWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionCreateManyUserInputEnvelope = {
+    data: Enumerable<SessionCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type AuctionCreateWithoutUserInput = {
+    id?: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage?: WebpageCreateNestedOneWithoutAuctionsInput
+    impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateWithoutUserInput = {
+    id?: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionCreateOrConnectWithoutUserInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutUserInput, AuctionUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuctionCreateManyUserInputEnvelope = {
+    data: Enumerable<AuctionCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CampaignCreateWithoutUserInput = {
+    id?: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutCampaignInput
+    categories?: CategoryCreateNestedManyWithoutCampaignsInput
+  }
+
+  export type CampaignUncheckedCreateWithoutUserInput = {
+    id?: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutCampaignInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCampaignsInput
+  }
+
+  export type CampaignCreateOrConnectWithoutUserInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutUserInput, CampaignUncheckedCreateWithoutUserInput>
+  }
+
+  export type CampaignCreateManyUserInputEnvelope = {
+    data: Enumerable<CampaignCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type WebsiteCreateWithoutUserInput = {
+    id?: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageCreateNestedManyWithoutWebsiteInput
+  }
+
+  export type WebsiteUncheckedCreateWithoutUserInput = {
+    id?: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageUncheckedCreateNestedManyWithoutWebsiteInput
+  }
+
+  export type WebsiteCreateOrConnectWithoutUserInput = {
+    where: WebsiteWhereUniqueInput
+    create: XOR<WebsiteCreateWithoutUserInput, WebsiteUncheckedCreateWithoutUserInput>
+  }
+
+  export type WebsiteCreateManyUserInputEnvelope = {
+    data: Enumerable<WebsiteCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CategoryCreateWithoutUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageCreateNestedManyWithoutCategoriesInput
+    campaigns?: CampaignCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageUncheckedCreateNestedManyWithoutCategoriesInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryCreateOrConnectWithoutUserInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutUserInput, CategoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type CategoryCreateManyUserInputEnvelope = {
+    data: Enumerable<CategoryCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type SettingCreateWithoutUserInput = {
+    id?: string
+    scoreThreshold: number
+    status: boolean
+    addSponsoredWording?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingUncheckedCreateWithoutUserInput = {
+    id?: string
+    scoreThreshold: number
+    status: boolean
+    addSponsoredWording?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingCreateOrConnectWithoutUserInput = {
+    where: SettingWhereUniqueInput
+    create: XOR<SettingCreateWithoutUserInput, SettingUncheckedCreateWithoutUserInput>
+  }
+
+  export type AccountUpsertWithWhereUniqueWithoutUserInput = {
+    where: AccountWhereUniqueInput
+    update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
+    create: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput>
+  }
+
+  export type AccountUpdateWithWhereUniqueWithoutUserInput = {
+    where: AccountWhereUniqueInput
+    data: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AccountUpdateManyWithWhereWithoutUserInput = {
+    where: AccountScalarWhereInput
+    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type AccountScalarWhereInput = {
+    AND?: Enumerable<AccountScalarWhereInput>
+    OR?: Enumerable<AccountScalarWhereInput>
+    NOT?: Enumerable<AccountScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    type?: StringFilter | string
+    provider?: StringFilter | string
+    providerAccountId?: StringFilter | string
+    refresh_token?: StringNullableFilter | string | null
+    access_token?: StringNullableFilter | string | null
+    expires_at?: IntNullableFilter | number | null
+    token_type?: StringNullableFilter | string | null
+    scope?: StringNullableFilter | string | null
+    id_token?: StringNullableFilter | string | null
+    session_state?: StringNullableFilter | string | null
+  }
+
+  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SessionUpdateManyWithWhereWithoutUserInput = {
+    where: SessionScalarWhereInput
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutSessionsInput>
+  }
+
+  export type SessionScalarWhereInput = {
+    AND?: Enumerable<SessionScalarWhereInput>
+    OR?: Enumerable<SessionScalarWhereInput>
+    NOT?: Enumerable<SessionScalarWhereInput>
+    id?: StringFilter | string
+    sessionToken?: StringFilter | string
+    userId?: StringFilter | string
+    expires?: DateTimeFilter | Date | string
+  }
+
+  export type AuctionUpsertWithWhereUniqueWithoutUserInput = {
+    where: AuctionWhereUniqueInput
+    update: XOR<AuctionUpdateWithoutUserInput, AuctionUncheckedUpdateWithoutUserInput>
+    create: XOR<AuctionCreateWithoutUserInput, AuctionUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuctionUpdateWithWhereUniqueWithoutUserInput = {
+    where: AuctionWhereUniqueInput
+    data: XOR<AuctionUpdateWithoutUserInput, AuctionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AuctionUpdateManyWithWhereWithoutUserInput = {
+    where: AuctionScalarWhereInput
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyWithoutAuctionsInput>
+  }
+
+  export type AuctionScalarWhereInput = {
+    AND?: Enumerable<AuctionScalarWhereInput>
+    OR?: Enumerable<AuctionScalarWhereInput>
+    NOT?: Enumerable<AuctionScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    webpageId?: StringNullableFilter | string | null
+    url?: StringNullableFilter | string | null
+    userAgent?: StringFilter | string
+    ip?: StringFilter | string
+    endUserCuid?: StringFilter | string
+    endUserFp?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type CampaignUpsertWithWhereUniqueWithoutUserInput = {
+    where: CampaignWhereUniqueInput
+    update: XOR<CampaignUpdateWithoutUserInput, CampaignUncheckedUpdateWithoutUserInput>
+    create: XOR<CampaignCreateWithoutUserInput, CampaignUncheckedCreateWithoutUserInput>
+  }
+
+  export type CampaignUpdateWithWhereUniqueWithoutUserInput = {
+    where: CampaignWhereUniqueInput
+    data: XOR<CampaignUpdateWithoutUserInput, CampaignUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CampaignUpdateManyWithWhereWithoutUserInput = {
+    where: CampaignScalarWhereInput
+    data: XOR<CampaignUpdateManyMutationInput, CampaignUncheckedUpdateManyWithoutCampaignsInput>
+  }
+
+  export type CampaignScalarWhereInput = {
+    AND?: Enumerable<CampaignScalarWhereInput>
+    OR?: Enumerable<CampaignScalarWhereInput>
+    NOT?: Enumerable<CampaignScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    name?: StringFilter | string
+    start?: DateTimeFilter | Date | string
+    end?: DateTimeFilter | Date | string
+    impressionCap?: IntFilter | number
+    fixedCpm?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    productName?: StringFilter | string
+    productDescription?: StringFilter | string
+    clickUrl?: StringFilter | string
+    requiredCssSelector?: StringFilter | string
+    pacing?: BoolFilter | boolean
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type WebsiteUpsertWithWhereUniqueWithoutUserInput = {
+    where: WebsiteWhereUniqueInput
+    update: XOR<WebsiteUpdateWithoutUserInput, WebsiteUncheckedUpdateWithoutUserInput>
+    create: XOR<WebsiteCreateWithoutUserInput, WebsiteUncheckedCreateWithoutUserInput>
+  }
+
+  export type WebsiteUpdateWithWhereUniqueWithoutUserInput = {
+    where: WebsiteWhereUniqueInput
+    data: XOR<WebsiteUpdateWithoutUserInput, WebsiteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WebsiteUpdateManyWithWhereWithoutUserInput = {
+    where: WebsiteScalarWhereInput
+    data: XOR<WebsiteUpdateManyMutationInput, WebsiteUncheckedUpdateManyWithoutWebsitesInput>
+  }
+
+  export type WebsiteScalarWhereInput = {
+    AND?: Enumerable<WebsiteScalarWhereInput>
+    OR?: Enumerable<WebsiteScalarWhereInput>
+    NOT?: Enumerable<WebsiteScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    topLevelDomainUrl?: StringFilter | string
+    sitemapUrl?: StringFilter | string
+    status?: BoolFilter | boolean
+    processedOn?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type CategoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: CategoryWhereUniqueInput
+    update: XOR<CategoryUpdateWithoutUserInput, CategoryUncheckedUpdateWithoutUserInput>
+    create: XOR<CategoryCreateWithoutUserInput, CategoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type CategoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: CategoryWhereUniqueInput
+    data: XOR<CategoryUpdateWithoutUserInput, CategoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CategoryUpdateManyWithWhereWithoutUserInput = {
+    where: CategoryScalarWhereInput
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutCategoriesInput>
+  }
+
+  export type CategoryScalarWhereInput = {
+    AND?: Enumerable<CategoryScalarWhereInput>
+    OR?: Enumerable<CategoryScalarWhereInput>
+    NOT?: Enumerable<CategoryScalarWhereInput>
+    id?: StringFilter | string
+    userId?: StringFilter | string
+    name?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type SettingUpsertWithoutUserInput = {
+    update: XOR<SettingUpdateWithoutUserInput, SettingUncheckedUpdateWithoutUserInput>
+    create: XOR<SettingCreateWithoutUserInput, SettingUncheckedCreateWithoutUserInput>
+    where?: SettingWhereInput
+  }
+
+  export type SettingUpdateToOneWithWhereWithoutUserInput = {
+    where?: SettingWhereInput
+    data: XOR<SettingUpdateWithoutUserInput, SettingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SettingUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoreThreshold?: IntFieldUpdateOperationsInput | number
+    status?: BoolFieldUpdateOperationsInput | boolean
+    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoreThreshold?: IntFieldUpdateOperationsInput | number
+    status?: BoolFieldUpdateOperationsInput | boolean
+    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutSettingInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSettingInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSettingInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSettingInput, UserUncheckedCreateWithoutSettingInput>
+  }
+
+  export type UserUpsertWithoutSettingInput = {
+    update: XOR<UserUpdateWithoutSettingInput, UserUncheckedUpdateWithoutSettingInput>
+    create: XOR<UserCreateWithoutSettingInput, UserUncheckedCreateWithoutSettingInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSettingInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSettingInput, UserUncheckedUpdateWithoutSettingInput>
+  }
+
+  export type UserUpdateWithoutSettingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSettingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAuctionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAuctionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAuctionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+  }
+
+  export type WebpageCreateWithoutAuctionsInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutAuctionsInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutAuctionsInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutAuctionsInput, WebpageUncheckedCreateWithoutAuctionsInput>
+  }
+
+  export type ImpressionCreateWithoutAuctionInput = {
+    id?: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisement: AdvertisementCreateNestedOneWithoutImpressionsInput
+  }
+
+  export type ImpressionUncheckedCreateWithoutAuctionInput = {
+    id?: string
+    advertisementId: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImpressionCreateOrConnectWithoutAuctionInput = {
+    where: ImpressionWhereUniqueInput
+    create: XOR<ImpressionCreateWithoutAuctionInput, ImpressionUncheckedCreateWithoutAuctionInput>
+  }
+
+  export type ImpressionCreateManyAuctionInputEnvelope = {
+    data: Enumerable<ImpressionCreateManyAuctionInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutAuctionsInput = {
+    update: XOR<UserUpdateWithoutAuctionsInput, UserUncheckedUpdateWithoutAuctionsInput>
+    create: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAuctionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAuctionsInput, UserUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type UserUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type WebpageUpsertWithoutAuctionsInput = {
+    update: XOR<WebpageUpdateWithoutAuctionsInput, WebpageUncheckedUpdateWithoutAuctionsInput>
+    create: XOR<WebpageCreateWithoutAuctionsInput, WebpageUncheckedCreateWithoutAuctionsInput>
+    where?: WebpageWhereInput
+  }
+
+  export type WebpageUpdateToOneWithWhereWithoutAuctionsInput = {
+    where?: WebpageWhereInput
+    data: XOR<WebpageUpdateWithoutAuctionsInput, WebpageUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type WebpageUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type ImpressionUpsertWithWhereUniqueWithoutAuctionInput = {
+    where: ImpressionWhereUniqueInput
+    update: XOR<ImpressionUpdateWithoutAuctionInput, ImpressionUncheckedUpdateWithoutAuctionInput>
+    create: XOR<ImpressionCreateWithoutAuctionInput, ImpressionUncheckedCreateWithoutAuctionInput>
+  }
+
+  export type ImpressionUpdateWithWhereUniqueWithoutAuctionInput = {
+    where: ImpressionWhereUniqueInput
+    data: XOR<ImpressionUpdateWithoutAuctionInput, ImpressionUncheckedUpdateWithoutAuctionInput>
+  }
+
+  export type ImpressionUpdateManyWithWhereWithoutAuctionInput = {
+    where: ImpressionScalarWhereInput
+    data: XOR<ImpressionUpdateManyMutationInput, ImpressionUncheckedUpdateManyWithoutImpressionsInput>
+  }
+
+  export type ImpressionScalarWhereInput = {
+    AND?: Enumerable<ImpressionScalarWhereInput>
+    OR?: Enumerable<ImpressionScalarWhereInput>
+    NOT?: Enumerable<ImpressionScalarWhereInput>
+    id?: StringFilter | string
+    advertisementId?: StringFilter | string
+    auctionId?: StringFilter | string
+    clicked?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type UserCreateWithoutWebsitesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWebsitesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWebsitesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWebsitesInput, UserUncheckedCreateWithoutWebsitesInput>
+  }
+
+  export type WebpageCreateWithoutWebsiteInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutWebsiteInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutWebsiteInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutWebsiteInput, WebpageUncheckedCreateWithoutWebsiteInput>
+  }
+
+  export type WebpageCreateManyWebsiteInputEnvelope = {
+    data: Enumerable<WebpageCreateManyWebsiteInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutWebsitesInput = {
+    update: XOR<UserUpdateWithoutWebsitesInput, UserUncheckedUpdateWithoutWebsitesInput>
+    create: XOR<UserCreateWithoutWebsitesInput, UserUncheckedCreateWithoutWebsitesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWebsitesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWebsitesInput, UserUncheckedUpdateWithoutWebsitesInput>
+  }
+
+  export type UserUpdateWithoutWebsitesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWebsitesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type WebpageUpsertWithWhereUniqueWithoutWebsiteInput = {
+    where: WebpageWhereUniqueInput
+    update: XOR<WebpageUpdateWithoutWebsiteInput, WebpageUncheckedUpdateWithoutWebsiteInput>
+    create: XOR<WebpageCreateWithoutWebsiteInput, WebpageUncheckedCreateWithoutWebsiteInput>
+  }
+
+  export type WebpageUpdateWithWhereUniqueWithoutWebsiteInput = {
+    where: WebpageWhereUniqueInput
+    data: XOR<WebpageUpdateWithoutWebsiteInput, WebpageUncheckedUpdateWithoutWebsiteInput>
+  }
+
+  export type WebpageUpdateManyWithWhereWithoutWebsiteInput = {
+    where: WebpageScalarWhereInput
+    data: XOR<WebpageUpdateManyMutationInput, WebpageUncheckedUpdateManyWithoutWebpagesInput>
+  }
+
+  export type WebpageScalarWhereInput = {
+    AND?: Enumerable<WebpageScalarWhereInput>
+    OR?: Enumerable<WebpageScalarWhereInput>
+    NOT?: Enumerable<WebpageScalarWhereInput>
+    id?: StringFilter | string
+    websiteId?: StringFilter | string
+    url?: StringFilter | string
+    status?: BoolFilter | boolean
+    lastModifiedAt?: DateTimeFilter | Date | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type WebsiteCreateWithoutWebpagesInput = {
+    id?: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWebsitesInput
+  }
+
+  export type WebsiteUncheckedCreateWithoutWebpagesInput = {
+    id?: string
+    userId: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteCreateOrConnectWithoutWebpagesInput = {
+    where: WebsiteWhereUniqueInput
+    create: XOR<WebsiteCreateWithoutWebpagesInput, WebsiteUncheckedCreateWithoutWebpagesInput>
+  }
+
+  export type ScoredCampaignCreateWithoutWebpageInput = {
+    id?: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    campaign: CampaignCreateNestedOneWithoutScoredCampaignsInput
+    advertisements?: AdvertisementCreateNestedManyWithoutScoredCampaignInput
+  }
+
+  export type ScoredCampaignUncheckedCreateWithoutWebpageInput = {
+    id?: string
+    campaignId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisements?: AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput
+  }
+
+  export type ScoredCampaignCreateOrConnectWithoutWebpageInput = {
+    where: ScoredCampaignWhereUniqueInput
+    create: XOR<ScoredCampaignCreateWithoutWebpageInput, ScoredCampaignUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type ScoredCampaignCreateManyWebpageInputEnvelope = {
+    data: Enumerable<ScoredCampaignCreateManyWebpageInput>
+    skipDuplicates?: boolean
+  }
+
+  export type AdvertisementSpotCreateWithoutWebpageInput = {
+    id?: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisements?: AdvertisementCreateNestedManyWithoutAdvertisementSpotInput
+  }
+
+  export type AdvertisementSpotUncheckedCreateWithoutWebpageInput = {
+    id?: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisements?: AdvertisementUncheckedCreateNestedManyWithoutAdvertisementSpotInput
+  }
+
+  export type AdvertisementSpotCreateOrConnectWithoutWebpageInput = {
+    where: AdvertisementSpotWhereUniqueInput
+    create: XOR<AdvertisementSpotCreateWithoutWebpageInput, AdvertisementSpotUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type AdvertisementSpotCreateManyWebpageInputEnvelope = {
+    data: Enumerable<AdvertisementSpotCreateManyWebpageInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CategoryCreateWithoutWebpagesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCategoriesInput
+    campaigns?: CampaignCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryUncheckedCreateWithoutWebpagesInput = {
+    id?: string
+    userId: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryCreateOrConnectWithoutWebpagesInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutWebpagesInput, CategoryUncheckedCreateWithoutWebpagesInput>
+  }
+
+  export type AuctionCreateWithoutWebpageInput = {
+    id?: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAuctionsInput
+    impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateWithoutWebpageInput = {
+    id?: string
+    userId: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionCreateOrConnectWithoutWebpageInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutWebpageInput, AuctionUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type AuctionCreateManyWebpageInputEnvelope = {
+    data: Enumerable<AuctionCreateManyWebpageInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ContentCreateWithoutWebpageInput = {
+    id?: string
+    desktopHtml: string
+    mobileHtml?: string | null
+    tabletHtml?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContentUncheckedCreateWithoutWebpageInput = {
+    id?: string
+    desktopHtml: string
+    mobileHtml?: string | null
+    tabletHtml?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContentCreateOrConnectWithoutWebpageInput = {
+    where: ContentWhereUniqueInput
+    create: XOR<ContentCreateWithoutWebpageInput, ContentUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type WebsiteUpsertWithoutWebpagesInput = {
+    update: XOR<WebsiteUpdateWithoutWebpagesInput, WebsiteUncheckedUpdateWithoutWebpagesInput>
+    create: XOR<WebsiteCreateWithoutWebpagesInput, WebsiteUncheckedCreateWithoutWebpagesInput>
+    where?: WebsiteWhereInput
+  }
+
+  export type WebsiteUpdateToOneWithWhereWithoutWebpagesInput = {
+    where?: WebsiteWhereInput
+    data: XOR<WebsiteUpdateWithoutWebpagesInput, WebsiteUncheckedUpdateWithoutWebpagesInput>
+  }
+
+  export type WebsiteUpdateWithoutWebpagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWebsitesNestedInput
+  }
+
+  export type WebsiteUncheckedUpdateWithoutWebpagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoredCampaignUpsertWithWhereUniqueWithoutWebpageInput = {
+    where: ScoredCampaignWhereUniqueInput
+    update: XOR<ScoredCampaignUpdateWithoutWebpageInput, ScoredCampaignUncheckedUpdateWithoutWebpageInput>
+    create: XOR<ScoredCampaignCreateWithoutWebpageInput, ScoredCampaignUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type ScoredCampaignUpdateWithWhereUniqueWithoutWebpageInput = {
+    where: ScoredCampaignWhereUniqueInput
+    data: XOR<ScoredCampaignUpdateWithoutWebpageInput, ScoredCampaignUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type ScoredCampaignUpdateManyWithWhereWithoutWebpageInput = {
+    where: ScoredCampaignScalarWhereInput
+    data: XOR<ScoredCampaignUpdateManyMutationInput, ScoredCampaignUncheckedUpdateManyWithoutScoredCampaignsInput>
+  }
+
+  export type ScoredCampaignScalarWhereInput = {
+    AND?: Enumerable<ScoredCampaignScalarWhereInput>
+    OR?: Enumerable<ScoredCampaignScalarWhereInput>
+    NOT?: Enumerable<ScoredCampaignScalarWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    campaignId?: StringFilter | string
+    score?: IntFilter | number
+    reason?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type AdvertisementSpotUpsertWithWhereUniqueWithoutWebpageInput = {
+    where: AdvertisementSpotWhereUniqueInput
+    update: XOR<AdvertisementSpotUpdateWithoutWebpageInput, AdvertisementSpotUncheckedUpdateWithoutWebpageInput>
+    create: XOR<AdvertisementSpotCreateWithoutWebpageInput, AdvertisementSpotUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type AdvertisementSpotUpdateWithWhereUniqueWithoutWebpageInput = {
+    where: AdvertisementSpotWhereUniqueInput
+    data: XOR<AdvertisementSpotUpdateWithoutWebpageInput, AdvertisementSpotUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type AdvertisementSpotUpdateManyWithWhereWithoutWebpageInput = {
+    where: AdvertisementSpotScalarWhereInput
+    data: XOR<AdvertisementSpotUpdateManyMutationInput, AdvertisementSpotUncheckedUpdateManyWithoutAdvertisementSpotsInput>
+  }
+
+  export type AdvertisementSpotScalarWhereInput = {
+    AND?: Enumerable<AdvertisementSpotScalarWhereInput>
+    OR?: Enumerable<AdvertisementSpotScalarWhereInput>
+    NOT?: Enumerable<AdvertisementSpotScalarWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    beforeText?: StringFilter | string
+    afterText?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type CategoryUpsertWithWhereUniqueWithoutWebpagesInput = {
+    where: CategoryWhereUniqueInput
+    update: XOR<CategoryUpdateWithoutWebpagesInput, CategoryUncheckedUpdateWithoutWebpagesInput>
+    create: XOR<CategoryCreateWithoutWebpagesInput, CategoryUncheckedCreateWithoutWebpagesInput>
+  }
+
+  export type CategoryUpdateWithWhereUniqueWithoutWebpagesInput = {
+    where: CategoryWhereUniqueInput
+    data: XOR<CategoryUpdateWithoutWebpagesInput, CategoryUncheckedUpdateWithoutWebpagesInput>
+  }
+
+  export type CategoryUpdateManyWithWhereWithoutWebpagesInput = {
+    where: CategoryScalarWhereInput
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutCategoriesInput>
+  }
+
+  export type AuctionUpsertWithWhereUniqueWithoutWebpageInput = {
+    where: AuctionWhereUniqueInput
+    update: XOR<AuctionUpdateWithoutWebpageInput, AuctionUncheckedUpdateWithoutWebpageInput>
+    create: XOR<AuctionCreateWithoutWebpageInput, AuctionUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type AuctionUpdateWithWhereUniqueWithoutWebpageInput = {
+    where: AuctionWhereUniqueInput
+    data: XOR<AuctionUpdateWithoutWebpageInput, AuctionUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type AuctionUpdateManyWithWhereWithoutWebpageInput = {
+    where: AuctionScalarWhereInput
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyWithoutAuctionsInput>
+  }
+
+  export type ContentUpsertWithoutWebpageInput = {
+    update: XOR<ContentUpdateWithoutWebpageInput, ContentUncheckedUpdateWithoutWebpageInput>
+    create: XOR<ContentCreateWithoutWebpageInput, ContentUncheckedCreateWithoutWebpageInput>
+    where?: ContentWhereInput
+  }
+
+  export type ContentUpdateToOneWithWhereWithoutWebpageInput = {
+    where?: ContentWhereInput
+    data: XOR<ContentUpdateWithoutWebpageInput, ContentUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type ContentUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    desktopHtml?: StringFieldUpdateOperationsInput | string
+    mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContentUncheckedUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    desktopHtml?: StringFieldUpdateOperationsInput | string
+    mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebpageCreateWithoutContentInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutContentInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutContentInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutContentInput, WebpageUncheckedCreateWithoutContentInput>
+  }
+
+  export type WebpageUpsertWithoutContentInput = {
+    update: XOR<WebpageUpdateWithoutContentInput, WebpageUncheckedUpdateWithoutContentInput>
+    create: XOR<WebpageCreateWithoutContentInput, WebpageUncheckedCreateWithoutContentInput>
+    where?: WebpageWhereInput
+  }
+
+  export type WebpageUpdateToOneWithWhereWithoutContentInput = {
+    where?: WebpageWhereInput
+    data: XOR<WebpageUpdateWithoutContentInput, WebpageUncheckedUpdateWithoutContentInput>
+  }
+
+  export type WebpageUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+  }
+
+  export type UserCreateWithoutCategoriesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCategoriesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCategoriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCategoriesInput, UserUncheckedCreateWithoutCategoriesInput>
+  }
+
+  export type WebpageCreateWithoutCategoriesInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutCategoriesInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutCategoriesInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutCategoriesInput, WebpageUncheckedCreateWithoutCategoriesInput>
+  }
+
+  export type CampaignCreateWithoutCategoriesInput = {
+    id?: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCampaignsInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignUncheckedCreateWithoutCategoriesInput = {
+    id?: string
+    userId: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignCreateOrConnectWithoutCategoriesInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutCategoriesInput, CampaignUncheckedCreateWithoutCategoriesInput>
+  }
+
+  export type UserUpsertWithoutCategoriesInput = {
+    update: XOR<UserUpdateWithoutCategoriesInput, UserUncheckedUpdateWithoutCategoriesInput>
+    create: XOR<UserCreateWithoutCategoriesInput, UserUncheckedCreateWithoutCategoriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCategoriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCategoriesInput, UserUncheckedUpdateWithoutCategoriesInput>
+  }
+
+  export type UserUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type WebpageUpsertWithWhereUniqueWithoutCategoriesInput = {
+    where: WebpageWhereUniqueInput
+    update: XOR<WebpageUpdateWithoutCategoriesInput, WebpageUncheckedUpdateWithoutCategoriesInput>
+    create: XOR<WebpageCreateWithoutCategoriesInput, WebpageUncheckedCreateWithoutCategoriesInput>
+  }
+
+  export type WebpageUpdateWithWhereUniqueWithoutCategoriesInput = {
+    where: WebpageWhereUniqueInput
+    data: XOR<WebpageUpdateWithoutCategoriesInput, WebpageUncheckedUpdateWithoutCategoriesInput>
+  }
+
+  export type WebpageUpdateManyWithWhereWithoutCategoriesInput = {
+    where: WebpageScalarWhereInput
+    data: XOR<WebpageUpdateManyMutationInput, WebpageUncheckedUpdateManyWithoutWebpagesInput>
+  }
+
+  export type CampaignUpsertWithWhereUniqueWithoutCategoriesInput = {
+    where: CampaignWhereUniqueInput
+    update: XOR<CampaignUpdateWithoutCategoriesInput, CampaignUncheckedUpdateWithoutCategoriesInput>
+    create: XOR<CampaignCreateWithoutCategoriesInput, CampaignUncheckedCreateWithoutCategoriesInput>
+  }
+
+  export type CampaignUpdateWithWhereUniqueWithoutCategoriesInput = {
+    where: CampaignWhereUniqueInput
+    data: XOR<CampaignUpdateWithoutCategoriesInput, CampaignUncheckedUpdateWithoutCategoriesInput>
+  }
+
+  export type CampaignUpdateManyWithWhereWithoutCategoriesInput = {
+    where: CampaignScalarWhereInput
+    data: XOR<CampaignUpdateManyMutationInput, CampaignUncheckedUpdateManyWithoutCampaignsInput>
+  }
+
+  export type WebpageCreateWithoutAdvertisementSpotsInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutAdvertisementSpotsInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutAdvertisementSpotsInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutAdvertisementSpotsInput, WebpageUncheckedCreateWithoutAdvertisementSpotsInput>
+  }
+
+  export type AdvertisementCreateWithoutAdvertisementSpotInput = {
+    id?: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaign: ScoredCampaignCreateNestedOneWithoutAdvertisementsInput
+    impressions?: ImpressionCreateNestedManyWithoutAdvertisementInput
+  }
+
+  export type AdvertisementUncheckedCreateWithoutAdvertisementSpotInput = {
+    id?: string
+    scoredCampaignId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAdvertisementInput
+  }
+
+  export type AdvertisementCreateOrConnectWithoutAdvertisementSpotInput = {
+    where: AdvertisementWhereUniqueInput
+    create: XOR<AdvertisementCreateWithoutAdvertisementSpotInput, AdvertisementUncheckedCreateWithoutAdvertisementSpotInput>
+  }
+
+  export type AdvertisementCreateManyAdvertisementSpotInputEnvelope = {
+    data: Enumerable<AdvertisementCreateManyAdvertisementSpotInput>
+    skipDuplicates?: boolean
+  }
+
+  export type WebpageUpsertWithoutAdvertisementSpotsInput = {
+    update: XOR<WebpageUpdateWithoutAdvertisementSpotsInput, WebpageUncheckedUpdateWithoutAdvertisementSpotsInput>
+    create: XOR<WebpageCreateWithoutAdvertisementSpotsInput, WebpageUncheckedCreateWithoutAdvertisementSpotsInput>
+    where?: WebpageWhereInput
+  }
+
+  export type WebpageUpdateToOneWithWhereWithoutAdvertisementSpotsInput = {
+    where?: WebpageWhereInput
+    data: XOR<WebpageUpdateWithoutAdvertisementSpotsInput, WebpageUncheckedUpdateWithoutAdvertisementSpotsInput>
+  }
+
+  export type WebpageUpdateWithoutAdvertisementSpotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutAdvertisementSpotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type AdvertisementUpsertWithWhereUniqueWithoutAdvertisementSpotInput = {
+    where: AdvertisementWhereUniqueInput
+    update: XOR<AdvertisementUpdateWithoutAdvertisementSpotInput, AdvertisementUncheckedUpdateWithoutAdvertisementSpotInput>
+    create: XOR<AdvertisementCreateWithoutAdvertisementSpotInput, AdvertisementUncheckedCreateWithoutAdvertisementSpotInput>
+  }
+
+  export type AdvertisementUpdateWithWhereUniqueWithoutAdvertisementSpotInput = {
+    where: AdvertisementWhereUniqueInput
+    data: XOR<AdvertisementUpdateWithoutAdvertisementSpotInput, AdvertisementUncheckedUpdateWithoutAdvertisementSpotInput>
+  }
+
+  export type AdvertisementUpdateManyWithWhereWithoutAdvertisementSpotInput = {
+    where: AdvertisementScalarWhereInput
+    data: XOR<AdvertisementUpdateManyMutationInput, AdvertisementUncheckedUpdateManyWithoutAdvertisementsInput>
+  }
+
+  export type AdvertisementScalarWhereInput = {
+    AND?: Enumerable<AdvertisementScalarWhereInput>
+    OR?: Enumerable<AdvertisementScalarWhereInput>
+    NOT?: Enumerable<AdvertisementScalarWhereInput>
+    id?: StringFilter | string
+    scoredCampaignId?: StringFilter | string
+    advertisementSpotId?: StringFilter | string
+    advertText?: StringFilter | string
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type WebpageCreateWithoutScoredCampaignsInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutScoredCampaignsInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutScoredCampaignsInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutScoredCampaignsInput, WebpageUncheckedCreateWithoutScoredCampaignsInput>
+  }
+
+  export type CampaignCreateWithoutScoredCampaignsInput = {
+    id?: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCampaignsInput
+    categories?: CategoryCreateNestedManyWithoutCampaignsInput
+  }
+
+  export type CampaignUncheckedCreateWithoutScoredCampaignsInput = {
+    id?: string
+    userId: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categories?: CategoryUncheckedCreateNestedManyWithoutCampaignsInput
+  }
+
+  export type CampaignCreateOrConnectWithoutScoredCampaignsInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutScoredCampaignsInput, CampaignUncheckedCreateWithoutScoredCampaignsInput>
+  }
+
+  export type AdvertisementCreateWithoutScoredCampaignInput = {
+    id?: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionCreateNestedManyWithoutAdvertisementInput
+    advertisementSpot: AdvertisementSpotCreateNestedOneWithoutAdvertisementsInput
+  }
+
+  export type AdvertisementUncheckedCreateWithoutScoredCampaignInput = {
+    id?: string
+    advertisementSpotId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAdvertisementInput
+  }
+
+  export type AdvertisementCreateOrConnectWithoutScoredCampaignInput = {
+    where: AdvertisementWhereUniqueInput
+    create: XOR<AdvertisementCreateWithoutScoredCampaignInput, AdvertisementUncheckedCreateWithoutScoredCampaignInput>
+  }
+
+  export type AdvertisementCreateManyScoredCampaignInputEnvelope = {
+    data: Enumerable<AdvertisementCreateManyScoredCampaignInput>
+    skipDuplicates?: boolean
+  }
+
+  export type WebpageUpsertWithoutScoredCampaignsInput = {
+    update: XOR<WebpageUpdateWithoutScoredCampaignsInput, WebpageUncheckedUpdateWithoutScoredCampaignsInput>
+    create: XOR<WebpageCreateWithoutScoredCampaignsInput, WebpageUncheckedCreateWithoutScoredCampaignsInput>
+    where?: WebpageWhereInput
+  }
+
+  export type WebpageUpdateToOneWithWhereWithoutScoredCampaignsInput = {
+    where?: WebpageWhereInput
+    data: XOR<WebpageUpdateWithoutScoredCampaignsInput, WebpageUncheckedUpdateWithoutScoredCampaignsInput>
+  }
+
+  export type WebpageUpdateWithoutScoredCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutScoredCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type CampaignUpsertWithoutScoredCampaignsInput = {
+    update: XOR<CampaignUpdateWithoutScoredCampaignsInput, CampaignUncheckedUpdateWithoutScoredCampaignsInput>
+    create: XOR<CampaignCreateWithoutScoredCampaignsInput, CampaignUncheckedCreateWithoutScoredCampaignsInput>
+    where?: CampaignWhereInput
+  }
+
+  export type CampaignUpdateToOneWithWhereWithoutScoredCampaignsInput = {
+    where?: CampaignWhereInput
+    data: XOR<CampaignUpdateWithoutScoredCampaignsInput, CampaignUncheckedUpdateWithoutScoredCampaignsInput>
+  }
+
+  export type CampaignUpdateWithoutScoredCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCampaignsNestedInput
+    categories?: CategoryUpdateManyWithoutCampaignsNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutScoredCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categories?: CategoryUncheckedUpdateManyWithoutCampaignsNestedInput
+  }
+
+  export type AdvertisementUpsertWithWhereUniqueWithoutScoredCampaignInput = {
+    where: AdvertisementWhereUniqueInput
+    update: XOR<AdvertisementUpdateWithoutScoredCampaignInput, AdvertisementUncheckedUpdateWithoutScoredCampaignInput>
+    create: XOR<AdvertisementCreateWithoutScoredCampaignInput, AdvertisementUncheckedCreateWithoutScoredCampaignInput>
+  }
+
+  export type AdvertisementUpdateWithWhereUniqueWithoutScoredCampaignInput = {
+    where: AdvertisementWhereUniqueInput
+    data: XOR<AdvertisementUpdateWithoutScoredCampaignInput, AdvertisementUncheckedUpdateWithoutScoredCampaignInput>
+  }
+
+  export type AdvertisementUpdateManyWithWhereWithoutScoredCampaignInput = {
+    where: AdvertisementScalarWhereInput
+    data: XOR<AdvertisementUpdateManyMutationInput, AdvertisementUncheckedUpdateManyWithoutAdvertisementsInput>
+  }
+
+  export type ScoredCampaignCreateWithoutAdvertisementsInput = {
+    id?: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutScoredCampaignsInput
+    campaign: CampaignCreateNestedOneWithoutScoredCampaignsInput
+  }
+
+  export type ScoredCampaignUncheckedCreateWithoutAdvertisementsInput = {
+    id?: string
+    webpageId: string
+    campaignId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScoredCampaignCreateOrConnectWithoutAdvertisementsInput = {
+    where: ScoredCampaignWhereUniqueInput
+    create: XOR<ScoredCampaignCreateWithoutAdvertisementsInput, ScoredCampaignUncheckedCreateWithoutAdvertisementsInput>
+  }
+
+  export type ImpressionCreateWithoutAdvertisementInput = {
+    id?: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    auction: AuctionCreateNestedOneWithoutImpressionsInput
+  }
+
+  export type ImpressionUncheckedCreateWithoutAdvertisementInput = {
+    id?: string
+    auctionId: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImpressionCreateOrConnectWithoutAdvertisementInput = {
+    where: ImpressionWhereUniqueInput
+    create: XOR<ImpressionCreateWithoutAdvertisementInput, ImpressionUncheckedCreateWithoutAdvertisementInput>
+  }
+
+  export type ImpressionCreateManyAdvertisementInputEnvelope = {
+    data: Enumerable<ImpressionCreateManyAdvertisementInput>
+    skipDuplicates?: boolean
+  }
+
+  export type AdvertisementSpotCreateWithoutAdvertisementsInput = {
+    id?: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutAdvertisementSpotsInput
+  }
+
+  export type AdvertisementSpotUncheckedCreateWithoutAdvertisementsInput = {
+    id?: string
+    webpageId: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementSpotCreateOrConnectWithoutAdvertisementsInput = {
+    where: AdvertisementSpotWhereUniqueInput
+    create: XOR<AdvertisementSpotCreateWithoutAdvertisementsInput, AdvertisementSpotUncheckedCreateWithoutAdvertisementsInput>
+  }
+
+  export type ScoredCampaignUpsertWithoutAdvertisementsInput = {
+    update: XOR<ScoredCampaignUpdateWithoutAdvertisementsInput, ScoredCampaignUncheckedUpdateWithoutAdvertisementsInput>
+    create: XOR<ScoredCampaignCreateWithoutAdvertisementsInput, ScoredCampaignUncheckedCreateWithoutAdvertisementsInput>
+    where?: ScoredCampaignWhereInput
+  }
+
+  export type ScoredCampaignUpdateToOneWithWhereWithoutAdvertisementsInput = {
+    where?: ScoredCampaignWhereInput
+    data: XOR<ScoredCampaignUpdateWithoutAdvertisementsInput, ScoredCampaignUncheckedUpdateWithoutAdvertisementsInput>
+  }
+
+  export type ScoredCampaignUpdateWithoutAdvertisementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutScoredCampaignsNestedInput
+  }
+
+  export type ScoredCampaignUncheckedUpdateWithoutAdvertisementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImpressionUpsertWithWhereUniqueWithoutAdvertisementInput = {
+    where: ImpressionWhereUniqueInput
+    update: XOR<ImpressionUpdateWithoutAdvertisementInput, ImpressionUncheckedUpdateWithoutAdvertisementInput>
+    create: XOR<ImpressionCreateWithoutAdvertisementInput, ImpressionUncheckedCreateWithoutAdvertisementInput>
+  }
+
+  export type ImpressionUpdateWithWhereUniqueWithoutAdvertisementInput = {
+    where: ImpressionWhereUniqueInput
+    data: XOR<ImpressionUpdateWithoutAdvertisementInput, ImpressionUncheckedUpdateWithoutAdvertisementInput>
+  }
+
+  export type ImpressionUpdateManyWithWhereWithoutAdvertisementInput = {
+    where: ImpressionScalarWhereInput
+    data: XOR<ImpressionUpdateManyMutationInput, ImpressionUncheckedUpdateManyWithoutImpressionsInput>
+  }
+
+  export type AdvertisementSpotUpsertWithoutAdvertisementsInput = {
+    update: XOR<AdvertisementSpotUpdateWithoutAdvertisementsInput, AdvertisementSpotUncheckedUpdateWithoutAdvertisementsInput>
+    create: XOR<AdvertisementSpotCreateWithoutAdvertisementsInput, AdvertisementSpotUncheckedCreateWithoutAdvertisementsInput>
+    where?: AdvertisementSpotWhereInput
+  }
+
+  export type AdvertisementSpotUpdateToOneWithWhereWithoutAdvertisementsInput = {
+    where?: AdvertisementSpotWhereInput
+    data: XOR<AdvertisementSpotUpdateWithoutAdvertisementsInput, AdvertisementSpotUncheckedUpdateWithoutAdvertisementsInput>
+  }
+
+  export type AdvertisementSpotUpdateWithoutAdvertisementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutAdvertisementSpotsNestedInput
+  }
+
+  export type AdvertisementSpotUncheckedUpdateWithoutAdvertisementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutCampaignsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    auctions?: AuctionCreateNestedManyWithoutUserInput
+    websites?: WebsiteCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    setting?: SettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCampaignsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutUserInput
+    websites?: WebsiteUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    setting?: SettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCampaignsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCampaignsInput, UserUncheckedCreateWithoutCampaignsInput>
+  }
+
+  export type ScoredCampaignCreateWithoutCampaignInput = {
+    id?: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutScoredCampaignsInput
+    advertisements?: AdvertisementCreateNestedManyWithoutScoredCampaignInput
+  }
+
+  export type ScoredCampaignUncheckedCreateWithoutCampaignInput = {
+    id?: string
+    webpageId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    advertisements?: AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput
+  }
+
+  export type ScoredCampaignCreateOrConnectWithoutCampaignInput = {
+    where: ScoredCampaignWhereUniqueInput
+    create: XOR<ScoredCampaignCreateWithoutCampaignInput, ScoredCampaignUncheckedCreateWithoutCampaignInput>
+  }
+
+  export type ScoredCampaignCreateManyCampaignInputEnvelope = {
+    data: Enumerable<ScoredCampaignCreateManyCampaignInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CategoryCreateWithoutCampaignsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCategoriesInput
+    webpages?: WebpageCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryUncheckedCreateWithoutCampaignsInput = {
+    id?: string
+    userId: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageUncheckedCreateNestedManyWithoutCategoriesInput
+  }
+
+  export type CategoryCreateOrConnectWithoutCampaignsInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutCampaignsInput, CategoryUncheckedCreateWithoutCampaignsInput>
+  }
+
+  export type UserUpsertWithoutCampaignsInput = {
+    update: XOR<UserUpdateWithoutCampaignsInput, UserUncheckedUpdateWithoutCampaignsInput>
+    create: XOR<UserCreateWithoutCampaignsInput, UserUncheckedCreateWithoutCampaignsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCampaignsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCampaignsInput, UserUncheckedUpdateWithoutCampaignsInput>
+  }
+
+  export type UserUpdateWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    setting?: SettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutUserNestedInput
+    websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type ScoredCampaignUpsertWithWhereUniqueWithoutCampaignInput = {
+    where: ScoredCampaignWhereUniqueInput
+    update: XOR<ScoredCampaignUpdateWithoutCampaignInput, ScoredCampaignUncheckedUpdateWithoutCampaignInput>
+    create: XOR<ScoredCampaignCreateWithoutCampaignInput, ScoredCampaignUncheckedCreateWithoutCampaignInput>
+  }
+
+  export type ScoredCampaignUpdateWithWhereUniqueWithoutCampaignInput = {
+    where: ScoredCampaignWhereUniqueInput
+    data: XOR<ScoredCampaignUpdateWithoutCampaignInput, ScoredCampaignUncheckedUpdateWithoutCampaignInput>
+  }
+
+  export type ScoredCampaignUpdateManyWithWhereWithoutCampaignInput = {
+    where: ScoredCampaignScalarWhereInput
+    data: XOR<ScoredCampaignUpdateManyMutationInput, ScoredCampaignUncheckedUpdateManyWithoutScoredCampaignsInput>
+  }
+
+  export type CategoryUpsertWithWhereUniqueWithoutCampaignsInput = {
+    where: CategoryWhereUniqueInput
+    update: XOR<CategoryUpdateWithoutCampaignsInput, CategoryUncheckedUpdateWithoutCampaignsInput>
+    create: XOR<CategoryCreateWithoutCampaignsInput, CategoryUncheckedCreateWithoutCampaignsInput>
+  }
+
+  export type CategoryUpdateWithWhereUniqueWithoutCampaignsInput = {
+    where: CategoryWhereUniqueInput
+    data: XOR<CategoryUpdateWithoutCampaignsInput, CategoryUncheckedUpdateWithoutCampaignsInput>
+  }
+
+  export type CategoryUpdateManyWithWhereWithoutCampaignsInput = {
+    where: CategoryScalarWhereInput
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutCategoriesInput>
+  }
+
+  export type AdvertisementCreateWithoutImpressionsInput = {
+    id?: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaign: ScoredCampaignCreateNestedOneWithoutAdvertisementsInput
+    advertisementSpot: AdvertisementSpotCreateNestedOneWithoutAdvertisementsInput
+  }
+
+  export type AdvertisementUncheckedCreateWithoutImpressionsInput = {
+    id?: string
+    scoredCampaignId: string
+    advertisementSpotId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementCreateOrConnectWithoutImpressionsInput = {
+    where: AdvertisementWhereUniqueInput
+    create: XOR<AdvertisementCreateWithoutImpressionsInput, AdvertisementUncheckedCreateWithoutImpressionsInput>
+  }
+
+  export type AuctionCreateWithoutImpressionsInput = {
+    id?: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAuctionsInput
+    webpage?: WebpageCreateNestedOneWithoutAuctionsInput
+  }
+
+  export type AuctionUncheckedCreateWithoutImpressionsInput = {
+    id?: string
+    userId: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionCreateOrConnectWithoutImpressionsInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutImpressionsInput, AuctionUncheckedCreateWithoutImpressionsInput>
+  }
+
+  export type AdvertisementUpsertWithoutImpressionsInput = {
+    update: XOR<AdvertisementUpdateWithoutImpressionsInput, AdvertisementUncheckedUpdateWithoutImpressionsInput>
+    create: XOR<AdvertisementCreateWithoutImpressionsInput, AdvertisementUncheckedCreateWithoutImpressionsInput>
+    where?: AdvertisementWhereInput
+  }
+
+  export type AdvertisementUpdateToOneWithWhereWithoutImpressionsInput = {
+    where?: AdvertisementWhereInput
+    data: XOR<AdvertisementUpdateWithoutImpressionsInput, AdvertisementUncheckedUpdateWithoutImpressionsInput>
+  }
+
+  export type AdvertisementUpdateWithoutImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaign?: ScoredCampaignUpdateOneRequiredWithoutAdvertisementsNestedInput
+    advertisementSpot?: AdvertisementSpotUpdateOneRequiredWithoutAdvertisementsNestedInput
+  }
+
+  export type AdvertisementUncheckedUpdateWithoutImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoredCampaignId?: StringFieldUpdateOperationsInput | string
+    advertisementSpotId?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUpsertWithoutImpressionsInput = {
+    update: XOR<AuctionUpdateWithoutImpressionsInput, AuctionUncheckedUpdateWithoutImpressionsInput>
+    create: XOR<AuctionCreateWithoutImpressionsInput, AuctionUncheckedCreateWithoutImpressionsInput>
+    where?: AuctionWhereInput
+  }
+
+  export type AuctionUpdateToOneWithWhereWithoutImpressionsInput = {
+    where?: AuctionWhereInput
+    data: XOR<AuctionUpdateWithoutImpressionsInput, AuctionUncheckedUpdateWithoutImpressionsInput>
+  }
+
+  export type AuctionUpdateWithoutImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountCreateManyUserInput = {
+    id?: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type SessionCreateManyUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type AuctionCreateManyUserInput = {
+    id?: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CampaignCreateManyUserInput = {
+    id?: string
+    name?: string
+    start: Date | string
+    end: Date | string
+    impressionCap?: number
+    fixedCpm?: Decimal | DecimalJsLike | number | string
+    productName?: string
+    productDescription?: string
+    clickUrl?: string
+    requiredCssSelector?: string
+    pacing?: boolean
+    status?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteCreateManyUserInput = {
+    id?: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CategoryCreateManyUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccountUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccountUncheckedUpdateManyWithoutAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerAccountId?: StringFieldUpdateOperationsInput | string
+    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
+    access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
+    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    scope?: NullableStringFieldUpdateOperationsInput | string | null
+    id_token?: NullableStringFieldUpdateOperationsInput | string | null
+    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateManyWithoutSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CampaignUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutCampaignNestedInput
+    categories?: CategoryUpdateManyWithoutCampaignsNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutCampaignNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCampaignsNestedInput
+  }
+
+  export type CampaignUncheckedUpdateManyWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUpdateManyWithoutWebsiteNestedInput
+  }
+
+  export type WebsiteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUncheckedUpdateManyWithoutWebsiteNestedInput
+  }
+
+  export type WebsiteUncheckedUpdateManyWithoutWebsitesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUpdateManyWithoutCategoriesNestedInput
+    campaigns?: CampaignUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUncheckedUpdateManyWithoutCategoriesNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImpressionCreateManyAuctionInput = {
+    id?: string
+    advertisementId: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImpressionUpdateWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisement?: AdvertisementUpdateOneRequiredWithoutImpressionsNestedInput
+  }
+
+  export type ImpressionUncheckedUpdateWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertisementId?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImpressionUncheckedUpdateManyWithoutImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertisementId?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebpageCreateManyWebsiteInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebpageUpdateWithoutWebsiteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutWebsiteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateManyWithoutWebpagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoredCampaignCreateManyWebpageInput = {
+    id?: string
+    campaignId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementSpotCreateManyWebpageInput = {
+    id?: string
+    beforeText: string
+    afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuctionCreateManyWebpageInput = {
+    id?: string
+    userId: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScoredCampaignUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    campaign?: CampaignUpdateOneRequiredWithoutScoredCampaignsNestedInput
+    advertisements?: AdvertisementUpdateManyWithoutScoredCampaignNestedInput
+  }
+
+  export type ScoredCampaignUncheckedUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisements?: AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput
+  }
+
+  export type ScoredCampaignUncheckedUpdateManyWithoutScoredCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdvertisementSpotUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisements?: AdvertisementUpdateManyWithoutAdvertisementSpotNestedInput
+  }
+
+  export type AdvertisementSpotUncheckedUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisements?: AdvertisementUncheckedUpdateManyWithoutAdvertisementSpotNestedInput
+  }
+
+  export type AdvertisementSpotUncheckedUpdateManyWithoutAdvertisementSpotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    beforeText?: StringFieldUpdateOperationsInput | string
+    afterText?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryUpdateWithoutWebpagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
+    campaigns?: CampaignUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutWebpagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    campaigns?: CampaignUncheckedUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type AuctionUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type WebpageUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type CampaignUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCampaignsNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    start?: DateTimeFieldUpdateOperationsInput | Date | string
+    end?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressionCap?: IntFieldUpdateOperationsInput | number
+    fixedCpm?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
+    clickUrl?: StringFieldUpdateOperationsInput | string
+    requiredCssSelector?: StringFieldUpdateOperationsInput | string
+    pacing?: BoolFieldUpdateOperationsInput | boolean
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type AdvertisementCreateManyAdvertisementSpotInput = {
+    id?: string
+    scoredCampaignId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementUpdateWithoutAdvertisementSpotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaign?: ScoredCampaignUpdateOneRequiredWithoutAdvertisementsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAdvertisementNestedInput
+  }
+
+  export type AdvertisementUncheckedUpdateWithoutAdvertisementSpotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoredCampaignId?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAdvertisementNestedInput
+  }
+
+  export type AdvertisementUncheckedUpdateManyWithoutAdvertisementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scoredCampaignId?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdvertisementCreateManyScoredCampaignInput = {
+    id?: string
+    advertisementSpotId: string
+    advertText: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdvertisementUpdateWithoutScoredCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUpdateManyWithoutAdvertisementNestedInput
+    advertisementSpot?: AdvertisementSpotUpdateOneRequiredWithoutAdvertisementsNestedInput
+  }
+
+  export type AdvertisementUncheckedUpdateWithoutScoredCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    advertisementSpotId?: StringFieldUpdateOperationsInput | string
+    advertText?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAdvertisementNestedInput
+  }
+
+  export type ImpressionCreateManyAdvertisementInput = {
+    id?: string
+    auctionId: string
+    clicked: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImpressionUpdateWithoutAdvertisementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auction?: AuctionUpdateOneRequiredWithoutImpressionsNestedInput
+  }
+
+  export type ImpressionUncheckedUpdateWithoutAdvertisementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScoredCampaignCreateManyCampaignInput = {
+    id?: string
+    webpageId: string
+    score: number
+    reason: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScoredCampaignUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput
+    advertisements?: AdvertisementUpdateManyWithoutScoredCampaignNestedInput
+  }
+
+  export type ScoredCampaignUncheckedUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    advertisements?: AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput
+  }
+
+  export type CategoryUpdateWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
+    webpages?: WebpageUpdateManyWithoutCategoriesNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutCampaignsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUncheckedUpdateManyWithoutCategoriesNestedInput
+  }
+
+
+
+  /**
+   * Batch Payload for updateMany & deleteMany & createMany
+   */
+
+  export type BatchPayload = {
+    count: number
+  }
+
+  /**
+   * DMMF
+   */
+  export const dmmf: runtime.BaseDMMF
+}

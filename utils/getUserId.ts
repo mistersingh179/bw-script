@@ -8,12 +8,10 @@ export const getCurrentScript = ():HTMLScriptElement => {
 
 const getUserId = () => {
   const scriptTag = getCurrentScript();
-  console.log("got script tag: ", scriptTag);
   const src = scriptTag.src;
   const url = new URL(src);
   const params = url.searchParams;
   const id = params.get("id");
-  console.log("user id is: ", id);
   return id;
 }
 

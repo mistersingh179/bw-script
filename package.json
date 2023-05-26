@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "esbuild": "0.17.14"
+    "esbuild": "0.17.14",
+    "superjson": "^1.12.3"
   },
   "devDependencies": {
     "@types/node": "^18.15.11"

@@ -19,8 +19,8 @@ let { host, port } = await ctx.serve({
   port: 8000,
   host: '0.0.0.0',
   servedir: './dist',
-  certfile: './server.crt',
-  keyfile: './server.key'
+  // certfile: './server.crt',
+  // keyfile: './server.key'
 })
 
-console.log(`server has file at https://server:${port}/bw.js`)
+console.log(`server has file at http(s)://server:${port}/bw.js`)

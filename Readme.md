@@ -27,3 +27,9 @@ new EventSource('/esbuild').addEventListener('change', () => location.reload())
 - used `easy-rsa` to generate a `request` for common name `server`, which then gave me a `key` & `cert`
 - added that cert to the keychain app and marked it to be trusted
 - using the key & cert when turning on the server
+
+## Notes on how we call the front end
+- abort if we have `meta[bw-opt-out="true"]`
+- make call to auctions
+- process response & update DOM with content
+- add click handler to links

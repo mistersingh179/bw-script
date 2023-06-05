@@ -20,6 +20,7 @@ export const generateImpression = async (
     body: JSON.stringify({
       advertisementId: ad.id,
       auctionId: auction.id,
+      userId: getUserId(),
     }),
     credentials: "include",
   });
@@ -41,6 +42,7 @@ export const markImpressionClicked = async (impression: Impression) => {
       },
       body: JSON.stringify({
         impressionId: impression.id,
+        userId: getUserId(),
       }),
       credentials: "include",
     }

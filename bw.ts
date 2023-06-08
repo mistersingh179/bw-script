@@ -43,29 +43,37 @@ const init = async () => {
       console.log("element has text: ", currentText?.substring(0, 30));
 
       if (currentText === adSpot.beforeText) {
+
         console.log(
-          "%c this MATCHES beforeText. will now check its next element with afterText",
+          "%c this MATCHES beforeText. will INSERT ad here",
           "background: #222; color: #bada55"
         );
+        const impression: Impression = await generateImpression(auction, ad);
+        insertAd(currentElement, ad, impression);
 
-        const nextElement = nextWithText(elementsArr[i]);
-        const nextText = nextElement.textContent?.trim();
-        console.log("next element has text: ", nextText?.substring(0, 30));
+        // console.log(
+        //   "%c this MATCHES beforeText. will now check its next element with afterText",
+        //   "background: #222; color: #bada55"
+        // );
 
-        if (nextText === adSpot.afterText) {
-          console.log(
-            "%c this MATCHES our afterText. WINNER",
-            "background: #222; color: #bada55"
-          );
-          console.log("will INSERT ad here");
-          const impression: Impression = await generateImpression(auction, ad);
-          insertAd(currentElement, ad, impression);
-        } else {
-          console.log(
-            "%c no match on after Text, even though before Text matched",
-            "background: #222; color: #bada55"
-          );
-        }
+        // const nextElement = nextWithText(elementsArr[i]);
+        // const nextText = nextElement.textContent?.trim();
+        // console.log("next element has text: ", nextText?.substring(0, 30));
+
+        // if (nextText === adSpot.afterText) {
+        //   console.log(
+        //     "%c this MATCHES our afterText. WINNER",
+        //     "background: #222; color: #bada55"
+        //   );
+        //   console.log("will INSERT ad here");
+        //   const impression: Impression = await generateImpression(auction, ad);
+        //   insertAd(currentElement, ad, impression);
+        // } else {
+        //   console.log(
+        //     "%c no match on after Text, even though before Text matched",
+        //     "background: #222; color: #bada55"
+        //   );
+        // }
       } else {
         console.log("no match on before Text");
       }

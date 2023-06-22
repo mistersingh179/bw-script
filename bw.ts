@@ -47,14 +47,14 @@ const init = async () => {
         "checking adSpot: " + j + " " + beforeParaText.substring(0, 30)
       );
       console.log("   currentText: ", currentText);
-      console.log("BeforeParaText: ", beforeParaText);
+      console.log("beforeParaText: ", beforeParaText);
       // console.log(" After: ", adSpot.afterText);
       if (currentText === beforeParaText) {
         elementHasMatch = true;
         adSpotHasMatch = true;
         console.log(currentElement);
         console.log(
-          "%c this MATCHES beforeText. will INSERT ad here",
+          "%c This currentText & beforeParaText are a perfect MATCH. will INSERT ad here",
           "background: #222; color: #bada55"
         );
         const impression: Impression = await generateImpression(auction, ad);

@@ -17,33 +17,42 @@ const init = async () => {
   const { auction, adsWithDetail } = auctionResponse;
   console.log("got auction ", auction.id, " and ads: ", adsWithDetail.length);
 
-  if(adsWithDetail.length === 0){
+  if (adsWithDetail.length === 0) {
     console.log("aborting as no ads found");
-    return
+    return;
   }
 
   console.time("processAds");
   let elements = document.querySelectorAll(`body p:not(empty)`);
   let elementsArr = Array.from(elements);
-
   console.groupCollapsed("processing Ads");
   console.log("elements count: ", elementsArr.length);
 
-  for (let i = 0; i < elementsArr.length - 1; i++) {
+  for (let i = 0; i < elementsArr.length; i++) {
     const currentElement = elementsArr[i];
-    const currentText = currentElement.textContent?.trim();
+    let currentText = currentElement.textContent?.trim() ?? "";
+    currentText = currentText.replaceAll(/[\n]+/g, " ");
+    currentText = currentText.replaceAll(/[\s]+/g, " ");
 
-    console.group("checking element: " + i);
+    let elementHasMatch = false;
+    console.groupCollapsed(
+      "checking element: " + i + " " + currentText?.substring(0, 30)
+    );
     for (let j = 0; j < adsWithDetail.length; j++) {
+      let adSpotHasMatch = false;
       const ad = adsWithDetail[j];
       const adSpot = ad.advertisementSpot;
-      console.group("checking adSpot: " + j);
-      console.log(" Before: ", adSpot.beforeText);
-      console.log(" After: ", adSpot.afterText);
-      console.log("element has text: ", currentText?.substring(0, 30));
-
-      if (currentText === adSpot.beforeText) {
-
+      const beforeParaText = adSpot.beforeText.split(" \n ").slice(-1)[0];
+      console.groupCollapsed(
+        "checking adSpot: " + j + " " + beforeParaText.substring(0, 30)
+      );
+      console.log("   currentText: ", currentText);
+      console.log("BeforeParaText: ", beforeParaText);
+      // console.log(" After: ", adSpot.afterText);
+      if (currentText === beforeParaText) {
+        elementHasMatch = true;
+        adSpotHasMatch = true;
+        console.log(currentElement);
         console.log(
           "%c this MATCHES beforeText. will INSERT ad here",
           "background: #222; color: #bada55"
@@ -78,8 +87,22 @@ const init = async () => {
         console.log("no match on before Text");
       }
       console.groupEnd();
+      if (adSpotHasMatch == true) {
+        console.log(
+          "%c This ad spot above has the match",
+          "background: #bee3f8; color: #2D3748"
+        );
+        adSpotHasMatch = false;
+      }
     }
     console.groupEnd();
+    if (elementHasMatch == true) {
+      console.log(
+        "%c This element above has a match",
+        "background: #C6F6D5; color: #2D3748"
+      );
+      elementHasMatch = false;
+    }
   }
   console.groupEnd();
   console.timeEnd();

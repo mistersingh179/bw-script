@@ -49,12 +49,12 @@ const init = async () => {
       console.log("   currentText: ", currentText);
       console.log("beforeParaText: ", beforeParaText);
       // console.log(" After: ", adSpot.afterText);
-      if (currentText === beforeParaText) {
+      if (currentText.includes(beforeParaText)) {
         elementHasMatch = true;
         adSpotHasMatch = true;
         console.log(currentElement);
         console.log(
-          "%c This currentText & beforeParaText are a perfect MATCH. will INSERT ad here",
+          "%c This currentText includes beforeParaText. will INSERT ad here",
           "background: #222; color: #bada55"
         );
         const impression: Impression = await generateImpression(auction, ad);

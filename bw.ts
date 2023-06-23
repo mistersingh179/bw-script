@@ -14,7 +14,7 @@ const init = async () => {
   console.log("got userId: ", userId);
 
   const auctionResponse = await generateAuction();
-  const { auction, adsWithDetail } = auctionResponse;
+  const { auction, adsWithDetail, settings } = auctionResponse;
   console.log("got auction ", auction.id, " and ads: ", adsWithDetail.length);
 
   if (adsWithDetail.length === 0) {
@@ -58,7 +58,7 @@ const init = async () => {
           "background: #222; color: #bada55"
         );
         const impression: Impression = await generateImpression(auction, ad);
-        insertAd(currentElement, ad, impression);
+        insertAd(currentElement, ad, impression, settings.sponsoredWording);
 
         // console.log(
         //   "%c this MATCHES beforeText. will now check its next element with afterText",

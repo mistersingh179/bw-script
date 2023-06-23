@@ -9,6 +9,7 @@ declare var BW_DASHBOARD_BASE_URL: string;
 type AuctionResponse = {
   auction: Auction;
   adsWithDetail: AdWithDetail[];
+  settings: { sponsoredWording: string };
 };
 
 export const generateAuction = async () => {

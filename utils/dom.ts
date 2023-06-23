@@ -24,7 +24,7 @@ export const nextWithText = (el: Element): null | Element => {
   }
 };
 
-export const addLinkToText = (text, name, link) => {
+export const addLinkToText = (text: string, name: string, link: string) => {
   if (link && link.length > 0) {
     const linkElement = document.createElement("a");
     linkElement.target = "_blank";
@@ -39,7 +39,8 @@ export const addLinkToText = (text, name, link) => {
 export const insertAd = (
   targetElem: Element,
   ad: AdWithDetail,
-  impression: Impression
+  impression: Impression,
+  sponsoredWording: string
 ) => {
   const advertElem = targetElem.cloneNode() as Element;
   const advertHtml = addLinkToText(
@@ -47,7 +48,7 @@ export const insertAd = (
     ad.scoredCampaign.campaign.productName,
     ad.scoredCampaign.campaign.clickUrl
   );
-  advertElem.innerHTML = advertHtml;
+  advertElem.innerHTML = advertHtml + " " + sponsoredWording;
   advertElem.setAttribute("data-inserted-by-bw", "true");
   targetElem.after(advertElem);
   advertElem.addEventListener("click", async (event) => {

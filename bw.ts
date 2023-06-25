@@ -32,6 +32,8 @@ const init = async () => {
   console.groupCollapsed("processing Ads");
   console.log("elements count: ", elementsArr.length);
 
+  const adsAlreadyPlaces: {[key: string]: boolean} = {};
+
   for (let i = 0; i < elementsArr.length; i++) {
     const currentElement = elementsArr[i];
     let currentText = currentElement.textContent?.trim() ?? "";
@@ -45,6 +47,9 @@ const init = async () => {
     for (let j = 0; j < adsWithDetail.length; j++) {
       let adSpotHasMatch = false;
       const ad = adsWithDetail[j];
+      if(adsAlreadyPlaces[ad.id]){
+        continue;
+      }
       const adSpot = ad.advertisementSpot;
       const beforeParaText = adSpot.beforeText.split(" \n ").slice(-1)[0];
       console.groupCollapsed(
@@ -63,7 +68,7 @@ const init = async () => {
         );
         const impression: Impression = await generateImpression(auction, ad);
         insertAd(currentElement, ad, impression, settings.sponsoredWording);
-
+        adsAlreadyPlaces[ad.id] = true;
         // console.log(
         //   "%c this MATCHES beforeText. will now check its next element with afterText",
         //   "background: #222; color: #bada55"

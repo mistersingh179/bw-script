@@ -14,6 +14,10 @@ const init = async () => {
   console.log("got userId: ", userId);
 
   const auctionResponse = await generateAuction();
+  if(auctionResponse === null){
+    console.log("aborting as no auction response");
+    return;
+  }
   const { auction, adsWithDetail, settings } = auctionResponse;
   console.log("got auction ", auction.id, " and ads: ", adsWithDetail.length);
 

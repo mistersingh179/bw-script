@@ -25,9 +25,12 @@ export const generateAuction = async () => {
     }),
     credentials: "include",
   });
-
-  const text = await res.text();
-  const data = await superjson.parse<any>(text);
-  console.log("in generateAuction with: ", data);
-  return data as AuctionResponse;
+  try {
+    const text = await res.text();
+    const data = await superjson.parse<any>(text);
+    console.log("in generateAuction with data: ", data);
+    return data as AuctionResponse;
+  } catch (err) {
+    return null;
+  }
 };

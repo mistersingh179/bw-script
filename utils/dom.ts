@@ -25,15 +25,15 @@ export const nextWithText = (el: Element): null | Element => {
 };
 
 export const addLinkToText = (text: string, name: string, link: string) => {
-  if (link && link.length > 0) {
-    const linkElement = document.createElement("a");
-    linkElement.target = "_blank";
-    linkElement.href = link;
-    linkElement.textContent = name;
-    return text.replace(name, linkElement.outerHTML);
-  } else {
+  if (!link || link.length === 0) {
     return text;
   }
+
+  const linkElement = document.createElement("a");
+  linkElement.target = "_blank";
+  linkElement.href = link;
+  linkElement.textContent = name;
+  return text.replace(name, linkElement.outerHTML);
 };
 
 export const insertAd = (

@@ -10,6 +10,7 @@ type AuctionResponse = {
   auction: Auction;
   adsWithDetail: AdWithDetail[];
   settings: { sponsoredWording: string };
+  abortCategoryNames: string[]
 };
 
 export const generateAuction = async () => {

@@ -3,6 +3,7 @@ import { generateAuction } from "./utils/auction";
 import { generateImpression } from "./utils/impression";
 import { insertAd, nextWithText } from "./utils/dom";
 import { Impression } from "./prisma-client-index";
+import getCategories from "./utils/categories/getCategories";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
@@ -14,11 +15,26 @@ const init = async () => {
   console.log("got userId: ", userId);
 
   const auctionResponse = await generateAuction();
-  if(auctionResponse === null){
+  if (auctionResponse === null) {
     console.log("aborting as no auction response");
     return;
   }
-  const { auction, adsWithDetail, settings } = auctionResponse;
+  const { auction, adsWithDetail, settings, abortCategoryNames } =
+    auctionResponse;
+
+  console.log("user has abort Categories: ", abortCategoryNames);
+
+  if (abortCategoryNames.length > 0) {
+    const myCategories = getCategories();
+    console.log("this page has categories: ", myCategories);
+    for (const myCategory of myCategories) {
+      if (abortCategoryNames.includes(myCategory)) {
+        console.log("aborting because page has abort category:", myCategory);
+        return;
+      }
+    }
+  }
+
   console.log("got auction ", auction.id, " and ads: ", adsWithDetail.length);
 
   if (adsWithDetail.length === 0) {
@@ -32,7 +48,7 @@ const init = async () => {
   console.groupCollapsed("processing Ads");
   console.log("elements count: ", elementsArr.length);
 
-  const adsAlreadyPlaces: {[key: string]: boolean} = {};
+  const adsAlreadyPlaces: { [key: string]: boolean } = {};
 
   for (let i = 0; i < elementsArr.length; i++) {
     const currentElement = elementsArr[i];
@@ -47,7 +63,7 @@ const init = async () => {
     for (let j = 0; j < adsWithDetail.length; j++) {
       let adSpotHasMatch = false;
       const ad = adsWithDetail[j];
-      if(adsAlreadyPlaces[ad.id]){
+      if (adsAlreadyPlaces[ad.id]) {
         continue;
       }
       const adSpot = ad.advertisementSpot;

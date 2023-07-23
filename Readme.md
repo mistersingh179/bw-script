@@ -33,3 +33,8 @@ new EventSource('/esbuild').addEventListener('change', () => location.reload())
 - make call to auctions
 - process response & update DOM with content
 - add click handler to links
+
+## Making Prisma Typescript work
+- Manually copy `.prisma/client/index.d.ts` from `bw-dashboard` project to root of `bw-script`
+- the file is changing as the schema evolves in the dashboard
+- we should copy it to get access to the latest types.

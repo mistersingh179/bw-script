@@ -1,9 +1,8 @@
 
 /**
  * Client
-**/
+ **/
 
-// @ts-ignore
 import * as runtime from '@prisma/client/runtime/library';
 type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
@@ -15,7 +14,7 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 /**
  * Model Account
- * 
+ *
  */
 export type Account = {
   id: string
@@ -34,7 +33,7 @@ export type Account = {
 
 /**
  * Model Session
- * 
+ *
  */
 export type Session = {
   id: string
@@ -45,7 +44,7 @@ export type Session = {
 
 /**
  * Model VerificationToken
- * 
+ *
  */
 export type VerificationToken = {
   identifier: string
@@ -55,7 +54,7 @@ export type VerificationToken = {
 
 /**
  * Model User
- * 
+ *
  */
 export type User = {
   id: string
@@ -63,31 +62,43 @@ export type User = {
   email: string | null
   emailVerified: Date | null
   image: string | null
+  canManageUsers: boolean
   createdAt: Date
   updatedAt: Date
 }
 
 /**
  * Model Setting
- * 
+ *
  */
 export type Setting = {
   id: string
   userId: string
   scoreThreshold: number
   status: boolean
-  addSponsoredWording: boolean
+  sponsoredWording: string
+  desiredAdvertisementSpotCount: number
+  desiredAdvertisementCount: number
+  webpageLookbackDays: number
+  webpageInsertCap: number
+  allTimeMostVisitedUrlCount: number
+  recentlyMostVisitedUrlCount: number
+  mainPostBodySelector: string
+  contentSelector: string
+  minCharLimit: number
+  sameTypeElemWithTextToFollow: boolean
   createdAt: Date
   updatedAt: Date
 }
 
 /**
  * Model Auction
- * 
+ *
  */
 export type Auction = {
   id: string
   userId: string
+  websiteId: string | null
   webpageId: string | null
   url: string | null
   userAgent: string
@@ -100,7 +111,7 @@ export type Auction = {
 
 /**
  * Model Website
- * 
+ *
  */
 export type Website = {
   id: string
@@ -115,7 +126,7 @@ export type Website = {
 
 /**
  * Model Webpage
- * 
+ *
  */
 export type Webpage = {
   id: string
@@ -129,7 +140,7 @@ export type Webpage = {
 
 /**
  * Model Content
- * 
+ *
  */
 export type Content = {
   id: string
@@ -137,25 +148,28 @@ export type Content = {
   desktopHtml: string
   mobileHtml: string | null
   tabletHtml: string | null
+  title: string | null
+  description: string | null
   createdAt: Date
   updatedAt: Date
 }
 
 /**
  * Model Category
- * 
+ *
  */
 export type Category = {
   id: string
   userId: string
   name: string
+  abortScript: boolean
   createdAt: Date
   updatedAt: Date
 }
 
 /**
  * Model AdvertisementSpot
- * 
+ *
  */
 export type AdvertisementSpot = {
   id: string
@@ -168,21 +182,23 @@ export type AdvertisementSpot = {
 
 /**
  * Model ScoredCampaign
- * 
+ *
  */
 export type ScoredCampaign = {
   id: string
   webpageId: string
   campaignId: string
+  isBest: boolean
   score: number
   reason: string
+  adBuildFailCount: number
   createdAt: Date
   updatedAt: Date
 }
 
 /**
  * Model Advertisement
- * 
+ *
  */
 export type Advertisement = {
   id: string
@@ -196,7 +212,7 @@ export type Advertisement = {
 
 /**
  * Model Campaign
- * 
+ *
  */
 export type Campaign = {
   id: string
@@ -209,7 +225,6 @@ export type Campaign = {
   productName: string
   productDescription: string
   clickUrl: string
-  requiredCssSelector: string
   pacing: boolean
   status: boolean
   createdAt: Date
@@ -218,7 +233,7 @@ export type Campaign = {
 
 /**
  * Model Impression
- * 
+ *
  */
 export type Impression = {
   id: string
@@ -232,7 +247,7 @@ export type Impression = {
 
 /**
  * ##  Prisma Client ʲˢ
- * 
+ *
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
@@ -241,7 +256,7 @@ export type Impression = {
  * const accounts = await prisma.account.findMany()
  * ```
  *
- * 
+ *
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
  */
 export class PrismaClient<
@@ -250,10 +265,10 @@ export class PrismaClient<
   GlobalReject extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
     : false
-      > {
-    /**
+> {
+  /**
    * ##  Prisma Client ʲˢ
-   * 
+   *
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
@@ -262,7 +277,7 @@ export class PrismaClient<
    * const accounts = await prisma.account.findMany()
    * ```
    *
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
 
@@ -284,13 +299,13 @@ export class PrismaClient<
    */
   $use(cb: Prisma.Middleware): void
 
-/**
+  /**
    * Executes a prepared raw query and returns the number of affected rows.
    * @example
    * ```
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
@@ -302,7 +317,7 @@ export class PrismaClient<
    * ```
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
@@ -313,7 +328,7 @@ export class PrismaClient<
    * ```
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
@@ -325,7 +340,7 @@ export class PrismaClient<
    * ```
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
@@ -340,161 +355,161 @@ export class PrismaClient<
    *   prisma.user.create({ data: { name: 'Alice' } }),
    * ])
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
-      /**
+  /**
    * `prisma.account`: Exposes CRUD operations for the **Account** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Accounts
-    * const accounts = await prisma.account.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Accounts
+   * const accounts = await prisma.account.findMany()
+   * ```
+   */
   get account(): Prisma.AccountDelegate<GlobalReject>;
 
   /**
    * `prisma.session`: Exposes CRUD operations for the **Session** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Sessions
-    * const sessions = await prisma.session.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Sessions
+   * const sessions = await prisma.session.findMany()
+   * ```
+   */
   get session(): Prisma.SessionDelegate<GlobalReject>;
 
   /**
    * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more VerificationTokens
-    * const verificationTokens = await prisma.verificationToken.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more VerificationTokens
+   * const verificationTokens = await prisma.verificationToken.findMany()
+   * ```
+   */
   get verificationToken(): Prisma.VerificationTokenDelegate<GlobalReject>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
+   * ```
+   */
   get user(): Prisma.UserDelegate<GlobalReject>;
 
   /**
    * `prisma.setting`: Exposes CRUD operations for the **Setting** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Settings
-    * const settings = await prisma.setting.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Settings
+   * const settings = await prisma.setting.findMany()
+   * ```
+   */
   get setting(): Prisma.SettingDelegate<GlobalReject>;
 
   /**
    * `prisma.auction`: Exposes CRUD operations for the **Auction** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Auctions
-    * const auctions = await prisma.auction.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Auctions
+   * const auctions = await prisma.auction.findMany()
+   * ```
+   */
   get auction(): Prisma.AuctionDelegate<GlobalReject>;
 
   /**
    * `prisma.website`: Exposes CRUD operations for the **Website** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Websites
-    * const websites = await prisma.website.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Websites
+   * const websites = await prisma.website.findMany()
+   * ```
+   */
   get website(): Prisma.WebsiteDelegate<GlobalReject>;
 
   /**
    * `prisma.webpage`: Exposes CRUD operations for the **Webpage** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Webpages
-    * const webpages = await prisma.webpage.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Webpages
+   * const webpages = await prisma.webpage.findMany()
+   * ```
+   */
   get webpage(): Prisma.WebpageDelegate<GlobalReject>;
 
   /**
    * `prisma.content`: Exposes CRUD operations for the **Content** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Contents
-    * const contents = await prisma.content.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Contents
+   * const contents = await prisma.content.findMany()
+   * ```
+   */
   get content(): Prisma.ContentDelegate<GlobalReject>;
 
   /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Categories
-    * const categories = await prisma.category.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Categories
+   * const categories = await prisma.category.findMany()
+   * ```
+   */
   get category(): Prisma.CategoryDelegate<GlobalReject>;
 
   /**
    * `prisma.advertisementSpot`: Exposes CRUD operations for the **AdvertisementSpot** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more AdvertisementSpots
-    * const advertisementSpots = await prisma.advertisementSpot.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more AdvertisementSpots
+   * const advertisementSpots = await prisma.advertisementSpot.findMany()
+   * ```
+   */
   get advertisementSpot(): Prisma.AdvertisementSpotDelegate<GlobalReject>;
 
   /**
    * `prisma.scoredCampaign`: Exposes CRUD operations for the **ScoredCampaign** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ScoredCampaigns
-    * const scoredCampaigns = await prisma.scoredCampaign.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more ScoredCampaigns
+   * const scoredCampaigns = await prisma.scoredCampaign.findMany()
+   * ```
+   */
   get scoredCampaign(): Prisma.ScoredCampaignDelegate<GlobalReject>;
 
   /**
    * `prisma.advertisement`: Exposes CRUD operations for the **Advertisement** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Advertisements
-    * const advertisements = await prisma.advertisement.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Advertisements
+   * const advertisements = await prisma.advertisement.findMany()
+   * ```
+   */
   get advertisement(): Prisma.AdvertisementDelegate<GlobalReject>;
 
   /**
    * `prisma.campaign`: Exposes CRUD operations for the **Campaign** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Campaigns
-    * const campaigns = await prisma.campaign.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Campaigns
+   * const campaigns = await prisma.campaign.findMany()
+   * ```
+   */
   get campaign(): Prisma.CampaignDelegate<GlobalReject>;
 
   /**
    * `prisma.impression`: Exposes CRUD operations for the **Impression** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Impressions
-    * const impressions = await prisma.impression.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Impressions
+   * const impressions = await prisma.impression.findMany()
+   * ```
+   */
   get impression(): Prisma.ImpressionDelegate<GlobalReject>;
 }
 
@@ -530,7 +545,7 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Metrics 
+   * Metrics
    */
   export type Metrics = runtime.Metrics
   export type Metric<T> = runtime.Metric<T>
@@ -546,7 +561,7 @@ export namespace Prisma {
     client: string
   }
 
-  export const prismaVersion: PrismaVersion 
+  export const prismaVersion: PrismaVersion
 
   /**
    * Utility Types
@@ -555,7 +570,7 @@ export namespace Prisma {
   /**
    * From https://github.com/sindresorhus/type-fest/
    * Matches a JSON object.
-   * This type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from. 
+   * This type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from.
    */
   export type JsonObject = {[Key in string]?: JsonValue}
 
@@ -600,41 +615,41 @@ export namespace Prisma {
 
   /**
    * Types of the values used to represent different kinds of `null` values when working with JSON fields.
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   namespace NullTypes {
     /**
-    * Type of `Prisma.DbNull`.
-    * 
-    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
-    * 
-    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
-    */
+     * Type of `Prisma.DbNull`.
+     *
+     * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+     *
+     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+     */
     class DbNull {
       private DbNull: never
       private constructor()
     }
 
     /**
-    * Type of `Prisma.JsonNull`.
-    * 
-    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
-    * 
-    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
-    */
+     * Type of `Prisma.JsonNull`.
+     *
+     * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+     *
+     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+     */
     class JsonNull {
       private JsonNull: never
       private constructor()
     }
 
     /**
-    * Type of `Prisma.AnyNull`.
-    * 
-    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
-    * 
-    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
-    */
+     * Type of `Prisma.AnyNull`.
+     *
+     * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+     *
+     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+     */
     class AnyNull {
       private AnyNull: never
       private constructor()
@@ -643,21 +658,21 @@ export namespace Prisma {
 
   /**
    * Helper for filtering JSON entries that have `null` on the database (empty on the db)
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   export const DbNull: NullTypes.DbNull
 
   /**
    * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   export const JsonNull: NullTypes.JsonNull
 
   /**
    * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
-   * 
+   *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
   export const AnyNull: NullTypes.AnyNull
@@ -675,10 +690,10 @@ export namespace Prisma {
   type CheckSelect<T, S, U> = T extends SelectAndInclude
     ? 'Please either choose `select` or `include`'
     : T extends HasSelect
-    ? U
-    : T extends HasInclude
-    ? U
-    : S
+      ? U
+      : T extends HasInclude
+        ? U
+        : S
 
   /**
    * Get the type of the value, that the Promise holds.
@@ -694,7 +709,7 @@ export namespace Prisma {
    * From T, pick a set of properties whose keys are in the union K
    */
   type Prisma__Pick<T, K extends keyof T> = {
-      [P in K]: T[P];
+    [P in K]: T[P];
   };
 
 
@@ -747,25 +762,25 @@ export namespace Prisma {
    */
   type XOR<T, U> =
     T extends object ?
-    U extends object ?
-      (Without<T, U> & U) | (Without<U, T> & T)
-    : U : T
+      U extends object ?
+        (Without<T, U> & U) | (Without<U, T> & T)
+        : U : T
 
 
   /**
    * Is T a Record?
    */
   type IsObject<T extends any> = T extends Array<any>
-  ? False
-  : T extends Date
-  ? False
-  : T extends Uint8Array
-  ? False
-  : T extends BigInt
-  ? False
-  : T extends object
-  ? True
-  : False
+    ? False
+    : T extends Date
+      ? False
+      : T extends Uint8Array
+        ? False
+        : T extends BigInt
+          ? False
+          : T extends object
+            ? True
+            : False
 
 
   /**
@@ -811,16 +826,16 @@ export namespace Prisma {
   /** Helper Types for "Merge" **/
   export type IntersectOf<U extends Union> = (
     U extends unknown ? (k: U) => void : never
-  ) extends (k: infer I) => void
+    ) extends (k: infer I) => void
     ? I
     : never
 
   export type Overwrite<O extends object, O1 extends object> = {
-      [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
+    [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
   } & {};
 
   type _Merge<U extends object> = IntersectOf<Overwrite<U, {
-      [K in keyof U]-?: At<U, K>;
+    [K in keyof U]-?: At<U, K>;
   }>>;
 
   type Key = string | number | symbol;
@@ -828,8 +843,8 @@ export namespace Prisma {
   type AtStrict<O extends object, K extends Key> = O[K & keyof O];
   type AtLoose<O extends object, K extends Key> = O extends unknown ? AtStrict<O, K> : never;
   export type At<O extends object, K extends Key, strict extends Boolean = 1> = {
-      1: AtStrict<O, K>;
-      0: AtLoose<O, K>;
+    1: AtStrict<O, K>;
+    0: AtLoose<O, K>;
   }[strict];
 
   export type ComputeRaw<A extends any> = A extends Function ? A : {
@@ -850,9 +865,9 @@ export namespace Prisma {
   // this type assumes the passed object is entirely optional
   type AtLeast<O extends object, K extends string> = NoExpand<
     O extends unknown
-    ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
+      ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
       | {[P in keyof O as P extends K ? K : never]-?: O[P]} & O
-    : never>;
+      : never>;
 
   type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
 
@@ -862,8 +877,8 @@ export namespace Prisma {
   export type Merge<U extends object> = ComputeRaw<_Merge<Strict<U>>>;
 
   /**
-  A [[Boolean]]
-  */
+   A [[Boolean]]
+   */
   export type Boolean = True | False
 
   // /**
@@ -872,8 +887,8 @@ export namespace Prisma {
   export type True = 1
 
   /**
-  0
-  */
+   0
+   */
   export type False = 0
 
   export type Not<B extends Boolean> = {
@@ -884,8 +899,8 @@ export namespace Prisma {
   export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
     ? 0 // anything `never` is false
     : A1 extends A2
-    ? 1
-    : 0
+      ? 1
+      : 0
 
   export type Has<U extends Union, U1 extends Union> = Not<
     Extends<Exclude<U1, U>, U1>
@@ -931,14 +946,14 @@ export namespace Prisma {
       Extends<'NOT', K>
     > extends True
       ? // infer is only needed to not hit TS limit
-        // based on the brilliant idea of Pierre-Antoine Mills
-        // https://github.com/microsoft/TypeScript/issues/30188#issuecomment-478938437
-        T[K] extends infer TK
+      // based on the brilliant idea of Pierre-Antoine Mills
+      // https://github.com/microsoft/TypeScript/issues/30188#issuecomment-478938437
+      T[K] extends infer TK
         ? GetHavingFields<UnEnumerate<TK> extends object ? Merge<UnEnumerate<TK>> : never>
         : never
       : {} extends FieldPaths<T[K]>
-      ? never
-      : K
+        ? never
+        : K
   }[keyof T]
 
   /**
@@ -992,7 +1007,7 @@ export namespace Prisma {
   export type DefaultPrismaClient = PrismaClient
   export type RejectOnNotFound = boolean | ((error: Error) => Error)
   export type RejectPerModel = { [P in ModelName]?: RejectOnNotFound }
-  export type RejectPerOperation =  { [P in "findUnique" | "findFirst"]?: RejectPerModel | RejectOnNotFound } 
+  export type RejectPerOperation =  { [P in "findUnique" | "findFirst"]?: RejectPerModel | RejectOnNotFound }
   type IsReject<T> = T extends true ? True : T extends (err: Error) => Error ? True : False
   export type HasReject<
     GlobalRejectSettings extends Prisma.PrismaClientOptions['rejectOnNotFound'],
@@ -1002,21 +1017,21 @@ export namespace Prisma {
   > = LocalRejectSettings extends RejectOnNotFound
     ? IsReject<LocalRejectSettings>
     : GlobalRejectSettings extends RejectPerOperation
-    ? Action extends keyof GlobalRejectSettings
-      ? GlobalRejectSettings[Action] extends RejectOnNotFound
-        ? IsReject<GlobalRejectSettings[Action]>
-        : GlobalRejectSettings[Action] extends RejectPerModel
-        ? Model extends keyof GlobalRejectSettings[Action]
-          ? IsReject<GlobalRejectSettings[Action][Model]>
-          : False
+      ? Action extends keyof GlobalRejectSettings
+        ? GlobalRejectSettings[Action] extends RejectOnNotFound
+          ? IsReject<GlobalRejectSettings[Action]>
+          : GlobalRejectSettings[Action] extends RejectPerModel
+            ? Model extends keyof GlobalRejectSettings[Action]
+              ? IsReject<GlobalRejectSettings[Action][Model]>
+              : False
+            : False
         : False
-      : False
-    : IsReject<GlobalRejectSettings>
+      : IsReject<GlobalRejectSettings>
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
 
   export interface PrismaClientOptions {
     /**
-     * Configure findUnique/findFirst to throw an error if the query returns null. 
+     * Configure findUnique/findFirst to throw an error if the query returns null.
      * @deprecated since 4.0.0. Use `findUniqueOrThrow`/`findFirstOrThrow` methods instead.
      * @example
      * ```
@@ -1044,7 +1059,7 @@ export namespace Prisma {
      * ```
      * // Defaults to stdout
      * log: ['query', 'info', 'warn', 'error']
-     * 
+     *
      * // Emit as events
      * log: [
      *  { emit: 'stdout', level: 'query' },
@@ -1165,16 +1180,16 @@ export namespace Prisma {
 
   export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? UserCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (UserCountOutputTypeArgs)
-    ? UserCountOutputType 
-    : S extends { select: any } & (UserCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
-  } 
-      : UserCountOutputType
+      S extends true ? UserCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (UserCountOutputTypeArgs)
+            ? UserCountOutputType
+            : S extends { select: any } & (UserCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
+              }
+              : UserCountOutputType
 
 
 
@@ -1256,16 +1271,16 @@ export namespace Prisma {
 
   export type AuctionCountOutputTypeGetPayload<S extends boolean | null | undefined | AuctionCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AuctionCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (AuctionCountOutputTypeArgs)
-    ? AuctionCountOutputType 
-    : S extends { select: any } & (AuctionCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof AuctionCountOutputType ? AuctionCountOutputType[P] : never
-  } 
-      : AuctionCountOutputType
+      S extends true ? AuctionCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (AuctionCountOutputTypeArgs)
+            ? AuctionCountOutputType
+            : S extends { select: any } & (AuctionCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof AuctionCountOutputType ? AuctionCountOutputType[P] : never
+              }
+              : AuctionCountOutputType
 
 
 
@@ -1299,24 +1314,26 @@ export namespace Prisma {
 
   export type WebsiteCountOutputType = {
     webpages: number
+    auctions: number
   }
 
   export type WebsiteCountOutputTypeSelect = {
     webpages?: boolean | WebsiteCountOutputTypeCountWebpagesArgs
+    auctions?: boolean | WebsiteCountOutputTypeCountAuctionsArgs
   }
 
   export type WebsiteCountOutputTypeGetPayload<S extends boolean | null | undefined | WebsiteCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? WebsiteCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (WebsiteCountOutputTypeArgs)
-    ? WebsiteCountOutputType 
-    : S extends { select: any } & (WebsiteCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof WebsiteCountOutputType ? WebsiteCountOutputType[P] : never
-  } 
-      : WebsiteCountOutputType
+      S extends true ? WebsiteCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (WebsiteCountOutputTypeArgs)
+            ? WebsiteCountOutputType
+            : S extends { select: any } & (WebsiteCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof WebsiteCountOutputType ? WebsiteCountOutputType[P] : never
+              }
+              : WebsiteCountOutputType
 
 
 
@@ -1342,6 +1359,14 @@ export namespace Prisma {
   }
 
 
+  /**
+   * WebsiteCountOutputType without action
+   */
+  export type WebsiteCountOutputTypeCountAuctionsArgs = {
+    where?: AuctionWhereInput
+  }
+
+
 
   /**
    * Count Type WebpageCountOutputType
@@ -1364,16 +1389,16 @@ export namespace Prisma {
 
   export type WebpageCountOutputTypeGetPayload<S extends boolean | null | undefined | WebpageCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? WebpageCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (WebpageCountOutputTypeArgs)
-    ? WebpageCountOutputType 
-    : S extends { select: any } & (WebpageCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof WebpageCountOutputType ? WebpageCountOutputType[P] : never
-  } 
-      : WebpageCountOutputType
+      S extends true ? WebpageCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (WebpageCountOutputTypeArgs)
+            ? WebpageCountOutputType
+            : S extends { select: any } & (WebpageCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof WebpageCountOutputType ? WebpageCountOutputType[P] : never
+              }
+              : WebpageCountOutputType
 
 
 
@@ -1441,16 +1466,16 @@ export namespace Prisma {
 
   export type CategoryCountOutputTypeGetPayload<S extends boolean | null | undefined | CategoryCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? CategoryCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (CategoryCountOutputTypeArgs)
-    ? CategoryCountOutputType 
-    : S extends { select: any } & (CategoryCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof CategoryCountOutputType ? CategoryCountOutputType[P] : never
-  } 
-      : CategoryCountOutputType
+      S extends true ? CategoryCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (CategoryCountOutputTypeArgs)
+            ? CategoryCountOutputType
+            : S extends { select: any } & (CategoryCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof CategoryCountOutputType ? CategoryCountOutputType[P] : never
+              }
+              : CategoryCountOutputType
 
 
 
@@ -1500,16 +1525,16 @@ export namespace Prisma {
 
   export type AdvertisementSpotCountOutputTypeGetPayload<S extends boolean | null | undefined | AdvertisementSpotCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AdvertisementSpotCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (AdvertisementSpotCountOutputTypeArgs)
-    ? AdvertisementSpotCountOutputType 
-    : S extends { select: any } & (AdvertisementSpotCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof AdvertisementSpotCountOutputType ? AdvertisementSpotCountOutputType[P] : never
-  } 
-      : AdvertisementSpotCountOutputType
+      S extends true ? AdvertisementSpotCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (AdvertisementSpotCountOutputTypeArgs)
+            ? AdvertisementSpotCountOutputType
+            : S extends { select: any } & (AdvertisementSpotCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof AdvertisementSpotCountOutputType ? AdvertisementSpotCountOutputType[P] : never
+              }
+              : AdvertisementSpotCountOutputType
 
 
 
@@ -1551,16 +1576,16 @@ export namespace Prisma {
 
   export type ScoredCampaignCountOutputTypeGetPayload<S extends boolean | null | undefined | ScoredCampaignCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ScoredCampaignCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (ScoredCampaignCountOutputTypeArgs)
-    ? ScoredCampaignCountOutputType 
-    : S extends { select: any } & (ScoredCampaignCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof ScoredCampaignCountOutputType ? ScoredCampaignCountOutputType[P] : never
-  } 
-      : ScoredCampaignCountOutputType
+      S extends true ? ScoredCampaignCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (ScoredCampaignCountOutputTypeArgs)
+            ? ScoredCampaignCountOutputType
+            : S extends { select: any } & (ScoredCampaignCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof ScoredCampaignCountOutputType ? ScoredCampaignCountOutputType[P] : never
+              }
+              : ScoredCampaignCountOutputType
 
 
 
@@ -1602,16 +1627,16 @@ export namespace Prisma {
 
   export type AdvertisementCountOutputTypeGetPayload<S extends boolean | null | undefined | AdvertisementCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AdvertisementCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (AdvertisementCountOutputTypeArgs)
-    ? AdvertisementCountOutputType 
-    : S extends { select: any } & (AdvertisementCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof AdvertisementCountOutputType ? AdvertisementCountOutputType[P] : never
-  } 
-      : AdvertisementCountOutputType
+      S extends true ? AdvertisementCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (AdvertisementCountOutputTypeArgs)
+            ? AdvertisementCountOutputType
+            : S extends { select: any } & (AdvertisementCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof AdvertisementCountOutputType ? AdvertisementCountOutputType[P] : never
+              }
+              : AdvertisementCountOutputType
 
 
 
@@ -1655,16 +1680,16 @@ export namespace Prisma {
 
   export type CampaignCountOutputTypeGetPayload<S extends boolean | null | undefined | CampaignCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? CampaignCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (CampaignCountOutputTypeArgs)
-    ? CampaignCountOutputType 
-    : S extends { select: any } & (CampaignCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof CampaignCountOutputType ? CampaignCountOutputType[P] : never
-  } 
-      : CampaignCountOutputType
+      S extends true ? CampaignCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (CampaignCountOutputTypeArgs)
+            ? CampaignCountOutputType
+            : S extends { select: any } & (CampaignCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof CampaignCountOutputType ? CampaignCountOutputType[P] : never
+              }
+              : CampaignCountOutputType
 
 
 
@@ -1832,62 +1857,62 @@ export namespace Prisma {
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Accounts to fetch.
      */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Accounts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Accounts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Accounts
-    **/
+     **/
     _count?: true | AccountCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to average
-    **/
+     **/
     _avg?: AccountAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to sum
-    **/
+     **/
     _sum?: AccountSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: AccountMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: AccountMaxAggregateInputType
   }
 
   export type GetAccountAggregateType<T extends AccountAggregateArgs> = {
-        [P in keyof T & keyof AggregateAccount]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAccount]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAccount[P]>
@@ -1935,15 +1960,15 @@ export namespace Prisma {
   type GetAccountGroupByPayload<T extends AccountGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AccountGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AccountGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AccountGroupByOutputType[P]>
-            : GetScalarType<T[P], AccountGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof AccountGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], AccountGroupByOutputType[P]>
+        : GetScalarType<T[P], AccountGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type AccountSelect = {
@@ -1969,25 +1994,25 @@ export namespace Prisma {
 
   export type AccountGetPayload<S extends boolean | null | undefined | AccountArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Account :
-    S extends undefined ? never :
-    S extends { include: any } & (AccountArgs | AccountFindManyArgs)
-    ? Account  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (AccountArgs | AccountFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Account ? Account[P] : never
-  } 
-      : Account
+      S extends true ? Account :
+        S extends undefined ? never :
+          S extends { include: any } & (AccountArgs | AccountFindManyArgs)
+            ? Account  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (AccountArgs | AccountFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Account ? Account[P] : never
+              }
+              : Account
 
 
-  type AccountCountArgs = 
+  type AccountCountArgs =
     Omit<AccountFindManyArgs, 'select' | 'include'> & {
-      select?: AccountCountAggregateInputType | true
-    }
+    select?: AccountCountAggregateInputType | true
+  }
 
   export interface AccountDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -2001,13 +2026,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends AccountFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AccountFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Account'> extends True ? Prisma__AccountClient<AccountGetPayload<T>> : Prisma__AccountClient<AccountGetPayload<T> | null, null>
 
     /**
-     * Find one Account that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Account that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {AccountFindUniqueOrThrowArgs} args - Arguments to find a Account
      * @example
@@ -2017,7 +2042,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends AccountFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, AccountFindUniqueOrThrowArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>
@@ -2034,7 +2059,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends AccountFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AccountFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Account'> extends True ? Prisma__AccountClient<AccountGetPayload<T>> : Prisma__AccountClient<AccountGetPayload<T> | null, null>
@@ -2052,7 +2077,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends AccountFindFirstOrThrowArgs>(
       args?: SelectSubset<T, AccountFindFirstOrThrowArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>
@@ -2065,14 +2090,14 @@ export namespace Prisma {
      * @example
      * // Get all Accounts
      * const accounts = await prisma.account.findMany()
-     * 
+     *
      * // Get first 10 Accounts
      * const accounts = await prisma.account.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const accountWithIdOnly = await prisma.account.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends AccountFindManyArgs>(
       args?: SelectSubset<T, AccountFindManyArgs>
     ): Prisma.PrismaPromise<Array<AccountGetPayload<T>>>
@@ -2087,8 +2112,8 @@ export namespace Prisma {
      *     // ... data to create a Account
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends AccountCreateArgs>(
       args: SelectSubset<T, AccountCreateArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>
@@ -2103,8 +2128,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends AccountCreateManyArgs>(
       args?: SelectSubset<T, AccountCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -2119,8 +2144,8 @@ export namespace Prisma {
      *     // ... filter to delete one Account
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends AccountDeleteArgs>(
       args: SelectSubset<T, AccountDeleteArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>
@@ -2138,8 +2163,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends AccountUpdateArgs>(
       args: SelectSubset<T, AccountUpdateArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>
@@ -2154,8 +2179,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends AccountDeleteManyArgs>(
       args?: SelectSubset<T, AccountDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -2175,8 +2200,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends AccountUpdateManyArgs>(
       args: SelectSubset<T, AccountUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -2197,7 +2222,7 @@ export namespace Prisma {
      *     // ... the filter for the Account we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends AccountUpsertArgs>(
       args: SelectSubset<T, AccountUpsertArgs>
     ): Prisma__AccountClient<AccountGetPayload<T>>
@@ -2214,7 +2239,7 @@ export namespace Prisma {
      *     // ... the filter for the Accounts we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends AccountCountArgs>(
       args?: Subset<T, AccountCountArgs>,
     ): Prisma.PrismaPromise<
@@ -2248,7 +2273,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends AccountAggregateArgs>(args: Subset<T, AccountAggregateArgs>): Prisma.PrismaPromise<GetAccountAggregateType<T>>
 
     /**
@@ -2267,8 +2292,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends AccountGroupByArgs,
       HasSelectOrTake extends Or<
@@ -2285,47 +2310,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, AccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -2402,13 +2427,13 @@ export namespace Prisma {
    * Account findUnique
    */
   export interface AccountFindUniqueArgs extends AccountFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Account findUniqueOrThrow
@@ -2447,31 +2472,31 @@ export namespace Prisma {
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Accounts to fetch.
      */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Accounts.
      */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Accounts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Accounts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Accounts.
      */
     distinct?: Enumerable<AccountScalarFieldEnum>
@@ -2481,13 +2506,13 @@ export namespace Prisma {
    * Account findFirst
    */
   export interface AccountFindFirstArgs extends AccountFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Account findFirstOrThrow
@@ -2507,31 +2532,31 @@ export namespace Prisma {
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Accounts to fetch.
      */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Accounts.
      */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Accounts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Accounts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Accounts.
      */
     distinct?: Enumerable<AccountScalarFieldEnum>
@@ -2556,25 +2581,25 @@ export namespace Prisma {
     where?: AccountWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Accounts to fetch.
      */
     orderBy?: Enumerable<AccountOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Accounts.
      */
     cursor?: AccountWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Accounts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Accounts.
      */
     skip?: number
@@ -2787,50 +2812,50 @@ export namespace Prisma {
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Sessions to fetch.
      */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Sessions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Sessions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Sessions
-    **/
+     **/
     _count?: true | SessionCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: SessionMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: SessionMaxAggregateInputType
   }
 
   export type GetSessionAggregateType<T extends SessionAggregateArgs> = {
-        [P in keyof T & keyof AggregateSession]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateSession]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateSession[P]>
@@ -2866,15 +2891,15 @@ export namespace Prisma {
   type GetSessionGroupByPayload<T extends SessionGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<SessionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SessionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SessionGroupByOutputType[P]>
-            : GetScalarType<T[P], SessionGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof SessionGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], SessionGroupByOutputType[P]>
+        : GetScalarType<T[P], SessionGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type SessionSelect = {
@@ -2892,25 +2917,25 @@ export namespace Prisma {
 
   export type SessionGetPayload<S extends boolean | null | undefined | SessionArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Session :
-    S extends undefined ? never :
-    S extends { include: any } & (SessionArgs | SessionFindManyArgs)
-    ? Session  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (SessionArgs | SessionFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Session ? Session[P] : never
-  } 
-      : Session
+      S extends true ? Session :
+        S extends undefined ? never :
+          S extends { include: any } & (SessionArgs | SessionFindManyArgs)
+            ? Session  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (SessionArgs | SessionFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Session ? Session[P] : never
+              }
+              : Session
 
 
-  type SessionCountArgs = 
+  type SessionCountArgs =
     Omit<SessionFindManyArgs, 'select' | 'include'> & {
-      select?: SessionCountAggregateInputType | true
-    }
+    select?: SessionCountAggregateInputType | true
+  }
 
   export interface SessionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -2924,13 +2949,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends SessionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, SessionFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Session'> extends True ? Prisma__SessionClient<SessionGetPayload<T>> : Prisma__SessionClient<SessionGetPayload<T> | null, null>
 
     /**
-     * Find one Session that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Session that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {SessionFindUniqueOrThrowArgs} args - Arguments to find a Session
      * @example
@@ -2940,7 +2965,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends SessionFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, SessionFindUniqueOrThrowArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>
@@ -2957,7 +2982,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends SessionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, SessionFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Session'> extends True ? Prisma__SessionClient<SessionGetPayload<T>> : Prisma__SessionClient<SessionGetPayload<T> | null, null>
@@ -2975,7 +3000,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends SessionFindFirstOrThrowArgs>(
       args?: SelectSubset<T, SessionFindFirstOrThrowArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>
@@ -2988,14 +3013,14 @@ export namespace Prisma {
      * @example
      * // Get all Sessions
      * const sessions = await prisma.session.findMany()
-     * 
+     *
      * // Get first 10 Sessions
      * const sessions = await prisma.session.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const sessionWithIdOnly = await prisma.session.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends SessionFindManyArgs>(
       args?: SelectSubset<T, SessionFindManyArgs>
     ): Prisma.PrismaPromise<Array<SessionGetPayload<T>>>
@@ -3010,8 +3035,8 @@ export namespace Prisma {
      *     // ... data to create a Session
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends SessionCreateArgs>(
       args: SelectSubset<T, SessionCreateArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>
@@ -3026,8 +3051,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends SessionCreateManyArgs>(
       args?: SelectSubset<T, SessionCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -3042,8 +3067,8 @@ export namespace Prisma {
      *     // ... filter to delete one Session
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends SessionDeleteArgs>(
       args: SelectSubset<T, SessionDeleteArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>
@@ -3061,8 +3086,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends SessionUpdateArgs>(
       args: SelectSubset<T, SessionUpdateArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>
@@ -3077,8 +3102,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends SessionDeleteManyArgs>(
       args?: SelectSubset<T, SessionDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -3098,8 +3123,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends SessionUpdateManyArgs>(
       args: SelectSubset<T, SessionUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -3120,7 +3145,7 @@ export namespace Prisma {
      *     // ... the filter for the Session we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends SessionUpsertArgs>(
       args: SelectSubset<T, SessionUpsertArgs>
     ): Prisma__SessionClient<SessionGetPayload<T>>
@@ -3137,7 +3162,7 @@ export namespace Prisma {
      *     // ... the filter for the Sessions we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends SessionCountArgs>(
       args?: Subset<T, SessionCountArgs>,
     ): Prisma.PrismaPromise<
@@ -3171,7 +3196,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends SessionAggregateArgs>(args: Subset<T, SessionAggregateArgs>): Prisma.PrismaPromise<GetSessionAggregateType<T>>
 
     /**
@@ -3190,8 +3215,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends SessionGroupByArgs,
       HasSelectOrTake extends Or<
@@ -3208,47 +3233,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -3325,13 +3350,13 @@ export namespace Prisma {
    * Session findUnique
    */
   export interface SessionFindUniqueArgs extends SessionFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Session findUniqueOrThrow
@@ -3370,31 +3395,31 @@ export namespace Prisma {
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Sessions to fetch.
      */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Sessions.
      */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Sessions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Sessions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Sessions.
      */
     distinct?: Enumerable<SessionScalarFieldEnum>
@@ -3404,13 +3429,13 @@ export namespace Prisma {
    * Session findFirst
    */
   export interface SessionFindFirstArgs extends SessionFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Session findFirstOrThrow
@@ -3430,31 +3455,31 @@ export namespace Prisma {
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Sessions to fetch.
      */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Sessions.
      */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Sessions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Sessions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Sessions.
      */
     distinct?: Enumerable<SessionScalarFieldEnum>
@@ -3479,25 +3504,25 @@ export namespace Prisma {
     where?: SessionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Sessions to fetch.
      */
     orderBy?: Enumerable<SessionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Sessions.
      */
     cursor?: SessionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Sessions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Sessions.
      */
     skip?: number
@@ -3704,50 +3729,50 @@ export namespace Prisma {
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of VerificationTokens to fetch.
      */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` VerificationTokens from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` VerificationTokens.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned VerificationTokens
-    **/
+     **/
     _count?: true | VerificationTokenCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: VerificationTokenMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: VerificationTokenMaxAggregateInputType
   }
 
   export type GetVerificationTokenAggregateType<T extends VerificationTokenAggregateArgs> = {
-        [P in keyof T & keyof AggregateVerificationToken]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateVerificationToken]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateVerificationToken[P]>
@@ -3782,15 +3807,15 @@ export namespace Prisma {
   type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<VerificationTokenGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof VerificationTokenGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
-            : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof VerificationTokenGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+        : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type VerificationTokenSelect = {
@@ -3802,22 +3827,22 @@ export namespace Prisma {
 
   export type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? VerificationToken :
-    S extends undefined ? never :
-    S extends { include: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
-    ? VerificationToken 
-    : S extends { select: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof VerificationToken ? VerificationToken[P] : never
-  } 
-      : VerificationToken
+      S extends true ? VerificationToken :
+        S extends undefined ? never :
+          S extends { include: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
+            ? VerificationToken
+            : S extends { select: any } & (VerificationTokenArgs | VerificationTokenFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof VerificationToken ? VerificationToken[P] : never
+              }
+              : VerificationToken
 
 
-  type VerificationTokenCountArgs = 
+  type VerificationTokenCountArgs =
     Omit<VerificationTokenFindManyArgs, 'select' | 'include'> & {
-      select?: VerificationTokenCountAggregateInputType | true
-    }
+    select?: VerificationTokenCountAggregateInputType | true
+  }
 
   export interface VerificationTokenDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -3831,13 +3856,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends VerificationTokenFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, VerificationTokenFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'VerificationToken'> extends True ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>> : Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null, null>
 
     /**
-     * Find one VerificationToken that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one VerificationToken that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
      * @example
@@ -3847,7 +3872,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
@@ -3864,7 +3889,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends VerificationTokenFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, VerificationTokenFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'VerificationToken'> extends True ? Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>> : Prisma__VerificationTokenClient<VerificationTokenGetPayload<T> | null, null>
@@ -3882,7 +3907,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(
       args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
@@ -3895,14 +3920,14 @@ export namespace Prisma {
      * @example
      * // Get all VerificationTokens
      * const verificationTokens = await prisma.verificationToken.findMany()
-     * 
+     *
      * // Get first 10 VerificationTokens
      * const verificationTokens = await prisma.verificationToken.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `identifier`
      * const verificationTokenWithIdentifierOnly = await prisma.verificationToken.findMany({ select: { identifier: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends VerificationTokenFindManyArgs>(
       args?: SelectSubset<T, VerificationTokenFindManyArgs>
     ): Prisma.PrismaPromise<Array<VerificationTokenGetPayload<T>>>
@@ -3917,8 +3942,8 @@ export namespace Prisma {
      *     // ... data to create a VerificationToken
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends VerificationTokenCreateArgs>(
       args: SelectSubset<T, VerificationTokenCreateArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
@@ -3933,8 +3958,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends VerificationTokenCreateManyArgs>(
       args?: SelectSubset<T, VerificationTokenCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -3949,8 +3974,8 @@ export namespace Prisma {
      *     // ... filter to delete one VerificationToken
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends VerificationTokenDeleteArgs>(
       args: SelectSubset<T, VerificationTokenDeleteArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
@@ -3968,8 +3993,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends VerificationTokenUpdateArgs>(
       args: SelectSubset<T, VerificationTokenUpdateArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
@@ -3984,8 +4009,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends VerificationTokenDeleteManyArgs>(
       args?: SelectSubset<T, VerificationTokenDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -4005,8 +4030,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends VerificationTokenUpdateManyArgs>(
       args: SelectSubset<T, VerificationTokenUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -4027,7 +4052,7 @@ export namespace Prisma {
      *     // ... the filter for the VerificationToken we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends VerificationTokenUpsertArgs>(
       args: SelectSubset<T, VerificationTokenUpsertArgs>
     ): Prisma__VerificationTokenClient<VerificationTokenGetPayload<T>>
@@ -4044,7 +4069,7 @@ export namespace Prisma {
      *     // ... the filter for the VerificationTokens we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends VerificationTokenCountArgs>(
       args?: Subset<T, VerificationTokenCountArgs>,
     ): Prisma.PrismaPromise<
@@ -4078,7 +4103,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>
 
     /**
@@ -4097,8 +4122,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends VerificationTokenGroupByArgs,
       HasSelectOrTake extends Or<
@@ -4115,47 +4140,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -4227,13 +4252,13 @@ export namespace Prisma {
    * VerificationToken findUnique
    */
   export interface VerificationTokenFindUniqueArgs extends VerificationTokenFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * VerificationToken findUniqueOrThrow
@@ -4264,31 +4289,31 @@ export namespace Prisma {
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of VerificationTokens to fetch.
      */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for VerificationTokens.
      */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` VerificationTokens from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` VerificationTokens.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of VerificationTokens.
      */
     distinct?: Enumerable<VerificationTokenScalarFieldEnum>
@@ -4298,13 +4323,13 @@ export namespace Prisma {
    * VerificationToken findFirst
    */
   export interface VerificationTokenFindFirstArgs extends VerificationTokenFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * VerificationToken findFirstOrThrow
@@ -4320,31 +4345,31 @@ export namespace Prisma {
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of VerificationTokens to fetch.
      */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for VerificationTokens.
      */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` VerificationTokens from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` VerificationTokens.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of VerificationTokens.
      */
     distinct?: Enumerable<VerificationTokenScalarFieldEnum>
@@ -4365,25 +4390,25 @@ export namespace Prisma {
     where?: VerificationTokenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of VerificationTokens to fetch.
      */
     orderBy?: Enumerable<VerificationTokenOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing VerificationTokens.
      */
     cursor?: VerificationTokenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` VerificationTokens from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` VerificationTokens.
      */
     skip?: number
@@ -4530,6 +4555,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    canManageUsers: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4540,6 +4566,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    canManageUsers: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4550,6 +4577,7 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
+    canManageUsers: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4562,6 +4590,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    canManageUsers?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4572,6 +4601,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    canManageUsers?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4582,6 +4612,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    canManageUsers?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4594,50 +4625,50 @@ export namespace Prisma {
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Users to fetch.
      */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Users
-    **/
+     **/
     _count?: true | UserCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: UserMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: UserMaxAggregateInputType
   }
 
   export type GetUserAggregateType<T extends UserAggregateArgs> = {
-        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateUser[P]>
@@ -4666,6 +4697,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    canManageUsers: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -4676,15 +4708,15 @@ export namespace Prisma {
   type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<UserGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], UserGroupByOutputType[P]>
-            : GetScalarType<T[P], UserGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], UserGroupByOutputType[P]>
+        : GetScalarType<T[P], UserGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type UserSelect = {
@@ -4693,6 +4725,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    canManageUsers?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs
@@ -4719,39 +4752,39 @@ export namespace Prisma {
 
   export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? User :
-    S extends undefined ? never :
-    S extends { include: any } & (UserArgs | UserFindManyArgs)
-    ? User  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'accounts' ? Array < AccountGetPayload<S['include'][P]>>  :
-        P extends 'sessions' ? Array < SessionGetPayload<S['include'][P]>>  :
-        P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
-        P extends 'campaigns' ? Array < CampaignGetPayload<S['include'][P]>>  :
-        P extends 'websites' ? Array < WebsiteGetPayload<S['include'][P]>>  :
-        P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
-        P extends 'setting' ? SettingGetPayload<S['include'][P]> | null :
-        P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (UserArgs | UserFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'accounts' ? Array < AccountGetPayload<S['select'][P]>>  :
-        P extends 'sessions' ? Array < SessionGetPayload<S['select'][P]>>  :
-        P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
-        P extends 'campaigns' ? Array < CampaignGetPayload<S['select'][P]>>  :
-        P extends 'websites' ? Array < WebsiteGetPayload<S['select'][P]>>  :
-        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
-        P extends 'setting' ? SettingGetPayload<S['select'][P]> | null :
-        P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
-  } 
-      : User
+      S extends true ? User :
+        S extends undefined ? never :
+          S extends { include: any } & (UserArgs | UserFindManyArgs)
+            ? User  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'accounts' ? Array < AccountGetPayload<S['include'][P]>>  :
+              P extends 'sessions' ? Array < SessionGetPayload<S['include'][P]>>  :
+                P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
+                  P extends 'campaigns' ? Array < CampaignGetPayload<S['include'][P]>>  :
+                    P extends 'websites' ? Array < WebsiteGetPayload<S['include'][P]>>  :
+                      P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+                        P extends 'setting' ? SettingGetPayload<S['include'][P]> | null :
+                          P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (UserArgs | UserFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'accounts' ? Array < AccountGetPayload<S['select'][P]>>  :
+                  P extends 'sessions' ? Array < SessionGetPayload<S['select'][P]>>  :
+                    P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
+                      P extends 'campaigns' ? Array < CampaignGetPayload<S['select'][P]>>  :
+                        P extends 'websites' ? Array < WebsiteGetPayload<S['select'][P]>>  :
+                          P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+                            P extends 'setting' ? SettingGetPayload<S['select'][P]> | null :
+                              P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
+              }
+              : User
 
 
-  type UserCountArgs = 
+  type UserCountArgs =
     Omit<UserFindManyArgs, 'select' | 'include'> & {
-      select?: UserCountAggregateInputType | true
-    }
+    select?: UserCountAggregateInputType | true
+  }
 
   export interface UserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -4765,13 +4798,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends UserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, UserFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
 
     /**
-     * Find one User that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one User that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
      * @example
@@ -4781,7 +4814,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, UserFindUniqueOrThrowArgs>
     ): Prisma__UserClient<UserGetPayload<T>>
@@ -4798,7 +4831,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends UserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, UserFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
@@ -4816,7 +4849,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
       args?: SelectSubset<T, UserFindFirstOrThrowArgs>
     ): Prisma__UserClient<UserGetPayload<T>>
@@ -4829,14 +4862,14 @@ export namespace Prisma {
      * @example
      * // Get all Users
      * const users = await prisma.user.findMany()
-     * 
+     *
      * // Get first 10 Users
      * const users = await prisma.user.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends UserFindManyArgs>(
       args?: SelectSubset<T, UserFindManyArgs>
     ): Prisma.PrismaPromise<Array<UserGetPayload<T>>>
@@ -4851,8 +4884,8 @@ export namespace Prisma {
      *     // ... data to create a User
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends UserCreateArgs>(
       args: SelectSubset<T, UserCreateArgs>
     ): Prisma__UserClient<UserGetPayload<T>>
@@ -4867,8 +4900,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends UserCreateManyArgs>(
       args?: SelectSubset<T, UserCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -4883,8 +4916,8 @@ export namespace Prisma {
      *     // ... filter to delete one User
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends UserDeleteArgs>(
       args: SelectSubset<T, UserDeleteArgs>
     ): Prisma__UserClient<UserGetPayload<T>>
@@ -4902,8 +4935,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends UserUpdateArgs>(
       args: SelectSubset<T, UserUpdateArgs>
     ): Prisma__UserClient<UserGetPayload<T>>
@@ -4918,8 +4951,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends UserDeleteManyArgs>(
       args?: SelectSubset<T, UserDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -4939,8 +4972,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends UserUpdateManyArgs>(
       args: SelectSubset<T, UserUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -4961,7 +4994,7 @@ export namespace Prisma {
      *     // ... the filter for the User we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends UserUpsertArgs>(
       args: SelectSubset<T, UserUpsertArgs>
     ): Prisma__UserClient<UserGetPayload<T>>
@@ -4978,7 +5011,7 @@ export namespace Prisma {
      *     // ... the filter for the Users we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends UserCountArgs>(
       args?: Subset<T, UserCountArgs>,
     ): Prisma.PrismaPromise<
@@ -5012,7 +5045,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
 
     /**
@@ -5031,8 +5064,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends UserGroupByArgs,
       HasSelectOrTake extends Or<
@@ -5049,47 +5082,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -5178,13 +5211,13 @@ export namespace Prisma {
    * User findUnique
    */
   export interface UserFindUniqueArgs extends UserFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * User findUniqueOrThrow
@@ -5223,31 +5256,31 @@ export namespace Prisma {
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Users to fetch.
      */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Users.
      */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Users.
      */
     distinct?: Enumerable<UserScalarFieldEnum>
@@ -5257,13 +5290,13 @@ export namespace Prisma {
    * User findFirst
    */
   export interface UserFindFirstArgs extends UserFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * User findFirstOrThrow
@@ -5283,31 +5316,31 @@ export namespace Prisma {
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Users to fetch.
      */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Users.
      */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Users.
      */
     distinct?: Enumerable<UserScalarFieldEnum>
@@ -5332,25 +5365,25 @@ export namespace Prisma {
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Users to fetch.
      */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Users.
      */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Users.
      */
     skip?: number
@@ -5657,10 +5690,24 @@ export namespace Prisma {
 
   export type SettingAvgAggregateOutputType = {
     scoreThreshold: number | null
+    desiredAdvertisementSpotCount: number | null
+    desiredAdvertisementCount: number | null
+    webpageLookbackDays: number | null
+    webpageInsertCap: number | null
+    allTimeMostVisitedUrlCount: number | null
+    recentlyMostVisitedUrlCount: number | null
+    minCharLimit: number | null
   }
 
   export type SettingSumAggregateOutputType = {
     scoreThreshold: number | null
+    desiredAdvertisementSpotCount: number | null
+    desiredAdvertisementCount: number | null
+    webpageLookbackDays: number | null
+    webpageInsertCap: number | null
+    allTimeMostVisitedUrlCount: number | null
+    recentlyMostVisitedUrlCount: number | null
+    minCharLimit: number | null
   }
 
   export type SettingMinAggregateOutputType = {
@@ -5668,7 +5715,17 @@ export namespace Prisma {
     userId: string | null
     scoreThreshold: number | null
     status: boolean | null
-    addSponsoredWording: boolean | null
+    sponsoredWording: string | null
+    desiredAdvertisementSpotCount: number | null
+    desiredAdvertisementCount: number | null
+    webpageLookbackDays: number | null
+    webpageInsertCap: number | null
+    allTimeMostVisitedUrlCount: number | null
+    recentlyMostVisitedUrlCount: number | null
+    mainPostBodySelector: string | null
+    contentSelector: string | null
+    minCharLimit: number | null
+    sameTypeElemWithTextToFollow: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5678,7 +5735,17 @@ export namespace Prisma {
     userId: string | null
     scoreThreshold: number | null
     status: boolean | null
-    addSponsoredWording: boolean | null
+    sponsoredWording: string | null
+    desiredAdvertisementSpotCount: number | null
+    desiredAdvertisementCount: number | null
+    webpageLookbackDays: number | null
+    webpageInsertCap: number | null
+    allTimeMostVisitedUrlCount: number | null
+    recentlyMostVisitedUrlCount: number | null
+    mainPostBodySelector: string | null
+    contentSelector: string | null
+    minCharLimit: number | null
+    sameTypeElemWithTextToFollow: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5688,7 +5755,17 @@ export namespace Prisma {
     userId: number
     scoreThreshold: number
     status: number
-    addSponsoredWording: number
+    sponsoredWording: number
+    desiredAdvertisementSpotCount: number
+    desiredAdvertisementCount: number
+    webpageLookbackDays: number
+    webpageInsertCap: number
+    allTimeMostVisitedUrlCount: number
+    recentlyMostVisitedUrlCount: number
+    mainPostBodySelector: number
+    contentSelector: number
+    minCharLimit: number
+    sameTypeElemWithTextToFollow: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5697,10 +5774,24 @@ export namespace Prisma {
 
   export type SettingAvgAggregateInputType = {
     scoreThreshold?: true
+    desiredAdvertisementSpotCount?: true
+    desiredAdvertisementCount?: true
+    webpageLookbackDays?: true
+    webpageInsertCap?: true
+    allTimeMostVisitedUrlCount?: true
+    recentlyMostVisitedUrlCount?: true
+    minCharLimit?: true
   }
 
   export type SettingSumAggregateInputType = {
     scoreThreshold?: true
+    desiredAdvertisementSpotCount?: true
+    desiredAdvertisementCount?: true
+    webpageLookbackDays?: true
+    webpageInsertCap?: true
+    allTimeMostVisitedUrlCount?: true
+    recentlyMostVisitedUrlCount?: true
+    minCharLimit?: true
   }
 
   export type SettingMinAggregateInputType = {
@@ -5708,7 +5799,17 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
-    addSponsoredWording?: true
+    sponsoredWording?: true
+    desiredAdvertisementSpotCount?: true
+    desiredAdvertisementCount?: true
+    webpageLookbackDays?: true
+    webpageInsertCap?: true
+    allTimeMostVisitedUrlCount?: true
+    recentlyMostVisitedUrlCount?: true
+    mainPostBodySelector?: true
+    contentSelector?: true
+    minCharLimit?: true
+    sameTypeElemWithTextToFollow?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5718,7 +5819,17 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
-    addSponsoredWording?: true
+    sponsoredWording?: true
+    desiredAdvertisementSpotCount?: true
+    desiredAdvertisementCount?: true
+    webpageLookbackDays?: true
+    webpageInsertCap?: true
+    allTimeMostVisitedUrlCount?: true
+    recentlyMostVisitedUrlCount?: true
+    mainPostBodySelector?: true
+    contentSelector?: true
+    minCharLimit?: true
+    sameTypeElemWithTextToFollow?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5728,7 +5839,17 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
-    addSponsoredWording?: true
+    sponsoredWording?: true
+    desiredAdvertisementSpotCount?: true
+    desiredAdvertisementCount?: true
+    webpageLookbackDays?: true
+    webpageInsertCap?: true
+    allTimeMostVisitedUrlCount?: true
+    recentlyMostVisitedUrlCount?: true
+    mainPostBodySelector?: true
+    contentSelector?: true
+    minCharLimit?: true
+    sameTypeElemWithTextToFollow?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5741,62 +5862,62 @@ export namespace Prisma {
     where?: SettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Settings to fetch.
      */
     orderBy?: Enumerable<SettingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: SettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Settings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Settings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Settings
-    **/
+     **/
     _count?: true | SettingCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to average
-    **/
+     **/
     _avg?: SettingAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to sum
-    **/
+     **/
     _sum?: SettingSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: SettingMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: SettingMaxAggregateInputType
   }
 
   export type GetSettingAggregateType<T extends SettingAggregateArgs> = {
-        [P in keyof T & keyof AggregateSetting]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateSetting]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateSetting[P]>
@@ -5826,7 +5947,17 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
-    addSponsoredWording: boolean
+    sponsoredWording: string
+    desiredAdvertisementSpotCount: number
+    desiredAdvertisementCount: number
+    webpageLookbackDays: number
+    webpageInsertCap: number
+    allTimeMostVisitedUrlCount: number
+    recentlyMostVisitedUrlCount: number
+    mainPostBodySelector: string
+    contentSelector: string
+    minCharLimit: number
+    sameTypeElemWithTextToFollow: boolean
     createdAt: Date
     updatedAt: Date
     _count: SettingCountAggregateOutputType | null
@@ -5839,15 +5970,15 @@ export namespace Prisma {
   type GetSettingGroupByPayload<T extends SettingGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<SettingGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SettingGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SettingGroupByOutputType[P]>
-            : GetScalarType<T[P], SettingGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof SettingGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], SettingGroupByOutputType[P]>
+        : GetScalarType<T[P], SettingGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type SettingSelect = {
@@ -5855,7 +5986,17 @@ export namespace Prisma {
     userId?: boolean
     scoreThreshold?: boolean
     status?: boolean
-    addSponsoredWording?: boolean
+    sponsoredWording?: boolean
+    desiredAdvertisementSpotCount?: boolean
+    desiredAdvertisementCount?: boolean
+    webpageLookbackDays?: boolean
+    webpageInsertCap?: boolean
+    allTimeMostVisitedUrlCount?: boolean
+    recentlyMostVisitedUrlCount?: boolean
+    mainPostBodySelector?: boolean
+    contentSelector?: boolean
+    minCharLimit?: boolean
+    sameTypeElemWithTextToFollow?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserArgs
@@ -5868,25 +6009,25 @@ export namespace Prisma {
 
   export type SettingGetPayload<S extends boolean | null | undefined | SettingArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Setting :
-    S extends undefined ? never :
-    S extends { include: any } & (SettingArgs | SettingFindManyArgs)
-    ? Setting  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (SettingArgs | SettingFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Setting ? Setting[P] : never
-  } 
-      : Setting
+      S extends true ? Setting :
+        S extends undefined ? never :
+          S extends { include: any } & (SettingArgs | SettingFindManyArgs)
+            ? Setting  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (SettingArgs | SettingFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof Setting ? Setting[P] : never
+              }
+              : Setting
 
 
-  type SettingCountArgs = 
+  type SettingCountArgs =
     Omit<SettingFindManyArgs, 'select' | 'include'> & {
-      select?: SettingCountAggregateInputType | true
-    }
+    select?: SettingCountAggregateInputType | true
+  }
 
   export interface SettingDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -5900,13 +6041,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends SettingFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, SettingFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Setting'> extends True ? Prisma__SettingClient<SettingGetPayload<T>> : Prisma__SettingClient<SettingGetPayload<T> | null, null>
 
     /**
-     * Find one Setting that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Setting that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {SettingFindUniqueOrThrowArgs} args - Arguments to find a Setting
      * @example
@@ -5916,7 +6057,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends SettingFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, SettingFindUniqueOrThrowArgs>
     ): Prisma__SettingClient<SettingGetPayload<T>>
@@ -5933,7 +6074,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends SettingFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, SettingFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Setting'> extends True ? Prisma__SettingClient<SettingGetPayload<T>> : Prisma__SettingClient<SettingGetPayload<T> | null, null>
@@ -5951,7 +6092,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends SettingFindFirstOrThrowArgs>(
       args?: SelectSubset<T, SettingFindFirstOrThrowArgs>
     ): Prisma__SettingClient<SettingGetPayload<T>>
@@ -5964,14 +6105,14 @@ export namespace Prisma {
      * @example
      * // Get all Settings
      * const settings = await prisma.setting.findMany()
-     * 
+     *
      * // Get first 10 Settings
      * const settings = await prisma.setting.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const settingWithIdOnly = await prisma.setting.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends SettingFindManyArgs>(
       args?: SelectSubset<T, SettingFindManyArgs>
     ): Prisma.PrismaPromise<Array<SettingGetPayload<T>>>
@@ -5986,8 +6127,8 @@ export namespace Prisma {
      *     // ... data to create a Setting
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends SettingCreateArgs>(
       args: SelectSubset<T, SettingCreateArgs>
     ): Prisma__SettingClient<SettingGetPayload<T>>
@@ -6002,8 +6143,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends SettingCreateManyArgs>(
       args?: SelectSubset<T, SettingCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -6018,8 +6159,8 @@ export namespace Prisma {
      *     // ... filter to delete one Setting
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends SettingDeleteArgs>(
       args: SelectSubset<T, SettingDeleteArgs>
     ): Prisma__SettingClient<SettingGetPayload<T>>
@@ -6037,8 +6178,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends SettingUpdateArgs>(
       args: SelectSubset<T, SettingUpdateArgs>
     ): Prisma__SettingClient<SettingGetPayload<T>>
@@ -6053,8 +6194,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends SettingDeleteManyArgs>(
       args?: SelectSubset<T, SettingDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -6074,8 +6215,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends SettingUpdateManyArgs>(
       args: SelectSubset<T, SettingUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -6096,7 +6237,7 @@ export namespace Prisma {
      *     // ... the filter for the Setting we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends SettingUpsertArgs>(
       args: SelectSubset<T, SettingUpsertArgs>
     ): Prisma__SettingClient<SettingGetPayload<T>>
@@ -6113,7 +6254,7 @@ export namespace Prisma {
      *     // ... the filter for the Settings we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends SettingCountArgs>(
       args?: Subset<T, SettingCountArgs>,
     ): Prisma.PrismaPromise<
@@ -6147,7 +6288,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends SettingAggregateArgs>(args: Subset<T, SettingAggregateArgs>): Prisma.PrismaPromise<GetSettingAggregateType<T>>
 
     /**
@@ -6166,8 +6307,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends SettingGroupByArgs,
       HasSelectOrTake extends Or<
@@ -6184,47 +6325,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, SettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -6301,13 +6442,13 @@ export namespace Prisma {
    * Setting findUnique
    */
   export interface SettingFindUniqueArgs extends SettingFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Setting findUniqueOrThrow
@@ -6346,31 +6487,31 @@ export namespace Prisma {
     where?: SettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Settings to fetch.
      */
     orderBy?: Enumerable<SettingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Settings.
      */
     cursor?: SettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Settings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Settings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Settings.
      */
     distinct?: Enumerable<SettingScalarFieldEnum>
@@ -6380,13 +6521,13 @@ export namespace Prisma {
    * Setting findFirst
    */
   export interface SettingFindFirstArgs extends SettingFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Setting findFirstOrThrow
@@ -6406,31 +6547,31 @@ export namespace Prisma {
     where?: SettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Settings to fetch.
      */
     orderBy?: Enumerable<SettingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Settings.
      */
     cursor?: SettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Settings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Settings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Settings.
      */
     distinct?: Enumerable<SettingScalarFieldEnum>
@@ -6455,25 +6596,25 @@ export namespace Prisma {
     where?: SettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Settings to fetch.
      */
     orderBy?: Enumerable<SettingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Settings.
      */
     cursor?: SettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Settings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Settings.
      */
     skip?: number
@@ -6637,6 +6778,7 @@ export namespace Prisma {
   export type AuctionMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    websiteId: string | null
     webpageId: string | null
     url: string | null
     userAgent: string | null
@@ -6650,6 +6792,7 @@ export namespace Prisma {
   export type AuctionMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    websiteId: string | null
     webpageId: string | null
     url: string | null
     userAgent: string | null
@@ -6663,6 +6806,7 @@ export namespace Prisma {
   export type AuctionCountAggregateOutputType = {
     id: number
     userId: number
+    websiteId: number
     webpageId: number
     url: number
     userAgent: number
@@ -6678,6 +6822,7 @@ export namespace Prisma {
   export type AuctionMinAggregateInputType = {
     id?: true
     userId?: true
+    websiteId?: true
     webpageId?: true
     url?: true
     userAgent?: true
@@ -6691,6 +6836,7 @@ export namespace Prisma {
   export type AuctionMaxAggregateInputType = {
     id?: true
     userId?: true
+    websiteId?: true
     webpageId?: true
     url?: true
     userAgent?: true
@@ -6704,6 +6850,7 @@ export namespace Prisma {
   export type AuctionCountAggregateInputType = {
     id?: true
     userId?: true
+    websiteId?: true
     webpageId?: true
     url?: true
     userAgent?: true
@@ -6722,50 +6869,50 @@ export namespace Prisma {
     where?: AuctionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Auctions to fetch.
      */
     orderBy?: Enumerable<AuctionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: AuctionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Auctions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Auctions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Auctions
-    **/
+     **/
     _count?: true | AuctionCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: AuctionMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: AuctionMaxAggregateInputType
   }
 
   export type GetAuctionAggregateType<T extends AuctionAggregateArgs> = {
-        [P in keyof T & keyof AggregateAuction]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAuction]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAuction[P]>
@@ -6791,6 +6938,7 @@ export namespace Prisma {
   export type AuctionGroupByOutputType = {
     id: string
     userId: string
+    websiteId: string | null
     webpageId: string | null
     url: string | null
     userAgent: string
@@ -6807,20 +6955,21 @@ export namespace Prisma {
   type GetAuctionGroupByPayload<T extends AuctionGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AuctionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AuctionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AuctionGroupByOutputType[P]>
-            : GetScalarType<T[P], AuctionGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof AuctionGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+        : GetScalarType<T[P], AuctionGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type AuctionSelect = {
     id?: boolean
     userId?: boolean
+    websiteId?: boolean
     webpageId?: boolean
     url?: boolean
     userAgent?: boolean
@@ -6830,6 +6979,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserArgs
+    website?: boolean | Auction$websiteArgs
     webpage?: boolean | Auction$webpageArgs
     impressions?: boolean | Auction$impressionsArgs
     _count?: boolean | AuctionCountOutputTypeArgs
@@ -6838,6 +6988,7 @@ export namespace Prisma {
 
   export type AuctionInclude = {
     user?: boolean | UserArgs
+    website?: boolean | Auction$websiteArgs
     webpage?: boolean | Auction$webpageArgs
     impressions?: boolean | Auction$impressionsArgs
     _count?: boolean | AuctionCountOutputTypeArgs
@@ -6845,31 +6996,33 @@ export namespace Prisma {
 
   export type AuctionGetPayload<S extends boolean | null | undefined | AuctionArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Auction :
-    S extends undefined ? never :
-    S extends { include: any } & (AuctionArgs | AuctionFindManyArgs)
-    ? Auction  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :
-        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> | null :
-        P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
-        P extends '_count' ? AuctionCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (AuctionArgs | AuctionFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :
-        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> | null :
-        P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
-        P extends '_count' ? AuctionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Auction ? Auction[P] : never
-  } 
-      : Auction
+      S extends true ? Auction :
+        S extends undefined ? never :
+          S extends { include: any } & (AuctionArgs | AuctionFindManyArgs)
+            ? Auction  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :
+              P extends 'website' ? WebsiteGetPayload<S['include'][P]> | null :
+                P extends 'webpage' ? WebpageGetPayload<S['include'][P]> | null :
+                  P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
+                    P extends '_count' ? AuctionCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (AuctionArgs | AuctionFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :
+                  P extends 'website' ? WebsiteGetPayload<S['select'][P]> | null :
+                    P extends 'webpage' ? WebpageGetPayload<S['select'][P]> | null :
+                      P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
+                        P extends '_count' ? AuctionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Auction ? Auction[P] : never
+              }
+              : Auction
 
 
-  type AuctionCountArgs = 
+  type AuctionCountArgs =
     Omit<AuctionFindManyArgs, 'select' | 'include'> & {
-      select?: AuctionCountAggregateInputType | true
-    }
+    select?: AuctionCountAggregateInputType | true
+  }
 
   export interface AuctionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -6883,13 +7036,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends AuctionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AuctionFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Auction'> extends True ? Prisma__AuctionClient<AuctionGetPayload<T>> : Prisma__AuctionClient<AuctionGetPayload<T> | null, null>
 
     /**
-     * Find one Auction that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Auction that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {AuctionFindUniqueOrThrowArgs} args - Arguments to find a Auction
      * @example
@@ -6899,7 +7052,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends AuctionFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, AuctionFindUniqueOrThrowArgs>
     ): Prisma__AuctionClient<AuctionGetPayload<T>>
@@ -6916,7 +7069,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends AuctionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AuctionFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Auction'> extends True ? Prisma__AuctionClient<AuctionGetPayload<T>> : Prisma__AuctionClient<AuctionGetPayload<T> | null, null>
@@ -6934,7 +7087,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends AuctionFindFirstOrThrowArgs>(
       args?: SelectSubset<T, AuctionFindFirstOrThrowArgs>
     ): Prisma__AuctionClient<AuctionGetPayload<T>>
@@ -6947,14 +7100,14 @@ export namespace Prisma {
      * @example
      * // Get all Auctions
      * const auctions = await prisma.auction.findMany()
-     * 
+     *
      * // Get first 10 Auctions
      * const auctions = await prisma.auction.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const auctionWithIdOnly = await prisma.auction.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends AuctionFindManyArgs>(
       args?: SelectSubset<T, AuctionFindManyArgs>
     ): Prisma.PrismaPromise<Array<AuctionGetPayload<T>>>
@@ -6969,8 +7122,8 @@ export namespace Prisma {
      *     // ... data to create a Auction
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends AuctionCreateArgs>(
       args: SelectSubset<T, AuctionCreateArgs>
     ): Prisma__AuctionClient<AuctionGetPayload<T>>
@@ -6985,8 +7138,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends AuctionCreateManyArgs>(
       args?: SelectSubset<T, AuctionCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -7001,8 +7154,8 @@ export namespace Prisma {
      *     // ... filter to delete one Auction
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends AuctionDeleteArgs>(
       args: SelectSubset<T, AuctionDeleteArgs>
     ): Prisma__AuctionClient<AuctionGetPayload<T>>
@@ -7020,8 +7173,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends AuctionUpdateArgs>(
       args: SelectSubset<T, AuctionUpdateArgs>
     ): Prisma__AuctionClient<AuctionGetPayload<T>>
@@ -7036,8 +7189,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends AuctionDeleteManyArgs>(
       args?: SelectSubset<T, AuctionDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -7057,8 +7210,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends AuctionUpdateManyArgs>(
       args: SelectSubset<T, AuctionUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -7079,7 +7232,7 @@ export namespace Prisma {
      *     // ... the filter for the Auction we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends AuctionUpsertArgs>(
       args: SelectSubset<T, AuctionUpsertArgs>
     ): Prisma__AuctionClient<AuctionGetPayload<T>>
@@ -7096,7 +7249,7 @@ export namespace Prisma {
      *     // ... the filter for the Auctions we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends AuctionCountArgs>(
       args?: Subset<T, AuctionCountArgs>,
     ): Prisma.PrismaPromise<
@@ -7130,7 +7283,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends AuctionAggregateArgs>(args: Subset<T, AuctionAggregateArgs>): Prisma.PrismaPromise<GetAuctionAggregateType<T>>
 
     /**
@@ -7149,8 +7302,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends AuctionGroupByArgs,
       HasSelectOrTake extends Or<
@@ -7167,47 +7320,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, AuctionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuctionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -7234,6 +7387,8 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    website<T extends Auction$websiteArgs= {}>(args?: Subset<T, Auction$websiteArgs>): Prisma__WebsiteClient<WebsiteGetPayload<T> | Null>;
 
     webpage<T extends Auction$webpageArgs= {}>(args?: Subset<T, Auction$webpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
 
@@ -7288,13 +7443,13 @@ export namespace Prisma {
    * Auction findUnique
    */
   export interface AuctionFindUniqueArgs extends AuctionFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Auction findUniqueOrThrow
@@ -7333,31 +7488,31 @@ export namespace Prisma {
     where?: AuctionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Auctions to fetch.
      */
     orderBy?: Enumerable<AuctionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Auctions.
      */
     cursor?: AuctionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Auctions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Auctions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Auctions.
      */
     distinct?: Enumerable<AuctionScalarFieldEnum>
@@ -7367,13 +7522,13 @@ export namespace Prisma {
    * Auction findFirst
    */
   export interface AuctionFindFirstArgs extends AuctionFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Auction findFirstOrThrow
@@ -7393,31 +7548,31 @@ export namespace Prisma {
     where?: AuctionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Auctions to fetch.
      */
     orderBy?: Enumerable<AuctionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Auctions.
      */
     cursor?: AuctionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Auctions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Auctions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Auctions.
      */
     distinct?: Enumerable<AuctionScalarFieldEnum>
@@ -7442,25 +7597,25 @@ export namespace Prisma {
     where?: AuctionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Auctions to fetch.
      */
     orderBy?: Enumerable<AuctionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Auctions.
      */
     cursor?: AuctionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Auctions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Auctions.
      */
     skip?: number
@@ -7591,6 +7746,22 @@ export namespace Prisma {
      * Filter which Auctions to delete
      */
     where?: AuctionWhereInput
+  }
+
+
+  /**
+   * Auction.website
+   */
+  export type Auction$websiteArgs = {
+    /**
+     * Select specific fields to fetch from the Website
+     */
+    select?: WebsiteSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteInclude | null
+    where?: WebsiteWhereInput
   }
 
 
@@ -7734,50 +7905,50 @@ export namespace Prisma {
     where?: WebsiteWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Websites to fetch.
      */
     orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: WebsiteWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Websites from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Websites.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Websites
-    **/
+     **/
     _count?: true | WebsiteCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: WebsiteMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: WebsiteMaxAggregateInputType
   }
 
   export type GetWebsiteAggregateType<T extends WebsiteAggregateArgs> = {
-        [P in keyof T & keyof AggregateWebsite]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateWebsite]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateWebsite[P]>
@@ -7817,15 +7988,15 @@ export namespace Prisma {
   type GetWebsiteGroupByPayload<T extends WebsiteGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<WebsiteGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof WebsiteGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], WebsiteGroupByOutputType[P]>
-            : GetScalarType<T[P], WebsiteGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof WebsiteGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], WebsiteGroupByOutputType[P]>
+        : GetScalarType<T[P], WebsiteGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type WebsiteSelect = {
@@ -7839,6 +8010,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserArgs
     webpages?: boolean | Website$webpagesArgs
+    auctions?: boolean | Website$auctionsArgs
     _count?: boolean | WebsiteCountOutputTypeArgs
   }
 
@@ -7846,34 +8018,37 @@ export namespace Prisma {
   export type WebsiteInclude = {
     user?: boolean | UserArgs
     webpages?: boolean | Website$webpagesArgs
+    auctions?: boolean | Website$auctionsArgs
     _count?: boolean | WebsiteCountOutputTypeArgs
   }
 
   export type WebsiteGetPayload<S extends boolean | null | undefined | WebsiteArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Website :
-    S extends undefined ? never :
-    S extends { include: any } & (WebsiteArgs | WebsiteFindManyArgs)
-    ? Website  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :
-        P extends 'webpages' ? Array < WebpageGetPayload<S['include'][P]>>  :
-        P extends '_count' ? WebsiteCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (WebsiteArgs | WebsiteFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :
-        P extends 'webpages' ? Array < WebpageGetPayload<S['select'][P]>>  :
-        P extends '_count' ? WebsiteCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Website ? Website[P] : never
-  } 
-      : Website
+      S extends true ? Website :
+        S extends undefined ? never :
+          S extends { include: any } & (WebsiteArgs | WebsiteFindManyArgs)
+            ? Website  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :
+              P extends 'webpages' ? Array < WebpageGetPayload<S['include'][P]>>  :
+                P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
+                  P extends '_count' ? WebsiteCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (WebsiteArgs | WebsiteFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :
+                  P extends 'webpages' ? Array < WebpageGetPayload<S['select'][P]>>  :
+                    P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
+                      P extends '_count' ? WebsiteCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Website ? Website[P] : never
+              }
+              : Website
 
 
-  type WebsiteCountArgs = 
+  type WebsiteCountArgs =
     Omit<WebsiteFindManyArgs, 'select' | 'include'> & {
-      select?: WebsiteCountAggregateInputType | true
-    }
+    select?: WebsiteCountAggregateInputType | true
+  }
 
   export interface WebsiteDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -7887,13 +8062,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends WebsiteFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, WebsiteFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Website'> extends True ? Prisma__WebsiteClient<WebsiteGetPayload<T>> : Prisma__WebsiteClient<WebsiteGetPayload<T> | null, null>
 
     /**
-     * Find one Website that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Website that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {WebsiteFindUniqueOrThrowArgs} args - Arguments to find a Website
      * @example
@@ -7903,7 +8078,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends WebsiteFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, WebsiteFindUniqueOrThrowArgs>
     ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
@@ -7920,7 +8095,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends WebsiteFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, WebsiteFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Website'> extends True ? Prisma__WebsiteClient<WebsiteGetPayload<T>> : Prisma__WebsiteClient<WebsiteGetPayload<T> | null, null>
@@ -7938,7 +8113,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends WebsiteFindFirstOrThrowArgs>(
       args?: SelectSubset<T, WebsiteFindFirstOrThrowArgs>
     ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
@@ -7951,14 +8126,14 @@ export namespace Prisma {
      * @example
      * // Get all Websites
      * const websites = await prisma.website.findMany()
-     * 
+     *
      * // Get first 10 Websites
      * const websites = await prisma.website.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const websiteWithIdOnly = await prisma.website.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends WebsiteFindManyArgs>(
       args?: SelectSubset<T, WebsiteFindManyArgs>
     ): Prisma.PrismaPromise<Array<WebsiteGetPayload<T>>>
@@ -7973,8 +8148,8 @@ export namespace Prisma {
      *     // ... data to create a Website
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends WebsiteCreateArgs>(
       args: SelectSubset<T, WebsiteCreateArgs>
     ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
@@ -7989,8 +8164,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends WebsiteCreateManyArgs>(
       args?: SelectSubset<T, WebsiteCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -8005,8 +8180,8 @@ export namespace Prisma {
      *     // ... filter to delete one Website
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends WebsiteDeleteArgs>(
       args: SelectSubset<T, WebsiteDeleteArgs>
     ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
@@ -8024,8 +8199,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends WebsiteUpdateArgs>(
       args: SelectSubset<T, WebsiteUpdateArgs>
     ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
@@ -8040,8 +8215,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends WebsiteDeleteManyArgs>(
       args?: SelectSubset<T, WebsiteDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -8061,8 +8236,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends WebsiteUpdateManyArgs>(
       args: SelectSubset<T, WebsiteUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -8083,7 +8258,7 @@ export namespace Prisma {
      *     // ... the filter for the Website we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends WebsiteUpsertArgs>(
       args: SelectSubset<T, WebsiteUpsertArgs>
     ): Prisma__WebsiteClient<WebsiteGetPayload<T>>
@@ -8100,7 +8275,7 @@ export namespace Prisma {
      *     // ... the filter for the Websites we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends WebsiteCountArgs>(
       args?: Subset<T, WebsiteCountArgs>,
     ): Prisma.PrismaPromise<
@@ -8134,7 +8309,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends WebsiteAggregateArgs>(args: Subset<T, WebsiteAggregateArgs>): Prisma.PrismaPromise<GetWebsiteAggregateType<T>>
 
     /**
@@ -8153,8 +8328,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends WebsiteGroupByArgs,
       HasSelectOrTake extends Or<
@@ -8171,47 +8346,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, WebsiteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebsiteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -8240,6 +8415,8 @@ export namespace Prisma {
     user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     webpages<T extends Website$webpagesArgs= {}>(args?: Subset<T, Website$webpagesArgs>): Prisma.PrismaPromise<Array<WebpageGetPayload<T>>| Null>;
+
+    auctions<T extends Website$auctionsArgs= {}>(args?: Subset<T, Website$auctionsArgs>): Prisma.PrismaPromise<Array<AuctionGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -8290,13 +8467,13 @@ export namespace Prisma {
    * Website findUnique
    */
   export interface WebsiteFindUniqueArgs extends WebsiteFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Website findUniqueOrThrow
@@ -8335,31 +8512,31 @@ export namespace Prisma {
     where?: WebsiteWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Websites to fetch.
      */
     orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Websites.
      */
     cursor?: WebsiteWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Websites from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Websites.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Websites.
      */
     distinct?: Enumerable<WebsiteScalarFieldEnum>
@@ -8369,13 +8546,13 @@ export namespace Prisma {
    * Website findFirst
    */
   export interface WebsiteFindFirstArgs extends WebsiteFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Website findFirstOrThrow
@@ -8395,31 +8572,31 @@ export namespace Prisma {
     where?: WebsiteWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Websites to fetch.
      */
     orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Websites.
      */
     cursor?: WebsiteWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Websites from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Websites.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Websites.
      */
     distinct?: Enumerable<WebsiteScalarFieldEnum>
@@ -8444,25 +8621,25 @@ export namespace Prisma {
     where?: WebsiteWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Websites to fetch.
      */
     orderBy?: Enumerable<WebsiteOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Websites.
      */
     cursor?: WebsiteWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Websites from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Websites.
      */
     skip?: number
@@ -8618,6 +8795,27 @@ export namespace Prisma {
 
 
   /**
+   * Website.auctions
+   */
+  export type Website$auctionsArgs = {
+    /**
+     * Select specific fields to fetch from the Auction
+     */
+    select?: AuctionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AuctionInclude | null
+    where?: AuctionWhereInput
+    orderBy?: Enumerable<AuctionOrderByWithRelationInput>
+    cursor?: AuctionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AuctionScalarFieldEnum>
+  }
+
+
+  /**
    * Website without action
    */
   export type WebsiteArgs = {
@@ -8714,50 +8912,50 @@ export namespace Prisma {
     where?: WebpageWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Webpages to fetch.
      */
     orderBy?: Enumerable<WebpageOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: WebpageWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Webpages from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Webpages.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Webpages
-    **/
+     **/
     _count?: true | WebpageCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: WebpageMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: WebpageMaxAggregateInputType
   }
 
   export type GetWebpageAggregateType<T extends WebpageAggregateArgs> = {
-        [P in keyof T & keyof AggregateWebpage]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateWebpage]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateWebpage[P]>
@@ -8796,15 +8994,15 @@ export namespace Prisma {
   type GetWebpageGroupByPayload<T extends WebpageGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<WebpageGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof WebpageGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], WebpageGroupByOutputType[P]>
-            : GetScalarType<T[P], WebpageGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof WebpageGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], WebpageGroupByOutputType[P]>
+        : GetScalarType<T[P], WebpageGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type WebpageSelect = {
@@ -8837,37 +9035,37 @@ export namespace Prisma {
 
   export type WebpageGetPayload<S extends boolean | null | undefined | WebpageArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Webpage :
-    S extends undefined ? never :
-    S extends { include: any } & (WebpageArgs | WebpageFindManyArgs)
-    ? Webpage  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'website' ? WebsiteGetPayload<S['include'][P]> :
-        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
-        P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['include'][P]>>  :
-        P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
-        P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
-        P extends 'content' ? ContentGetPayload<S['include'][P]> | null :
-        P extends '_count' ? WebpageCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (WebpageArgs | WebpageFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'website' ? WebsiteGetPayload<S['select'][P]> :
-        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
-        P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['select'][P]>>  :
-        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
-        P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
-        P extends 'content' ? ContentGetPayload<S['select'][P]> | null :
-        P extends '_count' ? WebpageCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Webpage ? Webpage[P] : never
-  } 
-      : Webpage
+      S extends true ? Webpage :
+        S extends undefined ? never :
+          S extends { include: any } & (WebpageArgs | WebpageFindManyArgs)
+            ? Webpage  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'website' ? WebsiteGetPayload<S['include'][P]> :
+              P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
+                P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['include'][P]>>  :
+                  P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+                    P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
+                      P extends 'content' ? ContentGetPayload<S['include'][P]> | null :
+                        P extends '_count' ? WebpageCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (WebpageArgs | WebpageFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'website' ? WebsiteGetPayload<S['select'][P]> :
+                  P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
+                    P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['select'][P]>>  :
+                      P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+                        P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
+                          P extends 'content' ? ContentGetPayload<S['select'][P]> | null :
+                            P extends '_count' ? WebpageCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Webpage ? Webpage[P] : never
+              }
+              : Webpage
 
 
-  type WebpageCountArgs = 
+  type WebpageCountArgs =
     Omit<WebpageFindManyArgs, 'select' | 'include'> & {
-      select?: WebpageCountAggregateInputType | true
-    }
+    select?: WebpageCountAggregateInputType | true
+  }
 
   export interface WebpageDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -8881,13 +9079,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends WebpageFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, WebpageFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Webpage'> extends True ? Prisma__WebpageClient<WebpageGetPayload<T>> : Prisma__WebpageClient<WebpageGetPayload<T> | null, null>
 
     /**
-     * Find one Webpage that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Webpage that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {WebpageFindUniqueOrThrowArgs} args - Arguments to find a Webpage
      * @example
@@ -8897,7 +9095,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends WebpageFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, WebpageFindUniqueOrThrowArgs>
     ): Prisma__WebpageClient<WebpageGetPayload<T>>
@@ -8914,7 +9112,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends WebpageFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, WebpageFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Webpage'> extends True ? Prisma__WebpageClient<WebpageGetPayload<T>> : Prisma__WebpageClient<WebpageGetPayload<T> | null, null>
@@ -8932,7 +9130,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends WebpageFindFirstOrThrowArgs>(
       args?: SelectSubset<T, WebpageFindFirstOrThrowArgs>
     ): Prisma__WebpageClient<WebpageGetPayload<T>>
@@ -8945,14 +9143,14 @@ export namespace Prisma {
      * @example
      * // Get all Webpages
      * const webpages = await prisma.webpage.findMany()
-     * 
+     *
      * // Get first 10 Webpages
      * const webpages = await prisma.webpage.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const webpageWithIdOnly = await prisma.webpage.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends WebpageFindManyArgs>(
       args?: SelectSubset<T, WebpageFindManyArgs>
     ): Prisma.PrismaPromise<Array<WebpageGetPayload<T>>>
@@ -8967,8 +9165,8 @@ export namespace Prisma {
      *     // ... data to create a Webpage
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends WebpageCreateArgs>(
       args: SelectSubset<T, WebpageCreateArgs>
     ): Prisma__WebpageClient<WebpageGetPayload<T>>
@@ -8983,8 +9181,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends WebpageCreateManyArgs>(
       args?: SelectSubset<T, WebpageCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -8999,8 +9197,8 @@ export namespace Prisma {
      *     // ... filter to delete one Webpage
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends WebpageDeleteArgs>(
       args: SelectSubset<T, WebpageDeleteArgs>
     ): Prisma__WebpageClient<WebpageGetPayload<T>>
@@ -9018,8 +9216,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends WebpageUpdateArgs>(
       args: SelectSubset<T, WebpageUpdateArgs>
     ): Prisma__WebpageClient<WebpageGetPayload<T>>
@@ -9034,8 +9232,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends WebpageDeleteManyArgs>(
       args?: SelectSubset<T, WebpageDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -9055,8 +9253,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends WebpageUpdateManyArgs>(
       args: SelectSubset<T, WebpageUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -9077,7 +9275,7 @@ export namespace Prisma {
      *     // ... the filter for the Webpage we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends WebpageUpsertArgs>(
       args: SelectSubset<T, WebpageUpsertArgs>
     ): Prisma__WebpageClient<WebpageGetPayload<T>>
@@ -9094,7 +9292,7 @@ export namespace Prisma {
      *     // ... the filter for the Webpages we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends WebpageCountArgs>(
       args?: Subset<T, WebpageCountArgs>,
     ): Prisma.PrismaPromise<
@@ -9128,7 +9326,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends WebpageAggregateArgs>(args: Subset<T, WebpageAggregateArgs>): Prisma.PrismaPromise<GetWebpageAggregateType<T>>
 
     /**
@@ -9147,8 +9345,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends WebpageGroupByArgs,
       HasSelectOrTake extends Or<
@@ -9165,47 +9363,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, WebpageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebpageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -9292,13 +9490,13 @@ export namespace Prisma {
    * Webpage findUnique
    */
   export interface WebpageFindUniqueArgs extends WebpageFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Webpage findUniqueOrThrow
@@ -9337,31 +9535,31 @@ export namespace Prisma {
     where?: WebpageWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Webpages to fetch.
      */
     orderBy?: Enumerable<WebpageOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Webpages.
      */
     cursor?: WebpageWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Webpages from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Webpages.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Webpages.
      */
     distinct?: Enumerable<WebpageScalarFieldEnum>
@@ -9371,13 +9569,13 @@ export namespace Prisma {
    * Webpage findFirst
    */
   export interface WebpageFindFirstArgs extends WebpageFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Webpage findFirstOrThrow
@@ -9397,31 +9595,31 @@ export namespace Prisma {
     where?: WebpageWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Webpages to fetch.
      */
     orderBy?: Enumerable<WebpageOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Webpages.
      */
     cursor?: WebpageWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Webpages from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Webpages.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Webpages.
      */
     distinct?: Enumerable<WebpageScalarFieldEnum>
@@ -9446,25 +9644,25 @@ export namespace Prisma {
     where?: WebpageWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Webpages to fetch.
      */
     orderBy?: Enumerable<WebpageOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Webpages.
      */
     cursor?: WebpageWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Webpages from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Webpages.
      */
     skip?: number
@@ -9731,6 +9929,8 @@ export namespace Prisma {
     desktopHtml: string | null
     mobileHtml: string | null
     tabletHtml: string | null
+    title: string | null
+    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9741,6 +9941,8 @@ export namespace Prisma {
     desktopHtml: string | null
     mobileHtml: string | null
     tabletHtml: string | null
+    title: string | null
+    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9751,6 +9953,8 @@ export namespace Prisma {
     desktopHtml: number
     mobileHtml: number
     tabletHtml: number
+    title: number
+    description: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -9763,6 +9967,8 @@ export namespace Prisma {
     desktopHtml?: true
     mobileHtml?: true
     tabletHtml?: true
+    title?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9773,6 +9979,8 @@ export namespace Prisma {
     desktopHtml?: true
     mobileHtml?: true
     tabletHtml?: true
+    title?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9783,6 +9991,8 @@ export namespace Prisma {
     desktopHtml?: true
     mobileHtml?: true
     tabletHtml?: true
+    title?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -9795,50 +10005,50 @@ export namespace Prisma {
     where?: ContentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Contents to fetch.
      */
     orderBy?: Enumerable<ContentOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: ContentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Contents from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Contents.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Contents
-    **/
+     **/
     _count?: true | ContentCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: ContentMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: ContentMaxAggregateInputType
   }
 
   export type GetContentAggregateType<T extends ContentAggregateArgs> = {
-        [P in keyof T & keyof AggregateContent]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateContent]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateContent[P]>
@@ -9867,6 +10077,8 @@ export namespace Prisma {
     desktopHtml: string
     mobileHtml: string | null
     tabletHtml: string | null
+    title: string | null
+    description: string | null
     createdAt: Date
     updatedAt: Date
     _count: ContentCountAggregateOutputType | null
@@ -9877,15 +10089,15 @@ export namespace Prisma {
   type GetContentGroupByPayload<T extends ContentGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<ContentGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ContentGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ContentGroupByOutputType[P]>
-            : GetScalarType<T[P], ContentGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof ContentGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], ContentGroupByOutputType[P]>
+        : GetScalarType<T[P], ContentGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type ContentSelect = {
@@ -9894,6 +10106,8 @@ export namespace Prisma {
     desktopHtml?: boolean
     mobileHtml?: boolean
     tabletHtml?: boolean
+    title?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     webpage?: boolean | WebpageArgs
@@ -9906,25 +10120,25 @@ export namespace Prisma {
 
   export type ContentGetPayload<S extends boolean | null | undefined | ContentArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Content :
-    S extends undefined ? never :
-    S extends { include: any } & (ContentArgs | ContentFindManyArgs)
-    ? Content  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ContentArgs | ContentFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :  P extends keyof Content ? Content[P] : never
-  } 
-      : Content
+      S extends true ? Content :
+        S extends undefined ? never :
+          S extends { include: any } & (ContentArgs | ContentFindManyArgs)
+            ? Content  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (ContentArgs | ContentFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :  P extends keyof Content ? Content[P] : never
+              }
+              : Content
 
 
-  type ContentCountArgs = 
+  type ContentCountArgs =
     Omit<ContentFindManyArgs, 'select' | 'include'> & {
-      select?: ContentCountAggregateInputType | true
-    }
+    select?: ContentCountAggregateInputType | true
+  }
 
   export interface ContentDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -9938,13 +10152,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends ContentFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, ContentFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Content'> extends True ? Prisma__ContentClient<ContentGetPayload<T>> : Prisma__ContentClient<ContentGetPayload<T> | null, null>
 
     /**
-     * Find one Content that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Content that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {ContentFindUniqueOrThrowArgs} args - Arguments to find a Content
      * @example
@@ -9954,7 +10168,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends ContentFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, ContentFindUniqueOrThrowArgs>
     ): Prisma__ContentClient<ContentGetPayload<T>>
@@ -9971,7 +10185,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends ContentFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, ContentFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Content'> extends True ? Prisma__ContentClient<ContentGetPayload<T>> : Prisma__ContentClient<ContentGetPayload<T> | null, null>
@@ -9989,7 +10203,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends ContentFindFirstOrThrowArgs>(
       args?: SelectSubset<T, ContentFindFirstOrThrowArgs>
     ): Prisma__ContentClient<ContentGetPayload<T>>
@@ -10002,14 +10216,14 @@ export namespace Prisma {
      * @example
      * // Get all Contents
      * const contents = await prisma.content.findMany()
-     * 
+     *
      * // Get first 10 Contents
      * const contents = await prisma.content.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const contentWithIdOnly = await prisma.content.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends ContentFindManyArgs>(
       args?: SelectSubset<T, ContentFindManyArgs>
     ): Prisma.PrismaPromise<Array<ContentGetPayload<T>>>
@@ -10024,8 +10238,8 @@ export namespace Prisma {
      *     // ... data to create a Content
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends ContentCreateArgs>(
       args: SelectSubset<T, ContentCreateArgs>
     ): Prisma__ContentClient<ContentGetPayload<T>>
@@ -10040,8 +10254,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends ContentCreateManyArgs>(
       args?: SelectSubset<T, ContentCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -10056,8 +10270,8 @@ export namespace Prisma {
      *     // ... filter to delete one Content
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends ContentDeleteArgs>(
       args: SelectSubset<T, ContentDeleteArgs>
     ): Prisma__ContentClient<ContentGetPayload<T>>
@@ -10075,8 +10289,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends ContentUpdateArgs>(
       args: SelectSubset<T, ContentUpdateArgs>
     ): Prisma__ContentClient<ContentGetPayload<T>>
@@ -10091,8 +10305,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends ContentDeleteManyArgs>(
       args?: SelectSubset<T, ContentDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -10112,8 +10326,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends ContentUpdateManyArgs>(
       args: SelectSubset<T, ContentUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -10134,7 +10348,7 @@ export namespace Prisma {
      *     // ... the filter for the Content we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends ContentUpsertArgs>(
       args: SelectSubset<T, ContentUpsertArgs>
     ): Prisma__ContentClient<ContentGetPayload<T>>
@@ -10151,7 +10365,7 @@ export namespace Prisma {
      *     // ... the filter for the Contents we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends ContentCountArgs>(
       args?: Subset<T, ContentCountArgs>,
     ): Prisma.PrismaPromise<
@@ -10185,7 +10399,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends ContentAggregateArgs>(args: Subset<T, ContentAggregateArgs>): Prisma.PrismaPromise<GetContentAggregateType<T>>
 
     /**
@@ -10204,8 +10418,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends ContentGroupByArgs,
       HasSelectOrTake extends Or<
@@ -10222,47 +10436,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, ContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -10339,13 +10553,13 @@ export namespace Prisma {
    * Content findUnique
    */
   export interface ContentFindUniqueArgs extends ContentFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Content findUniqueOrThrow
@@ -10384,31 +10598,31 @@ export namespace Prisma {
     where?: ContentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Contents to fetch.
      */
     orderBy?: Enumerable<ContentOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Contents.
      */
     cursor?: ContentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Contents from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Contents.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Contents.
      */
     distinct?: Enumerable<ContentScalarFieldEnum>
@@ -10418,13 +10632,13 @@ export namespace Prisma {
    * Content findFirst
    */
   export interface ContentFindFirstArgs extends ContentFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Content findFirstOrThrow
@@ -10444,31 +10658,31 @@ export namespace Prisma {
     where?: ContentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Contents to fetch.
      */
     orderBy?: Enumerable<ContentOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Contents.
      */
     cursor?: ContentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Contents from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Contents.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Contents.
      */
     distinct?: Enumerable<ContentScalarFieldEnum>
@@ -10493,25 +10707,25 @@ export namespace Prisma {
     where?: ContentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Contents to fetch.
      */
     orderBy?: Enumerable<ContentOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Contents.
      */
     cursor?: ContentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Contents from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Contents.
      */
     skip?: number
@@ -10676,6 +10890,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     name: string | null
+    abortScript: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10684,6 +10899,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     name: string | null
+    abortScript: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10692,6 +10908,7 @@ export namespace Prisma {
     id: number
     userId: number
     name: number
+    abortScript: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -10702,6 +10919,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     name?: true
+    abortScript?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10710,6 +10928,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     name?: true
+    abortScript?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10718,6 +10937,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     name?: true
+    abortScript?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -10730,50 +10950,50 @@ export namespace Prisma {
     where?: CategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Categories to fetch.
      */
     orderBy?: Enumerable<CategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: CategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Categories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Categories.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Categories
-    **/
+     **/
     _count?: true | CategoryCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: CategoryMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: CategoryMaxAggregateInputType
   }
 
   export type GetCategoryAggregateType<T extends CategoryAggregateArgs> = {
-        [P in keyof T & keyof AggregateCategory]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateCategory]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateCategory[P]>
@@ -10800,6 +11020,7 @@ export namespace Prisma {
     id: string
     userId: string
     name: string
+    abortScript: boolean
     createdAt: Date
     updatedAt: Date
     _count: CategoryCountAggregateOutputType | null
@@ -10810,21 +11031,22 @@ export namespace Prisma {
   type GetCategoryGroupByPayload<T extends CategoryGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<CategoryGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CategoryGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CategoryGroupByOutputType[P]>
-            : GetScalarType<T[P], CategoryGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof CategoryGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+        : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type CategorySelect = {
     id?: boolean
     userId?: boolean
     name?: boolean
+    abortScript?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserArgs
@@ -10843,31 +11065,31 @@ export namespace Prisma {
 
   export type CategoryGetPayload<S extends boolean | null | undefined | CategoryArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Category :
-    S extends undefined ? never :
-    S extends { include: any } & (CategoryArgs | CategoryFindManyArgs)
-    ? Category  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :
-        P extends 'webpages' ? Array < WebpageGetPayload<S['include'][P]>>  :
-        P extends 'campaigns' ? Array < CampaignGetPayload<S['include'][P]>>  :
-        P extends '_count' ? CategoryCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (CategoryArgs | CategoryFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :
-        P extends 'webpages' ? Array < WebpageGetPayload<S['select'][P]>>  :
-        P extends 'campaigns' ? Array < CampaignGetPayload<S['select'][P]>>  :
-        P extends '_count' ? CategoryCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Category ? Category[P] : never
-  } 
-      : Category
+      S extends true ? Category :
+        S extends undefined ? never :
+          S extends { include: any } & (CategoryArgs | CategoryFindManyArgs)
+            ? Category  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :
+              P extends 'webpages' ? Array < WebpageGetPayload<S['include'][P]>>  :
+                P extends 'campaigns' ? Array < CampaignGetPayload<S['include'][P]>>  :
+                  P extends '_count' ? CategoryCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (CategoryArgs | CategoryFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :
+                  P extends 'webpages' ? Array < WebpageGetPayload<S['select'][P]>>  :
+                    P extends 'campaigns' ? Array < CampaignGetPayload<S['select'][P]>>  :
+                      P extends '_count' ? CategoryCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Category ? Category[P] : never
+              }
+              : Category
 
 
-  type CategoryCountArgs = 
+  type CategoryCountArgs =
     Omit<CategoryFindManyArgs, 'select' | 'include'> & {
-      select?: CategoryCountAggregateInputType | true
-    }
+    select?: CategoryCountAggregateInputType | true
+  }
 
   export interface CategoryDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -10881,13 +11103,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends CategoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, CategoryFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Category'> extends True ? Prisma__CategoryClient<CategoryGetPayload<T>> : Prisma__CategoryClient<CategoryGetPayload<T> | null, null>
 
     /**
-     * Find one Category that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Category that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {CategoryFindUniqueOrThrowArgs} args - Arguments to find a Category
      * @example
@@ -10897,7 +11119,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends CategoryFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, CategoryFindUniqueOrThrowArgs>
     ): Prisma__CategoryClient<CategoryGetPayload<T>>
@@ -10914,7 +11136,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends CategoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, CategoryFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Category'> extends True ? Prisma__CategoryClient<CategoryGetPayload<T>> : Prisma__CategoryClient<CategoryGetPayload<T> | null, null>
@@ -10932,7 +11154,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends CategoryFindFirstOrThrowArgs>(
       args?: SelectSubset<T, CategoryFindFirstOrThrowArgs>
     ): Prisma__CategoryClient<CategoryGetPayload<T>>
@@ -10945,14 +11167,14 @@ export namespace Prisma {
      * @example
      * // Get all Categories
      * const categories = await prisma.category.findMany()
-     * 
+     *
      * // Get first 10 Categories
      * const categories = await prisma.category.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const categoryWithIdOnly = await prisma.category.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends CategoryFindManyArgs>(
       args?: SelectSubset<T, CategoryFindManyArgs>
     ): Prisma.PrismaPromise<Array<CategoryGetPayload<T>>>
@@ -10967,8 +11189,8 @@ export namespace Prisma {
      *     // ... data to create a Category
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends CategoryCreateArgs>(
       args: SelectSubset<T, CategoryCreateArgs>
     ): Prisma__CategoryClient<CategoryGetPayload<T>>
@@ -10983,8 +11205,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends CategoryCreateManyArgs>(
       args?: SelectSubset<T, CategoryCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -10999,8 +11221,8 @@ export namespace Prisma {
      *     // ... filter to delete one Category
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends CategoryDeleteArgs>(
       args: SelectSubset<T, CategoryDeleteArgs>
     ): Prisma__CategoryClient<CategoryGetPayload<T>>
@@ -11018,8 +11240,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends CategoryUpdateArgs>(
       args: SelectSubset<T, CategoryUpdateArgs>
     ): Prisma__CategoryClient<CategoryGetPayload<T>>
@@ -11034,8 +11256,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends CategoryDeleteManyArgs>(
       args?: SelectSubset<T, CategoryDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -11055,8 +11277,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends CategoryUpdateManyArgs>(
       args: SelectSubset<T, CategoryUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -11077,7 +11299,7 @@ export namespace Prisma {
      *     // ... the filter for the Category we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends CategoryUpsertArgs>(
       args: SelectSubset<T, CategoryUpsertArgs>
     ): Prisma__CategoryClient<CategoryGetPayload<T>>
@@ -11094,7 +11316,7 @@ export namespace Prisma {
      *     // ... the filter for the Categories we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends CategoryCountArgs>(
       args?: Subset<T, CategoryCountArgs>,
     ): Prisma.PrismaPromise<
@@ -11128,7 +11350,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends CategoryAggregateArgs>(args: Subset<T, CategoryAggregateArgs>): Prisma.PrismaPromise<GetCategoryAggregateType<T>>
 
     /**
@@ -11147,8 +11369,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends CategoryGroupByArgs,
       HasSelectOrTake extends Or<
@@ -11165,47 +11387,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, CategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -11286,13 +11508,13 @@ export namespace Prisma {
    * Category findUnique
    */
   export interface CategoryFindUniqueArgs extends CategoryFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Category findUniqueOrThrow
@@ -11331,31 +11553,31 @@ export namespace Prisma {
     where?: CategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Categories to fetch.
      */
     orderBy?: Enumerable<CategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Categories.
      */
     cursor?: CategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Categories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Categories.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Categories.
      */
     distinct?: Enumerable<CategoryScalarFieldEnum>
@@ -11365,13 +11587,13 @@ export namespace Prisma {
    * Category findFirst
    */
   export interface CategoryFindFirstArgs extends CategoryFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Category findFirstOrThrow
@@ -11391,31 +11613,31 @@ export namespace Prisma {
     where?: CategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Categories to fetch.
      */
     orderBy?: Enumerable<CategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Categories.
      */
     cursor?: CategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Categories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Categories.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Categories.
      */
     distinct?: Enumerable<CategoryScalarFieldEnum>
@@ -11440,25 +11662,25 @@ export namespace Prisma {
     where?: CategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Categories to fetch.
      */
     orderBy?: Enumerable<CategoryOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Categories.
      */
     cursor?: CategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Categories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Categories.
      */
     skip?: number
@@ -11725,50 +11947,50 @@ export namespace Prisma {
     where?: AdvertisementSpotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of AdvertisementSpots to fetch.
      */
     orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: AdvertisementSpotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` AdvertisementSpots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` AdvertisementSpots.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned AdvertisementSpots
-    **/
+     **/
     _count?: true | AdvertisementSpotCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: AdvertisementSpotMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: AdvertisementSpotMaxAggregateInputType
   }
 
   export type GetAdvertisementSpotAggregateType<T extends AdvertisementSpotAggregateArgs> = {
-        [P in keyof T & keyof AggregateAdvertisementSpot]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAdvertisementSpot]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAdvertisementSpot[P]>
@@ -11806,15 +12028,15 @@ export namespace Prisma {
   type GetAdvertisementSpotGroupByPayload<T extends AdvertisementSpotGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AdvertisementSpotGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AdvertisementSpotGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AdvertisementSpotGroupByOutputType[P]>
-            : GetScalarType<T[P], AdvertisementSpotGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof AdvertisementSpotGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], AdvertisementSpotGroupByOutputType[P]>
+        : GetScalarType<T[P], AdvertisementSpotGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type AdvertisementSpotSelect = {
@@ -11838,29 +12060,29 @@ export namespace Prisma {
 
   export type AdvertisementSpotGetPayload<S extends boolean | null | undefined | AdvertisementSpotArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AdvertisementSpot :
-    S extends undefined ? never :
-    S extends { include: any } & (AdvertisementSpotArgs | AdvertisementSpotFindManyArgs)
-    ? AdvertisementSpot  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
-        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['include'][P]>>  :
-        P extends '_count' ? AdvertisementSpotCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (AdvertisementSpotArgs | AdvertisementSpotFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
-        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['select'][P]>>  :
-        P extends '_count' ? AdvertisementSpotCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof AdvertisementSpot ? AdvertisementSpot[P] : never
-  } 
-      : AdvertisementSpot
+      S extends true ? AdvertisementSpot :
+        S extends undefined ? never :
+          S extends { include: any } & (AdvertisementSpotArgs | AdvertisementSpotFindManyArgs)
+            ? AdvertisementSpot  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
+              P extends 'advertisements' ? Array < AdvertisementGetPayload<S['include'][P]>>  :
+                P extends '_count' ? AdvertisementSpotCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (AdvertisementSpotArgs | AdvertisementSpotFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
+                  P extends 'advertisements' ? Array < AdvertisementGetPayload<S['select'][P]>>  :
+                    P extends '_count' ? AdvertisementSpotCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof AdvertisementSpot ? AdvertisementSpot[P] : never
+              }
+              : AdvertisementSpot
 
 
-  type AdvertisementSpotCountArgs = 
+  type AdvertisementSpotCountArgs =
     Omit<AdvertisementSpotFindManyArgs, 'select' | 'include'> & {
-      select?: AdvertisementSpotCountAggregateInputType | true
-    }
+    select?: AdvertisementSpotCountAggregateInputType | true
+  }
 
   export interface AdvertisementSpotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -11874,13 +12096,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends AdvertisementSpotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AdvertisementSpotFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AdvertisementSpot'> extends True ? Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>> : Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T> | null, null>
 
     /**
-     * Find one AdvertisementSpot that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one AdvertisementSpot that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {AdvertisementSpotFindUniqueOrThrowArgs} args - Arguments to find a AdvertisementSpot
      * @example
@@ -11890,7 +12112,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends AdvertisementSpotFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, AdvertisementSpotFindUniqueOrThrowArgs>
     ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
@@ -11907,7 +12129,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends AdvertisementSpotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AdvertisementSpotFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AdvertisementSpot'> extends True ? Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>> : Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T> | null, null>
@@ -11925,7 +12147,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends AdvertisementSpotFindFirstOrThrowArgs>(
       args?: SelectSubset<T, AdvertisementSpotFindFirstOrThrowArgs>
     ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
@@ -11938,14 +12160,14 @@ export namespace Prisma {
      * @example
      * // Get all AdvertisementSpots
      * const advertisementSpots = await prisma.advertisementSpot.findMany()
-     * 
+     *
      * // Get first 10 AdvertisementSpots
      * const advertisementSpots = await prisma.advertisementSpot.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const advertisementSpotWithIdOnly = await prisma.advertisementSpot.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends AdvertisementSpotFindManyArgs>(
       args?: SelectSubset<T, AdvertisementSpotFindManyArgs>
     ): Prisma.PrismaPromise<Array<AdvertisementSpotGetPayload<T>>>
@@ -11960,8 +12182,8 @@ export namespace Prisma {
      *     // ... data to create a AdvertisementSpot
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends AdvertisementSpotCreateArgs>(
       args: SelectSubset<T, AdvertisementSpotCreateArgs>
     ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
@@ -11976,8 +12198,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends AdvertisementSpotCreateManyArgs>(
       args?: SelectSubset<T, AdvertisementSpotCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -11992,8 +12214,8 @@ export namespace Prisma {
      *     // ... filter to delete one AdvertisementSpot
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends AdvertisementSpotDeleteArgs>(
       args: SelectSubset<T, AdvertisementSpotDeleteArgs>
     ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
@@ -12011,8 +12233,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends AdvertisementSpotUpdateArgs>(
       args: SelectSubset<T, AdvertisementSpotUpdateArgs>
     ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
@@ -12027,8 +12249,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends AdvertisementSpotDeleteManyArgs>(
       args?: SelectSubset<T, AdvertisementSpotDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -12048,8 +12270,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends AdvertisementSpotUpdateManyArgs>(
       args: SelectSubset<T, AdvertisementSpotUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -12070,7 +12292,7 @@ export namespace Prisma {
      *     // ... the filter for the AdvertisementSpot we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends AdvertisementSpotUpsertArgs>(
       args: SelectSubset<T, AdvertisementSpotUpsertArgs>
     ): Prisma__AdvertisementSpotClient<AdvertisementSpotGetPayload<T>>
@@ -12087,7 +12309,7 @@ export namespace Prisma {
      *     // ... the filter for the AdvertisementSpots we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends AdvertisementSpotCountArgs>(
       args?: Subset<T, AdvertisementSpotCountArgs>,
     ): Prisma.PrismaPromise<
@@ -12121,7 +12343,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends AdvertisementSpotAggregateArgs>(args: Subset<T, AdvertisementSpotAggregateArgs>): Prisma.PrismaPromise<GetAdvertisementSpotAggregateType<T>>
 
     /**
@@ -12140,8 +12362,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends AdvertisementSpotGroupByArgs,
       HasSelectOrTake extends Or<
@@ -12158,47 +12380,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, AdvertisementSpotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdvertisementSpotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -12277,13 +12499,13 @@ export namespace Prisma {
    * AdvertisementSpot findUnique
    */
   export interface AdvertisementSpotFindUniqueArgs extends AdvertisementSpotFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * AdvertisementSpot findUniqueOrThrow
@@ -12322,31 +12544,31 @@ export namespace Prisma {
     where?: AdvertisementSpotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of AdvertisementSpots to fetch.
      */
     orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for AdvertisementSpots.
      */
     cursor?: AdvertisementSpotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` AdvertisementSpots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` AdvertisementSpots.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of AdvertisementSpots.
      */
     distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
@@ -12356,13 +12578,13 @@ export namespace Prisma {
    * AdvertisementSpot findFirst
    */
   export interface AdvertisementSpotFindFirstArgs extends AdvertisementSpotFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * AdvertisementSpot findFirstOrThrow
@@ -12382,31 +12604,31 @@ export namespace Prisma {
     where?: AdvertisementSpotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of AdvertisementSpots to fetch.
      */
     orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for AdvertisementSpots.
      */
     cursor?: AdvertisementSpotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` AdvertisementSpots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` AdvertisementSpots.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of AdvertisementSpots.
      */
     distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
@@ -12431,25 +12653,25 @@ export namespace Prisma {
     where?: AdvertisementSpotWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of AdvertisementSpots to fetch.
      */
     orderBy?: Enumerable<AdvertisementSpotOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing AdvertisementSpots.
      */
     cursor?: AdvertisementSpotWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` AdvertisementSpots from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` AdvertisementSpots.
      */
     skip?: number
@@ -12635,18 +12857,22 @@ export namespace Prisma {
 
   export type ScoredCampaignAvgAggregateOutputType = {
     score: number | null
+    adBuildFailCount: number | null
   }
 
   export type ScoredCampaignSumAggregateOutputType = {
     score: number | null
+    adBuildFailCount: number | null
   }
 
   export type ScoredCampaignMinAggregateOutputType = {
     id: string | null
     webpageId: string | null
     campaignId: string | null
+    isBest: boolean | null
     score: number | null
     reason: string | null
+    adBuildFailCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12655,8 +12881,10 @@ export namespace Prisma {
     id: string | null
     webpageId: string | null
     campaignId: string | null
+    isBest: boolean | null
     score: number | null
     reason: string | null
+    adBuildFailCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -12665,8 +12893,10 @@ export namespace Prisma {
     id: number
     webpageId: number
     campaignId: number
+    isBest: number
     score: number
     reason: number
+    adBuildFailCount: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -12675,18 +12905,22 @@ export namespace Prisma {
 
   export type ScoredCampaignAvgAggregateInputType = {
     score?: true
+    adBuildFailCount?: true
   }
 
   export type ScoredCampaignSumAggregateInputType = {
     score?: true
+    adBuildFailCount?: true
   }
 
   export type ScoredCampaignMinAggregateInputType = {
     id?: true
     webpageId?: true
     campaignId?: true
+    isBest?: true
     score?: true
     reason?: true
+    adBuildFailCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12695,8 +12929,10 @@ export namespace Prisma {
     id?: true
     webpageId?: true
     campaignId?: true
+    isBest?: true
     score?: true
     reason?: true
+    adBuildFailCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12705,8 +12941,10 @@ export namespace Prisma {
     id?: true
     webpageId?: true
     campaignId?: true
+    isBest?: true
     score?: true
     reason?: true
+    adBuildFailCount?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -12719,62 +12957,62 @@ export namespace Prisma {
     where?: ScoredCampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of ScoredCampaigns to fetch.
      */
     orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: ScoredCampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` ScoredCampaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` ScoredCampaigns.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned ScoredCampaigns
-    **/
+     **/
     _count?: true | ScoredCampaignCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to average
-    **/
+     **/
     _avg?: ScoredCampaignAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to sum
-    **/
+     **/
     _sum?: ScoredCampaignSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: ScoredCampaignMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: ScoredCampaignMaxAggregateInputType
   }
 
   export type GetScoredCampaignAggregateType<T extends ScoredCampaignAggregateArgs> = {
-        [P in keyof T & keyof AggregateScoredCampaign]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateScoredCampaign]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateScoredCampaign[P]>
@@ -12803,8 +13041,10 @@ export namespace Prisma {
     id: string
     webpageId: string
     campaignId: string
+    isBest: boolean
     score: number
     reason: string
+    adBuildFailCount: number
     createdAt: Date
     updatedAt: Date
     _count: ScoredCampaignCountAggregateOutputType | null
@@ -12817,23 +13057,25 @@ export namespace Prisma {
   type GetScoredCampaignGroupByPayload<T extends ScoredCampaignGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<ScoredCampaignGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ScoredCampaignGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ScoredCampaignGroupByOutputType[P]>
-            : GetScalarType<T[P], ScoredCampaignGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof ScoredCampaignGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], ScoredCampaignGroupByOutputType[P]>
+        : GetScalarType<T[P], ScoredCampaignGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type ScoredCampaignSelect = {
     id?: boolean
     webpageId?: boolean
     campaignId?: boolean
+    isBest?: boolean
     score?: boolean
     reason?: boolean
+    adBuildFailCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     webpage?: boolean | WebpageArgs
@@ -12852,31 +13094,31 @@ export namespace Prisma {
 
   export type ScoredCampaignGetPayload<S extends boolean | null | undefined | ScoredCampaignArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ScoredCampaign :
-    S extends undefined ? never :
-    S extends { include: any } & (ScoredCampaignArgs | ScoredCampaignFindManyArgs)
-    ? ScoredCampaign  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
-        P extends 'campaign' ? CampaignGetPayload<S['include'][P]> :
-        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ScoredCampaignCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ScoredCampaignArgs | ScoredCampaignFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
-        P extends 'campaign' ? CampaignGetPayload<S['select'][P]> :
-        P extends 'advertisements' ? Array < AdvertisementGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ScoredCampaignCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ScoredCampaign ? ScoredCampaign[P] : never
-  } 
-      : ScoredCampaign
+      S extends true ? ScoredCampaign :
+        S extends undefined ? never :
+          S extends { include: any } & (ScoredCampaignArgs | ScoredCampaignFindManyArgs)
+            ? ScoredCampaign  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
+              P extends 'campaign' ? CampaignGetPayload<S['include'][P]> :
+                P extends 'advertisements' ? Array < AdvertisementGetPayload<S['include'][P]>>  :
+                  P extends '_count' ? ScoredCampaignCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (ScoredCampaignArgs | ScoredCampaignFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
+                  P extends 'campaign' ? CampaignGetPayload<S['select'][P]> :
+                    P extends 'advertisements' ? Array < AdvertisementGetPayload<S['select'][P]>>  :
+                      P extends '_count' ? ScoredCampaignCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ScoredCampaign ? ScoredCampaign[P] : never
+              }
+              : ScoredCampaign
 
 
-  type ScoredCampaignCountArgs = 
+  type ScoredCampaignCountArgs =
     Omit<ScoredCampaignFindManyArgs, 'select' | 'include'> & {
-      select?: ScoredCampaignCountAggregateInputType | true
-    }
+    select?: ScoredCampaignCountAggregateInputType | true
+  }
 
   export interface ScoredCampaignDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -12890,13 +13132,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends ScoredCampaignFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, ScoredCampaignFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ScoredCampaign'> extends True ? Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>> : Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T> | null, null>
 
     /**
-     * Find one ScoredCampaign that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ScoredCampaign that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {ScoredCampaignFindUniqueOrThrowArgs} args - Arguments to find a ScoredCampaign
      * @example
@@ -12906,7 +13148,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends ScoredCampaignFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, ScoredCampaignFindUniqueOrThrowArgs>
     ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
@@ -12923,7 +13165,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends ScoredCampaignFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, ScoredCampaignFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ScoredCampaign'> extends True ? Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>> : Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T> | null, null>
@@ -12941,7 +13183,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends ScoredCampaignFindFirstOrThrowArgs>(
       args?: SelectSubset<T, ScoredCampaignFindFirstOrThrowArgs>
     ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
@@ -12954,14 +13196,14 @@ export namespace Prisma {
      * @example
      * // Get all ScoredCampaigns
      * const scoredCampaigns = await prisma.scoredCampaign.findMany()
-     * 
+     *
      * // Get first 10 ScoredCampaigns
      * const scoredCampaigns = await prisma.scoredCampaign.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const scoredCampaignWithIdOnly = await prisma.scoredCampaign.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends ScoredCampaignFindManyArgs>(
       args?: SelectSubset<T, ScoredCampaignFindManyArgs>
     ): Prisma.PrismaPromise<Array<ScoredCampaignGetPayload<T>>>
@@ -12976,8 +13218,8 @@ export namespace Prisma {
      *     // ... data to create a ScoredCampaign
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends ScoredCampaignCreateArgs>(
       args: SelectSubset<T, ScoredCampaignCreateArgs>
     ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
@@ -12992,8 +13234,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends ScoredCampaignCreateManyArgs>(
       args?: SelectSubset<T, ScoredCampaignCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -13008,8 +13250,8 @@ export namespace Prisma {
      *     // ... filter to delete one ScoredCampaign
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends ScoredCampaignDeleteArgs>(
       args: SelectSubset<T, ScoredCampaignDeleteArgs>
     ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
@@ -13027,8 +13269,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends ScoredCampaignUpdateArgs>(
       args: SelectSubset<T, ScoredCampaignUpdateArgs>
     ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
@@ -13043,8 +13285,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends ScoredCampaignDeleteManyArgs>(
       args?: SelectSubset<T, ScoredCampaignDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -13064,8 +13306,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends ScoredCampaignUpdateManyArgs>(
       args: SelectSubset<T, ScoredCampaignUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -13086,7 +13328,7 @@ export namespace Prisma {
      *     // ... the filter for the ScoredCampaign we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends ScoredCampaignUpsertArgs>(
       args: SelectSubset<T, ScoredCampaignUpsertArgs>
     ): Prisma__ScoredCampaignClient<ScoredCampaignGetPayload<T>>
@@ -13103,7 +13345,7 @@ export namespace Prisma {
      *     // ... the filter for the ScoredCampaigns we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends ScoredCampaignCountArgs>(
       args?: Subset<T, ScoredCampaignCountArgs>,
     ): Prisma.PrismaPromise<
@@ -13137,7 +13379,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends ScoredCampaignAggregateArgs>(args: Subset<T, ScoredCampaignAggregateArgs>): Prisma.PrismaPromise<GetScoredCampaignAggregateType<T>>
 
     /**
@@ -13156,8 +13398,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends ScoredCampaignGroupByArgs,
       HasSelectOrTake extends Or<
@@ -13174,47 +13416,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, ScoredCampaignGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScoredCampaignGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -13295,13 +13537,13 @@ export namespace Prisma {
    * ScoredCampaign findUnique
    */
   export interface ScoredCampaignFindUniqueArgs extends ScoredCampaignFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * ScoredCampaign findUniqueOrThrow
@@ -13340,31 +13582,31 @@ export namespace Prisma {
     where?: ScoredCampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of ScoredCampaigns to fetch.
      */
     orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for ScoredCampaigns.
      */
     cursor?: ScoredCampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` ScoredCampaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` ScoredCampaigns.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of ScoredCampaigns.
      */
     distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
@@ -13374,13 +13616,13 @@ export namespace Prisma {
    * ScoredCampaign findFirst
    */
   export interface ScoredCampaignFindFirstArgs extends ScoredCampaignFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * ScoredCampaign findFirstOrThrow
@@ -13400,31 +13642,31 @@ export namespace Prisma {
     where?: ScoredCampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of ScoredCampaigns to fetch.
      */
     orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for ScoredCampaigns.
      */
     cursor?: ScoredCampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` ScoredCampaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` ScoredCampaigns.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of ScoredCampaigns.
      */
     distinct?: Enumerable<ScoredCampaignScalarFieldEnum>
@@ -13449,25 +13691,25 @@ export namespace Prisma {
     where?: ScoredCampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of ScoredCampaigns to fetch.
      */
     orderBy?: Enumerable<ScoredCampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing ScoredCampaigns.
      */
     cursor?: ScoredCampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` ScoredCampaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` ScoredCampaigns.
      */
     skip?: number
@@ -13719,50 +13961,50 @@ export namespace Prisma {
     where?: AdvertisementWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Advertisements to fetch.
      */
     orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: AdvertisementWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Advertisements from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Advertisements.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Advertisements
-    **/
+     **/
     _count?: true | AdvertisementCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: AdvertisementMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: AdvertisementMaxAggregateInputType
   }
 
   export type GetAdvertisementAggregateType<T extends AdvertisementAggregateArgs> = {
-        [P in keyof T & keyof AggregateAdvertisement]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateAdvertisement]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateAdvertisement[P]>
@@ -13801,15 +14043,15 @@ export namespace Prisma {
   type GetAdvertisementGroupByPayload<T extends AdvertisementGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<AdvertisementGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AdvertisementGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AdvertisementGroupByOutputType[P]>
-            : GetScalarType<T[P], AdvertisementGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof AdvertisementGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], AdvertisementGroupByOutputType[P]>
+        : GetScalarType<T[P], AdvertisementGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type AdvertisementSelect = {
@@ -13836,31 +14078,31 @@ export namespace Prisma {
 
   export type AdvertisementGetPayload<S extends boolean | null | undefined | AdvertisementArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Advertisement :
-    S extends undefined ? never :
-    S extends { include: any } & (AdvertisementArgs | AdvertisementFindManyArgs)
-    ? Advertisement  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'scoredCampaign' ? ScoredCampaignGetPayload<S['include'][P]> :
-        P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
-        P extends 'advertisementSpot' ? AdvertisementSpotGetPayload<S['include'][P]> :
-        P extends '_count' ? AdvertisementCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (AdvertisementArgs | AdvertisementFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'scoredCampaign' ? ScoredCampaignGetPayload<S['select'][P]> :
-        P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
-        P extends 'advertisementSpot' ? AdvertisementSpotGetPayload<S['select'][P]> :
-        P extends '_count' ? AdvertisementCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Advertisement ? Advertisement[P] : never
-  } 
-      : Advertisement
+      S extends true ? Advertisement :
+        S extends undefined ? never :
+          S extends { include: any } & (AdvertisementArgs | AdvertisementFindManyArgs)
+            ? Advertisement  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'scoredCampaign' ? ScoredCampaignGetPayload<S['include'][P]> :
+              P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
+                P extends 'advertisementSpot' ? AdvertisementSpotGetPayload<S['include'][P]> :
+                  P extends '_count' ? AdvertisementCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (AdvertisementArgs | AdvertisementFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'scoredCampaign' ? ScoredCampaignGetPayload<S['select'][P]> :
+                  P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
+                    P extends 'advertisementSpot' ? AdvertisementSpotGetPayload<S['select'][P]> :
+                      P extends '_count' ? AdvertisementCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Advertisement ? Advertisement[P] : never
+              }
+              : Advertisement
 
 
-  type AdvertisementCountArgs = 
+  type AdvertisementCountArgs =
     Omit<AdvertisementFindManyArgs, 'select' | 'include'> & {
-      select?: AdvertisementCountAggregateInputType | true
-    }
+    select?: AdvertisementCountAggregateInputType | true
+  }
 
   export interface AdvertisementDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -13874,13 +14116,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends AdvertisementFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, AdvertisementFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Advertisement'> extends True ? Prisma__AdvertisementClient<AdvertisementGetPayload<T>> : Prisma__AdvertisementClient<AdvertisementGetPayload<T> | null, null>
 
     /**
-     * Find one Advertisement that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Advertisement that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {AdvertisementFindUniqueOrThrowArgs} args - Arguments to find a Advertisement
      * @example
@@ -13890,7 +14132,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends AdvertisementFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, AdvertisementFindUniqueOrThrowArgs>
     ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
@@ -13907,7 +14149,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends AdvertisementFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, AdvertisementFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Advertisement'> extends True ? Prisma__AdvertisementClient<AdvertisementGetPayload<T>> : Prisma__AdvertisementClient<AdvertisementGetPayload<T> | null, null>
@@ -13925,7 +14167,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends AdvertisementFindFirstOrThrowArgs>(
       args?: SelectSubset<T, AdvertisementFindFirstOrThrowArgs>
     ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
@@ -13938,14 +14180,14 @@ export namespace Prisma {
      * @example
      * // Get all Advertisements
      * const advertisements = await prisma.advertisement.findMany()
-     * 
+     *
      * // Get first 10 Advertisements
      * const advertisements = await prisma.advertisement.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const advertisementWithIdOnly = await prisma.advertisement.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends AdvertisementFindManyArgs>(
       args?: SelectSubset<T, AdvertisementFindManyArgs>
     ): Prisma.PrismaPromise<Array<AdvertisementGetPayload<T>>>
@@ -13960,8 +14202,8 @@ export namespace Prisma {
      *     // ... data to create a Advertisement
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends AdvertisementCreateArgs>(
       args: SelectSubset<T, AdvertisementCreateArgs>
     ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
@@ -13976,8 +14218,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends AdvertisementCreateManyArgs>(
       args?: SelectSubset<T, AdvertisementCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -13992,8 +14234,8 @@ export namespace Prisma {
      *     // ... filter to delete one Advertisement
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends AdvertisementDeleteArgs>(
       args: SelectSubset<T, AdvertisementDeleteArgs>
     ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
@@ -14011,8 +14253,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends AdvertisementUpdateArgs>(
       args: SelectSubset<T, AdvertisementUpdateArgs>
     ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
@@ -14027,8 +14269,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends AdvertisementDeleteManyArgs>(
       args?: SelectSubset<T, AdvertisementDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -14048,8 +14290,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends AdvertisementUpdateManyArgs>(
       args: SelectSubset<T, AdvertisementUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -14070,7 +14312,7 @@ export namespace Prisma {
      *     // ... the filter for the Advertisement we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends AdvertisementUpsertArgs>(
       args: SelectSubset<T, AdvertisementUpsertArgs>
     ): Prisma__AdvertisementClient<AdvertisementGetPayload<T>>
@@ -14087,7 +14329,7 @@ export namespace Prisma {
      *     // ... the filter for the Advertisements we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends AdvertisementCountArgs>(
       args?: Subset<T, AdvertisementCountArgs>,
     ): Prisma.PrismaPromise<
@@ -14121,7 +14363,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends AdvertisementAggregateArgs>(args: Subset<T, AdvertisementAggregateArgs>): Prisma.PrismaPromise<GetAdvertisementAggregateType<T>>
 
     /**
@@ -14140,8 +14382,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends AdvertisementGroupByArgs,
       HasSelectOrTake extends Or<
@@ -14158,47 +14400,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, AdvertisementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdvertisementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -14279,13 +14521,13 @@ export namespace Prisma {
    * Advertisement findUnique
    */
   export interface AdvertisementFindUniqueArgs extends AdvertisementFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Advertisement findUniqueOrThrow
@@ -14324,31 +14566,31 @@ export namespace Prisma {
     where?: AdvertisementWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Advertisements to fetch.
      */
     orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Advertisements.
      */
     cursor?: AdvertisementWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Advertisements from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Advertisements.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Advertisements.
      */
     distinct?: Enumerable<AdvertisementScalarFieldEnum>
@@ -14358,13 +14600,13 @@ export namespace Prisma {
    * Advertisement findFirst
    */
   export interface AdvertisementFindFirstArgs extends AdvertisementFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Advertisement findFirstOrThrow
@@ -14384,31 +14626,31 @@ export namespace Prisma {
     where?: AdvertisementWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Advertisements to fetch.
      */
     orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Advertisements.
      */
     cursor?: AdvertisementWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Advertisements from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Advertisements.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Advertisements.
      */
     distinct?: Enumerable<AdvertisementScalarFieldEnum>
@@ -14433,25 +14675,25 @@ export namespace Prisma {
     where?: AdvertisementWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Advertisements to fetch.
      */
     orderBy?: Enumerable<AdvertisementOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Advertisements.
      */
     cursor?: AdvertisementWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Advertisements from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Advertisements.
      */
     skip?: number
@@ -14656,7 +14898,6 @@ export namespace Prisma {
     productName: string | null
     productDescription: string | null
     clickUrl: string | null
-    requiredCssSelector: string | null
     pacing: boolean | null
     status: boolean | null
     createdAt: Date | null
@@ -14674,7 +14915,6 @@ export namespace Prisma {
     productName: string | null
     productDescription: string | null
     clickUrl: string | null
-    requiredCssSelector: string | null
     pacing: boolean | null
     status: boolean | null
     createdAt: Date | null
@@ -14692,7 +14932,6 @@ export namespace Prisma {
     productName: number
     productDescription: number
     clickUrl: number
-    requiredCssSelector: number
     pacing: number
     status: number
     createdAt: number
@@ -14722,7 +14961,6 @@ export namespace Prisma {
     productName?: true
     productDescription?: true
     clickUrl?: true
-    requiredCssSelector?: true
     pacing?: true
     status?: true
     createdAt?: true
@@ -14740,7 +14978,6 @@ export namespace Prisma {
     productName?: true
     productDescription?: true
     clickUrl?: true
-    requiredCssSelector?: true
     pacing?: true
     status?: true
     createdAt?: true
@@ -14758,7 +14995,6 @@ export namespace Prisma {
     productName?: true
     productDescription?: true
     clickUrl?: true
-    requiredCssSelector?: true
     pacing?: true
     status?: true
     createdAt?: true
@@ -14773,62 +15009,62 @@ export namespace Prisma {
     where?: CampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Campaigns to fetch.
      */
     orderBy?: Enumerable<CampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: CampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Campaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Campaigns.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Campaigns
-    **/
+     **/
     _count?: true | CampaignCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to average
-    **/
+     **/
     _avg?: CampaignAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to sum
-    **/
+     **/
     _sum?: CampaignSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: CampaignMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: CampaignMaxAggregateInputType
   }
 
   export type GetCampaignAggregateType<T extends CampaignAggregateArgs> = {
-        [P in keyof T & keyof AggregateCampaign]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateCampaign]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateCampaign[P]>
@@ -14864,7 +15100,6 @@ export namespace Prisma {
     productName: string
     productDescription: string
     clickUrl: string
-    requiredCssSelector: string
     pacing: boolean
     status: boolean
     createdAt: Date
@@ -14879,15 +15114,15 @@ export namespace Prisma {
   type GetCampaignGroupByPayload<T extends CampaignGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<CampaignGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CampaignGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CampaignGroupByOutputType[P]>
-            : GetScalarType<T[P], CampaignGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof CampaignGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], CampaignGroupByOutputType[P]>
+        : GetScalarType<T[P], CampaignGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type CampaignSelect = {
@@ -14901,7 +15136,6 @@ export namespace Prisma {
     productName?: boolean
     productDescription?: boolean
     clickUrl?: boolean
-    requiredCssSelector?: boolean
     pacing?: boolean
     status?: boolean
     createdAt?: boolean
@@ -14922,31 +15156,31 @@ export namespace Prisma {
 
   export type CampaignGetPayload<S extends boolean | null | undefined | CampaignArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Campaign :
-    S extends undefined ? never :
-    S extends { include: any } & (CampaignArgs | CampaignFindManyArgs)
-    ? Campaign  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> :
-        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
-        P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
-        P extends '_count' ? CampaignCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (CampaignArgs | CampaignFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> :
-        P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
-        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
-        P extends '_count' ? CampaignCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Campaign ? Campaign[P] : never
-  } 
-      : Campaign
+      S extends true ? Campaign :
+        S extends undefined ? never :
+          S extends { include: any } & (CampaignArgs | CampaignFindManyArgs)
+            ? Campaign  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'user' ? UserGetPayload<S['include'][P]> :
+              P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
+                P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+                  P extends '_count' ? CampaignCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (CampaignArgs | CampaignFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'user' ? UserGetPayload<S['select'][P]> :
+                  P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
+                    P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+                      P extends '_count' ? CampaignCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Campaign ? Campaign[P] : never
+              }
+              : Campaign
 
 
-  type CampaignCountArgs = 
+  type CampaignCountArgs =
     Omit<CampaignFindManyArgs, 'select' | 'include'> & {
-      select?: CampaignCountAggregateInputType | true
-    }
+    select?: CampaignCountAggregateInputType | true
+  }
 
   export interface CampaignDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -14960,13 +15194,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends CampaignFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, CampaignFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Campaign'> extends True ? Prisma__CampaignClient<CampaignGetPayload<T>> : Prisma__CampaignClient<CampaignGetPayload<T> | null, null>
 
     /**
-     * Find one Campaign that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Campaign that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {CampaignFindUniqueOrThrowArgs} args - Arguments to find a Campaign
      * @example
@@ -14976,7 +15210,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends CampaignFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, CampaignFindUniqueOrThrowArgs>
     ): Prisma__CampaignClient<CampaignGetPayload<T>>
@@ -14993,7 +15227,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends CampaignFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, CampaignFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Campaign'> extends True ? Prisma__CampaignClient<CampaignGetPayload<T>> : Prisma__CampaignClient<CampaignGetPayload<T> | null, null>
@@ -15011,7 +15245,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends CampaignFindFirstOrThrowArgs>(
       args?: SelectSubset<T, CampaignFindFirstOrThrowArgs>
     ): Prisma__CampaignClient<CampaignGetPayload<T>>
@@ -15024,14 +15258,14 @@ export namespace Prisma {
      * @example
      * // Get all Campaigns
      * const campaigns = await prisma.campaign.findMany()
-     * 
+     *
      * // Get first 10 Campaigns
      * const campaigns = await prisma.campaign.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const campaignWithIdOnly = await prisma.campaign.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends CampaignFindManyArgs>(
       args?: SelectSubset<T, CampaignFindManyArgs>
     ): Prisma.PrismaPromise<Array<CampaignGetPayload<T>>>
@@ -15046,8 +15280,8 @@ export namespace Prisma {
      *     // ... data to create a Campaign
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends CampaignCreateArgs>(
       args: SelectSubset<T, CampaignCreateArgs>
     ): Prisma__CampaignClient<CampaignGetPayload<T>>
@@ -15062,8 +15296,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends CampaignCreateManyArgs>(
       args?: SelectSubset<T, CampaignCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -15078,8 +15312,8 @@ export namespace Prisma {
      *     // ... filter to delete one Campaign
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends CampaignDeleteArgs>(
       args: SelectSubset<T, CampaignDeleteArgs>
     ): Prisma__CampaignClient<CampaignGetPayload<T>>
@@ -15097,8 +15331,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends CampaignUpdateArgs>(
       args: SelectSubset<T, CampaignUpdateArgs>
     ): Prisma__CampaignClient<CampaignGetPayload<T>>
@@ -15113,8 +15347,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends CampaignDeleteManyArgs>(
       args?: SelectSubset<T, CampaignDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -15134,8 +15368,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends CampaignUpdateManyArgs>(
       args: SelectSubset<T, CampaignUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -15156,7 +15390,7 @@ export namespace Prisma {
      *     // ... the filter for the Campaign we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends CampaignUpsertArgs>(
       args: SelectSubset<T, CampaignUpsertArgs>
     ): Prisma__CampaignClient<CampaignGetPayload<T>>
@@ -15173,7 +15407,7 @@ export namespace Prisma {
      *     // ... the filter for the Campaigns we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends CampaignCountArgs>(
       args?: Subset<T, CampaignCountArgs>,
     ): Prisma.PrismaPromise<
@@ -15207,7 +15441,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends CampaignAggregateArgs>(args: Subset<T, CampaignAggregateArgs>): Prisma.PrismaPromise<GetCampaignAggregateType<T>>
 
     /**
@@ -15226,8 +15460,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends CampaignGroupByArgs,
       HasSelectOrTake extends Or<
@@ -15244,47 +15478,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, CampaignGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCampaignGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -15365,13 +15599,13 @@ export namespace Prisma {
    * Campaign findUnique
    */
   export interface CampaignFindUniqueArgs extends CampaignFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Campaign findUniqueOrThrow
@@ -15410,31 +15644,31 @@ export namespace Prisma {
     where?: CampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Campaigns to fetch.
      */
     orderBy?: Enumerable<CampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Campaigns.
      */
     cursor?: CampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Campaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Campaigns.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Campaigns.
      */
     distinct?: Enumerable<CampaignScalarFieldEnum>
@@ -15444,13 +15678,13 @@ export namespace Prisma {
    * Campaign findFirst
    */
   export interface CampaignFindFirstArgs extends CampaignFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Campaign findFirstOrThrow
@@ -15470,31 +15704,31 @@ export namespace Prisma {
     where?: CampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Campaigns to fetch.
      */
     orderBy?: Enumerable<CampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Campaigns.
      */
     cursor?: CampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Campaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Campaigns.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Campaigns.
      */
     distinct?: Enumerable<CampaignScalarFieldEnum>
@@ -15519,25 +15753,25 @@ export namespace Prisma {
     where?: CampaignWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Campaigns to fetch.
      */
     orderBy?: Enumerable<CampaignOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Campaigns.
      */
     cursor?: CampaignWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Campaigns from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Campaigns.
      */
     skip?: number
@@ -15804,50 +16038,50 @@ export namespace Prisma {
     where?: ImpressionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Impressions to fetch.
      */
     orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
     cursor?: ImpressionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Impressions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Impressions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Impressions
-    **/
+     **/
     _count?: true | ImpressionCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
+     **/
     _min?: ImpressionMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
+     **/
     _max?: ImpressionMaxAggregateInputType
   }
 
   export type GetImpressionAggregateType<T extends ImpressionAggregateArgs> = {
-        [P in keyof T & keyof AggregateImpression]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateImpression]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateImpression[P]>
@@ -15885,15 +16119,15 @@ export namespace Prisma {
   type GetImpressionGroupByPayload<T extends ImpressionGroupByArgs> = Prisma.PrismaPromise<
     Array<
       PickArray<ImpressionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ImpressionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ImpressionGroupByOutputType[P]>
-            : GetScalarType<T[P], ImpressionGroupByOutputType[P]>
-        }
-      >
+      {
+        [P in ((keyof T) & (keyof ImpressionGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], ImpressionGroupByOutputType[P]>
+        : GetScalarType<T[P], ImpressionGroupByOutputType[P]>
+      }
     >
+  >
 
 
   export type ImpressionSelect = {
@@ -15915,27 +16149,27 @@ export namespace Prisma {
 
   export type ImpressionGetPayload<S extends boolean | null | undefined | ImpressionArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Impression :
-    S extends undefined ? never :
-    S extends { include: any } & (ImpressionArgs | ImpressionFindManyArgs)
-    ? Impression  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'advertisement' ? AdvertisementGetPayload<S['include'][P]> :
-        P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ImpressionArgs | ImpressionFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'advertisement' ? AdvertisementGetPayload<S['select'][P]> :
-        P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof Impression ? Impression[P] : never
-  } 
-      : Impression
+      S extends true ? Impression :
+        S extends undefined ? never :
+          S extends { include: any } & (ImpressionArgs | ImpressionFindManyArgs)
+            ? Impression  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'advertisement' ? AdvertisementGetPayload<S['include'][P]> :
+              P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (ImpressionArgs | ImpressionFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'advertisement' ? AdvertisementGetPayload<S['select'][P]> :
+                  P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof Impression ? Impression[P] : never
+              }
+              : Impression
 
 
-  type ImpressionCountArgs = 
+  type ImpressionCountArgs =
     Omit<ImpressionFindManyArgs, 'select' | 'include'> & {
-      select?: ImpressionCountAggregateInputType | true
-    }
+    select?: ImpressionCountAggregateInputType | true
+  }
 
   export interface ImpressionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
@@ -15949,13 +16183,13 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUnique<T extends ImpressionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args: SelectSubset<T, ImpressionFindUniqueArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Impression'> extends True ? Prisma__ImpressionClient<ImpressionGetPayload<T>> : Prisma__ImpressionClient<ImpressionGetPayload<T> | null, null>
 
     /**
-     * Find one Impression that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Impression that matches the filter or throw an error  with `error.code='P2025'`
      *     if no matches were found.
      * @param {ImpressionFindUniqueOrThrowArgs} args - Arguments to find a Impression
      * @example
@@ -15965,7 +16199,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findUniqueOrThrow<T extends ImpressionFindUniqueOrThrowArgs>(
       args?: SelectSubset<T, ImpressionFindUniqueOrThrowArgs>
     ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
@@ -15982,7 +16216,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirst<T extends ImpressionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
       args?: SelectSubset<T, ImpressionFindFirstArgs>
     ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Impression'> extends True ? Prisma__ImpressionClient<ImpressionGetPayload<T>> : Prisma__ImpressionClient<ImpressionGetPayload<T> | null, null>
@@ -16000,7 +16234,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-    **/
+     **/
     findFirstOrThrow<T extends ImpressionFindFirstOrThrowArgs>(
       args?: SelectSubset<T, ImpressionFindFirstOrThrowArgs>
     ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
@@ -16013,14 +16247,14 @@ export namespace Prisma {
      * @example
      * // Get all Impressions
      * const impressions = await prisma.impression.findMany()
-     * 
+     *
      * // Get first 10 Impressions
      * const impressions = await prisma.impression.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const impressionWithIdOnly = await prisma.impression.findMany({ select: { id: true } })
-     * 
-    **/
+     *
+     **/
     findMany<T extends ImpressionFindManyArgs>(
       args?: SelectSubset<T, ImpressionFindManyArgs>
     ): Prisma.PrismaPromise<Array<ImpressionGetPayload<T>>>
@@ -16035,8 +16269,8 @@ export namespace Prisma {
      *     // ... data to create a Impression
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     create<T extends ImpressionCreateArgs>(
       args: SelectSubset<T, ImpressionCreateArgs>
     ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
@@ -16051,8 +16285,8 @@ export namespace Prisma {
      *         // ... provide data here
      *       }
      *     })
-     *     
-    **/
+     *
+     **/
     createMany<T extends ImpressionCreateManyArgs>(
       args?: SelectSubset<T, ImpressionCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -16067,8 +16301,8 @@ export namespace Prisma {
      *     // ... filter to delete one Impression
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     delete<T extends ImpressionDeleteArgs>(
       args: SelectSubset<T, ImpressionDeleteArgs>
     ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
@@ -16086,8 +16320,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     update<T extends ImpressionUpdateArgs>(
       args: SelectSubset<T, ImpressionUpdateArgs>
     ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
@@ -16102,8 +16336,8 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     deleteMany<T extends ImpressionDeleteManyArgs>(
       args?: SelectSubset<T, ImpressionDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -16123,8 +16357,8 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
-    **/
+     *
+     **/
     updateMany<T extends ImpressionUpdateManyArgs>(
       args: SelectSubset<T, ImpressionUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
@@ -16145,7 +16379,7 @@ export namespace Prisma {
      *     // ... the filter for the Impression we want to update
      *   }
      * })
-    **/
+     **/
     upsert<T extends ImpressionUpsertArgs>(
       args: SelectSubset<T, ImpressionUpsertArgs>
     ): Prisma__ImpressionClient<ImpressionGetPayload<T>>
@@ -16162,7 +16396,7 @@ export namespace Prisma {
      *     // ... the filter for the Impressions we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends ImpressionCountArgs>(
       args?: Subset<T, ImpressionCountArgs>,
     ): Prisma.PrismaPromise<
@@ -16196,7 +16430,7 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
+     **/
     aggregate<T extends ImpressionAggregateArgs>(args: Subset<T, ImpressionAggregateArgs>): Prisma.PrismaPromise<GetImpressionAggregateType<T>>
 
     /**
@@ -16215,8 +16449,8 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends ImpressionGroupByArgs,
       HasSelectOrTake extends Or<
@@ -16233,47 +16467,47 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
     >(args: SubsetIntersection<T, ImpressionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetImpressionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
@@ -16352,13 +16586,13 @@ export namespace Prisma {
    * Impression findUnique
    */
   export interface ImpressionFindUniqueArgs extends ImpressionFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Impression findUniqueOrThrow
@@ -16397,31 +16631,31 @@ export namespace Prisma {
     where?: ImpressionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Impressions to fetch.
      */
     orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Impressions.
      */
     cursor?: ImpressionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Impressions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Impressions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Impressions.
      */
     distinct?: Enumerable<ImpressionScalarFieldEnum>
@@ -16431,13 +16665,13 @@ export namespace Prisma {
    * Impression findFirst
    */
   export interface ImpressionFindFirstArgs extends ImpressionFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
     rejectOnNotFound?: RejectOnNotFound
   }
-      
+
 
   /**
    * Impression findFirstOrThrow
@@ -16457,31 +16691,31 @@ export namespace Prisma {
     where?: ImpressionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Impressions to fetch.
      */
     orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Impressions.
      */
     cursor?: ImpressionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Impressions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Impressions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Impressions.
      */
     distinct?: Enumerable<ImpressionScalarFieldEnum>
@@ -16506,25 +16740,25 @@ export namespace Prisma {
     where?: ImpressionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Impressions to fetch.
      */
     orderBy?: Enumerable<ImpressionOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Impressions.
      */
     cursor?: ImpressionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Impressions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Impressions.
      */
     skip?: number
@@ -16678,23 +16912,23 @@ export namespace Prisma {
    * Enums
    */
 
-  // Based on
-  // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+    // Based on
+    // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
   export const AccountScalarFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    type: 'type',
-    provider: 'provider',
-    providerAccountId: 'providerAccountId',
-    refresh_token: 'refresh_token',
-    access_token: 'access_token',
-    expires_at: 'expires_at',
-    token_type: 'token_type',
-    scope: 'scope',
-    id_token: 'id_token',
-    session_state: 'session_state'
-  };
+      id: 'id',
+      userId: 'userId',
+      type: 'type',
+      provider: 'provider',
+      providerAccountId: 'providerAccountId',
+      refresh_token: 'refresh_token',
+      access_token: 'access_token',
+      expires_at: 'expires_at',
+      token_type: 'token_type',
+      scope: 'scope',
+      id_token: 'id_token',
+      session_state: 'session_state'
+    };
 
   export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
@@ -16727,6 +16961,7 @@ export namespace Prisma {
   export const AuctionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    websiteId: 'websiteId',
     webpageId: 'webpageId',
     url: 'url',
     userAgent: 'userAgent',
@@ -16751,7 +16986,6 @@ export namespace Prisma {
     productName: 'productName',
     productDescription: 'productDescription',
     clickUrl: 'clickUrl',
-    requiredCssSelector: 'requiredCssSelector',
     pacing: 'pacing',
     status: 'status',
     createdAt: 'createdAt',
@@ -16765,6 +16999,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     name: 'name',
+    abortScript: 'abortScript',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16778,6 +17013,8 @@ export namespace Prisma {
     desktopHtml: 'desktopHtml',
     mobileHtml: 'mobileHtml',
     tabletHtml: 'tabletHtml',
+    title: 'title',
+    description: 'description',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16809,8 +17046,10 @@ export namespace Prisma {
     id: 'id',
     webpageId: 'webpageId',
     campaignId: 'campaignId',
+    isBest: 'isBest',
     score: 'score',
     reason: 'reason',
+    adBuildFailCount: 'adBuildFailCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16833,7 +17072,17 @@ export namespace Prisma {
     userId: 'userId',
     scoreThreshold: 'scoreThreshold',
     status: 'status',
-    addSponsoredWording: 'addSponsoredWording',
+    sponsoredWording: 'sponsoredWording',
+    desiredAdvertisementSpotCount: 'desiredAdvertisementSpotCount',
+    desiredAdvertisementCount: 'desiredAdvertisementCount',
+    webpageLookbackDays: 'webpageLookbackDays',
+    webpageInsertCap: 'webpageInsertCap',
+    allTimeMostVisitedUrlCount: 'allTimeMostVisitedUrlCount',
+    recentlyMostVisitedUrlCount: 'recentlyMostVisitedUrlCount',
+    mainPostBodySelector: 'mainPostBodySelector',
+    contentSelector: 'contentSelector',
+    minCharLimit: 'minCharLimit',
+    sameTypeElemWithTextToFollow: 'sameTypeElemWithTextToFollow',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16865,6 +17114,7 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
+    canManageUsers: 'canManageUsers',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -17108,6 +17358,7 @@ export namespace Prisma {
     email?: StringNullableFilter | string | null
     emailVerified?: DateTimeNullableFilter | Date | string | null
     image?: StringNullableFilter | string | null
+    canManageUsers?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     accounts?: AccountListRelationFilter
@@ -17125,6 +17376,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    canManageUsers?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
@@ -17145,6 +17397,7 @@ export namespace Prisma {
     name?: StringNullableFilter | string | null
     emailVerified?: DateTimeNullableFilter | Date | string | null
     image?: StringNullableFilter | string | null
+    canManageUsers?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     accounts?: AccountListRelationFilter
@@ -17162,6 +17415,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    canManageUsers?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -17178,6 +17432,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter | Date | string | null
     image?: StringNullableWithAggregatesFilter | string | null
+    canManageUsers?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -17190,7 +17445,17 @@ export namespace Prisma {
     userId?: StringFilter | string
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
-    addSponsoredWording?: BoolFilter | boolean
+    sponsoredWording?: StringFilter | string
+    desiredAdvertisementSpotCount?: IntFilter | number
+    desiredAdvertisementCount?: IntFilter | number
+    webpageLookbackDays?: IntFilter | number
+    webpageInsertCap?: IntFilter | number
+    allTimeMostVisitedUrlCount?: IntFilter | number
+    recentlyMostVisitedUrlCount?: IntFilter | number
+    mainPostBodySelector?: StringFilter | string
+    contentSelector?: StringFilter | string
+    minCharLimit?: IntFilter | number
+    sameTypeElemWithTextToFollow?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -17201,7 +17466,17 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
-    addSponsoredWording?: SortOrder
+    sponsoredWording?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    mainPostBodySelector?: SortOrder
+    contentSelector?: SortOrder
+    minCharLimit?: SortOrder
+    sameTypeElemWithTextToFollow?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -17215,7 +17490,17 @@ export namespace Prisma {
     NOT?: Enumerable<SettingWhereInput>
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
-    addSponsoredWording?: BoolFilter | boolean
+    sponsoredWording?: StringFilter | string
+    desiredAdvertisementSpotCount?: IntFilter | number
+    desiredAdvertisementCount?: IntFilter | number
+    webpageLookbackDays?: IntFilter | number
+    webpageInsertCap?: IntFilter | number
+    allTimeMostVisitedUrlCount?: IntFilter | number
+    recentlyMostVisitedUrlCount?: IntFilter | number
+    mainPostBodySelector?: StringFilter | string
+    contentSelector?: StringFilter | string
+    minCharLimit?: IntFilter | number
+    sameTypeElemWithTextToFollow?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -17226,7 +17511,17 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
-    addSponsoredWording?: SortOrder
+    sponsoredWording?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    mainPostBodySelector?: SortOrder
+    contentSelector?: SortOrder
+    minCharLimit?: SortOrder
+    sameTypeElemWithTextToFollow?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SettingCountOrderByAggregateInput
@@ -17244,7 +17539,17 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter | string
     scoreThreshold?: IntWithAggregatesFilter | number
     status?: BoolWithAggregatesFilter | boolean
-    addSponsoredWording?: BoolWithAggregatesFilter | boolean
+    sponsoredWording?: StringWithAggregatesFilter | string
+    desiredAdvertisementSpotCount?: IntWithAggregatesFilter | number
+    desiredAdvertisementCount?: IntWithAggregatesFilter | number
+    webpageLookbackDays?: IntWithAggregatesFilter | number
+    webpageInsertCap?: IntWithAggregatesFilter | number
+    allTimeMostVisitedUrlCount?: IntWithAggregatesFilter | number
+    recentlyMostVisitedUrlCount?: IntWithAggregatesFilter | number
+    mainPostBodySelector?: StringWithAggregatesFilter | string
+    contentSelector?: StringWithAggregatesFilter | string
+    minCharLimit?: IntWithAggregatesFilter | number
+    sameTypeElemWithTextToFollow?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -17255,6 +17560,7 @@ export namespace Prisma {
     NOT?: Enumerable<AuctionWhereInput>
     id?: StringFilter | string
     userId?: StringFilter | string
+    websiteId?: StringNullableFilter | string | null
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
     userAgent?: StringFilter | string
@@ -17264,6 +17570,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    website?: XOR<WebsiteRelationFilter, WebsiteWhereInput> | null
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
     impressions?: ImpressionListRelationFilter
   }
@@ -17271,6 +17578,7 @@ export namespace Prisma {
   export type AuctionOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    websiteId?: SortOrder
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
@@ -17280,6 +17588,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    website?: WebsiteOrderByWithRelationInput
     webpage?: WebpageOrderByWithRelationInput
     impressions?: ImpressionOrderByRelationAggregateInput
   }
@@ -17290,6 +17599,7 @@ export namespace Prisma {
     OR?: Enumerable<AuctionWhereInput>
     NOT?: Enumerable<AuctionWhereInput>
     userId?: StringFilter | string
+    websiteId?: StringNullableFilter | string | null
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
     userAgent?: StringFilter | string
@@ -17299,6 +17609,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    website?: XOR<WebsiteRelationFilter, WebsiteWhereInput> | null
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
     impressions?: ImpressionListRelationFilter
   }, "id">
@@ -17306,6 +17617,7 @@ export namespace Prisma {
   export type AuctionOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    websiteId?: SortOrder
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
@@ -17325,6 +17637,7 @@ export namespace Prisma {
     NOT?: Enumerable<AuctionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     userId?: StringWithAggregatesFilter | string
+    websiteId?: StringNullableWithAggregatesFilter | string | null
     webpageId?: StringNullableWithAggregatesFilter | string | null
     url?: StringNullableWithAggregatesFilter | string | null
     userAgent?: StringWithAggregatesFilter | string
@@ -17349,6 +17662,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     webpages?: WebpageListRelationFilter
+    auctions?: AuctionListRelationFilter
   }
 
   export type WebsiteOrderByWithRelationInput = {
@@ -17362,6 +17676,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     webpages?: WebpageOrderByRelationAggregateInput
+    auctions?: AuctionOrderByRelationAggregateInput
   }
 
   export type WebsiteWhereUniqueInput = Prisma.AtLeast<{
@@ -17379,6 +17694,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     webpages?: WebpageListRelationFilter
+    auctions?: AuctionListRelationFilter
   }, "id" | "userId_topLevelDomainUrl">
 
   export type WebsiteOrderByWithAggregationInput = {
@@ -17499,6 +17815,8 @@ export namespace Prisma {
     desktopHtml?: StringFilter | string
     mobileHtml?: StringNullableFilter | string | null
     tabletHtml?: StringNullableFilter | string | null
+    title?: StringNullableFilter | string | null
+    description?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
@@ -17510,6 +17828,8 @@ export namespace Prisma {
     desktopHtml?: SortOrder
     mobileHtml?: SortOrder
     tabletHtml?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     webpage?: WebpageOrderByWithRelationInput
@@ -17524,6 +17844,8 @@ export namespace Prisma {
     desktopHtml?: StringFilter | string
     mobileHtml?: StringNullableFilter | string | null
     tabletHtml?: StringNullableFilter | string | null
+    title?: StringNullableFilter | string | null
+    description?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
@@ -17535,6 +17857,8 @@ export namespace Prisma {
     desktopHtml?: SortOrder
     mobileHtml?: SortOrder
     tabletHtml?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ContentCountOrderByAggregateInput
@@ -17551,6 +17875,8 @@ export namespace Prisma {
     desktopHtml?: StringWithAggregatesFilter | string
     mobileHtml?: StringNullableWithAggregatesFilter | string | null
     tabletHtml?: StringNullableWithAggregatesFilter | string | null
+    title?: StringNullableWithAggregatesFilter | string | null
+    description?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -17562,6 +17888,7 @@ export namespace Prisma {
     id?: StringFilter | string
     userId?: StringFilter | string
     name?: StringFilter | string
+    abortScript?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -17573,6 +17900,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    abortScript?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -17588,6 +17916,7 @@ export namespace Prisma {
     NOT?: Enumerable<CategoryWhereInput>
     userId?: StringFilter | string
     name?: StringFilter | string
+    abortScript?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -17599,6 +17928,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    abortScript?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
@@ -17613,6 +17943,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     userId?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
+    abortScript?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -17644,7 +17975,6 @@ export namespace Prisma {
 
   export type AdvertisementSpotWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    webpageId_beforeText_afterText?: AdvertisementSpotWebpageIdBeforeTextAfterTextCompoundUniqueInput
     AND?: Enumerable<AdvertisementSpotWhereInput>
     OR?: Enumerable<AdvertisementSpotWhereInput>
     NOT?: Enumerable<AdvertisementSpotWhereInput>
@@ -17655,7 +17985,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
     advertisements?: AdvertisementListRelationFilter
-  }, "id" | "webpageId_beforeText_afterText">
+  }, "id">
 
   export type AdvertisementSpotOrderByWithAggregationInput = {
     id?: SortOrder
@@ -17688,8 +18018,10 @@ export namespace Prisma {
     id?: StringFilter | string
     webpageId?: StringFilter | string
     campaignId?: StringFilter | string
+    isBest?: BoolFilter | boolean
     score?: IntFilter | number
     reason?: StringFilter | string
+    adBuildFailCount?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
@@ -17701,8 +18033,10 @@ export namespace Prisma {
     id?: SortOrder
     webpageId?: SortOrder
     campaignId?: SortOrder
+    isBest?: SortOrder
     score?: SortOrder
     reason?: SortOrder
+    adBuildFailCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     webpage?: WebpageOrderByWithRelationInput
@@ -17718,8 +18052,10 @@ export namespace Prisma {
     NOT?: Enumerable<ScoredCampaignWhereInput>
     webpageId?: StringFilter | string
     campaignId?: StringFilter | string
+    isBest?: BoolFilter | boolean
     score?: IntFilter | number
     reason?: StringFilter | string
+    adBuildFailCount?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
@@ -17731,8 +18067,10 @@ export namespace Prisma {
     id?: SortOrder
     webpageId?: SortOrder
     campaignId?: SortOrder
+    isBest?: SortOrder
     score?: SortOrder
     reason?: SortOrder
+    adBuildFailCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ScoredCampaignCountOrderByAggregateInput
@@ -17749,8 +18087,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     webpageId?: StringWithAggregatesFilter | string
     campaignId?: StringWithAggregatesFilter | string
+    isBest?: BoolWithAggregatesFilter | boolean
     score?: IntWithAggregatesFilter | number
     reason?: StringWithAggregatesFilter | string
+    adBuildFailCount?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -17840,7 +18180,6 @@ export namespace Prisma {
     productName?: StringFilter | string
     productDescription?: StringFilter | string
     clickUrl?: StringFilter | string
-    requiredCssSelector?: StringFilter | string
     pacing?: BoolFilter | boolean
     status?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -17861,7 +18200,6 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
-    requiredCssSelector?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17886,7 +18224,6 @@ export namespace Prisma {
     productName?: StringFilter | string
     productDescription?: StringFilter | string
     clickUrl?: StringFilter | string
-    requiredCssSelector?: StringFilter | string
     pacing?: BoolFilter | boolean
     status?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -17907,7 +18244,6 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
-    requiredCssSelector?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -17933,7 +18269,6 @@ export namespace Prisma {
     productName?: StringWithAggregatesFilter | string
     productDescription?: StringWithAggregatesFilter | string
     clickUrl?: StringWithAggregatesFilter | string
-    requiredCssSelector?: StringWithAggregatesFilter | string
     pacing?: BoolWithAggregatesFilter | boolean
     status?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -18203,6 +18538,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -18220,6 +18556,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -18237,6 +18574,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -18254,6 +18592,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -18271,6 +18610,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18281,6 +18621,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18291,6 +18632,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18299,7 +18641,17 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
-    addSponsoredWording?: boolean
+    sponsoredWording?: string
+    desiredAdvertisementSpotCount?: number
+    desiredAdvertisementCount?: number
+    webpageLookbackDays?: number
+    webpageInsertCap?: number
+    allTimeMostVisitedUrlCount?: number
+    recentlyMostVisitedUrlCount?: number
+    mainPostBodySelector?: string
+    contentSelector?: string
+    minCharLimit?: number
+    sameTypeElemWithTextToFollow?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutSettingInput
@@ -18310,7 +18662,17 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
-    addSponsoredWording?: boolean
+    sponsoredWording?: string
+    desiredAdvertisementSpotCount?: number
+    desiredAdvertisementCount?: number
+    webpageLookbackDays?: number
+    webpageInsertCap?: number
+    allTimeMostVisitedUrlCount?: number
+    recentlyMostVisitedUrlCount?: number
+    mainPostBodySelector?: string
+    contentSelector?: string
+    minCharLimit?: number
+    sameTypeElemWithTextToFollow?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18319,7 +18681,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
-    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    sponsoredWording?: StringFieldUpdateOperationsInput | string
+    desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
+    webpageLookbackDays?: IntFieldUpdateOperationsInput | number
+    webpageInsertCap?: IntFieldUpdateOperationsInput | number
+    allTimeMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    mainPostBodySelector?: StringFieldUpdateOperationsInput | string
+    contentSelector?: StringFieldUpdateOperationsInput | string
+    minCharLimit?: IntFieldUpdateOperationsInput | number
+    sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSettingNestedInput
@@ -18330,7 +18702,17 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
-    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    sponsoredWording?: StringFieldUpdateOperationsInput | string
+    desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
+    webpageLookbackDays?: IntFieldUpdateOperationsInput | number
+    webpageInsertCap?: IntFieldUpdateOperationsInput | number
+    allTimeMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    mainPostBodySelector?: StringFieldUpdateOperationsInput | string
+    contentSelector?: StringFieldUpdateOperationsInput | string
+    minCharLimit?: IntFieldUpdateOperationsInput | number
+    sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18340,7 +18722,17 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
-    addSponsoredWording?: boolean
+    sponsoredWording?: string
+    desiredAdvertisementSpotCount?: number
+    desiredAdvertisementCount?: number
+    webpageLookbackDays?: number
+    webpageInsertCap?: number
+    allTimeMostVisitedUrlCount?: number
+    recentlyMostVisitedUrlCount?: number
+    mainPostBodySelector?: string
+    contentSelector?: string
+    minCharLimit?: number
+    sameTypeElemWithTextToFollow?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18349,7 +18741,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
-    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    sponsoredWording?: StringFieldUpdateOperationsInput | string
+    desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
+    webpageLookbackDays?: IntFieldUpdateOperationsInput | number
+    webpageInsertCap?: IntFieldUpdateOperationsInput | number
+    allTimeMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    mainPostBodySelector?: StringFieldUpdateOperationsInput | string
+    contentSelector?: StringFieldUpdateOperationsInput | string
+    minCharLimit?: IntFieldUpdateOperationsInput | number
+    sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18359,7 +18761,17 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
-    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    sponsoredWording?: StringFieldUpdateOperationsInput | string
+    desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
+    webpageLookbackDays?: IntFieldUpdateOperationsInput | number
+    webpageInsertCap?: IntFieldUpdateOperationsInput | number
+    allTimeMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    mainPostBodySelector?: StringFieldUpdateOperationsInput | string
+    contentSelector?: StringFieldUpdateOperationsInput | string
+    minCharLimit?: IntFieldUpdateOperationsInput | number
+    sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18374,6 +18786,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAuctionsInput
+    website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
   }
@@ -18381,6 +18794,7 @@ export namespace Prisma {
   export type AuctionUncheckedCreateInput = {
     id?: string
     userId: string
+    websiteId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -18402,6 +18816,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
   }
@@ -18409,6 +18824,7 @@ export namespace Prisma {
   export type AuctionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -18423,6 +18839,7 @@ export namespace Prisma {
   export type AuctionCreateManyInput = {
     id?: string
     userId: string
+    websiteId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -18447,6 +18864,7 @@ export namespace Prisma {
   export type AuctionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -18467,6 +18885,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutWebsitesInput
     webpages?: WebpageCreateNestedManyWithoutWebsiteInput
+    auctions?: AuctionCreateNestedManyWithoutWebsiteInput
   }
 
   export type WebsiteUncheckedCreateInput = {
@@ -18479,6 +18898,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageUncheckedCreateNestedManyWithoutWebsiteInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebsiteInput
   }
 
   export type WebsiteUpdateInput = {
@@ -18491,6 +18911,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutWebsitesNestedInput
     webpages?: WebpageUpdateManyWithoutWebsiteNestedInput
+    auctions?: AuctionUpdateManyWithoutWebsiteNestedInput
   }
 
   export type WebsiteUncheckedUpdateInput = {
@@ -18503,6 +18924,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUncheckedUpdateManyWithoutWebsiteNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebsiteNestedInput
   }
 
   export type WebsiteCreateManyInput = {
@@ -18631,6 +19053,8 @@ export namespace Prisma {
     desktopHtml: string
     mobileHtml?: string | null
     tabletHtml?: string | null
+    title?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     webpage: WebpageCreateNestedOneWithoutContentInput
@@ -18642,6 +19066,8 @@ export namespace Prisma {
     desktopHtml: string
     mobileHtml?: string | null
     tabletHtml?: string | null
+    title?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18651,6 +19077,8 @@ export namespace Prisma {
     desktopHtml?: StringFieldUpdateOperationsInput | string
     mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
     tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpage?: WebpageUpdateOneRequiredWithoutContentNestedInput
@@ -18662,6 +19090,8 @@ export namespace Prisma {
     desktopHtml?: StringFieldUpdateOperationsInput | string
     mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
     tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18672,6 +19102,8 @@ export namespace Prisma {
     desktopHtml: string
     mobileHtml?: string | null
     tabletHtml?: string | null
+    title?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18681,6 +19113,8 @@ export namespace Prisma {
     desktopHtml?: StringFieldUpdateOperationsInput | string
     mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
     tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18691,6 +19125,8 @@ export namespace Prisma {
     desktopHtml?: StringFieldUpdateOperationsInput | string
     mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
     tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18698,6 +19134,7 @@ export namespace Prisma {
   export type CategoryCreateInput = {
     id?: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCategoriesInput
@@ -18709,6 +19146,7 @@ export namespace Prisma {
     id?: string
     userId: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageUncheckedCreateNestedManyWithoutCategoriesInput
@@ -18718,6 +19156,7 @@ export namespace Prisma {
   export type CategoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
@@ -18729,6 +19168,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUncheckedUpdateManyWithoutCategoriesNestedInput
@@ -18739,6 +19179,7 @@ export namespace Prisma {
     id?: string
     userId: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18746,6 +19187,7 @@ export namespace Prisma {
   export type CategoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18754,6 +19196,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18826,8 +19269,10 @@ export namespace Prisma {
 
   export type ScoredCampaignCreateInput = {
     id?: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     webpage: WebpageCreateNestedOneWithoutScoredCampaignsInput
@@ -18839,8 +19284,10 @@ export namespace Prisma {
     id?: string
     webpageId: string
     campaignId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     advertisements?: AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput
@@ -18848,8 +19295,10 @@ export namespace Prisma {
 
   export type ScoredCampaignUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpage?: WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput
@@ -18861,8 +19310,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     webpageId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advertisements?: AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput
@@ -18872,16 +19323,20 @@ export namespace Prisma {
     id?: string
     webpageId: string
     campaignId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ScoredCampaignUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18890,8 +19345,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     webpageId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18978,7 +19435,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -18999,7 +19455,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -19018,7 +19473,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19039,7 +19493,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19059,7 +19512,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -19076,7 +19528,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19094,7 +19545,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19398,6 +19848,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -19469,6 +19924,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    canManageUsers?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19479,6 +19935,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    canManageUsers?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19489,6 +19946,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    canManageUsers?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19507,6 +19965,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter
   }
 
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
   export type IntFilter = {
     equals?: number
     in?: Enumerable<number>
@@ -19518,23 +19984,35 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
-  export type BoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
   export type SettingCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
-    addSponsoredWording?: SortOrder
+    sponsoredWording?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    mainPostBodySelector?: SortOrder
+    contentSelector?: SortOrder
+    minCharLimit?: SortOrder
+    sameTypeElemWithTextToFollow?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type SettingAvgOrderByAggregateInput = {
     scoreThreshold?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    minCharLimit?: SortOrder
   }
 
   export type SettingMaxOrderByAggregateInput = {
@@ -19542,7 +20020,17 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
-    addSponsoredWording?: SortOrder
+    sponsoredWording?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    mainPostBodySelector?: SortOrder
+    contentSelector?: SortOrder
+    minCharLimit?: SortOrder
+    sameTypeElemWithTextToFollow?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19552,13 +20040,30 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
-    addSponsoredWording?: SortOrder
+    sponsoredWording?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    mainPostBodySelector?: SortOrder
+    contentSelector?: SortOrder
+    minCharLimit?: SortOrder
+    sameTypeElemWithTextToFollow?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type SettingSumOrderByAggregateInput = {
     scoreThreshold?: SortOrder
+    desiredAdvertisementSpotCount?: SortOrder
+    desiredAdvertisementCount?: SortOrder
+    webpageLookbackDays?: SortOrder
+    webpageInsertCap?: SortOrder
+    allTimeMostVisitedUrlCount?: SortOrder
+    recentlyMostVisitedUrlCount?: SortOrder
+    minCharLimit?: SortOrder
   }
 
   export type IntWithAggregatesFilter = {
@@ -19577,12 +20082,9 @@ export namespace Prisma {
     _max?: NestedIntFilter
   }
 
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
+  export type WebsiteRelationFilter = {
+    is?: WebsiteWhereInput
+    isNot?: WebsiteWhereInput
   }
 
   export type WebpageRelationFilter = {
@@ -19603,6 +20105,7 @@ export namespace Prisma {
   export type AuctionCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    websiteId?: SortOrder
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
@@ -19616,6 +20119,7 @@ export namespace Prisma {
   export type AuctionMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    websiteId?: SortOrder
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
@@ -19629,6 +20133,7 @@ export namespace Prisma {
   export type AuctionMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    websiteId?: SortOrder
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
@@ -19685,11 +20190,6 @@ export namespace Prisma {
     processedOn?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type WebsiteRelationFilter = {
-    is?: WebsiteWhereInput
-    isNot?: WebsiteWhereInput
   }
 
   export type ScoredCampaignListRelationFilter = {
@@ -19758,6 +20258,8 @@ export namespace Prisma {
     desktopHtml?: SortOrder
     mobileHtml?: SortOrder
     tabletHtml?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19768,6 +20270,8 @@ export namespace Prisma {
     desktopHtml?: SortOrder
     mobileHtml?: SortOrder
     tabletHtml?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19778,6 +20282,8 @@ export namespace Prisma {
     desktopHtml?: SortOrder
     mobileHtml?: SortOrder
     tabletHtml?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19791,6 +20297,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    abortScript?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19799,6 +20306,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    abortScript?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19807,6 +20315,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    abortScript?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19819,12 +20328,6 @@ export namespace Prisma {
 
   export type AdvertisementOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type AdvertisementSpotWebpageIdBeforeTextAfterTextCompoundUniqueInput = {
-    webpageId: string
-    beforeText: string
-    afterText: string
   }
 
   export type AdvertisementSpotCountOrderByAggregateInput = {
@@ -19868,22 +20371,27 @@ export namespace Prisma {
     id?: SortOrder
     webpageId?: SortOrder
     campaignId?: SortOrder
+    isBest?: SortOrder
     score?: SortOrder
     reason?: SortOrder
+    adBuildFailCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ScoredCampaignAvgOrderByAggregateInput = {
     score?: SortOrder
+    adBuildFailCount?: SortOrder
   }
 
   export type ScoredCampaignMaxOrderByAggregateInput = {
     id?: SortOrder
     webpageId?: SortOrder
     campaignId?: SortOrder
+    isBest?: SortOrder
     score?: SortOrder
     reason?: SortOrder
+    adBuildFailCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19892,14 +20400,17 @@ export namespace Prisma {
     id?: SortOrder
     webpageId?: SortOrder
     campaignId?: SortOrder
+    isBest?: SortOrder
     score?: SortOrder
     reason?: SortOrder
+    adBuildFailCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ScoredCampaignSumOrderByAggregateInput = {
     score?: SortOrder
+    adBuildFailCount?: SortOrder
   }
 
   export type ScoredCampaignRelationFilter = {
@@ -19969,7 +20480,6 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
-    requiredCssSelector?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -19992,7 +20502,6 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
-    requiredCssSelector?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20010,7 +20519,6 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
-    requiredCssSelector?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20223,6 +20731,10 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type AccountUpdateManyWithoutUserNestedInput = {
     create?: XOR<Enumerable<AccountCreateWithoutUserInput>, Enumerable<AccountUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<AccountCreateOrConnectWithoutUserInput>
@@ -20425,10 +20937,6 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type UserUpdateOneRequiredWithoutSettingNestedInput = {
     create?: XOR<UserCreateWithoutSettingInput, UserUncheckedCreateWithoutSettingInput>
     connectOrCreate?: UserCreateOrConnectWithoutSettingInput
@@ -20441,6 +20949,12 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAuctionsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type WebsiteCreateNestedOneWithoutAuctionsInput = {
+    create?: XOR<WebsiteCreateWithoutAuctionsInput, WebsiteUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: WebsiteCreateOrConnectWithoutAuctionsInput
+    connect?: WebsiteWhereUniqueInput
   }
 
   export type WebpageCreateNestedOneWithoutAuctionsInput = {
@@ -20469,6 +20983,16 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAuctionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuctionsInput, UserUpdateWithoutAuctionsInput>, UserUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type WebsiteUpdateOneWithoutAuctionsNestedInput = {
+    create?: XOR<WebsiteCreateWithoutAuctionsInput, WebsiteUncheckedCreateWithoutAuctionsInput>
+    connectOrCreate?: WebsiteCreateOrConnectWithoutAuctionsInput
+    upsert?: WebsiteUpsertWithoutAuctionsInput
+    disconnect?: WebsiteWhereInput | boolean
+    delete?: WebsiteWhereInput | boolean
+    connect?: WebsiteWhereUniqueInput
+    update?: XOR<XOR<WebsiteUpdateToOneWithWhereWithoutAuctionsInput, WebsiteUpdateWithoutAuctionsInput>, WebsiteUncheckedUpdateWithoutAuctionsInput>
   }
 
   export type WebpageUpdateOneWithoutAuctionsNestedInput = {
@@ -20522,11 +21046,25 @@ export namespace Prisma {
     connect?: Enumerable<WebpageWhereUniqueInput>
   }
 
+  export type AuctionCreateNestedManyWithoutWebsiteInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebsiteInput>, Enumerable<AuctionUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebsiteInput>
+    createMany?: AuctionCreateManyWebsiteInputEnvelope
+    connect?: Enumerable<AuctionWhereUniqueInput>
+  }
+
   export type WebpageUncheckedCreateNestedManyWithoutWebsiteInput = {
     create?: XOR<Enumerable<WebpageCreateWithoutWebsiteInput>, Enumerable<WebpageUncheckedCreateWithoutWebsiteInput>>
     connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutWebsiteInput>
     createMany?: WebpageCreateManyWebsiteInputEnvelope
     connect?: Enumerable<WebpageWhereUniqueInput>
+  }
+
+  export type AuctionUncheckedCreateNestedManyWithoutWebsiteInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebsiteInput>, Enumerable<AuctionUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebsiteInput>
+    createMany?: AuctionCreateManyWebsiteInputEnvelope
+    connect?: Enumerable<AuctionWhereUniqueInput>
   }
 
   export type UserUpdateOneRequiredWithoutWebsitesNestedInput = {
@@ -20551,6 +21089,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<WebpageScalarWhereInput>
   }
 
+  export type AuctionUpdateManyWithoutWebsiteNestedInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebsiteInput>, Enumerable<AuctionUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebsiteInput>
+    upsert?: Enumerable<AuctionUpsertWithWhereUniqueWithoutWebsiteInput>
+    createMany?: AuctionCreateManyWebsiteInputEnvelope
+    set?: Enumerable<AuctionWhereUniqueInput>
+    disconnect?: Enumerable<AuctionWhereUniqueInput>
+    delete?: Enumerable<AuctionWhereUniqueInput>
+    connect?: Enumerable<AuctionWhereUniqueInput>
+    update?: Enumerable<AuctionUpdateWithWhereUniqueWithoutWebsiteInput>
+    updateMany?: Enumerable<AuctionUpdateManyWithWhereWithoutWebsiteInput>
+    deleteMany?: Enumerable<AuctionScalarWhereInput>
+  }
+
   export type WebpageUncheckedUpdateManyWithoutWebsiteNestedInput = {
     create?: XOR<Enumerable<WebpageCreateWithoutWebsiteInput>, Enumerable<WebpageUncheckedCreateWithoutWebsiteInput>>
     connectOrCreate?: Enumerable<WebpageCreateOrConnectWithoutWebsiteInput>
@@ -20563,6 +21115,20 @@ export namespace Prisma {
     update?: Enumerable<WebpageUpdateWithWhereUniqueWithoutWebsiteInput>
     updateMany?: Enumerable<WebpageUpdateManyWithWhereWithoutWebsiteInput>
     deleteMany?: Enumerable<WebpageScalarWhereInput>
+  }
+
+  export type AuctionUncheckedUpdateManyWithoutWebsiteNestedInput = {
+    create?: XOR<Enumerable<AuctionCreateWithoutWebsiteInput>, Enumerable<AuctionUncheckedCreateWithoutWebsiteInput>>
+    connectOrCreate?: Enumerable<AuctionCreateOrConnectWithoutWebsiteInput>
+    upsert?: Enumerable<AuctionUpsertWithWhereUniqueWithoutWebsiteInput>
+    createMany?: AuctionCreateManyWebsiteInputEnvelope
+    set?: Enumerable<AuctionWhereUniqueInput>
+    disconnect?: Enumerable<AuctionWhereUniqueInput>
+    delete?: Enumerable<AuctionWhereUniqueInput>
+    connect?: Enumerable<AuctionWhereUniqueInput>
+    update?: Enumerable<AuctionUpdateWithWhereUniqueWithoutWebsiteInput>
+    updateMany?: Enumerable<AuctionUpdateManyWithWhereWithoutWebsiteInput>
+    deleteMany?: Enumerable<AuctionScalarWhereInput>
   }
 
   export type WebsiteCreateNestedOneWithoutWebpagesInput = {
@@ -21352,6 +21918,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter = {
     equals?: Date | string | null
     in?: Enumerable<Date> | Enumerable<string> | null
@@ -21366,9 +21937,12 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter
   }
 
-  export type NestedBoolFilter = {
+  export type NestedBoolWithAggregatesFilter = {
     equals?: boolean
-    not?: NestedBoolFilter | boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -21396,14 +21970,6 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedFloatFilter | number
-  }
-
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
   }
 
   export type NestedDecimalFilter = {
@@ -21439,6 +22005,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -21455,6 +22022,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -21487,6 +22055,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -21503,6 +22072,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -21519,6 +22089,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -21535,6 +22106,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -21567,6 +22139,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -21583,6 +22156,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -21662,12 +22236,14 @@ export namespace Prisma {
     endUserFp?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutUserInput = {
     id?: string
+    websiteId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -21699,7 +22275,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -21718,7 +22293,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -21746,6 +22320,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageCreateNestedManyWithoutWebsiteInput
+    auctions?: AuctionCreateNestedManyWithoutWebsiteInput
   }
 
   export type WebsiteUncheckedCreateWithoutUserInput = {
@@ -21757,6 +22332,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageUncheckedCreateNestedManyWithoutWebsiteInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebsiteInput
   }
 
   export type WebsiteCreateOrConnectWithoutUserInput = {
@@ -21772,6 +22348,7 @@ export namespace Prisma {
   export type CategoryCreateWithoutUserInput = {
     id?: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageCreateNestedManyWithoutCategoriesInput
@@ -21781,6 +22358,7 @@ export namespace Prisma {
   export type CategoryUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageUncheckedCreateNestedManyWithoutCategoriesInput
@@ -21801,7 +22379,17 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
-    addSponsoredWording?: boolean
+    sponsoredWording?: string
+    desiredAdvertisementSpotCount?: number
+    desiredAdvertisementCount?: number
+    webpageLookbackDays?: number
+    webpageInsertCap?: number
+    allTimeMostVisitedUrlCount?: number
+    recentlyMostVisitedUrlCount?: number
+    mainPostBodySelector?: string
+    contentSelector?: string
+    minCharLimit?: number
+    sameTypeElemWithTextToFollow?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21810,7 +22398,17 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
-    addSponsoredWording?: boolean
+    sponsoredWording?: string
+    desiredAdvertisementSpotCount?: number
+    desiredAdvertisementCount?: number
+    webpageLookbackDays?: number
+    webpageInsertCap?: number
+    allTimeMostVisitedUrlCount?: number
+    recentlyMostVisitedUrlCount?: number
+    mainPostBodySelector?: string
+    contentSelector?: string
+    minCharLimit?: number
+    sameTypeElemWithTextToFollow?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21902,6 +22500,7 @@ export namespace Prisma {
     NOT?: Enumerable<AuctionScalarWhereInput>
     id?: StringFilter | string
     userId?: StringFilter | string
+    websiteId?: StringNullableFilter | string | null
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
     userAgent?: StringFilter | string
@@ -21942,7 +22541,6 @@ export namespace Prisma {
     productName?: StringFilter | string
     productDescription?: StringFilter | string
     clickUrl?: StringFilter | string
-    requiredCssSelector?: StringFilter | string
     pacing?: BoolFilter | boolean
     status?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -22002,6 +22600,7 @@ export namespace Prisma {
     id?: StringFilter | string
     userId?: StringFilter | string
     name?: StringFilter | string
+    abortScript?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -22021,7 +22620,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
-    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    sponsoredWording?: StringFieldUpdateOperationsInput | string
+    desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
+    webpageLookbackDays?: IntFieldUpdateOperationsInput | number
+    webpageInsertCap?: IntFieldUpdateOperationsInput | number
+    allTimeMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    mainPostBodySelector?: StringFieldUpdateOperationsInput | string
+    contentSelector?: StringFieldUpdateOperationsInput | string
+    minCharLimit?: IntFieldUpdateOperationsInput | number
+    sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22030,7 +22639,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
-    addSponsoredWording?: BoolFieldUpdateOperationsInput | boolean
+    sponsoredWording?: StringFieldUpdateOperationsInput | string
+    desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
+    webpageLookbackDays?: IntFieldUpdateOperationsInput | number
+    webpageInsertCap?: IntFieldUpdateOperationsInput | number
+    allTimeMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
+    mainPostBodySelector?: StringFieldUpdateOperationsInput | string
+    contentSelector?: StringFieldUpdateOperationsInput | string
+    minCharLimit?: IntFieldUpdateOperationsInput | number
+    sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22041,6 +22660,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22057,6 +22677,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22089,6 +22710,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22105,6 +22727,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22121,6 +22744,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22137,6 +22761,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22150,6 +22775,35 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutAuctionsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
+  }
+
+  export type WebsiteCreateWithoutAuctionsInput = {
+    id?: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWebsitesInput
+    webpages?: WebpageCreateNestedManyWithoutWebsiteInput
+  }
+
+  export type WebsiteUncheckedCreateWithoutAuctionsInput = {
+    id?: string
+    userId: string
+    topLevelDomainUrl: string
+    sitemapUrl: string
+    status: boolean
+    processedOn?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpages?: WebpageUncheckedCreateNestedManyWithoutWebsiteInput
+  }
+
+  export type WebsiteCreateOrConnectWithoutAuctionsInput = {
+    where: WebsiteWhereUniqueInput
+    create: XOR<WebsiteCreateWithoutAuctionsInput, WebsiteUncheckedCreateWithoutAuctionsInput>
   }
 
   export type WebpageCreateWithoutAuctionsInput = {
@@ -22228,6 +22882,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22244,6 +22899,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22252,6 +22908,41 @@ export namespace Prisma {
     websites?: WebsiteUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     setting?: SettingUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type WebsiteUpsertWithoutAuctionsInput = {
+    update: XOR<WebsiteUpdateWithoutAuctionsInput, WebsiteUncheckedUpdateWithoutAuctionsInput>
+    create: XOR<WebsiteCreateWithoutAuctionsInput, WebsiteUncheckedCreateWithoutAuctionsInput>
+    where?: WebsiteWhereInput
+  }
+
+  export type WebsiteUpdateToOneWithWhereWithoutAuctionsInput = {
+    where?: WebsiteWhereInput
+    data: XOR<WebsiteUpdateWithoutAuctionsInput, WebsiteUncheckedUpdateWithoutAuctionsInput>
+  }
+
+  export type WebsiteUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWebsitesNestedInput
+    webpages?: WebpageUpdateManyWithoutWebsiteNestedInput
+  }
+
+  export type WebsiteUncheckedUpdateWithoutAuctionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
+    sitemapUrl?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpages?: WebpageUncheckedUpdateManyWithoutWebsiteNestedInput
   }
 
   export type WebpageUpsertWithoutAuctionsInput = {
@@ -22327,6 +23018,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22343,6 +23035,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22396,6 +23089,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AuctionCreateWithoutWebsiteInput = {
+    id?: string
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAuctionsInput
+    webpage?: WebpageCreateNestedOneWithoutAuctionsInput
+    impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateWithoutWebsiteInput = {
+    id?: string
+    userId: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionCreateOrConnectWithoutWebsiteInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutWebsiteInput, AuctionUncheckedCreateWithoutWebsiteInput>
+  }
+
+  export type AuctionCreateManyWebsiteInputEnvelope = {
+    data: Enumerable<AuctionCreateManyWebsiteInput>
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutWebsitesInput = {
     update: XOR<UserUpdateWithoutWebsitesInput, UserUncheckedUpdateWithoutWebsitesInput>
     create: XOR<UserCreateWithoutWebsitesInput, UserUncheckedCreateWithoutWebsitesInput>
@@ -22413,6 +23144,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22429,6 +23161,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22468,6 +23201,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
   }
 
+  export type AuctionUpsertWithWhereUniqueWithoutWebsiteInput = {
+    where: AuctionWhereUniqueInput
+    update: XOR<AuctionUpdateWithoutWebsiteInput, AuctionUncheckedUpdateWithoutWebsiteInput>
+    create: XOR<AuctionCreateWithoutWebsiteInput, AuctionUncheckedCreateWithoutWebsiteInput>
+  }
+
+  export type AuctionUpdateWithWhereUniqueWithoutWebsiteInput = {
+    where: AuctionWhereUniqueInput
+    data: XOR<AuctionUpdateWithoutWebsiteInput, AuctionUncheckedUpdateWithoutWebsiteInput>
+  }
+
+  export type AuctionUpdateManyWithWhereWithoutWebsiteInput = {
+    where: AuctionScalarWhereInput
+    data: XOR<AuctionUpdateManyMutationInput, AuctionUncheckedUpdateManyWithoutAuctionsInput>
+  }
+
   export type WebsiteCreateWithoutWebpagesInput = {
     id?: string
     topLevelDomainUrl: string
@@ -22477,6 +23226,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutWebsitesInput
+    auctions?: AuctionCreateNestedManyWithoutWebsiteInput
   }
 
   export type WebsiteUncheckedCreateWithoutWebpagesInput = {
@@ -22488,6 +23238,7 @@ export namespace Prisma {
     processedOn?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebsiteInput
   }
 
   export type WebsiteCreateOrConnectWithoutWebpagesInput = {
@@ -22497,8 +23248,10 @@ export namespace Prisma {
 
   export type ScoredCampaignCreateWithoutWebpageInput = {
     id?: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     campaign: CampaignCreateNestedOneWithoutScoredCampaignsInput
@@ -22508,8 +23261,10 @@ export namespace Prisma {
   export type ScoredCampaignUncheckedCreateWithoutWebpageInput = {
     id?: string
     campaignId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     advertisements?: AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput
@@ -22556,6 +23311,7 @@ export namespace Prisma {
   export type CategoryCreateWithoutWebpagesInput = {
     id?: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCategoriesInput
@@ -22566,6 +23322,7 @@ export namespace Prisma {
     id?: string
     userId: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     campaigns?: CampaignUncheckedCreateNestedManyWithoutCategoriesInput
@@ -22586,12 +23343,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAuctionsInput
+    website?: WebsiteCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutWebpageInput = {
     id?: string
     userId: string
+    websiteId?: string | null
     url?: string | null
     userAgent?: string
     ip?: string
@@ -22617,6 +23376,8 @@ export namespace Prisma {
     desktopHtml: string
     mobileHtml?: string | null
     tabletHtml?: string | null
+    title?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22626,6 +23387,8 @@ export namespace Prisma {
     desktopHtml: string
     mobileHtml?: string | null
     tabletHtml?: string | null
+    title?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22655,6 +23418,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutWebsitesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebsiteNestedInput
   }
 
   export type WebsiteUncheckedUpdateWithoutWebpagesInput = {
@@ -22666,6 +23430,7 @@ export namespace Prisma {
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auctions?: AuctionUncheckedUpdateManyWithoutWebsiteNestedInput
   }
 
   export type ScoredCampaignUpsertWithWhereUniqueWithoutWebpageInput = {
@@ -22691,8 +23456,10 @@ export namespace Prisma {
     id?: StringFilter | string
     webpageId?: StringFilter | string
     campaignId?: StringFilter | string
+    isBest?: BoolFilter | boolean
     score?: IntFilter | number
     reason?: StringFilter | string
+    adBuildFailCount?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -22773,6 +23540,8 @@ export namespace Prisma {
     desktopHtml?: StringFieldUpdateOperationsInput | string
     mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
     tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22782,6 +23551,8 @@ export namespace Prisma {
     desktopHtml?: StringFieldUpdateOperationsInput | string
     mobileHtml?: NullableStringFieldUpdateOperationsInput | string | null
     tabletHtml?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22864,6 +23635,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22880,6 +23652,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22938,7 +23711,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -22958,7 +23730,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -22988,6 +23759,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -23004,6 +23776,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -23220,7 +23993,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -23240,7 +24012,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -23343,7 +24114,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23363,7 +24133,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23389,8 +24158,10 @@ export namespace Prisma {
 
   export type ScoredCampaignCreateWithoutAdvertisementsInput = {
     id?: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     webpage: WebpageCreateNestedOneWithoutScoredCampaignsInput
@@ -23401,8 +24172,10 @@ export namespace Prisma {
     id?: string
     webpageId: string
     campaignId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23474,8 +24247,10 @@ export namespace Prisma {
 
   export type ScoredCampaignUpdateWithoutAdvertisementsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpage?: WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput
@@ -23486,8 +24261,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     webpageId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23543,6 +24320,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -23559,6 +24337,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    canManageUsers?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -23576,8 +24355,10 @@ export namespace Prisma {
 
   export type ScoredCampaignCreateWithoutCampaignInput = {
     id?: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     webpage: WebpageCreateNestedOneWithoutScoredCampaignsInput
@@ -23587,8 +24368,10 @@ export namespace Prisma {
   export type ScoredCampaignUncheckedCreateWithoutCampaignInput = {
     id?: string
     webpageId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     advertisements?: AdvertisementUncheckedCreateNestedManyWithoutScoredCampaignInput
@@ -23607,6 +24390,7 @@ export namespace Prisma {
   export type CategoryCreateWithoutCampaignsInput = {
     id?: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCategoriesInput
@@ -23617,6 +24401,7 @@ export namespace Prisma {
     id?: string
     userId: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     webpages?: WebpageUncheckedCreateNestedManyWithoutCategoriesInput
@@ -23644,6 +24429,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -23660,6 +24446,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -23737,12 +24524,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAuctionsInput
+    website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
   }
 
   export type AuctionUncheckedCreateWithoutImpressionsInput = {
     id?: string
     userId: string
+    websiteId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -23810,12 +24599,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutImpressionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -23848,6 +24639,7 @@ export namespace Prisma {
 
   export type AuctionCreateManyUserInput = {
     id?: string
+    websiteId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -23868,7 +24660,6 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
-    requiredCssSelector?: string
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -23888,6 +24679,7 @@ export namespace Prisma {
   export type CategoryCreateManyUserInput = {
     id?: string
     name: string
+    abortScript?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23961,12 +24753,14 @@ export namespace Prisma {
     endUserFp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -23980,6 +24774,7 @@ export namespace Prisma {
 
   export type AuctionUncheckedUpdateManyWithoutAuctionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -24000,7 +24795,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24019,7 +24813,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24038,7 +24831,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24054,6 +24846,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUpdateManyWithoutWebsiteNestedInput
+    auctions?: AuctionUpdateManyWithoutWebsiteNestedInput
   }
 
   export type WebsiteUncheckedUpdateWithoutUserInput = {
@@ -24065,6 +24858,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUncheckedUpdateManyWithoutWebsiteNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebsiteNestedInput
   }
 
   export type WebsiteUncheckedUpdateManyWithoutWebsitesInput = {
@@ -24080,6 +24874,7 @@ export namespace Prisma {
   export type CategoryUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUpdateManyWithoutCategoriesNestedInput
@@ -24089,6 +24884,7 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUncheckedUpdateManyWithoutCategoriesNestedInput
@@ -24098,6 +24894,7 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateManyWithoutCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24143,6 +24940,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AuctionCreateManyWebsiteInput = {
+    id?: string
+    userId: string
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type WebpageUpdateWithoutWebsiteInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
@@ -24180,11 +24990,41 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AuctionUpdateWithoutWebsiteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutWebsiteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
   export type ScoredCampaignCreateManyWebpageInput = {
     id?: string
     campaignId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24200,6 +25040,7 @@ export namespace Prisma {
   export type AuctionCreateManyWebpageInput = {
     id?: string
     userId: string
+    websiteId?: string | null
     url?: string | null
     userAgent?: string
     ip?: string
@@ -24211,8 +25052,10 @@ export namespace Prisma {
 
   export type ScoredCampaignUpdateWithoutWebpageInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneRequiredWithoutScoredCampaignsNestedInput
@@ -24222,8 +25065,10 @@ export namespace Prisma {
   export type ScoredCampaignUncheckedUpdateWithoutWebpageInput = {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advertisements?: AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput
@@ -24232,8 +25077,10 @@ export namespace Prisma {
   export type ScoredCampaignUncheckedUpdateManyWithoutScoredCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24267,6 +25114,7 @@ export namespace Prisma {
   export type CategoryUpdateWithoutWebpagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
@@ -24277,6 +25125,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaigns?: CampaignUncheckedUpdateManyWithoutCategoriesNestedInput
@@ -24292,12 +25141,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutWebpageInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
     ip?: StringFieldUpdateOperationsInput | string
@@ -24346,7 +25197,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24366,7 +25216,6 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
-    requiredCssSelector?: StringFieldUpdateOperationsInput | string
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24468,16 +25317,20 @@ export namespace Prisma {
   export type ScoredCampaignCreateManyCampaignInput = {
     id?: string
     webpageId: string
+    isBest?: boolean
     score: number
     reason: string
+    adBuildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ScoredCampaignUpdateWithoutCampaignInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpage?: WebpageUpdateOneRequiredWithoutScoredCampaignsNestedInput
@@ -24487,8 +25340,10 @@ export namespace Prisma {
   export type ScoredCampaignUncheckedUpdateWithoutCampaignInput = {
     id?: StringFieldUpdateOperationsInput | string
     webpageId?: StringFieldUpdateOperationsInput | string
+    isBest?: BoolFieldUpdateOperationsInput | boolean
     score?: IntFieldUpdateOperationsInput | number
     reason?: StringFieldUpdateOperationsInput | string
+    adBuildFailCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advertisements?: AdvertisementUncheckedUpdateManyWithoutScoredCampaignNestedInput
@@ -24497,6 +25352,7 @@ export namespace Prisma {
   export type CategoryUpdateWithoutCampaignsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
@@ -24507,6 +25363,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    abortScript?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     webpages?: WebpageUncheckedUpdateManyWithoutCategoriesNestedInput

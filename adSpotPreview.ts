@@ -113,7 +113,7 @@ const init = async () => {
       elem.title += "PASS – min Char filter\n\n";
       elem.style.border = "5px solid #48BB78";
     } else {
-      elem.title += "FAIL – min Char filter\n\n";
+      elem.title += "REJECT – min Char filter\n\n";
       elem.style.border = "5px solid #F56565";
     }
   }
@@ -127,7 +127,7 @@ const init = async () => {
         elem.title += "PASS –  next element with text of same type filter\n\n";
         elem.style.border = "5px solid #48BB78";
       } else {
-        elem.title += "FAIL – next element with text of same type filter\n\n";
+        elem.title += "REJECT – next element with text of same type filter\n\n";
         elem.style.border = "5px solid #F56565";
       }
     } else {
@@ -146,7 +146,7 @@ const init = async () => {
         "PASS – item comes before reaching desired advert count";
       elem.style.border = "5px solid #48BB78";
     } else {
-      elem.title += "FAIL – item comes after reaching desired advert count";
+      elem.title += "REJECT – item comes after reaching desired advert count";
       elem.style.border = "5px solid #F56565";
     }
   }

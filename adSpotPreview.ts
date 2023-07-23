@@ -77,11 +77,27 @@ const getAllElements = (document: Document, selector: string) => {
   let elements = document.querySelectorAll(selector);
   let elementsArr = [...elements];
   return elementsArr;
-}
+};
 
 const init = async () => {
   console.groupCollapsed("preview.js");
   console.log("in preview.js");
+
+  const bannerElement = document.createElement("div");
+  bannerElement.innerHTML = "Ad Spot Preview ";
+  bannerElement.style.position='fixed';
+  bannerElement.style.top='0px';
+  bannerElement.style.left='0px';
+  bannerElement.style.border='1 px solid black';
+  bannerElement.style.textAlign='center';
+  bannerElement.style.backgroundColor='#FEEBC8';
+  bannerElement.style.color='#4A5568';
+  bannerElement.style.opacity='0.95';
+  bannerElement.style.fontSize='24px';
+  bannerElement.style.padding='10px';
+  bannerElement.style.width="100%";
+  bannerElement.id="adSpotPreviewBanner";
+  document.body.append(bannerElement);
 
   const previewSettings = await getPreviewSettings();
   console.log("previewSettings: ", previewSettings);
@@ -142,8 +158,7 @@ const init = async () => {
 
   for (const [index, elem] of elementsArr.entries()) {
     if (index < desiredAdvertisementSpotCount) {
-      elem.title +=
-        "PASS – item comes before reaching desired advert count";
+      elem.title += "PASS – item comes before reaching desired advert count";
       elem.style.border = "5px solid #48BB78";
     } else {
       elem.title += "REJECT – item comes after reaching desired advert count";
@@ -151,6 +166,13 @@ const init = async () => {
     }
   }
   elementsArr = elementsArr.slice(0, desiredAdvertisementSpotCount);
+
+  bannerElement.innerHTML += "Count: " + elementsArr.length;
+
+
+  // const adSpotBannerElem = document.querySelector("#adSpotPreviewBanner");
+  //
+  // adSpotBannerElem.innerHTML += elementsArr.length;
 
   console.groupEnd();
 };

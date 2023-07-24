@@ -6,6 +6,7 @@ import {
   ScoredCampaign,
 } from "../prisma-client-index";
 import { markImpressionClicked } from "./impression";
+import { LimitedSettingsType } from "./auction";
 
 export type AdWithDetail = Advertisement & {
   advertisementSpot: AdvertisementSpot;
@@ -24,7 +25,12 @@ export const nextWithText = (el: Element): null | Element => {
   }
 };
 
-export const addLinkToText = (text: string, name: string, link: string) => {
+export const addLinkToText = (
+  text: string,
+  name: string,
+  link: string,
+  makeLinksBold: boolean
+) => {
   if (!link || link.length === 0) {
     return text;
   }
@@ -33,6 +39,9 @@ export const addLinkToText = (text: string, name: string, link: string) => {
   linkElement.target = "_blank";
   linkElement.href = link;
   linkElement.textContent = name;
+  if (makeLinksBold) {
+    linkElement.style.fontWeight = "bold";
+  }
   return text.replace(name, linkElement.outerHTML);
 };
 
@@ -40,13 +49,15 @@ export const insertAd = (
   targetElem: Element,
   ad: AdWithDetail,
   impression: Impression,
-  sponsoredWording: string
+  settings: LimitedSettingsType
 ) => {
+  const { sponsoredWording, makeLinksBold } = settings;
   const advertElem = targetElem.cloneNode() as Element;
   const advertHtml = addLinkToText(
     ad.advertText,
     ad.scoredCampaign.campaign.productName,
-    ad.scoredCampaign.campaign.clickUrl
+    ad.scoredCampaign.campaign.clickUrl,
+    makeLinksBold
   );
   advertElem.innerHTML = advertHtml + " " + sponsoredWording;
   advertElem.setAttribute("data-inserted-by-bw", "true");

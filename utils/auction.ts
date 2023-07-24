@@ -1,15 +1,17 @@
 import getUserId from "./getUserId";
 import { getCleanUrl } from "./url";
-import { Auction } from "../prisma-client-index";
+import {Auction, Setting} from "../prisma-client-index";
 import superjson from "superjson";
 import { AdWithDetail } from "./dom";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
+export type LimitedSettingsType = Pick<Setting, "sponsoredWording" | "makeLinksBold">
+
 type AuctionResponse = {
   auction: Auction;
   adsWithDetail: AdWithDetail[];
-  settings: { sponsoredWording: string };
+  settings: LimitedSettingsType;
   abortCategoryNames: string[]
 };
 

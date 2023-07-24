@@ -83,7 +83,7 @@ const init = async () => {
           "background: #222; color: #bada55"
         );
         const impression: Impression = await generateImpression(auction, ad);
-        insertAd(currentElement, ad, impression, settings.sponsoredWording);
+        insertAd(currentElement, ad, impression, settings);
         adsAlreadyPlaces[ad.id] = true;
         // console.log(
         //   "%c this MATCHES beforeText. will now check its next element with afterText",

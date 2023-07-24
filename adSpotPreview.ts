@@ -85,18 +85,19 @@ const init = async () => {
 
   const bannerElement = document.createElement("div");
   bannerElement.innerHTML = "Ad Spot Preview ";
-  bannerElement.style.position='fixed';
-  bannerElement.style.top='0px';
-  bannerElement.style.left='0px';
-  bannerElement.style.border='1 px solid black';
-  bannerElement.style.textAlign='center';
-  bannerElement.style.backgroundColor='#FEEBC8';
-  bannerElement.style.color='#4A5568';
-  bannerElement.style.opacity='0.95';
-  bannerElement.style.fontSize='24px';
-  bannerElement.style.padding='10px';
-  bannerElement.style.width="100%";
-  bannerElement.id="adSpotPreviewBanner";
+  bannerElement.style.position = "fixed";
+  bannerElement.style.top = "0px";
+  bannerElement.style.left = "0px";
+  bannerElement.style.border = "1 px solid black";
+  bannerElement.style.textAlign = "center";
+  bannerElement.style.backgroundColor = "#FEEBC8";
+  bannerElement.style.color = "#4A5568";
+  bannerElement.style.opacity = "0.95";
+  bannerElement.style.fontSize = "24px";
+  bannerElement.style.padding = "10px";
+  bannerElement.style.width = "100%";
+  bannerElement.style.zIndex = "999999";
+  bannerElement.id = "adSpotPreviewBanner";
   document.body.append(bannerElement);
 
   const previewSettings = await getPreviewSettings();
@@ -120,16 +121,16 @@ const init = async () => {
     elem.style.border = "5px solid #4A5568";
     elem.style.padding = "5px";
     elem.style.backgroundColor = "#FFFFF0";
-    elem.title += "PASS – Matches selector\n\n";
+    elem.title += `PASS – Matches selector ${contentSelector} \n\n`;
   }
 
   for (const [index, elem] of elementsArr.entries()) {
     const ans = minCharFilter(minCharLimit, elem);
     if (ans) {
-      elem.title += "PASS – min Char filter\n\n";
+      elem.title += `PASS – min Char filter ${minCharLimit} \n\n`;
       elem.style.border = "5px solid #48BB78";
     } else {
-      elem.title += "REJECT – min Char filter\n\n";
+      elem.title += `REJECT – min Char filter ${minCharLimit} \n\n`;
       elem.style.border = "5px solid #F56565";
     }
   }
@@ -158,17 +159,16 @@ const init = async () => {
 
   for (const [index, elem] of elementsArr.entries()) {
     if (index < desiredAdvertisementSpotCount) {
-      elem.title += "PASS – item comes before reaching desired advert count";
+      elem.title += `PASS – item comes before desired ad count is reached ${desiredAdvertisementSpotCount}`;
       elem.style.border = "5px solid #48BB78";
     } else {
-      elem.title += "REJECT – item comes after reaching desired advert count";
+      elem.title += `REJECT – item comes after desired ad count is reached ${desiredAdvertisementSpotCount}`;
       elem.style.border = "5px solid #F56565";
     }
   }
   elementsArr = elementsArr.slice(0, desiredAdvertisementSpotCount);
 
   bannerElement.innerHTML += "Count: " + elementsArr.length;
-
 
   // const adSpotBannerElem = document.querySelector("#adSpotPreviewBanner");
   //

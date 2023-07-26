@@ -6,7 +6,7 @@ import { AdWithDetail } from "./dom";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
-export type LimitedSettingsType = Pick<Setting, "sponsoredWording" | "makeLinksBold">
+export type LimitedSettingsType = Pick<Setting, "sponsoredWording" | "makeLinksBold" | "customStyles">
 
 type AuctionResponse = {
   auction: Auction;

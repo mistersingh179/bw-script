@@ -1,7 +1,7 @@
 import getUserId from "./utils/getUserId";
 import { generateAuction } from "./utils/auction";
 import { generateImpression } from "./utils/impression";
-import { insertAd, nextWithText } from "./utils/dom";
+import { insertAd, insertStyles, nextWithText } from "./utils/dom";
 import { Impression } from "./prisma-client-index";
 import getCategories from "./utils/categories/getCategories";
 
@@ -40,6 +40,21 @@ const init = async () => {
   if (adsWithDetail.length === 0) {
     console.log("aborting as no ads found");
     return;
+  }
+
+  const { customStyles } = settings;
+  if (customStyles && customStyles.length > 0) {
+    try{
+      const re = /\.brandweaver-ad.*?\}/gms;
+      const ans = customStyles.match(re);
+      if(ans && ans[0] && ans[0].length > 0){
+        console.log("adding styles: ");
+        console.log(ans[0]);
+        insertStyles(ans[0]);
+      }
+    }catch(err){
+      console.error("unable to apply styles: ", err);
+    }
   }
 
   console.time("processAds");

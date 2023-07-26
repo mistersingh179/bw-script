@@ -45,6 +45,12 @@ export const addLinkToText = (
   return text.replace(name, linkElement.outerHTML);
 };
 
+export const insertStyles  = (styles: string) => {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
+}
+
 export const insertAd = (
   targetElem: Element,
   ad: AdWithDetail,
@@ -52,7 +58,7 @@ export const insertAd = (
   settings: LimitedSettingsType
 ) => {
   const { sponsoredWording, makeLinksBold } = settings;
-  const advertElem = targetElem.cloneNode() as Element;
+  const advertElem = targetElem.cloneNode() as HTMLElement;
   const advertHtml = addLinkToText(
     ad.advertText,
     ad.scoredCampaign.campaign.productName,
@@ -60,8 +66,11 @@ export const insertAd = (
     makeLinksBold
   );
   advertElem.innerHTML = advertHtml + " " + sponsoredWording;
+
+  advertElem.classList.add('brandweaver-ad');
   advertElem.setAttribute("data-inserted-by-bw", "true");
   targetElem.after(advertElem);
+
   advertElem.addEventListener("click", async (event) => {
     const target = event.target as HTMLElement;
     if (target.tagName === "A" || target.tagName === "a") {

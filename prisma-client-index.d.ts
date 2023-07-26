@@ -88,6 +88,7 @@ export type Setting = {
   minCharLimit: number
   sameTypeElemWithTextToFollow: boolean
   makeLinksBold: boolean
+  customStyles: string
   createdAt: Date
   updatedAt: Date
 }
@@ -5728,6 +5729,7 @@ export namespace Prisma {
     minCharLimit: number | null
     sameTypeElemWithTextToFollow: boolean | null
     makeLinksBold: boolean | null
+    customStyles: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5749,6 +5751,7 @@ export namespace Prisma {
     minCharLimit: number | null
     sameTypeElemWithTextToFollow: boolean | null
     makeLinksBold: boolean | null
+    customStyles: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5770,6 +5773,7 @@ export namespace Prisma {
     minCharLimit: number
     sameTypeElemWithTextToFollow: number
     makeLinksBold: number
+    customStyles: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5815,6 +5819,7 @@ export namespace Prisma {
     minCharLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
+    customStyles?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5836,6 +5841,7 @@ export namespace Prisma {
     minCharLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
+    customStyles?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5857,6 +5863,7 @@ export namespace Prisma {
     minCharLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
+    customStyles?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5966,6 +5973,7 @@ export namespace Prisma {
     minCharLimit: number
     sameTypeElemWithTextToFollow: boolean
     makeLinksBold: boolean
+    customStyles: string
     createdAt: Date
     updatedAt: Date
     _count: SettingCountAggregateOutputType | null
@@ -6006,6 +6014,7 @@ export namespace Prisma {
     minCharLimit?: boolean
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    customStyles?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserArgs
@@ -17093,6 +17102,7 @@ export namespace Prisma {
     minCharLimit: 'minCharLimit',
     sameTypeElemWithTextToFollow: 'sameTypeElemWithTextToFollow',
     makeLinksBold: 'makeLinksBold',
+    customStyles: 'customStyles',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -17467,6 +17477,7 @@ export namespace Prisma {
     minCharLimit?: IntFilter | number
     sameTypeElemWithTextToFollow?: BoolFilter | boolean
     makeLinksBold?: BoolFilter | boolean
+    customStyles?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -17489,6 +17500,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -17514,6 +17526,7 @@ export namespace Prisma {
     minCharLimit?: IntFilter | number
     sameTypeElemWithTextToFollow?: BoolFilter | boolean
     makeLinksBold?: BoolFilter | boolean
+    customStyles?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
@@ -17536,6 +17549,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SettingCountOrderByAggregateInput
@@ -17565,6 +17579,7 @@ export namespace Prisma {
     minCharLimit?: IntWithAggregatesFilter | number
     sameTypeElemWithTextToFollow?: BoolWithAggregatesFilter | boolean
     makeLinksBold?: BoolWithAggregatesFilter | boolean
+    customStyles?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -18668,6 +18683,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutSettingInput
@@ -18690,6 +18706,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18710,6 +18727,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSettingNestedInput
@@ -18732,6 +18750,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18753,6 +18772,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18773,6 +18793,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18794,6 +18815,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20023,6 +20045,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -20055,6 +20078,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -20076,6 +20100,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -22416,6 +22441,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22436,6 +22462,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22659,6 +22686,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22679,6 +22707,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

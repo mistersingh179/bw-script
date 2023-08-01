@@ -45,11 +45,11 @@ export const addLinkToText = (
   return text.replace(name, linkElement.outerHTML);
 };
 
-export const insertStyles  = (styles: string) => {
-  const styleElement = document.createElement('style');
+export const insertStyles = (styles: string) => {
+  const styleElement = document.createElement("style");
   styleElement.textContent = styles;
   document.head.appendChild(styleElement);
-}
+};
 
 export const insertAd = (
   targetElem: Element,
@@ -58,23 +58,41 @@ export const insertAd = (
   settings: LimitedSettingsType
 ) => {
   const { sponsoredWording, makeLinksBold } = settings;
-  const advertElem = targetElem.cloneNode() as HTMLElement;
-  const advertHtml = addLinkToText(
-    ad.advertText,
-    ad.scoredCampaign.campaign.productName,
-    ad.scoredCampaign.campaign.clickUrl,
-    makeLinksBold
-  );
-  advertElem.innerHTML = advertHtml + " " + sponsoredWording;
+  let advertElem = targetElem.cloneNode() as HTMLElement;
+  if (
+    ad.scoredCampaign.campaign.creativeUrl &&
+    ad.scoredCampaign.campaign.clickUrl
+  ) {
+    const linkElem = document.createElement("a");
+    linkElem.target = "_blank";
+    linkElem.href = ad.scoredCampaign.campaign.clickUrl;
 
-  advertElem.classList.add('brandweaver-ad');
+    const imageElem = document.createElement("img");
+    imageElem.src = ad.scoredCampaign.campaign.creativeUrl;
+    linkElem.appendChild(imageElem);
+    advertElem.appendChild(linkElem);
+
+    linkElem.addEventListener("click", async (event) => {
+      const target = event.target as HTMLElement;
+      await markImpressionClicked(impression);
+    });
+  } else {
+    const advertHtml = addLinkToText(
+      ad.advertText,
+      ad.scoredCampaign.campaign.productName,
+      ad.scoredCampaign.campaign.clickUrl,
+      makeLinksBold
+    );
+    advertElem.innerHTML = advertHtml + " " + sponsoredWording;
+    advertElem.addEventListener("click", async (event) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === "A" || target.tagName === "a") {
+        await markImpressionClicked(impression);
+      }
+    });
+  }
+
+  advertElem.classList.add("brandweaver-ad");
   advertElem.setAttribute("data-inserted-by-bw", "true");
   targetElem.after(advertElem);
-
-  advertElem.addEventListener("click", async (event) => {
-    const target = event.target as HTMLElement;
-    if (target.tagName === "A" || target.tagName === "a") {
-      await markImpressionClicked(impression);
-    }
-  });
 };

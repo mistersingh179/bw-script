@@ -99,7 +99,7 @@ export type Setting = {
  */
 export type Auction = {
   id: string
-  userId: string
+  userId: string | null
   websiteId: string | null
   webpageId: string | null
   url: string | null
@@ -227,6 +227,7 @@ export type Campaign = {
   productName: string
   productDescription: string
   clickUrl: string
+  creativeUrl: string | null
   pacing: boolean
   status: boolean
   createdAt: Date
@@ -239,7 +240,7 @@ export type Campaign = {
  */
 export type Impression = {
   id: string
-  advertisementId: string
+  advertisementId: string | null
   auctionId: string
   clicked: boolean
   createdAt: Date
@@ -6955,7 +6956,7 @@ export namespace Prisma {
 
   export type AuctionGroupByOutputType = {
     id: string
-    userId: string
+    userId: string | null
     websiteId: string | null
     webpageId: string | null
     url: string | null
@@ -6996,7 +6997,7 @@ export namespace Prisma {
     endUserFp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserArgs
+    user?: boolean | Auction$userArgs
     website?: boolean | Auction$websiteArgs
     webpage?: boolean | Auction$webpageArgs
     impressions?: boolean | Auction$impressionsArgs
@@ -7005,7 +7006,7 @@ export namespace Prisma {
 
 
   export type AuctionInclude = {
-    user?: boolean | UserArgs
+    user?: boolean | Auction$userArgs
     website?: boolean | Auction$websiteArgs
     webpage?: boolean | Auction$webpageArgs
     impressions?: boolean | Auction$impressionsArgs
@@ -7019,7 +7020,7 @@ export namespace Prisma {
           S extends { include: any } & (AuctionArgs | AuctionFindManyArgs)
             ? Auction  & {
             [P in TruthyKeys<S['include']>]:
-            P extends 'user' ? UserGetPayload<S['include'][P]> :
+            P extends 'user' ? UserGetPayload<S['include'][P]> | null :
               P extends 'website' ? WebsiteGetPayload<S['include'][P]> | null :
                 P extends 'webpage' ? WebpageGetPayload<S['include'][P]> | null :
                   P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
@@ -7028,7 +7029,7 @@ export namespace Prisma {
             : S extends { select: any } & (AuctionArgs | AuctionFindManyArgs)
               ? {
                 [P in TruthyKeys<S['select']>]:
-                P extends 'user' ? UserGetPayload<S['select'][P]> :
+                P extends 'user' ? UserGetPayload<S['select'][P]> | null :
                   P extends 'website' ? WebsiteGetPayload<S['select'][P]> | null :
                     P extends 'webpage' ? WebpageGetPayload<S['select'][P]> | null :
                       P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
@@ -7404,7 +7405,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+    user<T extends Auction$userArgs= {}>(args?: Subset<T, Auction$userArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
     website<T extends Auction$websiteArgs= {}>(args?: Subset<T, Auction$websiteArgs>): Prisma__WebsiteClient<WebsiteGetPayload<T> | Null>;
 
@@ -7764,6 +7765,22 @@ export namespace Prisma {
      * Filter which Auctions to delete
      */
     where?: AuctionWhereInput
+  }
+
+
+  /**
+   * Auction.user
+   */
+  export type Auction$userArgs = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    where?: UserWhereInput
   }
 
 
@@ -14916,6 +14933,7 @@ export namespace Prisma {
     productName: string | null
     productDescription: string | null
     clickUrl: string | null
+    creativeUrl: string | null
     pacing: boolean | null
     status: boolean | null
     createdAt: Date | null
@@ -14933,6 +14951,7 @@ export namespace Prisma {
     productName: string | null
     productDescription: string | null
     clickUrl: string | null
+    creativeUrl: string | null
     pacing: boolean | null
     status: boolean | null
     createdAt: Date | null
@@ -14950,6 +14969,7 @@ export namespace Prisma {
     productName: number
     productDescription: number
     clickUrl: number
+    creativeUrl: number
     pacing: number
     status: number
     createdAt: number
@@ -14979,6 +14999,7 @@ export namespace Prisma {
     productName?: true
     productDescription?: true
     clickUrl?: true
+    creativeUrl?: true
     pacing?: true
     status?: true
     createdAt?: true
@@ -14996,6 +15017,7 @@ export namespace Prisma {
     productName?: true
     productDescription?: true
     clickUrl?: true
+    creativeUrl?: true
     pacing?: true
     status?: true
     createdAt?: true
@@ -15013,6 +15035,7 @@ export namespace Prisma {
     productName?: true
     productDescription?: true
     clickUrl?: true
+    creativeUrl?: true
     pacing?: true
     status?: true
     createdAt?: true
@@ -15118,6 +15141,7 @@ export namespace Prisma {
     productName: string
     productDescription: string
     clickUrl: string
+    creativeUrl: string | null
     pacing: boolean
     status: boolean
     createdAt: Date
@@ -15154,6 +15178,7 @@ export namespace Prisma {
     productName?: boolean
     productDescription?: boolean
     clickUrl?: boolean
+    creativeUrl?: boolean
     pacing?: boolean
     status?: boolean
     createdAt?: boolean
@@ -16124,7 +16149,7 @@ export namespace Prisma {
 
   export type ImpressionGroupByOutputType = {
     id: string
-    advertisementId: string
+    advertisementId: string | null
     auctionId: string
     clicked: boolean
     createdAt: Date
@@ -16155,13 +16180,13 @@ export namespace Prisma {
     clicked?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    advertisement?: boolean | AdvertisementArgs
+    advertisement?: boolean | Impression$advertisementArgs
     auction?: boolean | AuctionArgs
   }
 
 
   export type ImpressionInclude = {
-    advertisement?: boolean | AdvertisementArgs
+    advertisement?: boolean | Impression$advertisementArgs
     auction?: boolean | AuctionArgs
   }
 
@@ -16172,13 +16197,13 @@ export namespace Prisma {
           S extends { include: any } & (ImpressionArgs | ImpressionFindManyArgs)
             ? Impression  & {
             [P in TruthyKeys<S['include']>]:
-            P extends 'advertisement' ? AdvertisementGetPayload<S['include'][P]> :
+            P extends 'advertisement' ? AdvertisementGetPayload<S['include'][P]> | null :
               P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
           }
             : S extends { select: any } & (ImpressionArgs | ImpressionFindManyArgs)
               ? {
                 [P in TruthyKeys<S['select']>]:
-                P extends 'advertisement' ? AdvertisementGetPayload<S['select'][P]> :
+                P extends 'advertisement' ? AdvertisementGetPayload<S['select'][P]> | null :
                   P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof Impression ? Impression[P] : never
               }
               : Impression
@@ -16551,7 +16576,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    advertisement<T extends AdvertisementArgs= {}>(args?: Subset<T, AdvertisementArgs>): Prisma__AdvertisementClient<AdvertisementGetPayload<T> | Null>;
+    advertisement<T extends Impression$advertisementArgs= {}>(args?: Subset<T, Impression$advertisementArgs>): Prisma__AdvertisementClient<AdvertisementGetPayload<T> | Null>;
 
     auction<T extends AuctionArgs= {}>(args?: Subset<T, AuctionArgs>): Prisma__AuctionClient<AuctionGetPayload<T> | Null>;
 
@@ -16911,6 +16936,22 @@ export namespace Prisma {
 
 
   /**
+   * Impression.advertisement
+   */
+  export type Impression$advertisementArgs = {
+    /**
+     * Select specific fields to fetch from the Advertisement
+     */
+    select?: AdvertisementSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AdvertisementInclude | null
+    where?: AdvertisementWhereInput
+  }
+
+
+  /**
    * Impression without action
    */
   export type ImpressionArgs = {
@@ -17004,6 +17045,7 @@ export namespace Prisma {
     productName: 'productName',
     productDescription: 'productDescription',
     clickUrl: 'clickUrl',
+    creativeUrl: 'creativeUrl',
     pacing: 'pacing',
     status: 'status',
     createdAt: 'createdAt',
@@ -17589,7 +17631,7 @@ export namespace Prisma {
     OR?: Enumerable<AuctionWhereInput>
     NOT?: Enumerable<AuctionWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    userId?: StringNullableFilter | string | null
     websiteId?: StringNullableFilter | string | null
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
@@ -17599,7 +17641,7 @@ export namespace Prisma {
     endUserFp?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput> | null
     website?: XOR<WebsiteRelationFilter, WebsiteWhereInput> | null
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
     impressions?: ImpressionListRelationFilter
@@ -17628,7 +17670,7 @@ export namespace Prisma {
     AND?: Enumerable<AuctionWhereInput>
     OR?: Enumerable<AuctionWhereInput>
     NOT?: Enumerable<AuctionWhereInput>
-    userId?: StringFilter | string
+    userId?: StringNullableFilter | string | null
     websiteId?: StringNullableFilter | string | null
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
@@ -17638,7 +17680,7 @@ export namespace Prisma {
     endUserFp?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput> | null
     website?: XOR<WebsiteRelationFilter, WebsiteWhereInput> | null
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
     impressions?: ImpressionListRelationFilter
@@ -17666,7 +17708,7 @@ export namespace Prisma {
     OR?: Enumerable<AuctionScalarWhereWithAggregatesInput>
     NOT?: Enumerable<AuctionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    userId?: StringWithAggregatesFilter | string
+    userId?: StringNullableWithAggregatesFilter | string | null
     websiteId?: StringNullableWithAggregatesFilter | string | null
     webpageId?: StringNullableWithAggregatesFilter | string | null
     url?: StringNullableWithAggregatesFilter | string | null
@@ -18210,6 +18252,7 @@ export namespace Prisma {
     productName?: StringFilter | string
     productDescription?: StringFilter | string
     clickUrl?: StringFilter | string
+    creativeUrl?: StringNullableFilter | string | null
     pacing?: BoolFilter | boolean
     status?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -18230,6 +18273,7 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
+    creativeUrl?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -18254,6 +18298,7 @@ export namespace Prisma {
     productName?: StringFilter | string
     productDescription?: StringFilter | string
     clickUrl?: StringFilter | string
+    creativeUrl?: StringNullableFilter | string | null
     pacing?: BoolFilter | boolean
     status?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -18274,6 +18319,7 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
+    creativeUrl?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -18299,6 +18345,7 @@ export namespace Prisma {
     productName?: StringWithAggregatesFilter | string
     productDescription?: StringWithAggregatesFilter | string
     clickUrl?: StringWithAggregatesFilter | string
+    creativeUrl?: StringNullableWithAggregatesFilter | string | null
     pacing?: BoolWithAggregatesFilter | boolean
     status?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -18310,12 +18357,12 @@ export namespace Prisma {
     OR?: Enumerable<ImpressionWhereInput>
     NOT?: Enumerable<ImpressionWhereInput>
     id?: StringFilter | string
-    advertisementId?: StringFilter | string
+    advertisementId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     clicked?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    advertisement?: XOR<AdvertisementRelationFilter, AdvertisementWhereInput>
+    advertisement?: XOR<AdvertisementRelationFilter, AdvertisementWhereInput> | null
     auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
   }
 
@@ -18335,12 +18382,12 @@ export namespace Prisma {
     AND?: Enumerable<ImpressionWhereInput>
     OR?: Enumerable<ImpressionWhereInput>
     NOT?: Enumerable<ImpressionWhereInput>
-    advertisementId?: StringFilter | string
+    advertisementId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     clicked?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    advertisement?: XOR<AdvertisementRelationFilter, AdvertisementWhereInput>
+    advertisement?: XOR<AdvertisementRelationFilter, AdvertisementWhereInput> | null
     auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
   }, "id">
 
@@ -18361,7 +18408,7 @@ export namespace Prisma {
     OR?: Enumerable<ImpressionScalarWhereWithAggregatesInput>
     NOT?: Enumerable<ImpressionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    advertisementId?: StringWithAggregatesFilter | string
+    advertisementId?: StringNullableWithAggregatesFilter | string | null
     auctionId?: StringWithAggregatesFilter | string
     clicked?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -18829,7 +18876,7 @@ export namespace Prisma {
     endUserFp?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAuctionsInput
+    user?: UserCreateNestedOneWithoutAuctionsInput
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
@@ -18837,7 +18884,7 @@ export namespace Prisma {
 
   export type AuctionUncheckedCreateInput = {
     id?: string
-    userId: string
+    userId?: string | null
     websiteId?: string | null
     webpageId?: string | null
     url?: string | null
@@ -18859,7 +18906,7 @@ export namespace Prisma {
     endUserFp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    user?: UserUpdateOneWithoutAuctionsNestedInput
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
@@ -18867,7 +18914,7 @@ export namespace Prisma {
 
   export type AuctionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18882,7 +18929,7 @@ export namespace Prisma {
 
   export type AuctionCreateManyInput = {
     id?: string
-    userId: string
+    userId?: string | null
     websiteId?: string | null
     webpageId?: string | null
     url?: string | null
@@ -18907,7 +18954,7 @@ export namespace Prisma {
 
   export type AuctionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19479,6 +19526,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -19499,6 +19547,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -19517,6 +19566,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19537,6 +19587,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19556,6 +19607,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -19572,6 +19624,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19589,6 +19642,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19600,13 +19654,13 @@ export namespace Prisma {
     clicked: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    advertisement: AdvertisementCreateNestedOneWithoutImpressionsInput
+    advertisement?: AdvertisementCreateNestedOneWithoutImpressionsInput
     auction: AuctionCreateNestedOneWithoutImpressionsInput
   }
 
   export type ImpressionUncheckedCreateInput = {
     id?: string
-    advertisementId: string
+    advertisementId?: string | null
     auctionId: string
     clicked: boolean
     createdAt?: Date | string
@@ -19618,13 +19672,13 @@ export namespace Prisma {
     clicked?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    advertisement?: AdvertisementUpdateOneRequiredWithoutImpressionsNestedInput
+    advertisement?: AdvertisementUpdateOneWithoutImpressionsNestedInput
     auction?: AuctionUpdateOneRequiredWithoutImpressionsNestedInput
   }
 
   export type ImpressionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    advertisementId?: StringFieldUpdateOperationsInput | string
+    advertisementId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     clicked?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19633,7 +19687,7 @@ export namespace Prisma {
 
   export type ImpressionCreateManyInput = {
     id?: string
-    advertisementId: string
+    advertisementId?: string | null
     auctionId: string
     clicked: boolean
     createdAt?: Date | string
@@ -19649,7 +19703,7 @@ export namespace Prisma {
 
   export type ImpressionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    advertisementId?: StringFieldUpdateOperationsInput | string
+    advertisementId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     clicked?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20530,6 +20584,7 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
+    creativeUrl?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20552,6 +20607,7 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
+    creativeUrl?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20569,6 +20625,7 @@ export namespace Prisma {
     productName?: SortOrder
     productDescription?: SortOrder
     clickUrl?: SortOrder
+    creativeUrl?: SortOrder
     pacing?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -20597,8 +20654,8 @@ export namespace Prisma {
   }
 
   export type AdvertisementRelationFilter = {
-    is?: AdvertisementWhereInput
-    isNot?: AdvertisementWhereInput
+    is?: AdvertisementWhereInput | null
+    isNot?: AdvertisementWhereInput | null
   }
 
   export type AuctionRelationFilter = {
@@ -21027,10 +21084,12 @@ export namespace Prisma {
     connect?: Enumerable<ImpressionWhereUniqueInput>
   }
 
-  export type UserUpdateOneRequiredWithoutAuctionsNestedInput = {
+  export type UserUpdateOneWithoutAuctionsNestedInput = {
     create?: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAuctionsInput
     upsert?: UserUpsertWithoutAuctionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuctionsInput, UserUpdateWithoutAuctionsInput>, UserUncheckedUpdateWithoutAuctionsInput>
   }
@@ -21805,10 +21864,12 @@ export namespace Prisma {
     connect?: AuctionWhereUniqueInput
   }
 
-  export type AdvertisementUpdateOneRequiredWithoutImpressionsNestedInput = {
+  export type AdvertisementUpdateOneWithoutImpressionsNestedInput = {
     create?: XOR<AdvertisementCreateWithoutImpressionsInput, AdvertisementUncheckedCreateWithoutImpressionsInput>
     connectOrCreate?: AdvertisementCreateOrConnectWithoutImpressionsInput
     upsert?: AdvertisementUpsertWithoutImpressionsInput
+    disconnect?: AdvertisementWhereInput | boolean
+    delete?: AdvertisementWhereInput | boolean
     connect?: AdvertisementWhereUniqueInput
     update?: XOR<XOR<AdvertisementUpdateToOneWithWhereWithoutImpressionsInput, AdvertisementUpdateWithoutImpressionsInput>, AdvertisementUncheckedUpdateWithoutImpressionsInput>
   }
@@ -22325,6 +22386,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -22343,6 +22405,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -22553,7 +22616,7 @@ export namespace Prisma {
     OR?: Enumerable<AuctionScalarWhereInput>
     NOT?: Enumerable<AuctionScalarWhereInput>
     id?: StringFilter | string
-    userId?: StringFilter | string
+    userId?: StringNullableFilter | string | null
     websiteId?: StringNullableFilter | string | null
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
@@ -22595,6 +22658,7 @@ export namespace Prisma {
     productName?: StringFilter | string
     productDescription?: StringFilter | string
     clickUrl?: StringFilter | string
+    creativeUrl?: StringNullableFilter | string | null
     pacing?: BoolFilter | boolean
     status?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -22902,12 +22966,12 @@ export namespace Prisma {
     clicked: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    advertisement: AdvertisementCreateNestedOneWithoutImpressionsInput
+    advertisement?: AdvertisementCreateNestedOneWithoutImpressionsInput
   }
 
   export type ImpressionUncheckedCreateWithoutAuctionInput = {
     id?: string
-    advertisementId: string
+    advertisementId?: string | null
     clicked: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23063,7 +23127,7 @@ export namespace Prisma {
     OR?: Enumerable<ImpressionScalarWhereInput>
     NOT?: Enumerable<ImpressionScalarWhereInput>
     id?: StringFilter | string
-    advertisementId?: StringFilter | string
+    advertisementId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     clicked?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
@@ -23156,14 +23220,14 @@ export namespace Prisma {
     endUserFp?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAuctionsInput
+    user?: UserCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutWebsiteInput = {
     id?: string
-    userId: string
+    userId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -23400,14 +23464,14 @@ export namespace Prisma {
     endUserFp?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAuctionsInput
+    user?: UserCreateNestedOneWithoutAuctionsInput
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutWebpageInput = {
     id?: string
-    userId: string
+    userId?: string | null
     websiteId?: string | null
     url?: string | null
     userAgent?: string
@@ -23769,6 +23833,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -23788,6 +23853,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -24051,6 +24117,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -24070,6 +24137,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -24172,6 +24240,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24191,6 +24260,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24581,14 +24651,14 @@ export namespace Prisma {
     endUserFp?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAuctionsInput
+    user?: UserCreateNestedOneWithoutAuctionsInput
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
   }
 
   export type AuctionUncheckedCreateWithoutImpressionsInput = {
     id?: string
-    userId: string
+    userId?: string | null
     websiteId?: string | null
     webpageId?: string | null
     url?: string | null
@@ -24656,14 +24726,14 @@ export namespace Prisma {
     endUserFp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    user?: UserUpdateOneWithoutAuctionsNestedInput
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutImpressionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24718,6 +24788,7 @@ export namespace Prisma {
     productName?: string
     productDescription?: string
     clickUrl?: string
+    creativeUrl?: string | null
     pacing?: boolean
     status?: boolean
     createdAt?: Date | string
@@ -24853,6 +24924,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24871,6 +24943,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24889,6 +24962,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24959,7 +25033,7 @@ export namespace Prisma {
 
   export type ImpressionCreateManyAuctionInput = {
     id?: string
-    advertisementId: string
+    advertisementId?: string | null
     clicked: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24970,12 +25044,12 @@ export namespace Prisma {
     clicked?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    advertisement?: AdvertisementUpdateOneRequiredWithoutImpressionsNestedInput
+    advertisement?: AdvertisementUpdateOneWithoutImpressionsNestedInput
   }
 
   export type ImpressionUncheckedUpdateWithoutAuctionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    advertisementId?: StringFieldUpdateOperationsInput | string
+    advertisementId?: NullableStringFieldUpdateOperationsInput | string | null
     clicked?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24983,7 +25057,7 @@ export namespace Prisma {
 
   export type ImpressionUncheckedUpdateManyWithoutImpressionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    advertisementId?: StringFieldUpdateOperationsInput | string
+    advertisementId?: NullableStringFieldUpdateOperationsInput | string | null
     clicked?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25000,7 +25074,7 @@ export namespace Prisma {
 
   export type AuctionCreateManyWebsiteInput = {
     id?: string
-    userId: string
+    userId?: string | null
     webpageId?: string | null
     url?: string | null
     userAgent?: string
@@ -25057,14 +25131,14 @@ export namespace Prisma {
     endUserFp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    user?: UserUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutWebsiteInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -25097,7 +25171,7 @@ export namespace Prisma {
 
   export type AuctionCreateManyWebpageInput = {
     id?: string
-    userId: string
+    userId?: string | null
     websiteId?: string | null
     url?: string | null
     userAgent?: string
@@ -25198,14 +25272,14 @@ export namespace Prisma {
     endUserFp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAuctionsNestedInput
+    user?: UserUpdateOneWithoutAuctionsNestedInput
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutWebpageInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
@@ -25255,6 +25329,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25274,6 +25349,7 @@ export namespace Prisma {
     productName?: StringFieldUpdateOperationsInput | string
     productDescription?: StringFieldUpdateOperationsInput | string
     clickUrl?: StringFieldUpdateOperationsInput | string
+    creativeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pacing?: BoolFieldUpdateOperationsInput | boolean
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

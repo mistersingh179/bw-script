@@ -1,7 +1,7 @@
 import getUserId from "./utils/getUserId";
-import { generateAuction } from "./utils/auction";
+import { generateAuction, updateTimeSpent } from "./utils/auction";
 import { generateImpression } from "./utils/impression";
-import { insertAd, insertStyles, nextWithText } from "./utils/dom";
+import { insertAd, insertStyles } from "./utils/dom";
 import { Impression } from "./prisma-client-index";
 import getCategories from "./utils/categories/getCategories";
 
@@ -19,6 +19,14 @@ const init = async () => {
     console.log("aborting as no auction response");
     return;
   }
+
+  document.addEventListener("visibilitychange", (event) => {
+    updateTimeSpent(
+      auctionResponse.auction.id,
+      Math.floor(performance.now() / 1000)
+    );
+  });
+
   const { auction, adsWithDetail, settings, abortCategoryNames } =
     auctionResponse;
 
@@ -44,15 +52,15 @@ const init = async () => {
 
   const { customStyles } = settings;
   if (customStyles && customStyles.length > 0) {
-    try{
+    try {
       const re = /\.brandweaver-ad.*?\}/gms;
       const ans = customStyles.match(re);
-      if(ans && ans[0] && ans[0].length > 0){
+      if (ans && ans[0] && ans[0].length > 0) {
         console.log("adding styles: ");
         console.log(ans[0]);
         insertStyles(ans[0]);
       }
-    }catch(err){
+    } catch (err) {
       console.error("unable to apply styles: ", err);
     }
   }

@@ -1,13 +1,14 @@
 import * as esbuild from 'esbuild'
 
 const options = {
-  entryPoints: ['bw.ts', 'adSpotPreview.ts'],
+  entryPoints: ['bw.ts', 'adSpotPreview.ts', 'tippyExample.ts'],
   bundle: true,
   outdir: 'dist',
   sourcemap: true,
   minify: false,
   define: {
     'BW_DASHBOARD_BASE_URL': '"http://localhost:3000"',
+    'BW_CDN_BASE_URL': '"http://localhost:8000"',
   },
 };
 

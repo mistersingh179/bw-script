@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "esbuild": "0.17.14",
-    "superjson": "^1.12.3"
+    "superjson": "^1.12.3",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@types/node": "^18.15.11"

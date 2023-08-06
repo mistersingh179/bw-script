@@ -93,7 +93,11 @@ const setupMetaContent = () => {
     const element = allElements.find(
       (e) =>
         getCleanUrl(window.document.location.href) === item.url &&
-        e.textContent?.includes(item.input)
+        e.textContent?.includes(item.input) ||
+        e.innerText?.includes(item.input) ||
+        e.innerText
+          ?.replaceAll(String.fromCharCode(160), " ")
+          .includes(item.input)
     );
     if (element) {
       tippy(element, {

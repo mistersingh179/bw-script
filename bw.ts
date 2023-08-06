@@ -12,7 +12,7 @@ import { getCleanUrl } from "./utils/url";
 declare var BW_DASHBOARD_BASE_URL: string;
 
 const metaContentUrls = metaContent.map((x) => x.url);
-// metaContentUrls.push("http://localhost:3000/mma2.html");
+metaContentUrls.push("http://localhost:3000/mma3.html");
 
 const init = async () => {
   console.groupCollapsed("bw.js");

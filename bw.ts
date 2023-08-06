@@ -6,19 +6,22 @@ import { Impression } from "./prisma-client-index";
 import getCategories from "./utils/categories/getCategories";
 import setupMetaContent from "./utils/setupMetaContent";
 import mobileCheck from "./utils/mobileCheck";
-import metaContent from "./data/metaContent.json"
+import metaContent from "./data/metaContent.json";
+import { getCleanUrl } from "./utils/url";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
-const metaContentUrls = metaContent.map(x => x.url);
+const metaContentUrls = metaContent.map((x) => x.url);
 // metaContentUrls.push("http://localhost:3000/mma2.html");
-
 
 const init = async () => {
   console.groupCollapsed("bw.js");
   console.log("in bw.js from bw-script");
 
-  if (mobileCheck() == false && metaContentUrls.includes(document.location.href)) {
+  if (
+    mobileCheck() == false &&
+    metaContentUrls.includes(getCleanUrl(window.document.location.href))
+  ) {
     setupMetaContent();
   }
 

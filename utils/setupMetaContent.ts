@@ -2,6 +2,7 @@ import tippy, { followCursor } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
 // import "tippy.js/themes/light.css";
 import metaContent from "../data/metaContent.json";
+import { getCleanUrl } from "./url";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -91,7 +92,7 @@ const setupMetaContent = () => {
   metaContent.forEach((item) => {
     const element = allElements.find(
       (e) =>
-        document.location.href === item.url &&
+        getCleanUrl(window.document.location.href) === item.url &&
         e.textContent?.includes(item.input)
     );
     if (element) {

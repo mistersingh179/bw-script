@@ -12,18 +12,14 @@ import { getCleanUrl } from "./utils/url";
 declare var BW_DASHBOARD_BASE_URL: string;
 
 const metaContentUrls = metaContent.map((x) => x.url);
+metaContentUrls.push("http://localhost:3000/mma2.html");
 metaContentUrls.push("http://localhost:3000/mma3.html");
 
 const init = async () => {
   console.groupCollapsed("bw.js");
   console.log("in bw.js from bw-script");
 
-  if (
-    mobileCheck() == false &&
-    metaContentUrls.includes(getCleanUrl(window.document.location.href))
-  ) {
-    setupMetaContent();
-  }
+
 
   const userId = getUserId();
   console.log("got userId: ", userId);
@@ -40,6 +36,15 @@ const init = async () => {
       Math.floor(performance.now() / 1000)
     );
   });
+
+  if (
+    mobileCheck() == false &&
+    metaContentUrls.includes(getCleanUrl(window.document.location.href))
+  ) {
+    console.log("not on mobile & we have metaContent data");
+    setupMetaContent(auctionResponse.auction.id);
+  }
+
 
   const { auction, adsWithDetail, settings, abortCategoryNames } =
     auctionResponse;

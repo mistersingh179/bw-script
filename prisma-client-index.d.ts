@@ -88,6 +88,7 @@ export type Setting = {
   minCharLimit: number
   sameTypeElemWithTextToFollow: boolean
   makeLinksBold: boolean
+  bestCampaignCount: number
   customStyles: string
   createdAt: Date
   updatedAt: Date
@@ -107,6 +108,8 @@ export type Auction = {
   ip: string
   endUserCuid: string
   endUserFp: string
+  timeSpent: number
+  extra: string | null
   createdAt: Date
   updatedAt: Date
 }
@@ -5700,6 +5703,7 @@ export namespace Prisma {
     allTimeMostVisitedUrlCount: number | null
     recentlyMostVisitedUrlCount: number | null
     minCharLimit: number | null
+    bestCampaignCount: number | null
   }
 
   export type SettingSumAggregateOutputType = {
@@ -5711,6 +5715,7 @@ export namespace Prisma {
     allTimeMostVisitedUrlCount: number | null
     recentlyMostVisitedUrlCount: number | null
     minCharLimit: number | null
+    bestCampaignCount: number | null
   }
 
   export type SettingMinAggregateOutputType = {
@@ -5730,6 +5735,7 @@ export namespace Prisma {
     minCharLimit: number | null
     sameTypeElemWithTextToFollow: boolean | null
     makeLinksBold: boolean | null
+    bestCampaignCount: number | null
     customStyles: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5752,6 +5758,7 @@ export namespace Prisma {
     minCharLimit: number | null
     sameTypeElemWithTextToFollow: boolean | null
     makeLinksBold: boolean | null
+    bestCampaignCount: number | null
     customStyles: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5774,6 +5781,7 @@ export namespace Prisma {
     minCharLimit: number
     sameTypeElemWithTextToFollow: number
     makeLinksBold: number
+    bestCampaignCount: number
     customStyles: number
     createdAt: number
     updatedAt: number
@@ -5790,6 +5798,7 @@ export namespace Prisma {
     allTimeMostVisitedUrlCount?: true
     recentlyMostVisitedUrlCount?: true
     minCharLimit?: true
+    bestCampaignCount?: true
   }
 
   export type SettingSumAggregateInputType = {
@@ -5801,6 +5810,7 @@ export namespace Prisma {
     allTimeMostVisitedUrlCount?: true
     recentlyMostVisitedUrlCount?: true
     minCharLimit?: true
+    bestCampaignCount?: true
   }
 
   export type SettingMinAggregateInputType = {
@@ -5820,6 +5830,7 @@ export namespace Prisma {
     minCharLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
+    bestCampaignCount?: true
     customStyles?: true
     createdAt?: true
     updatedAt?: true
@@ -5842,6 +5853,7 @@ export namespace Prisma {
     minCharLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
+    bestCampaignCount?: true
     customStyles?: true
     createdAt?: true
     updatedAt?: true
@@ -5864,6 +5876,7 @@ export namespace Prisma {
     minCharLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
+    bestCampaignCount?: true
     customStyles?: true
     createdAt?: true
     updatedAt?: true
@@ -5974,6 +5987,7 @@ export namespace Prisma {
     minCharLimit: number
     sameTypeElemWithTextToFollow: boolean
     makeLinksBold: boolean
+    bestCampaignCount: number
     customStyles: string
     createdAt: Date
     updatedAt: Date
@@ -6015,6 +6029,7 @@ export namespace Prisma {
     minCharLimit?: boolean
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    bestCampaignCount?: boolean
     customStyles?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6790,8 +6805,18 @@ export namespace Prisma {
 
   export type AggregateAuction = {
     _count: AuctionCountAggregateOutputType | null
+    _avg: AuctionAvgAggregateOutputType | null
+    _sum: AuctionSumAggregateOutputType | null
     _min: AuctionMinAggregateOutputType | null
     _max: AuctionMaxAggregateOutputType | null
+  }
+
+  export type AuctionAvgAggregateOutputType = {
+    timeSpent: number | null
+  }
+
+  export type AuctionSumAggregateOutputType = {
+    timeSpent: number | null
   }
 
   export type AuctionMinAggregateOutputType = {
@@ -6804,6 +6829,8 @@ export namespace Prisma {
     ip: string | null
     endUserCuid: string | null
     endUserFp: string | null
+    timeSpent: number | null
+    extra: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6818,6 +6845,8 @@ export namespace Prisma {
     ip: string | null
     endUserCuid: string | null
     endUserFp: string | null
+    timeSpent: number | null
+    extra: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6832,11 +6861,21 @@ export namespace Prisma {
     ip: number
     endUserCuid: number
     endUserFp: number
+    timeSpent: number
+    extra: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type AuctionAvgAggregateInputType = {
+    timeSpent?: true
+  }
+
+  export type AuctionSumAggregateInputType = {
+    timeSpent?: true
+  }
 
   export type AuctionMinAggregateInputType = {
     id?: true
@@ -6848,6 +6887,8 @@ export namespace Prisma {
     ip?: true
     endUserCuid?: true
     endUserFp?: true
+    timeSpent?: true
+    extra?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6862,6 +6903,8 @@ export namespace Prisma {
     ip?: true
     endUserCuid?: true
     endUserFp?: true
+    timeSpent?: true
+    extra?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6876,6 +6919,8 @@ export namespace Prisma {
     ip?: true
     endUserCuid?: true
     endUserFp?: true
+    timeSpent?: true
+    extra?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6919,6 +6964,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+     **/
+    _avg?: AuctionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: AuctionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
      **/
     _min?: AuctionMinAggregateInputType
@@ -6949,6 +7006,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AuctionCountAggregateInputType | true
+    _avg?: AuctionAvgAggregateInputType
+    _sum?: AuctionSumAggregateInputType
     _min?: AuctionMinAggregateInputType
     _max?: AuctionMaxAggregateInputType
   }
@@ -6964,9 +7023,13 @@ export namespace Prisma {
     ip: string
     endUserCuid: string
     endUserFp: string
+    timeSpent: number
+    extra: string | null
     createdAt: Date
     updatedAt: Date
     _count: AuctionCountAggregateOutputType | null
+    _avg: AuctionAvgAggregateOutputType | null
+    _sum: AuctionSumAggregateOutputType | null
     _min: AuctionMinAggregateOutputType | null
     _max: AuctionMaxAggregateOutputType | null
   }
@@ -6995,6 +7058,8 @@ export namespace Prisma {
     ip?: boolean
     endUserCuid?: boolean
     endUserFp?: boolean
+    timeSpent?: boolean
+    extra?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Auction$userArgs
@@ -17027,6 +17092,8 @@ export namespace Prisma {
     ip: 'ip',
     endUserCuid: 'endUserCuid',
     endUserFp: 'endUserFp',
+    timeSpent: 'timeSpent',
+    extra: 'extra',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -17144,6 +17211,7 @@ export namespace Prisma {
     minCharLimit: 'minCharLimit',
     sameTypeElemWithTextToFollow: 'sameTypeElemWithTextToFollow',
     makeLinksBold: 'makeLinksBold',
+    bestCampaignCount: 'bestCampaignCount',
     customStyles: 'customStyles',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -17519,6 +17587,7 @@ export namespace Prisma {
     minCharLimit?: IntFilter | number
     sameTypeElemWithTextToFollow?: BoolFilter | boolean
     makeLinksBold?: BoolFilter | boolean
+    bestCampaignCount?: IntFilter | number
     customStyles?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -17542,6 +17611,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    bestCampaignCount?: SortOrder
     customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17568,6 +17638,7 @@ export namespace Prisma {
     minCharLimit?: IntFilter | number
     sameTypeElemWithTextToFollow?: BoolFilter | boolean
     makeLinksBold?: BoolFilter | boolean
+    bestCampaignCount?: IntFilter | number
     customStyles?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -17591,6 +17662,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    bestCampaignCount?: SortOrder
     customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -17621,6 +17693,7 @@ export namespace Prisma {
     minCharLimit?: IntWithAggregatesFilter | number
     sameTypeElemWithTextToFollow?: BoolWithAggregatesFilter | boolean
     makeLinksBold?: BoolWithAggregatesFilter | boolean
+    bestCampaignCount?: IntWithAggregatesFilter | number
     customStyles?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
@@ -17639,6 +17712,8 @@ export namespace Prisma {
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
+    timeSpent?: IntFilter | number
+    extra?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput> | null
@@ -17657,6 +17732,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    timeSpent?: SortOrder
+    extra?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -17678,6 +17755,8 @@ export namespace Prisma {
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
+    timeSpent?: IntFilter | number
+    extra?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput> | null
@@ -17696,11 +17775,15 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    timeSpent?: SortOrder
+    extra?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AuctionCountOrderByAggregateInput
+    _avg?: AuctionAvgOrderByAggregateInput
     _max?: AuctionMaxOrderByAggregateInput
     _min?: AuctionMinOrderByAggregateInput
+    _sum?: AuctionSumOrderByAggregateInput
   }
 
   export type AuctionScalarWhereWithAggregatesInput = {
@@ -17716,6 +17799,8 @@ export namespace Prisma {
     ip?: StringWithAggregatesFilter | string
     endUserCuid?: StringWithAggregatesFilter | string
     endUserFp?: StringWithAggregatesFilter | string
+    timeSpent?: IntWithAggregatesFilter | number
+    extra?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -18730,6 +18815,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    bestCampaignCount?: number
     customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18753,6 +18839,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    bestCampaignCount?: number
     customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18774,6 +18861,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    bestCampaignCount?: IntFieldUpdateOperationsInput | number
     customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18797,6 +18885,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    bestCampaignCount?: IntFieldUpdateOperationsInput | number
     customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18819,6 +18908,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    bestCampaignCount?: number
     customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -18840,6 +18930,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    bestCampaignCount?: IntFieldUpdateOperationsInput | number
     customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18862,6 +18953,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    bestCampaignCount?: IntFieldUpdateOperationsInput | number
     customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18874,6 +18966,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -18892,6 +18986,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -18904,6 +19000,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -18922,6 +19020,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -18937,6 +19037,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18948,6 +19050,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18962,6 +19066,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20099,6 +20205,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    bestCampaignCount?: SortOrder
     customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20113,6 +20220,7 @@ export namespace Prisma {
     allTimeMostVisitedUrlCount?: SortOrder
     recentlyMostVisitedUrlCount?: SortOrder
     minCharLimit?: SortOrder
+    bestCampaignCount?: SortOrder
   }
 
   export type SettingMaxOrderByAggregateInput = {
@@ -20132,6 +20240,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    bestCampaignCount?: SortOrder
     customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20154,6 +20263,7 @@ export namespace Prisma {
     minCharLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
+    bestCampaignCount?: SortOrder
     customStyles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20168,6 +20278,7 @@ export namespace Prisma {
     allTimeMostVisitedUrlCount?: SortOrder
     recentlyMostVisitedUrlCount?: SortOrder
     minCharLimit?: SortOrder
+    bestCampaignCount?: SortOrder
   }
 
   export type IntWithAggregatesFilter = {
@@ -20216,8 +20327,14 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    timeSpent?: SortOrder
+    extra?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AuctionAvgOrderByAggregateInput = {
+    timeSpent?: SortOrder
   }
 
   export type AuctionMaxOrderByAggregateInput = {
@@ -20230,6 +20347,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    timeSpent?: SortOrder
+    extra?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -20244,8 +20363,14 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    timeSpent?: SortOrder
+    extra?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AuctionSumOrderByAggregateInput = {
+    timeSpent?: SortOrder
   }
 
   export type WebpageListRelationFilter = {
@@ -22345,6 +22470,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
@@ -22361,6 +22488,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -22504,6 +22633,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    bestCampaignCount?: number
     customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22525,6 +22655,7 @@ export namespace Prisma {
     minCharLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
+    bestCampaignCount?: number
     customStyles?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22624,6 +22755,8 @@ export namespace Prisma {
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
+    timeSpent?: IntFilter | number
+    extra?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -22750,6 +22883,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    bestCampaignCount?: IntFieldUpdateOperationsInput | number
     customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22771,6 +22905,7 @@ export namespace Prisma {
     minCharLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
+    bestCampaignCount?: IntFieldUpdateOperationsInput | number
     customStyles?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23218,6 +23353,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -23234,6 +23371,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -23462,6 +23601,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -23478,6 +23619,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -24649,6 +24792,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -24666,6 +24811,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24724,6 +24871,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -24741,6 +24890,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24774,6 +24925,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24880,6 +25033,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
@@ -24896,6 +25051,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -24910,6 +25067,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25081,6 +25240,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25129,6 +25290,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -25145,6 +25308,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -25178,6 +25343,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25270,6 +25437,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -25286,6 +25455,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput

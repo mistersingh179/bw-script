@@ -53,3 +53,18 @@ export const updateTimeSpent = (aid: string, timeSpent: number) => {
     blob
   );
 };
+
+export const updateExtra = async (aid: string, extra: string) => {
+  const res = await fetch(`${BW_DASHBOARD_BASE_URL}/api/auctions/${aid}/updateExtra`, {
+    mode: "cors",
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId: getUserId(),
+      extra,
+    }),
+    credentials: "include",
+  });
+};

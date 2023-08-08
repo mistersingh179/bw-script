@@ -1,10 +1,10 @@
 import tippy, { followCursor } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
 // import "tippy.js/themes/light.css";
-import metaContent from "../data/metaContent.json";
 import { getCleanUrl } from "./url";
 import { sample } from "lodash";
 import {updateExtra} from "./auction";
+import getMetaContent from "../data/getMetaContent";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -72,10 +72,12 @@ const setupMetaContent = async (aid: string) => {
   };
 
   const allElements = [...document.querySelectorAll("p")];
+  let metaContent = getMetaContent();
+  metaContent = metaContent.filter(x => x.url === getCleanUrl(window.document.location.href));
+  console.log("metaContent: ", metaContent);
   metaContent.forEach((item) => {
     const element = allElements.find(
       (e) =>
-        getCleanUrl(window.document.location.href) === item.url &&
         e.textContent?.includes(item.input) ||
         e.innerText?.includes(item.input) ||
         e.innerText

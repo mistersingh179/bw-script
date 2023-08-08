@@ -6,20 +6,14 @@ import { Impression } from "./prisma-client-index";
 import getCategories from "./utils/categories/getCategories";
 import setupMetaContent from "./utils/setupMetaContent";
 import mobileCheck from "./utils/mobileCheck";
-import metaContent from "./data/metaContent.json";
 import { getCleanUrl } from "./utils/url";
+import getMetaContent, { getMetaContentUrls } from "./data/getMetaContent";
 
 declare var BW_DASHBOARD_BASE_URL: string;
-
-const metaContentUrls = metaContent.map((x) => x.url);
-metaContentUrls.push("http://localhost:3000/mma2.html");
-metaContentUrls.push("http://localhost:3000/mma3.html");
 
 const init = async () => {
   console.groupCollapsed("bw.js");
   console.log("in bw.js from bw-script");
-
-
 
   const userId = getUserId();
   console.log("got userId: ", userId);
@@ -48,14 +42,16 @@ const init = async () => {
     }
   });
 
-  if (
-    mobileCheck() == false &&
-    metaContentUrls.includes(getCleanUrl(window.document.location.href))
-  ) {
-    console.log("not on mobile & we have metaContent data");
-    setupMetaContent(auctionResponse.auction.id);
+  if (mobileCheck() == false) {
+    console.log("Not on mobile");
+    const metaContentUrls = getMetaContentUrls();
+    if (metaContentUrls.includes(getCleanUrl(window.document.location.href))) {
+      console.log("we have meta content for this url");
+      setupMetaContent(auctionResponse.auction.id);
+    } else {
+      console.log("NO meta content for this url");
+    }
   }
-
 
   const { auction, adsWithDetail, settings, abortCategoryNames } =
     auctionResponse;

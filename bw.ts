@@ -30,11 +30,22 @@ const init = async () => {
     return;
   }
 
+  console.log("setting up start time to now");
+  let startTime = new Date().getTime();
+  let totalTime = 0;
+
   document.addEventListener("visibilitychange", (event) => {
-    updateTimeSpent(
-      auctionResponse.auction.id,
-      Math.floor(performance.now() / 1000)
-    );
+    console.log("visibilityChange event fired: ", document.visibilityState);
+    if (document.visibilityState === "hidden") {
+      const endTime = new Date().getTime();
+      const visibleTime = endTime - startTime;
+      totalTime += visibleTime;
+      console.log("total time on site: ", Math.floor(totalTime / 1000));
+      updateTimeSpent(auctionResponse.auction.id, Math.floor(totalTime / 1000));
+    } else if (document.visibilityState === "visible") {
+      console.log("resetting start time to now");
+      startTime = new Date().getTime();
+    }
   });
 
   if (

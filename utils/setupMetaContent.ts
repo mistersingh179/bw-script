@@ -2,7 +2,7 @@ import tippy, { followCursor } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
 // import "tippy.js/themes/light.css";
 import { getCleanUrl } from "./url";
-import { sample } from "lodash";
+import {once, sample} from "lodash";
 import {updateExtra} from "./auction";
 import getMetaContent from "../data/getMetaContent";
 
@@ -97,6 +97,9 @@ const setupMetaContent = async (aid: string) => {
         placement: "right",
         followCursor: "vertical",
         plugins: [followCursor],
+        onShow: once(() => {
+          updateExtra(aid, SHOW_TIPPY + " and it popped up");
+        })
       });
     }
   });

@@ -127,6 +127,17 @@
     ]
   },
   {
+    "url": "http://localhost:3000/study2.html",
+    "input": "CAMBRIDGE, United Kingdom — How does our body maintain healthy blood sugar levels? A groundbreaking study of over 55,000 individuals worldwide has uncovered key information on what goes wrong when someone is diagnosed with Type 2 diabetes.",
+    "output": [
+      "<strong>Quick Tips For Maintaining Healthy Blood Sugar Levels</strong>",
+      "1. Eat a balanced diet - Include plenty of vegetables, fruits, lean protein, and whole grains in your meals. Avoid sugary and processed foods.",
+      "2. Exercise regularly - Physical activity can help regulate blood sugar levels by improving insulin sensitivity.",
+      "3. Stay hydrated - Drinking plenty of water can help flush out excess sugar in the bloodstream.",
+      "4. Get enough sleep - Lack of sleep can cause disruptions in hormones that regulate blood sugar levels."
+    ]
+  },
+  {
     "url": "https://studyfinds.org/diabetes-gene-blood-sugar",
     "input": "Insulin, a hormone that regulates blood sugar levels, plays a crucial role in the development of Type 2 diabetes. Individuals with this condition struggle to regulate their glucose levels either due to inadequate insulin secretion or decreased sensitivity to insulin, known as insulin resistance.",
     "output": [

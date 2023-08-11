@@ -23,7 +23,7 @@ const setupMetaContent = async (aid: string) => {
 
   const SHOW_NOTHING = 'show nothing';
   const SHOW_TIPPY = 'show tippy';
-  const extraValues = [SHOW_NOTHING, SHOW_TIPPY];
+  const extraValues = [SHOW_TIPPY];
   const extra = sample(extraValues) as string;
   console.log("random extra value is: ", extra);
   if(extra === SHOW_NOTHING){

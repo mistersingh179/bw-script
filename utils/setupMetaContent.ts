@@ -4,7 +4,7 @@ import "tippy.js/dist/tippy.css"; // optional for styling
 import { getCleanUrl } from "./url";
 import {once, sample} from "lodash";
 import {updateExtra} from "./auction";
-import getMetaContent from "../data/getMetaContent";
+import getMetaContent, {MetaContentType} from "../data/getMetaContent";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -42,7 +42,8 @@ const setupMetaContent = async (aid: string) => {
 
   document.body.appendChild(cssElement);
 
-  const getMetaDiv = (contentArray: string[]) => {
+  const getMetaDiv = (item: MetaContentType) => {
+    const contentArray = item.output;
     const metaDiv = document.createElement("div");
     contentArray.forEach((val, idx) => {
       const p = document.createElement("p");
@@ -71,13 +72,17 @@ const setupMetaContent = async (aid: string) => {
     return metaDiv;
   };
 
+  const myUrl = getCleanUrl(window.document.location.href);
   const allElements = [...document.querySelectorAll("p")];
   let metaContent = getMetaContent();
-  metaContent = metaContent.filter(x => x.url === getCleanUrl(window.document.location.href));
+  metaContent = metaContent.filter(x => x.url === myUrl);
   console.log("metaContent: ", metaContent);
   metaContent.forEach((item) => {
     const element = allElements.find(
       (e) =>
+        e.textContent
+          ?.replaceAll(String.fromCharCode(160), " ")
+          .includes(item.input) ||
         e.textContent?.includes(item.input) ||
         e.innerText?.includes(item.input) ||
         e.innerText
@@ -92,7 +97,7 @@ const setupMetaContent = async (aid: string) => {
         appendTo: document.body,
         zIndex: 2147483647,
         interactive: true,
-        content: getMetaDiv(item.output),
+        content: getMetaDiv(item),
         allowHTML: true,
         placement: "right",
         followCursor: "vertical",

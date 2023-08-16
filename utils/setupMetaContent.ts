@@ -2,9 +2,9 @@ import tippy, { followCursor } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
 // import "tippy.js/themes/light.css";
 import { getCleanUrl } from "./url";
-import {once, sample} from "lodash";
-import {updateExtra} from "./auction";
-import getMetaContent, {MetaContentType} from "../data/getMetaContent";
+import { once, sample } from "lodash";
+import { updateExtra } from "./auction";
+import getMetaContent, { MetaContentType } from "../data/getMetaContent";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -21,12 +21,12 @@ const setupMetaContent = async (aid: string) => {
   // tippyScript.src = "https://unpkg.com/tippy.js@6";
   // document.body.appendChild(tippyScript);
 
-  const SHOW_NOTHING = 'show nothing';
-  const SHOW_TIPPY = 'show tippy';
+  const SHOW_NOTHING = "show nothing";
+  const SHOW_TIPPY = "show tippy";
   const extraValues = [SHOW_TIPPY];
   const extra = sample(extraValues) as string;
   console.log("random extra value is: ", extra);
-  if(extra === SHOW_NOTHING){
+  if (extra === SHOW_NOTHING) {
     console.log("will show nothing");
     await updateExtra(aid, SHOW_NOTHING);
     return;
@@ -75,7 +75,9 @@ const setupMetaContent = async (aid: string) => {
   const myUrl = getCleanUrl(window.document.location.href);
   const allElements = [...document.querySelectorAll("p")];
   let metaContent = getMetaContent();
-  metaContent = metaContent.filter(x => x.url === myUrl);
+  metaContent = metaContent.filter(
+    (x) => (x.url === myUrl) || (x.url === window.document.location.href)
+  );
   console.log("metaContent: ", metaContent);
   metaContent.forEach((item) => {
     const element = allElements.find(
@@ -104,7 +106,7 @@ const setupMetaContent = async (aid: string) => {
         plugins: [followCursor],
         onShow: once(() => {
           updateExtra(aid, SHOW_TIPPY + " and it popped up");
-        })
+        }),
       });
     }
   });

@@ -24,6 +24,7 @@ export const getMetaContentUrls = () => {
   metaContentUrls.push("http://localhost:3000/mma2.html");
   metaContentUrls.push("http://localhost:3000/mma3.html");
   metaContentUrls.push("http://localhost:3000/mma4.html");
+  metaContentUrls.push("http://localhost:3000/mma5.html");
   metaContentUrls.push("http://localhost:3000/study2.html");
   metaContentUrls.push("http://localhost:3000/study3.html");
   metaContentUrls = [...new Set(metaContentUrls)];

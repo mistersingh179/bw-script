@@ -177,6 +177,15 @@
     "content_type": "contrarian viewpoint"
   },
   {
+    "url": "http://localhost:3000/mma5.html",
+    "input": "Luckily for his fans, he’s already made the trip over and has begun his specialised training – as he noted he would do not so long ago.",
+    "output": [
+      "\"Game-Changing Travel: Athletes Go Global\"",
+      "In the early 20th century, athletes often faced significant challenges when it came to international travel. Long and arduous voyages made it difficult for athletes to compete outside of their home countries. However, advancements in transportation technology, such as the invention of airplanes, revolutionized the sports industry. Athletes like the one mentioned in the original text were able to travel more efficiently and quickly, enabling them to pursue specialized training opportunities in different parts of the world. This marked a turning point in the history of sports, allowing athletes to expand their horizons and showcase their skills on a global stage."
+    ],
+    "content_type": "history"
+  },
+  {
     "url": "https://www.fightbookmma.com/jose-torres-gets-acclimatised-ahead-of-brave-cf-73-in-bogota/",
     "input": "Luckily for his fans, he’s already made the trip over and has begun his specialised training – as he noted he would do not so long ago.",
     "output": [
@@ -187,6 +196,15 @@
   },
   {
     "url": "https://www.fightbookmma.com/ufc-on-espn-50-venum-payout-jessica-andrade-top-earner-with-21000/",
+    "input": "NASHVILLE, TENNESSEE – AUGUST 05: Jessica Andrade of Brazil prepares to fight Tatiana Suarez in a strawweight fight during the UFC Fight Night event at Bridgestone Arena on August 05, 2023 in Nashville, Tennessee. (Photo by Jeff Bottari/Zuffa LLC via Getty Images)",
+    "output": [
+      "<strong>Battle of Styles: Andrade vs Suarez</strong>",
+      "The Brazilian fighter Jessica Andrade may face a tough challenge in her upcoming strawweight fight against Tatiana Suarez. While Andrade is known for her aggression and powerful striking, Suarez is a dominant wrestler with an undefeated record. Many fans expect Suarez to use her wrestling skills to control the fight and potentially submit Andrade. However, in the unpredictable world of mixed martial arts, anything can happen, and Andrade could surprise everyone with her resilience and knockout power. It will be interesting to see if Andrade can overcome the odds and secure a victory against Suarez."
+    ],
+    "content_type": "contrarian viewpoint"
+  },
+  {
+    "url": "http://localhost:3000/mma5.html",
     "input": "NASHVILLE, TENNESSEE – AUGUST 05: Jessica Andrade of Brazil prepares to fight Tatiana Suarez in a strawweight fight during the UFC Fight Night event at Bridgestone Arena on August 05, 2023 in Nashville, Tennessee. (Photo by Jeff Bottari/Zuffa LLC via Getty Images)",
     "output": [
       "<strong>Battle of Styles: Andrade vs Suarez</strong>",

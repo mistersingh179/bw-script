@@ -76,6 +76,9 @@ export const insertAd = (
       const target = event.target as HTMLElement;
       await markImpressionClicked(impression);
     });
+
+    advertElem.classList.add("brandweaver-ad-image");
+
   } else {
     const advertHtml = addLinkToText(
       ad.advertText,
@@ -90,9 +93,10 @@ export const insertAd = (
         await markImpressionClicked(impression);
       }
     });
+
+    advertElem.classList.add("brandweaver-ad-text");
   }
 
-  advertElem.classList.add("brandweaver-ad");
   advertElem.setAttribute("data-inserted-by-bw", "true");
   targetElem.after(advertElem);
 };

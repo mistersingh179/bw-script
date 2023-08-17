@@ -11,6 +11,38 @@ declare var BW_CDN_BASE_URL: string;
 const setupMetaContent = async (aid: string) => {
   console.log("in setupMetaContent");
 
+  // const processElement = (para: HTMLElement) => {
+  //   const { top, bottom, left, right } = para.getBoundingClientRect();
+  //   if(top <= mouseYInViewPort && bottom >= mouseYInViewPort){
+  //     para.style.backgroundColor = "lightcyan";
+  //   }else{
+  //     para.style.backgroundColor = "";
+  //   }
+  // }
+  //
+  // let mouseYInViewPort = 0;
+  // let mouseYInDocument = 0;
+  //
+  // window.document.addEventListener("mousemove", (event) => {
+  //   mouseYInViewPort = event.clientY;
+  //   mouseYInDocument = document.documentElement.scrollTop + mouseYInViewPort;
+  //   const allParas = [...document.querySelectorAll("p")];
+  //   for (const para of allParas) {
+  //     processElement(para);
+  //   }
+  // });
+  //
+  // window.document.addEventListener("scroll", (event) => {
+  //   mouseYInDocument = document.documentElement.scrollTop + mouseYInViewPort;
+  //   const allParas = [...document.querySelectorAll("p")];
+  //   for (const para of allParas) {
+  //     processElement(para);
+  //   }
+  // });
+  //
+  //
+  // return;
+
   /* Not needed as we are loading them via es module import */
   // const popperScript = document.createElement("script");
   // popperScript.src =
@@ -76,7 +108,7 @@ const setupMetaContent = async (aid: string) => {
   const allElements = [...document.querySelectorAll("p")];
   let metaContent = getMetaContent();
   metaContent = metaContent.filter(
-    (x) => (x.url === myUrl) || (x.url === window.document.location.href)
+    (x) => x.url === myUrl || x.url === window.document.location.href
   );
   console.log("metaContent: ", metaContent);
   metaContent.forEach((item) => {

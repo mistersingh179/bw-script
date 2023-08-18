@@ -10,8 +10,8 @@ declare var BW_CDN_BASE_URL: string;
 
 const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
   console.log("in setupMetaContent");
-  if(!mainPostBodySelector){
-    mainPostBodySelector = "body"
+  if (!mainPostBodySelector) {
+    mainPostBodySelector = "body";
   }
 
   const myUrl = getCleanUrl(window.document.location.href);
@@ -22,19 +22,60 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
   console.log("metaContent: ", metaContent);
 
   const processElement = (para: HTMLElement) => {
-    const { top, bottom, left, right, height, width } =
-      para.getBoundingClientRect();
-    if (top <= mouseYInViewPort && bottom >= mouseYInViewPort) {
-      para.dispatchEvent(
-        new MouseEvent("mouseenter", {
-          clientX: left + 1,
-          clientY: top + (height/2),
-        })
-      );
+    const {
+      top: paraTop,
+      bottom: paraBottom,
+      left: paraLeft,
+      right: paraRight,
+      height: paraHeight,
+      width: paraWidth,
+    } = para.getBoundingClientRect();
+
+    const tippyBoundingBox = document
+      .querySelector("[data-tippy-root]")
+      ?.getBoundingClientRect();
+
+    if (paraTop <= mouseYInViewPort && paraBottom >= mouseYInViewPort) {
+      // mouse is within paras Y space
+      if (!tippyBoundingBox) {
+        // there is no tippy box being shown, LET's trigger the mouse enter
+        para.dispatchEvent(
+          new MouseEvent("mouseenter", {
+            clientX: paraLeft + 1,
+            clientY: paraTop + paraHeight / 2,
+          })
+        );
+      } else {
+        // there is a tippy box. need to check if mouse is inside the tippy
+        const {
+          top: tippyTop,
+          bottom: tippyBottom,
+          left: tippyLeft,
+          right: tippyRight,
+        } = tippyBoundingBox;
+        if (
+          tippyTop <= mouseYInViewPort &&
+          tippyBottom >= mouseYInViewPort &&
+          tippyLeft <= mouseXInViewPort &&
+          tippyRight >= mouseXInViewPort
+        ) {
+          // we are in the tippy box. WILL NOT trigger mouse enter
+        } else {
+          // we are not in the tippy box. LET's trigger mouse enter
+          para.dispatchEvent(
+            new MouseEvent("mouseenter", {
+              clientX: paraLeft + 1,
+              clientY: paraTop + paraHeight / 2,
+            })
+          );
+        }
+      }
     } else {
+      // mouse has left the para's Y zone. LET'S trigger the mouse leave
+      // this will hide it only if not in the interactive zone
       para.dispatchEvent(
         new MouseEvent("mouseleave", {
-          clientX: mouseXInViewPort+1,
+          clientX: mouseXInViewPort + 1,
           clientY: mouseYInViewPort,
         })
       );
@@ -49,14 +90,18 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
     mouseYInViewPort = event.clientY;
     mouseXInViewPort = event.clientX;
     lastMouseEvent = event;
-    const allParas = [...document.querySelectorAll(`${mainPostBodySelector} p`)];
+    const allParas = [
+      ...document.querySelectorAll(`${mainPostBodySelector} p`),
+    ];
     for (const para of allParas) {
       processElement(para as HTMLElement);
     }
   });
 
   window.document.addEventListener("scroll", (event) => {
-    const allParas = [...document.querySelectorAll(`${mainPostBodySelector} p`)];
+    const allParas = [
+      ...document.querySelectorAll(`${mainPostBodySelector} p`),
+    ];
     for (const para of allParas) {
       processElement(para as HTMLElement);
     }
@@ -90,26 +135,26 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
       const p = document.createElement("p");
       p.style.fontSize = "18px";
       p.innerHTML = val;
-      // if (idx > 1) {
-      //   p.style.display = "none";
-      // }
+      if (idx > 1) {
+        p.style.display = "none";
+      }
       metaDiv.appendChild(p);
     });
-    // if (contentArray.length > 2) {
-    //   const button = document.createElement("button");
-    //   button.innerHTML = "Read More";
-    //   button.style.marginBottom = "10px";
-    //   button.addEventListener("click", (evt) => {
-    //     const targetElement = evt.target as HTMLElement;
-    //     if (targetElement) {
-    //       targetElement.parentElement
-    //         ?.querySelectorAll("p")
-    //         .forEach((x) => (x.style.display = "block"));
-    //       targetElement.style.display = "none";
-    //     }
-    //   });
-    //   metaDiv.appendChild(button);
-    // }
+    if (contentArray.length > 2) {
+      const button = document.createElement("button");
+      button.innerHTML = "Read More";
+      button.style.marginBottom = "10px";
+      button.addEventListener("click", (evt) => {
+        const targetElement = evt.target as HTMLElement;
+        if (targetElement) {
+          targetElement.parentElement
+            ?.querySelectorAll("p")
+            .forEach((x) => (x.style.display = "block"));
+          targetElement.style.display = "none";
+        }
+      });
+      metaDiv.appendChild(button);
+    }
     return metaDiv;
   };
 
@@ -131,6 +176,8 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
     if (element) {
       tippy(element, {
         appendTo: document.body,
+        // trigger: "click",
+        // hideOnClick: false,
         zIndex: 2147483647,
         interactive: true,
         content: getMetaDiv(item),

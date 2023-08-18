@@ -50,7 +50,7 @@ const init = async () => {
       metaContentUrls.includes(window.document.location.href)
     ) {
       console.log("we have meta content for this url");
-      setupMetaContent(auctionResponse.auction.id);
+      setupMetaContent(auctionResponse.auction.id, auctionResponse.settings.mainPostBodySelector);
     } else {
       console.log("NO meta content for this url");
     }

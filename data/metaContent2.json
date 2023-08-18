@@ -138,6 +138,25 @@
     ]
   },
   {
+    "url": "http://localhost:3000/study2.html",
+    "input": "Insulin",
+    "output": [
+      "<strong> foo bar baaz </strong>",
+      "1. Mote the better",
+      "2. Exercise regularly - Physical activity can help regulate blood sugar levels by improving insulin sensitivity.",
+      "3. Stay hydrated - Drinking plenty of water can help flush out excess sugar in the bloodstream.",
+      "4. Get enough sleep - Lack of sleep can cause disruptions in hormones that regulate blood sugar levels."
+    ]
+  },
+  {
+    "url": "http://localhost:3000/study2.html",
+    "input": "While previous studies have focused",
+    "output": [
+      "<strong> history, starlight travel, and adventure.  </strong>",
+      "Nunquam quaestio lumen. Cannabis audax vita est. Victrixs velum in copinga! Cadunt sapienter ducunt ad emeritis nutrix."
+    ]
+  },
+  {
     "url": "https://studyfinds.org/diabetes-gene-blood-sugar",
     "input": "Insulin, a hormone that regulates blood sugar levels, plays a crucial role in the development of Type 2 diabetes. Individuals with this condition struggle to regulate their glucose levels either due to inadequate insulin secretion or decreased sensitivity to insulin, known as insulin resistance.",
     "output": [

@@ -1,4 +1,4 @@
-import tippy, { followCursor } from "tippy.js";
+import tippy, { followCursor, Tippy } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
 // import "tippy.js/themes/light.css";
 import { getCleanUrl } from "./url";
@@ -8,50 +8,58 @@ import getMetaContent, { MetaContentType } from "../data/getMetaContent";
 
 declare var BW_CDN_BASE_URL: string;
 
-const setupMetaContent = async (aid: string) => {
+const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
   console.log("in setupMetaContent");
+  if(!mainPostBodySelector){
+    mainPostBodySelector = "body"
+  }
 
-  // const processElement = (para: HTMLElement) => {
-  //   const { top, bottom, left, right } = para.getBoundingClientRect();
-  //   if(top <= mouseYInViewPort && bottom >= mouseYInViewPort){
-  //     para.style.backgroundColor = "lightcyan";
-  //   }else{
-  //     para.style.backgroundColor = "";
-  //   }
-  // }
-  //
-  // let mouseYInViewPort = 0;
-  // let mouseYInDocument = 0;
-  //
-  // window.document.addEventListener("mousemove", (event) => {
-  //   mouseYInViewPort = event.clientY;
-  //   mouseYInDocument = document.documentElement.scrollTop + mouseYInViewPort;
-  //   const allParas = [...document.querySelectorAll("p")];
-  //   for (const para of allParas) {
-  //     processElement(para);
-  //   }
-  // });
-  //
-  // window.document.addEventListener("scroll", (event) => {
-  //   mouseYInDocument = document.documentElement.scrollTop + mouseYInViewPort;
-  //   const allParas = [...document.querySelectorAll("p")];
-  //   for (const para of allParas) {
-  //     processElement(para);
-  //   }
-  // });
-  //
-  //
-  // return;
+  const myUrl = getCleanUrl(window.document.location.href);
+  let metaContent = getMetaContent();
+  metaContent = metaContent.filter(
+    (x) => x.url === myUrl || x.url === window.document.location.href
+  );
 
-  /* Not needed as we are loading them via es module import */
-  // const popperScript = document.createElement("script");
-  // popperScript.src =
-  //   "https://unpkg.com/@popperjs/core@2";
-  // document.body.appendChild(popperScript);
-  //
-  // const tippyScript = document.createElement("script");
-  // tippyScript.src = "https://unpkg.com/tippy.js@6";
-  // document.body.appendChild(tippyScript);
+  const processElement = (para: HTMLElement) => {
+    const { top, bottom, left, right, height, width } =
+      para.getBoundingClientRect();
+    if (top <= mouseYInViewPort && bottom >= mouseYInViewPort) {
+      para.dispatchEvent(
+        new MouseEvent("mouseenter", {
+          clientX: left + 1,
+          clientY: top + (height/2),
+        })
+      );
+    } else {
+      para.dispatchEvent(
+        new MouseEvent("mouseleave", {
+          clientX: mouseXInViewPort+1,
+          clientY: mouseYInViewPort,
+        })
+      );
+    }
+  };
+
+  let mouseYInViewPort = 0;
+  let mouseXInViewPort = 0;
+  let lastMouseEvent: MouseEvent;
+
+  window.document.addEventListener("mousemove", (event) => {
+    mouseYInViewPort = event.clientY;
+    mouseXInViewPort = event.clientX;
+    lastMouseEvent = event;
+    const allParas = [...document.querySelectorAll(`${mainPostBodySelector} p`)];
+    for (const para of allParas) {
+      processElement(para as HTMLElement);
+    }
+  });
+
+  window.document.addEventListener("scroll", (event) => {
+    const allParas = [...document.querySelectorAll(`${mainPostBodySelector} p`)];
+    for (const para of allParas) {
+      processElement(para as HTMLElement);
+    }
+  });
 
   const SHOW_NOTHING = "show nothing";
   const SHOW_TIPPY = "show tippy";
@@ -81,37 +89,33 @@ const setupMetaContent = async (aid: string) => {
       const p = document.createElement("p");
       p.style.fontSize = "18px";
       p.innerHTML = val;
-      if (idx > 1) {
-        p.style.display = "none";
-      }
+      // if (idx > 1) {
+      //   p.style.display = "none";
+      // }
       metaDiv.appendChild(p);
     });
-    if (contentArray.length > 2) {
-      const button = document.createElement("button");
-      button.innerHTML = "Read More";
-      button.style.marginBottom = "10px";
-      button.addEventListener("click", (evt) => {
-        const targetElement = evt.target as HTMLElement;
-        if (targetElement) {
-          targetElement.parentElement
-            ?.querySelectorAll("p")
-            .forEach((x) => (x.style.display = "block"));
-          targetElement.style.display = "none";
-        }
-      });
-      metaDiv.appendChild(button);
-    }
+    // if (contentArray.length > 2) {
+    //   const button = document.createElement("button");
+    //   button.innerHTML = "Read More";
+    //   button.style.marginBottom = "10px";
+    //   button.addEventListener("click", (evt) => {
+    //     const targetElement = evt.target as HTMLElement;
+    //     if (targetElement) {
+    //       targetElement.parentElement
+    //         ?.querySelectorAll("p")
+    //         .forEach((x) => (x.style.display = "block"));
+    //       targetElement.style.display = "none";
+    //     }
+    //   });
+    //   metaDiv.appendChild(button);
+    // }
     return metaDiv;
   };
 
-  const myUrl = getCleanUrl(window.document.location.href);
-  const allElements = [...document.querySelectorAll("p")];
-  let metaContent = getMetaContent();
-  metaContent = metaContent.filter(
-    (x) => x.url === myUrl || x.url === window.document.location.href
-  );
-  console.log("metaContent: ", metaContent);
-  metaContent.forEach((item) => {
+  const allElements = [
+    ...document.querySelectorAll(`${mainPostBodySelector} p`),
+  ] as HTMLElement[];
+  metaContent.forEach((item, index) => {
     const element = allElements.find(
       (e) =>
         e.textContent
@@ -125,9 +129,6 @@ const setupMetaContent = async (aid: string) => {
     );
     if (element) {
       tippy(element, {
-        // trigger: "click",
-        // hideOnClick: false,
-        // theme: "light",
         appendTo: document.body,
         zIndex: 2147483647,
         interactive: true,

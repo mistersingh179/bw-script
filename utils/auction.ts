@@ -8,7 +8,7 @@ declare var BW_DASHBOARD_BASE_URL: string;
 
 export type LimitedSettingsType = Pick<
   Setting,
-  "sponsoredWording" | "makeLinksBold" | "customStyles"
+  "sponsoredWording" | "makeLinksBold" | "customStyles" | "mainPostBodySelector"
 >;
 
 type AuctionResponse = {

@@ -19,6 +19,7 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
   metaContent = metaContent.filter(
     (x) => x.url === myUrl || x.url === window.document.location.href
   );
+  console.log("metaContent: ", metaContent);
 
   const processElement = (para: HTMLElement) => {
     const { top, bottom, left, right, height, width } =

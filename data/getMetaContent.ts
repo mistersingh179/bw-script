@@ -2,6 +2,7 @@ import metaContent from "./metaContent.json";
 import metaContent2 from "./metaContent2.json";
 import metaContent3 from "./metaContent3.json";
 import metaContent4 from "./metaContent4.json";
+import { getCleanUrl } from "../utils/url";
 
 export type MetaContentType = {
   url: string;
@@ -20,7 +21,7 @@ const getMetaContent = () => {
 
 export const getMetaContentUrls = () => {
   const metaContent = getMetaContent();
-  let metaContentUrls = metaContent.map((x) => x.url);
+  let metaContentUrls = metaContent.map((x) => getCleanUrl(x.url));
   metaContentUrls.push("http://localhost:3000/mma2.html");
   metaContentUrls.push("http://localhost:3000/mma3.html");
   metaContentUrls.push("http://localhost:3000/mma4.html");

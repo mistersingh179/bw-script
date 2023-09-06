@@ -1,27 +1,32 @@
-import * as esbuild from 'esbuild'
+import * as esbuild from "esbuild";
 
 const options = {
-  entryPoints: ['bw.ts', 'adSpotPreview.ts', 'tippyExample.ts'],
+  entryPoints: [
+    "bw.ts",
+    "adSpotPreview.ts",
+    "metaContentSpotPreview.ts",
+    "tippyExample.ts",
+  ],
   bundle: true,
-  outdir: 'dist',
+  outdir: "dist",
   sourcemap: true,
   minify: false,
   define: {
-    'BW_DASHBOARD_BASE_URL': '"http://localhost:3000"',
-    'BW_CDN_BASE_URL': '"http://localhost:8000"',
+    BW_DASHBOARD_BASE_URL: '"http://localhost:3000"',
+    BW_CDN_BASE_URL: '"http://localhost:8000"',
   },
 };
 
 let ctx = await esbuild.context(options);
 
-await ctx.watch()
+await ctx.watch();
 
 let { host, port } = await ctx.serve({
   port: 8000,
-  host: '0.0.0.0',
-  servedir: './dist',
+  host: "0.0.0.0",
+  servedir: "./dist",
   // certfile: './server.crt',
   // keyfile: './server.key'
-})
+});
 
-console.log(`server has file at http(s)://server:${port}/bw.js`)
+console.log(`server has file(s) at http(s)://server:${port}/bw.js`);

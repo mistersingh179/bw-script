@@ -1,7 +1,7 @@
 import * as esbuild from 'esbuild'
 
 const options = {
-  entryPoints: ['bw.ts', 'adSpotPreview.ts'],
+  entryPoints: ['bw.ts', 'adSpotPreview.ts', 'metaContentSpotPreview.ts'],
   bundle: true,
   outdir: './dist',
   sourcemap: true,

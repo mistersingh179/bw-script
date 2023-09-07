@@ -1,25 +1,22 @@
-import tippy, { followCursor, Tippy } from "tippy.js";
+import tippy, { followCursor } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
 // import "tippy.js/themes/light.css";
-import { getCleanUrl } from "./url";
 import { once, sample } from "lodash";
-import { updateExtra } from "./auction";
-import getMetaContent, { MetaContentType } from "../data/getMetaContent";
+import { MetaContentSpotsWithMetaContentAndType, updateExtra } from "./auction";
+import { MetaContent } from "../prisma-client-index";
 
 declare var BW_CDN_BASE_URL: string;
 
-const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
-  console.log("in setupMetaContent");
-  if (!mainPostBodySelector) {
-    mainPostBodySelector = "body";
-  }
+const setupMetaContent = async (
+  aid: string,
+  metaContentSpotSelector: string,
+  metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[]
+) => {
+  console.log("in setupMetaContent with: ", metaContentSpotsWithDetail);
 
-  const myUrl = getCleanUrl(window.document.location.href);
-  let metaContent = getMetaContent();
-  metaContent = metaContent.filter(
-    (x) => x.url === myUrl || x.url === window.document.location.href
-  );
-  console.log("metaContent: ", metaContent);
+  if (!metaContentSpotSelector) {
+    metaContentSpotSelector = "body p";
+  }
 
   const processElement = (para: HTMLElement) => {
     const {
@@ -90,18 +87,14 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
     mouseYInViewPort = event.clientY;
     mouseXInViewPort = event.clientX;
     lastMouseEvent = event;
-    const allParas = [
-      ...document.querySelectorAll(`${mainPostBodySelector} p`),
-    ];
+    const allParas = [...document.querySelectorAll(metaContentSpotSelector)];
     for (const para of allParas) {
       processElement(para as HTMLElement);
     }
   });
 
   window.document.addEventListener("scroll", (event) => {
-    const allParas = [
-      ...document.querySelectorAll(`${mainPostBodySelector} p`),
-    ];
+    const allParas = [...document.querySelectorAll(metaContentSpotSelector)];
     for (const para of allParas) {
       processElement(para as HTMLElement);
     }
@@ -109,7 +102,7 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
 
   const SHOW_NOTHING = "show nothing";
   const SHOW_TIPPY = "show tippy";
-  const extraValues = [SHOW_NOTHING, SHOW_TIPPY];
+  const extraValues = [SHOW_TIPPY];
   const extra = sample(extraValues) as string;
   console.log("random extra value is: ", extra);
   if (extra === SHOW_NOTHING) {
@@ -128,19 +121,31 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
 
   document.body.appendChild(cssElement);
 
-  const getMetaDiv = (item: MetaContentType) => {
-    const contentArray = item.output;
+  const getMetaDiv = (item: MetaContent) => {
     const metaDiv = document.createElement("div");
-    contentArray.forEach((val, idx) => {
+
+    const heading = document.createElement("p");
+    heading.style.fontSize = "18px";
+    heading.style.fontWeight = "700";
+    heading.innerHTML = item.generatedHeading;
+    metaDiv.appendChild(heading);
+
+    const generatedTextArray = item.generatedText.split("\\n");
+
+    generatedTextArray.forEach((generatedTextItem, idx) => {
+      if (generatedTextItem === "") {
+        return;
+      }
+
       const p = document.createElement("p");
       p.style.fontSize = "18px";
-      p.innerHTML = val;
-      if (idx > 1) {
+      p.innerHTML = generatedTextItem;
+      if (idx > 0) {
         p.style.display = "none";
       }
       metaDiv.appendChild(p);
     });
-    if (contentArray.length > 2) {
+    if (generatedTextArray.length > 1) {
       const button = document.createElement("button");
       button.innerHTML = "Read More";
       button.style.marginBottom = "10px";
@@ -159,20 +164,20 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
   };
 
   const allElements = [
-    ...document.querySelectorAll(`${mainPostBodySelector} p`),
+    ...document.querySelectorAll(metaContentSpotSelector),
   ] as HTMLElement[];
-  metaContent.forEach((item, index) => {
-    const element = allElements.find(
-      (e) =>
-        e.textContent
-          ?.replaceAll(String.fromCharCode(160), " ")
-          .includes(item.input) ||
-        e.textContent?.includes(item.input) ||
-        e.innerText?.includes(item.input) ||
-        e.innerText
-          ?.replaceAll(String.fromCharCode(160), " ")
-          .includes(item.input)
-    );
+
+  metaContentSpotsWithDetail.forEach((item, index) => {
+    if (item.metaContents.length === 0) {
+      return;
+    }
+
+    const element = allElements.find((e) => {
+      let textContent = e.textContent?.trim() ?? "";
+      textContent = textContent.replaceAll(/[\n]+/g, " ");
+      textContent = textContent.replaceAll(/[\s]+/g, " ");
+      return textContent.includes(item.contentText);
+    });
     if (element) {
       tippy(element, {
         appendTo: document.body,
@@ -180,7 +185,7 @@ const setupMetaContent = async (aid: string, mainPostBodySelector: string) => {
         // hideOnClick: false,
         zIndex: 2147483647,
         interactive: true,
-        content: getMetaDiv(item),
+        content: getMetaDiv(item.metaContents[0]),
         allowHTML: true,
         placement: "right",
         followCursor: "vertical",

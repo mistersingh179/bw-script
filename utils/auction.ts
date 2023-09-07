@@ -1,21 +1,39 @@
 import getUserId from "./getUserId";
 import { getCleanUrl } from "./url";
-import { Auction, Setting } from "../prisma-client-index";
+import {
+  Auction,
+  MetaContent,
+  MetaContentSpot,
+  Setting,
+} from "../prisma-client-index";
 import superjson from "superjson";
 import { AdWithDetail } from "./dom";
+import { MetaContentType } from "../data/getMetaContent";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
 export type LimitedSettingsType = Pick<
   Setting,
-  "sponsoredWording" | "makeLinksBold" | "customStyles" | "mainPostBodySelector"
+  | "sponsoredWording"
+  | "makeLinksBold"
+  | "customStyles"
+  | "mainPostBodySelector"
+  | "metaContentSpotSelector"
 >;
+
+export type MetaContentSpotsWithMetaContentAndType = MetaContentSpot & {
+  metaContents: (MetaContent & {
+    metaContentType: MetaContentType;
+  })[];
+};
 
 type AuctionResponse = {
   auction: Auction;
   adsWithDetail: AdWithDetail[];
+  metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[];
   settings: LimitedSettingsType;
   abortCategoryNames: string[];
+  messages: string[];
 };
 
 export const generateAuction = async () => {
@@ -55,16 +73,19 @@ export const updateTimeSpent = (aid: string, timeSpent: number) => {
 };
 
 export const updateExtra = async (aid: string, extra: string) => {
-  const res = await fetch(`${BW_DASHBOARD_BASE_URL}/api/auctions/${aid}/updateExtra`, {
-    mode: "cors",
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      userId: getUserId(),
-      extra,
-    }),
-    credentials: "include",
-  });
+  const res = await fetch(
+    `${BW_DASHBOARD_BASE_URL}/api/auctions/${aid}/updateExtra`,
+    {
+      mode: "cors",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: getUserId(),
+        extra,
+      }),
+      credentials: "include",
+    }
+  );
 };

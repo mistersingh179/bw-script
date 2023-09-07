@@ -44,15 +44,23 @@ const init = async () => {
 
   if (mobileCheck() == false) {
     console.log("Not on mobile");
-    const metaContentUrls = getMetaContentUrls();
-    if (
-      metaContentUrls.includes(getCleanUrl(window.document.location.href)) ||
-      metaContentUrls.includes(window.document.location.href)
-    ) {
-      console.log("we have meta content for this url");
-      setupMetaContent(auctionResponse.auction.id, auctionResponse.settings.mainPostBodySelector);
+    const {
+      metaContentSpotsWithDetail,
+      auction: { id: aid },
+      settings: { metaContentSpotSelector }
+    } = auctionResponse;
+    const hasMetaContent = metaContentSpotsWithDetail.some(
+      (mcs) => mcs.metaContents.length > 0
+    );
+    if (hasMetaContent) {
+      console.log("we have meta content. will set it up");
+      setupMetaContent(
+        aid,
+        metaContentSpotSelector,
+        metaContentSpotsWithDetail
+      );
     } else {
-      console.log("NO meta content for this url");
+      console.log("meta content not found. skipping setup");
     }
   }
 

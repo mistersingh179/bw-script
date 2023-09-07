@@ -78,6 +78,7 @@ export type Setting = {
   status: boolean
   sponsoredWording: string
   desiredAdvertisementSpotCount: number
+  desiredMetaContentSpotCount: number
   desiredAdvertisementCount: number
   webpageLookbackDays: number
   webpageInsertCap: number
@@ -85,7 +86,9 @@ export type Setting = {
   recentlyMostVisitedUrlCount: number
   mainPostBodySelector: string
   contentSelector: string
+  metaContentSpotSelector: string
   minCharLimit: number
+  minMetaContentSpotWordLimit: number
   sameTypeElemWithTextToFollow: boolean
   makeLinksBold: boolean
   bestCampaignCount: number
@@ -211,6 +214,47 @@ export type Advertisement = {
   advertisementSpotId: string
   advertText: string
   status: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model MetaContentSpot
+ *
+ */
+export type MetaContentSpot = {
+  id: string
+  webpageId: string
+  contentText: string
+  buildFailCount: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model MetaContent
+ *
+ */
+export type MetaContent = {
+  id: string
+  metaContentSpotId: string
+  metaContentTypeId: string
+  generatedText: string
+  generatedHeading: string
+  diveristyClassifierResult: string
+  diveristyClassifierReason: string
+  status: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model MetaContentType
+ *
+ */
+export type MetaContentType = {
+  id: string
+  name: string
   createdAt: Date
   updatedAt: Date
 }
@@ -497,6 +541,36 @@ export class PrismaClient<
    * ```
    */
   get advertisement(): Prisma.AdvertisementDelegate<GlobalReject>;
+
+  /**
+   * `prisma.metaContentSpot`: Exposes CRUD operations for the **MetaContentSpot** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more MetaContentSpots
+   * const metaContentSpots = await prisma.metaContentSpot.findMany()
+   * ```
+   */
+  get metaContentSpot(): Prisma.MetaContentSpotDelegate<GlobalReject>;
+
+  /**
+   * `prisma.metaContent`: Exposes CRUD operations for the **MetaContent** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more MetaContents
+   * const metaContents = await prisma.metaContent.findMany()
+   * ```
+   */
+  get metaContent(): Prisma.MetaContentDelegate<GlobalReject>;
+
+  /**
+   * `prisma.metaContentType`: Exposes CRUD operations for the **MetaContentType** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more MetaContentTypes
+   * const metaContentTypes = await prisma.metaContentType.findMany()
+   * ```
+   */
+  get metaContentType(): Prisma.MetaContentTypeDelegate<GlobalReject>;
 
   /**
    * `prisma.campaign`: Exposes CRUD operations for the **Campaign** model.
@@ -999,6 +1073,9 @@ export namespace Prisma {
     AdvertisementSpot: 'AdvertisementSpot',
     ScoredCampaign: 'ScoredCampaign',
     Advertisement: 'Advertisement',
+    MetaContentSpot: 'MetaContentSpot',
+    MetaContent: 'MetaContent',
+    MetaContentType: 'MetaContentType',
     Campaign: 'Campaign',
     Impression: 'Impression'
   };
@@ -1382,6 +1459,7 @@ export namespace Prisma {
   export type WebpageCountOutputType = {
     scoredCampaigns: number
     advertisementSpots: number
+    metaContentSpots: number
     categories: number
     auctions: number
   }
@@ -1389,6 +1467,7 @@ export namespace Prisma {
   export type WebpageCountOutputTypeSelect = {
     scoredCampaigns?: boolean | WebpageCountOutputTypeCountScoredCampaignsArgs
     advertisementSpots?: boolean | WebpageCountOutputTypeCountAdvertisementSpotsArgs
+    metaContentSpots?: boolean | WebpageCountOutputTypeCountMetaContentSpotsArgs
     categories?: boolean | WebpageCountOutputTypeCountCategoriesArgs
     auctions?: boolean | WebpageCountOutputTypeCountAuctionsArgs
   }
@@ -1435,6 +1514,14 @@ export namespace Prisma {
    */
   export type WebpageCountOutputTypeCountAdvertisementSpotsArgs = {
     where?: AdvertisementSpotWhereInput
+  }
+
+
+  /**
+   * WebpageCountOutputType without action
+   */
+  export type WebpageCountOutputTypeCountMetaContentSpotsArgs = {
+    where?: MetaContentSpotWhereInput
   }
 
 
@@ -1665,6 +1752,108 @@ export namespace Prisma {
    */
   export type AdvertisementCountOutputTypeCountImpressionsArgs = {
     where?: ImpressionWhereInput
+  }
+
+
+
+  /**
+   * Count Type MetaContentSpotCountOutputType
+   */
+
+
+  export type MetaContentSpotCountOutputType = {
+    metaContents: number
+  }
+
+  export type MetaContentSpotCountOutputTypeSelect = {
+    metaContents?: boolean | MetaContentSpotCountOutputTypeCountMetaContentsArgs
+  }
+
+  export type MetaContentSpotCountOutputTypeGetPayload<S extends boolean | null | undefined | MetaContentSpotCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentSpotCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentSpotCountOutputTypeArgs)
+            ? MetaContentSpotCountOutputType
+            : S extends { select: any } & (MetaContentSpotCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof MetaContentSpotCountOutputType ? MetaContentSpotCountOutputType[P] : never
+              }
+              : MetaContentSpotCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentSpotCountOutputType without action
+   */
+  export type MetaContentSpotCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpotCountOutputType
+     */
+    select?: MetaContentSpotCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * MetaContentSpotCountOutputType without action
+   */
+  export type MetaContentSpotCountOutputTypeCountMetaContentsArgs = {
+    where?: MetaContentWhereInput
+  }
+
+
+
+  /**
+   * Count Type MetaContentTypeCountOutputType
+   */
+
+
+  export type MetaContentTypeCountOutputType = {
+    metaContents: number
+  }
+
+  export type MetaContentTypeCountOutputTypeSelect = {
+    metaContents?: boolean | MetaContentTypeCountOutputTypeCountMetaContentsArgs
+  }
+
+  export type MetaContentTypeCountOutputTypeGetPayload<S extends boolean | null | undefined | MetaContentTypeCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentTypeCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentTypeCountOutputTypeArgs)
+            ? MetaContentTypeCountOutputType
+            : S extends { select: any } & (MetaContentTypeCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof MetaContentTypeCountOutputType ? MetaContentTypeCountOutputType[P] : never
+              }
+              : MetaContentTypeCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentTypeCountOutputType without action
+   */
+  export type MetaContentTypeCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentTypeCountOutputType
+     */
+    select?: MetaContentTypeCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * MetaContentTypeCountOutputType without action
+   */
+  export type MetaContentTypeCountOutputTypeCountMetaContentsArgs = {
+    where?: MetaContentWhereInput
   }
 
 
@@ -5697,24 +5886,28 @@ export namespace Prisma {
   export type SettingAvgAggregateOutputType = {
     scoreThreshold: number | null
     desiredAdvertisementSpotCount: number | null
+    desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
     webpageLookbackDays: number | null
     webpageInsertCap: number | null
     allTimeMostVisitedUrlCount: number | null
     recentlyMostVisitedUrlCount: number | null
     minCharLimit: number | null
+    minMetaContentSpotWordLimit: number | null
     bestCampaignCount: number | null
   }
 
   export type SettingSumAggregateOutputType = {
     scoreThreshold: number | null
     desiredAdvertisementSpotCount: number | null
+    desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
     webpageLookbackDays: number | null
     webpageInsertCap: number | null
     allTimeMostVisitedUrlCount: number | null
     recentlyMostVisitedUrlCount: number | null
     minCharLimit: number | null
+    minMetaContentSpotWordLimit: number | null
     bestCampaignCount: number | null
   }
 
@@ -5725,6 +5918,7 @@ export namespace Prisma {
     status: boolean | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
+    desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
     webpageLookbackDays: number | null
     webpageInsertCap: number | null
@@ -5732,7 +5926,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount: number | null
     mainPostBodySelector: string | null
     contentSelector: string | null
+    metaContentSpotSelector: string | null
     minCharLimit: number | null
+    minMetaContentSpotWordLimit: number | null
     sameTypeElemWithTextToFollow: boolean | null
     makeLinksBold: boolean | null
     bestCampaignCount: number | null
@@ -5748,6 +5944,7 @@ export namespace Prisma {
     status: boolean | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
+    desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
     webpageLookbackDays: number | null
     webpageInsertCap: number | null
@@ -5755,7 +5952,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount: number | null
     mainPostBodySelector: string | null
     contentSelector: string | null
+    metaContentSpotSelector: string | null
     minCharLimit: number | null
+    minMetaContentSpotWordLimit: number | null
     sameTypeElemWithTextToFollow: boolean | null
     makeLinksBold: boolean | null
     bestCampaignCount: number | null
@@ -5771,6 +5970,7 @@ export namespace Prisma {
     status: number
     sponsoredWording: number
     desiredAdvertisementSpotCount: number
+    desiredMetaContentSpotCount: number
     desiredAdvertisementCount: number
     webpageLookbackDays: number
     webpageInsertCap: number
@@ -5778,7 +5978,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount: number
     mainPostBodySelector: number
     contentSelector: number
+    metaContentSpotSelector: number
     minCharLimit: number
+    minMetaContentSpotWordLimit: number
     sameTypeElemWithTextToFollow: number
     makeLinksBold: number
     bestCampaignCount: number
@@ -5792,24 +5994,28 @@ export namespace Prisma {
   export type SettingAvgAggregateInputType = {
     scoreThreshold?: true
     desiredAdvertisementSpotCount?: true
+    desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
     webpageLookbackDays?: true
     webpageInsertCap?: true
     allTimeMostVisitedUrlCount?: true
     recentlyMostVisitedUrlCount?: true
     minCharLimit?: true
+    minMetaContentSpotWordLimit?: true
     bestCampaignCount?: true
   }
 
   export type SettingSumAggregateInputType = {
     scoreThreshold?: true
     desiredAdvertisementSpotCount?: true
+    desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
     webpageLookbackDays?: true
     webpageInsertCap?: true
     allTimeMostVisitedUrlCount?: true
     recentlyMostVisitedUrlCount?: true
     minCharLimit?: true
+    minMetaContentSpotWordLimit?: true
     bestCampaignCount?: true
   }
 
@@ -5820,6 +6026,7 @@ export namespace Prisma {
     status?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
+    desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
     webpageLookbackDays?: true
     webpageInsertCap?: true
@@ -5827,7 +6034,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: true
     mainPostBodySelector?: true
     contentSelector?: true
+    metaContentSpotSelector?: true
     minCharLimit?: true
+    minMetaContentSpotWordLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
     bestCampaignCount?: true
@@ -5843,6 +6052,7 @@ export namespace Prisma {
     status?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
+    desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
     webpageLookbackDays?: true
     webpageInsertCap?: true
@@ -5850,7 +6060,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: true
     mainPostBodySelector?: true
     contentSelector?: true
+    metaContentSpotSelector?: true
     minCharLimit?: true
+    minMetaContentSpotWordLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
     bestCampaignCount?: true
@@ -5866,6 +6078,7 @@ export namespace Prisma {
     status?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
+    desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
     webpageLookbackDays?: true
     webpageInsertCap?: true
@@ -5873,7 +6086,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: true
     mainPostBodySelector?: true
     contentSelector?: true
+    metaContentSpotSelector?: true
     minCharLimit?: true
+    minMetaContentSpotWordLimit?: true
     sameTypeElemWithTextToFollow?: true
     makeLinksBold?: true
     bestCampaignCount?: true
@@ -5977,6 +6192,7 @@ export namespace Prisma {
     status: boolean
     sponsoredWording: string
     desiredAdvertisementSpotCount: number
+    desiredMetaContentSpotCount: number
     desiredAdvertisementCount: number
     webpageLookbackDays: number
     webpageInsertCap: number
@@ -5984,7 +6200,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount: number
     mainPostBodySelector: string
     contentSelector: string
+    metaContentSpotSelector: string
     minCharLimit: number
+    minMetaContentSpotWordLimit: number
     sameTypeElemWithTextToFollow: boolean
     makeLinksBold: boolean
     bestCampaignCount: number
@@ -6019,6 +6237,7 @@ export namespace Prisma {
     status?: boolean
     sponsoredWording?: boolean
     desiredAdvertisementSpotCount?: boolean
+    desiredMetaContentSpotCount?: boolean
     desiredAdvertisementCount?: boolean
     webpageLookbackDays?: boolean
     webpageInsertCap?: boolean
@@ -6026,7 +6245,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: boolean
     mainPostBodySelector?: boolean
     contentSelector?: boolean
+    metaContentSpotSelector?: boolean
     minCharLimit?: boolean
+    minMetaContentSpotWordLimit?: boolean
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
     bestCampaignCount?: boolean
@@ -9116,6 +9337,7 @@ export namespace Prisma {
     website?: boolean | WebsiteArgs
     scoredCampaigns?: boolean | Webpage$scoredCampaignsArgs
     advertisementSpots?: boolean | Webpage$advertisementSpotsArgs
+    metaContentSpots?: boolean | Webpage$metaContentSpotsArgs
     categories?: boolean | Webpage$categoriesArgs
     auctions?: boolean | Webpage$auctionsArgs
     content?: boolean | Webpage$contentArgs
@@ -9127,6 +9349,7 @@ export namespace Prisma {
     website?: boolean | WebsiteArgs
     scoredCampaigns?: boolean | Webpage$scoredCampaignsArgs
     advertisementSpots?: boolean | Webpage$advertisementSpotsArgs
+    metaContentSpots?: boolean | Webpage$metaContentSpotsArgs
     categories?: boolean | Webpage$categoriesArgs
     auctions?: boolean | Webpage$auctionsArgs
     content?: boolean | Webpage$contentArgs
@@ -9143,10 +9366,11 @@ export namespace Prisma {
             P extends 'website' ? WebsiteGetPayload<S['include'][P]> :
               P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['include'][P]>>  :
                 P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['include'][P]>>  :
-                  P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
-                    P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
-                      P extends 'content' ? ContentGetPayload<S['include'][P]> | null :
-                        P extends '_count' ? WebpageCountOutputTypeGetPayload<S['include'][P]> :  never
+                  P extends 'metaContentSpots' ? Array < MetaContentSpotGetPayload<S['include'][P]>>  :
+                    P extends 'categories' ? Array < CategoryGetPayload<S['include'][P]>>  :
+                      P extends 'auctions' ? Array < AuctionGetPayload<S['include'][P]>>  :
+                        P extends 'content' ? ContentGetPayload<S['include'][P]> | null :
+                          P extends '_count' ? WebpageCountOutputTypeGetPayload<S['include'][P]> :  never
           }
             : S extends { select: any } & (WebpageArgs | WebpageFindManyArgs)
               ? {
@@ -9154,10 +9378,11 @@ export namespace Prisma {
                 P extends 'website' ? WebsiteGetPayload<S['select'][P]> :
                   P extends 'scoredCampaigns' ? Array < ScoredCampaignGetPayload<S['select'][P]>>  :
                     P extends 'advertisementSpots' ? Array < AdvertisementSpotGetPayload<S['select'][P]>>  :
-                      P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
-                        P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
-                          P extends 'content' ? ContentGetPayload<S['select'][P]> | null :
-                            P extends '_count' ? WebpageCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Webpage ? Webpage[P] : never
+                      P extends 'metaContentSpots' ? Array < MetaContentSpotGetPayload<S['select'][P]>>  :
+                        P extends 'categories' ? Array < CategoryGetPayload<S['select'][P]>>  :
+                          P extends 'auctions' ? Array < AuctionGetPayload<S['select'][P]>>  :
+                            P extends 'content' ? ContentGetPayload<S['select'][P]> | null :
+                              P extends '_count' ? WebpageCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Webpage ? Webpage[P] : never
               }
               : Webpage
 
@@ -9534,6 +9759,8 @@ export namespace Prisma {
     scoredCampaigns<T extends Webpage$scoredCampaignsArgs= {}>(args?: Subset<T, Webpage$scoredCampaignsArgs>): Prisma.PrismaPromise<Array<ScoredCampaignGetPayload<T>>| Null>;
 
     advertisementSpots<T extends Webpage$advertisementSpotsArgs= {}>(args?: Subset<T, Webpage$advertisementSpotsArgs>): Prisma.PrismaPromise<Array<AdvertisementSpotGetPayload<T>>| Null>;
+
+    metaContentSpots<T extends Webpage$metaContentSpotsArgs= {}>(args?: Subset<T, Webpage$metaContentSpotsArgs>): Prisma.PrismaPromise<Array<MetaContentSpotGetPayload<T>>| Null>;
 
     categories<T extends Webpage$categoriesArgs= {}>(args?: Subset<T, Webpage$categoriesArgs>): Prisma.PrismaPromise<Array<CategoryGetPayload<T>>| Null>;
 
@@ -9935,6 +10162,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<AdvertisementSpotScalarFieldEnum>
+  }
+
+
+  /**
+   * Webpage.metaContentSpots
+   */
+  export type Webpage$metaContentSpotsArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    where?: MetaContentSpotWhereInput
+    orderBy?: Enumerable<MetaContentSpotOrderByWithRelationInput>
+    cursor?: MetaContentSpotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<MetaContentSpotScalarFieldEnum>
   }
 
 
@@ -14965,6 +15213,2935 @@ export namespace Prisma {
 
 
   /**
+   * Model MetaContentSpot
+   */
+
+
+  export type AggregateMetaContentSpot = {
+    _count: MetaContentSpotCountAggregateOutputType | null
+    _avg: MetaContentSpotAvgAggregateOutputType | null
+    _sum: MetaContentSpotSumAggregateOutputType | null
+    _min: MetaContentSpotMinAggregateOutputType | null
+    _max: MetaContentSpotMaxAggregateOutputType | null
+  }
+
+  export type MetaContentSpotAvgAggregateOutputType = {
+    buildFailCount: number | null
+  }
+
+  export type MetaContentSpotSumAggregateOutputType = {
+    buildFailCount: number | null
+  }
+
+  export type MetaContentSpotMinAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    contentText: string | null
+    buildFailCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentSpotMaxAggregateOutputType = {
+    id: string | null
+    webpageId: string | null
+    contentText: string | null
+    buildFailCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentSpotCountAggregateOutputType = {
+    id: number
+    webpageId: number
+    contentText: number
+    buildFailCount: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MetaContentSpotAvgAggregateInputType = {
+    buildFailCount?: true
+  }
+
+  export type MetaContentSpotSumAggregateInputType = {
+    buildFailCount?: true
+  }
+
+  export type MetaContentSpotMinAggregateInputType = {
+    id?: true
+    webpageId?: true
+    contentText?: true
+    buildFailCount?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentSpotMaxAggregateInputType = {
+    id?: true
+    webpageId?: true
+    contentText?: true
+    buildFailCount?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentSpotCountAggregateInputType = {
+    id?: true
+    webpageId?: true
+    contentText?: true
+    buildFailCount?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MetaContentSpotAggregateArgs = {
+    /**
+     * Filter which MetaContentSpot to aggregate.
+     */
+    where?: MetaContentSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentSpots to fetch.
+     */
+    orderBy?: Enumerable<MetaContentSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: MetaContentSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentSpots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned MetaContentSpots
+     **/
+    _count?: true | MetaContentSpotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: MetaContentSpotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: MetaContentSpotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: MetaContentSpotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: MetaContentSpotMaxAggregateInputType
+  }
+
+  export type GetMetaContentSpotAggregateType<T extends MetaContentSpotAggregateArgs> = {
+    [P in keyof T & keyof AggregateMetaContentSpot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMetaContentSpot[P]>
+      : GetScalarType<T[P], AggregateMetaContentSpot[P]>
+  }
+
+
+
+
+  export type MetaContentSpotGroupByArgs = {
+    where?: MetaContentSpotWhereInput
+    orderBy?: Enumerable<MetaContentSpotOrderByWithAggregationInput>
+    by: MetaContentSpotScalarFieldEnum[]
+    having?: MetaContentSpotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MetaContentSpotCountAggregateInputType | true
+    _avg?: MetaContentSpotAvgAggregateInputType
+    _sum?: MetaContentSpotSumAggregateInputType
+    _min?: MetaContentSpotMinAggregateInputType
+    _max?: MetaContentSpotMaxAggregateInputType
+  }
+
+
+  export type MetaContentSpotGroupByOutputType = {
+    id: string
+    webpageId: string
+    contentText: string
+    buildFailCount: number
+    createdAt: Date
+    updatedAt: Date
+    _count: MetaContentSpotCountAggregateOutputType | null
+    _avg: MetaContentSpotAvgAggregateOutputType | null
+    _sum: MetaContentSpotSumAggregateOutputType | null
+    _min: MetaContentSpotMinAggregateOutputType | null
+    _max: MetaContentSpotMaxAggregateOutputType | null
+  }
+
+  type GetMetaContentSpotGroupByPayload<T extends MetaContentSpotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<MetaContentSpotGroupByOutputType, T['by']> &
+      {
+        [P in ((keyof T) & (keyof MetaContentSpotGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], MetaContentSpotGroupByOutputType[P]>
+        : GetScalarType<T[P], MetaContentSpotGroupByOutputType[P]>
+      }
+    >
+  >
+
+
+  export type MetaContentSpotSelect = {
+    id?: boolean
+    webpageId?: boolean
+    contentText?: boolean
+    buildFailCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    webpage?: boolean | WebpageArgs
+    metaContents?: boolean | MetaContentSpot$metaContentsArgs
+    _count?: boolean | MetaContentSpotCountOutputTypeArgs
+  }
+
+
+  export type MetaContentSpotInclude = {
+    webpage?: boolean | WebpageArgs
+    metaContents?: boolean | MetaContentSpot$metaContentsArgs
+    _count?: boolean | MetaContentSpotCountOutputTypeArgs
+  }
+
+  export type MetaContentSpotGetPayload<S extends boolean | null | undefined | MetaContentSpotArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentSpot :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentSpotArgs | MetaContentSpotFindManyArgs)
+            ? MetaContentSpot  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'webpage' ? WebpageGetPayload<S['include'][P]> :
+              P extends 'metaContents' ? Array < MetaContentGetPayload<S['include'][P]>>  :
+                P extends '_count' ? MetaContentSpotCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (MetaContentSpotArgs | MetaContentSpotFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'webpage' ? WebpageGetPayload<S['select'][P]> :
+                  P extends 'metaContents' ? Array < MetaContentGetPayload<S['select'][P]>>  :
+                    P extends '_count' ? MetaContentSpotCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof MetaContentSpot ? MetaContentSpot[P] : never
+              }
+              : MetaContentSpot
+
+
+  type MetaContentSpotCountArgs =
+    Omit<MetaContentSpotFindManyArgs, 'select' | 'include'> & {
+    select?: MetaContentSpotCountAggregateInputType | true
+  }
+
+  export interface MetaContentSpotDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one MetaContentSpot that matches the filter.
+     * @param {MetaContentSpotFindUniqueArgs} args - Arguments to find a MetaContentSpot
+     * @example
+     * // Get one MetaContentSpot
+     * const metaContentSpot = await prisma.metaContentSpot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<T extends MetaContentSpotFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, MetaContentSpotFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'MetaContentSpot'> extends True ? Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>> : Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T> | null, null>
+
+    /**
+     * Find one MetaContentSpot that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {MetaContentSpotFindUniqueOrThrowArgs} args - Arguments to find a MetaContentSpot
+     * @example
+     * // Get one MetaContentSpot
+     * const metaContentSpot = await prisma.metaContentSpot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends MetaContentSpotFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentSpotFindUniqueOrThrowArgs>
+    ): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>>
+
+    /**
+     * Find the first MetaContentSpot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotFindFirstArgs} args - Arguments to find a MetaContentSpot
+     * @example
+     * // Get one MetaContentSpot
+     * const metaContentSpot = await prisma.metaContentSpot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<T extends MetaContentSpotFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, MetaContentSpotFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'MetaContentSpot'> extends True ? Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>> : Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T> | null, null>
+
+    /**
+     * Find the first MetaContentSpot that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotFindFirstOrThrowArgs} args - Arguments to find a MetaContentSpot
+     * @example
+     * // Get one MetaContentSpot
+     * const metaContentSpot = await prisma.metaContentSpot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends MetaContentSpotFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentSpotFindFirstOrThrowArgs>
+    ): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>>
+
+    /**
+     * Find zero or more MetaContentSpots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MetaContentSpots
+     * const metaContentSpots = await prisma.metaContentSpot.findMany()
+     *
+     * // Get first 10 MetaContentSpots
+     * const metaContentSpots = await prisma.metaContentSpot.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const metaContentSpotWithIdOnly = await prisma.metaContentSpot.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends MetaContentSpotFindManyArgs>(
+      args?: SelectSubset<T, MetaContentSpotFindManyArgs>
+    ): Prisma.PrismaPromise<Array<MetaContentSpotGetPayload<T>>>
+
+    /**
+     * Create a MetaContentSpot.
+     * @param {MetaContentSpotCreateArgs} args - Arguments to create a MetaContentSpot.
+     * @example
+     * // Create one MetaContentSpot
+     * const MetaContentSpot = await prisma.metaContentSpot.create({
+     *   data: {
+     *     // ... data to create a MetaContentSpot
+     *   }
+     * })
+     *
+     **/
+    create<T extends MetaContentSpotCreateArgs>(
+      args: SelectSubset<T, MetaContentSpotCreateArgs>
+    ): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>>
+
+    /**
+     * Create many MetaContentSpots.
+     *     @param {MetaContentSpotCreateManyArgs} args - Arguments to create many MetaContentSpots.
+     *     @example
+     *     // Create many MetaContentSpots
+     *     const metaContentSpot = await prisma.metaContentSpot.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends MetaContentSpotCreateManyArgs>(
+      args?: SelectSubset<T, MetaContentSpotCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MetaContentSpot.
+     * @param {MetaContentSpotDeleteArgs} args - Arguments to delete one MetaContentSpot.
+     * @example
+     * // Delete one MetaContentSpot
+     * const MetaContentSpot = await prisma.metaContentSpot.delete({
+     *   where: {
+     *     // ... filter to delete one MetaContentSpot
+     *   }
+     * })
+     *
+     **/
+    delete<T extends MetaContentSpotDeleteArgs>(
+      args: SelectSubset<T, MetaContentSpotDeleteArgs>
+    ): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>>
+
+    /**
+     * Update one MetaContentSpot.
+     * @param {MetaContentSpotUpdateArgs} args - Arguments to update one MetaContentSpot.
+     * @example
+     * // Update one MetaContentSpot
+     * const metaContentSpot = await prisma.metaContentSpot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends MetaContentSpotUpdateArgs>(
+      args: SelectSubset<T, MetaContentSpotUpdateArgs>
+    ): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>>
+
+    /**
+     * Delete zero or more MetaContentSpots.
+     * @param {MetaContentSpotDeleteManyArgs} args - Arguments to filter MetaContentSpots to delete.
+     * @example
+     * // Delete a few MetaContentSpots
+     * const { count } = await prisma.metaContentSpot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends MetaContentSpotDeleteManyArgs>(
+      args?: SelectSubset<T, MetaContentSpotDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MetaContentSpots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MetaContentSpots
+     * const metaContentSpot = await prisma.metaContentSpot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends MetaContentSpotUpdateManyArgs>(
+      args: SelectSubset<T, MetaContentSpotUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MetaContentSpot.
+     * @param {MetaContentSpotUpsertArgs} args - Arguments to update or create a MetaContentSpot.
+     * @example
+     * // Update or create a MetaContentSpot
+     * const metaContentSpot = await prisma.metaContentSpot.upsert({
+     *   create: {
+     *     // ... data to create a MetaContentSpot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MetaContentSpot we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends MetaContentSpotUpsertArgs>(
+      args: SelectSubset<T, MetaContentSpotUpsertArgs>
+    ): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T>>
+
+    /**
+     * Count the number of MetaContentSpots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotCountArgs} args - Arguments to filter MetaContentSpots to count.
+     * @example
+     * // Count the number of MetaContentSpots
+     * const count = await prisma.metaContentSpot.count({
+     *   where: {
+     *     // ... the filter for the MetaContentSpots we want to count
+     *   }
+     * })
+     **/
+    count<T extends MetaContentSpotCountArgs>(
+      args?: Subset<T, MetaContentSpotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MetaContentSpotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MetaContentSpot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends MetaContentSpotAggregateArgs>(args: Subset<T, MetaContentSpotAggregateArgs>): Prisma.PrismaPromise<GetMetaContentSpotAggregateType<T>>
+
+    /**
+     * Group by MetaContentSpot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentSpotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends MetaContentSpotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MetaContentSpotGroupByArgs['orderBy'] }
+        : { orderBy?: MetaContentSpotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+    >(args: SubsetIntersection<T, MetaContentSpotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMetaContentSpotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MetaContentSpot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__MetaContentSpotClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    webpage<T extends WebpageArgs= {}>(args?: Subset<T, WebpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
+
+    metaContents<T extends MetaContentSpot$metaContentsArgs= {}>(args?: Subset<T, MetaContentSpot$metaContentsArgs>): Prisma.PrismaPromise<Array<MetaContentGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentSpot base type for findUnique actions
+   */
+  export type MetaContentSpotFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * Filter, which MetaContentSpot to fetch.
+     */
+    where: MetaContentSpotWhereUniqueInput
+  }
+
+  /**
+   * MetaContentSpot findUnique
+   */
+  export interface MetaContentSpotFindUniqueArgs extends MetaContentSpotFindUniqueArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContentSpot findUniqueOrThrow
+   */
+  export type MetaContentSpotFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * Filter, which MetaContentSpot to fetch.
+     */
+    where: MetaContentSpotWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentSpot base type for findFirst actions
+   */
+  export type MetaContentSpotFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * Filter, which MetaContentSpot to fetch.
+     */
+    where?: MetaContentSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentSpots to fetch.
+     */
+    orderBy?: Enumerable<MetaContentSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContentSpots.
+     */
+    cursor?: MetaContentSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentSpots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContentSpots.
+     */
+    distinct?: Enumerable<MetaContentSpotScalarFieldEnum>
+  }
+
+  /**
+   * MetaContentSpot findFirst
+   */
+  export interface MetaContentSpotFindFirstArgs extends MetaContentSpotFindFirstArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContentSpot findFirstOrThrow
+   */
+  export type MetaContentSpotFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * Filter, which MetaContentSpot to fetch.
+     */
+    where?: MetaContentSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentSpots to fetch.
+     */
+    orderBy?: Enumerable<MetaContentSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContentSpots.
+     */
+    cursor?: MetaContentSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentSpots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContentSpots.
+     */
+    distinct?: Enumerable<MetaContentSpotScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentSpot findMany
+   */
+  export type MetaContentSpotFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * Filter, which MetaContentSpots to fetch.
+     */
+    where?: MetaContentSpotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentSpots to fetch.
+     */
+    orderBy?: Enumerable<MetaContentSpotOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing MetaContentSpots.
+     */
+    cursor?: MetaContentSpotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentSpots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentSpots.
+     */
+    skip?: number
+    distinct?: Enumerable<MetaContentSpotScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentSpot create
+   */
+  export type MetaContentSpotCreateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * The data needed to create a MetaContentSpot.
+     */
+    data: XOR<MetaContentSpotCreateInput, MetaContentSpotUncheckedCreateInput>
+  }
+
+
+  /**
+   * MetaContentSpot createMany
+   */
+  export type MetaContentSpotCreateManyArgs = {
+    /**
+     * The data used to create many MetaContentSpots.
+     */
+    data: Enumerable<MetaContentSpotCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * MetaContentSpot update
+   */
+  export type MetaContentSpotUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * The data needed to update a MetaContentSpot.
+     */
+    data: XOR<MetaContentSpotUpdateInput, MetaContentSpotUncheckedUpdateInput>
+    /**
+     * Choose, which MetaContentSpot to update.
+     */
+    where: MetaContentSpotWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentSpot updateMany
+   */
+  export type MetaContentSpotUpdateManyArgs = {
+    /**
+     * The data used to update MetaContentSpots.
+     */
+    data: XOR<MetaContentSpotUpdateManyMutationInput, MetaContentSpotUncheckedUpdateManyInput>
+    /**
+     * Filter which MetaContentSpots to update
+     */
+    where?: MetaContentSpotWhereInput
+  }
+
+
+  /**
+   * MetaContentSpot upsert
+   */
+  export type MetaContentSpotUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * The filter to search for the MetaContentSpot to update in case it exists.
+     */
+    where: MetaContentSpotWhereUniqueInput
+    /**
+     * In case the MetaContentSpot found by the `where` argument doesn't exist, create a new MetaContentSpot with this data.
+     */
+    create: XOR<MetaContentSpotCreateInput, MetaContentSpotUncheckedCreateInput>
+    /**
+     * In case the MetaContentSpot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MetaContentSpotUpdateInput, MetaContentSpotUncheckedUpdateInput>
+  }
+
+
+  /**
+   * MetaContentSpot delete
+   */
+  export type MetaContentSpotDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+    /**
+     * Filter which MetaContentSpot to delete.
+     */
+    where: MetaContentSpotWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentSpot deleteMany
+   */
+  export type MetaContentSpotDeleteManyArgs = {
+    /**
+     * Filter which MetaContentSpots to delete
+     */
+    where?: MetaContentSpotWhereInput
+  }
+
+
+  /**
+   * MetaContentSpot.metaContents
+   */
+  export type MetaContentSpot$metaContentsArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    where?: MetaContentWhereInput
+    orderBy?: Enumerable<MetaContentOrderByWithRelationInput>
+    cursor?: MetaContentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<MetaContentScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentSpot without action
+   */
+  export type MetaContentSpotArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentSpot
+     */
+    select?: MetaContentSpotSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentSpotInclude | null
+  }
+
+
+
+  /**
+   * Model MetaContent
+   */
+
+
+  export type AggregateMetaContent = {
+    _count: MetaContentCountAggregateOutputType | null
+    _min: MetaContentMinAggregateOutputType | null
+    _max: MetaContentMaxAggregateOutputType | null
+  }
+
+  export type MetaContentMinAggregateOutputType = {
+    id: string | null
+    metaContentSpotId: string | null
+    metaContentTypeId: string | null
+    generatedText: string | null
+    generatedHeading: string | null
+    diveristyClassifierResult: string | null
+    diveristyClassifierReason: string | null
+    status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentMaxAggregateOutputType = {
+    id: string | null
+    metaContentSpotId: string | null
+    metaContentTypeId: string | null
+    generatedText: string | null
+    generatedHeading: string | null
+    diveristyClassifierResult: string | null
+    diveristyClassifierReason: string | null
+    status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentCountAggregateOutputType = {
+    id: number
+    metaContentSpotId: number
+    metaContentTypeId: number
+    generatedText: number
+    generatedHeading: number
+    diveristyClassifierResult: number
+    diveristyClassifierReason: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MetaContentMinAggregateInputType = {
+    id?: true
+    metaContentSpotId?: true
+    metaContentTypeId?: true
+    generatedText?: true
+    generatedHeading?: true
+    diveristyClassifierResult?: true
+    diveristyClassifierReason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentMaxAggregateInputType = {
+    id?: true
+    metaContentSpotId?: true
+    metaContentTypeId?: true
+    generatedText?: true
+    generatedHeading?: true
+    diveristyClassifierResult?: true
+    diveristyClassifierReason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentCountAggregateInputType = {
+    id?: true
+    metaContentSpotId?: true
+    metaContentTypeId?: true
+    generatedText?: true
+    generatedHeading?: true
+    diveristyClassifierResult?: true
+    diveristyClassifierReason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MetaContentAggregateArgs = {
+    /**
+     * Filter which MetaContent to aggregate.
+     */
+    where?: MetaContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContents to fetch.
+     */
+    orderBy?: Enumerable<MetaContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: MetaContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned MetaContents
+     **/
+    _count?: true | MetaContentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: MetaContentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: MetaContentMaxAggregateInputType
+  }
+
+  export type GetMetaContentAggregateType<T extends MetaContentAggregateArgs> = {
+    [P in keyof T & keyof AggregateMetaContent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMetaContent[P]>
+      : GetScalarType<T[P], AggregateMetaContent[P]>
+  }
+
+
+
+
+  export type MetaContentGroupByArgs = {
+    where?: MetaContentWhereInput
+    orderBy?: Enumerable<MetaContentOrderByWithAggregationInput>
+    by: MetaContentScalarFieldEnum[]
+    having?: MetaContentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MetaContentCountAggregateInputType | true
+    _min?: MetaContentMinAggregateInputType
+    _max?: MetaContentMaxAggregateInputType
+  }
+
+
+  export type MetaContentGroupByOutputType = {
+    id: string
+    metaContentSpotId: string
+    metaContentTypeId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: MetaContentCountAggregateOutputType | null
+    _min: MetaContentMinAggregateOutputType | null
+    _max: MetaContentMaxAggregateOutputType | null
+  }
+
+  type GetMetaContentGroupByPayload<T extends MetaContentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<MetaContentGroupByOutputType, T['by']> &
+      {
+        [P in ((keyof T) & (keyof MetaContentGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], MetaContentGroupByOutputType[P]>
+        : GetScalarType<T[P], MetaContentGroupByOutputType[P]>
+      }
+    >
+  >
+
+
+  export type MetaContentSelect = {
+    id?: boolean
+    metaContentSpotId?: boolean
+    metaContentTypeId?: boolean
+    generatedText?: boolean
+    generatedHeading?: boolean
+    diveristyClassifierResult?: boolean
+    diveristyClassifierReason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    metaContentSpot?: boolean | MetaContentSpotArgs
+    metaContentType?: boolean | MetaContentTypeArgs
+  }
+
+
+  export type MetaContentInclude = {
+    metaContentSpot?: boolean | MetaContentSpotArgs
+    metaContentType?: boolean | MetaContentTypeArgs
+  }
+
+  export type MetaContentGetPayload<S extends boolean | null | undefined | MetaContentArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContent :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentArgs | MetaContentFindManyArgs)
+            ? MetaContent  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'metaContentSpot' ? MetaContentSpotGetPayload<S['include'][P]> :
+              P extends 'metaContentType' ? MetaContentTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (MetaContentArgs | MetaContentFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'metaContentSpot' ? MetaContentSpotGetPayload<S['select'][P]> :
+                  P extends 'metaContentType' ? MetaContentTypeGetPayload<S['select'][P]> :  P extends keyof MetaContent ? MetaContent[P] : never
+              }
+              : MetaContent
+
+
+  type MetaContentCountArgs =
+    Omit<MetaContentFindManyArgs, 'select' | 'include'> & {
+    select?: MetaContentCountAggregateInputType | true
+  }
+
+  export interface MetaContentDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one MetaContent that matches the filter.
+     * @param {MetaContentFindUniqueArgs} args - Arguments to find a MetaContent
+     * @example
+     * // Get one MetaContent
+     * const metaContent = await prisma.metaContent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<T extends MetaContentFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, MetaContentFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'MetaContent'> extends True ? Prisma__MetaContentClient<MetaContentGetPayload<T>> : Prisma__MetaContentClient<MetaContentGetPayload<T> | null, null>
+
+    /**
+     * Find one MetaContent that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {MetaContentFindUniqueOrThrowArgs} args - Arguments to find a MetaContent
+     * @example
+     * // Get one MetaContent
+     * const metaContent = await prisma.metaContent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends MetaContentFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentFindUniqueOrThrowArgs>
+    ): Prisma__MetaContentClient<MetaContentGetPayload<T>>
+
+    /**
+     * Find the first MetaContent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentFindFirstArgs} args - Arguments to find a MetaContent
+     * @example
+     * // Get one MetaContent
+     * const metaContent = await prisma.metaContent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<T extends MetaContentFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, MetaContentFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'MetaContent'> extends True ? Prisma__MetaContentClient<MetaContentGetPayload<T>> : Prisma__MetaContentClient<MetaContentGetPayload<T> | null, null>
+
+    /**
+     * Find the first MetaContent that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentFindFirstOrThrowArgs} args - Arguments to find a MetaContent
+     * @example
+     * // Get one MetaContent
+     * const metaContent = await prisma.metaContent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends MetaContentFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentFindFirstOrThrowArgs>
+    ): Prisma__MetaContentClient<MetaContentGetPayload<T>>
+
+    /**
+     * Find zero or more MetaContents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MetaContents
+     * const metaContents = await prisma.metaContent.findMany()
+     *
+     * // Get first 10 MetaContents
+     * const metaContents = await prisma.metaContent.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const metaContentWithIdOnly = await prisma.metaContent.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends MetaContentFindManyArgs>(
+      args?: SelectSubset<T, MetaContentFindManyArgs>
+    ): Prisma.PrismaPromise<Array<MetaContentGetPayload<T>>>
+
+    /**
+     * Create a MetaContent.
+     * @param {MetaContentCreateArgs} args - Arguments to create a MetaContent.
+     * @example
+     * // Create one MetaContent
+     * const MetaContent = await prisma.metaContent.create({
+     *   data: {
+     *     // ... data to create a MetaContent
+     *   }
+     * })
+     *
+     **/
+    create<T extends MetaContentCreateArgs>(
+      args: SelectSubset<T, MetaContentCreateArgs>
+    ): Prisma__MetaContentClient<MetaContentGetPayload<T>>
+
+    /**
+     * Create many MetaContents.
+     *     @param {MetaContentCreateManyArgs} args - Arguments to create many MetaContents.
+     *     @example
+     *     // Create many MetaContents
+     *     const metaContent = await prisma.metaContent.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends MetaContentCreateManyArgs>(
+      args?: SelectSubset<T, MetaContentCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MetaContent.
+     * @param {MetaContentDeleteArgs} args - Arguments to delete one MetaContent.
+     * @example
+     * // Delete one MetaContent
+     * const MetaContent = await prisma.metaContent.delete({
+     *   where: {
+     *     // ... filter to delete one MetaContent
+     *   }
+     * })
+     *
+     **/
+    delete<T extends MetaContentDeleteArgs>(
+      args: SelectSubset<T, MetaContentDeleteArgs>
+    ): Prisma__MetaContentClient<MetaContentGetPayload<T>>
+
+    /**
+     * Update one MetaContent.
+     * @param {MetaContentUpdateArgs} args - Arguments to update one MetaContent.
+     * @example
+     * // Update one MetaContent
+     * const metaContent = await prisma.metaContent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends MetaContentUpdateArgs>(
+      args: SelectSubset<T, MetaContentUpdateArgs>
+    ): Prisma__MetaContentClient<MetaContentGetPayload<T>>
+
+    /**
+     * Delete zero or more MetaContents.
+     * @param {MetaContentDeleteManyArgs} args - Arguments to filter MetaContents to delete.
+     * @example
+     * // Delete a few MetaContents
+     * const { count } = await prisma.metaContent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends MetaContentDeleteManyArgs>(
+      args?: SelectSubset<T, MetaContentDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MetaContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MetaContents
+     * const metaContent = await prisma.metaContent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends MetaContentUpdateManyArgs>(
+      args: SelectSubset<T, MetaContentUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MetaContent.
+     * @param {MetaContentUpsertArgs} args - Arguments to update or create a MetaContent.
+     * @example
+     * // Update or create a MetaContent
+     * const metaContent = await prisma.metaContent.upsert({
+     *   create: {
+     *     // ... data to create a MetaContent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MetaContent we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends MetaContentUpsertArgs>(
+      args: SelectSubset<T, MetaContentUpsertArgs>
+    ): Prisma__MetaContentClient<MetaContentGetPayload<T>>
+
+    /**
+     * Count the number of MetaContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentCountArgs} args - Arguments to filter MetaContents to count.
+     * @example
+     * // Count the number of MetaContents
+     * const count = await prisma.metaContent.count({
+     *   where: {
+     *     // ... the filter for the MetaContents we want to count
+     *   }
+     * })
+     **/
+    count<T extends MetaContentCountArgs>(
+      args?: Subset<T, MetaContentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MetaContentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MetaContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends MetaContentAggregateArgs>(args: Subset<T, MetaContentAggregateArgs>): Prisma.PrismaPromise<GetMetaContentAggregateType<T>>
+
+    /**
+     * Group by MetaContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends MetaContentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MetaContentGroupByArgs['orderBy'] }
+        : { orderBy?: MetaContentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+    >(args: SubsetIntersection<T, MetaContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMetaContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MetaContent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__MetaContentClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    metaContentSpot<T extends MetaContentSpotArgs= {}>(args?: Subset<T, MetaContentSpotArgs>): Prisma__MetaContentSpotClient<MetaContentSpotGetPayload<T> | Null>;
+
+    metaContentType<T extends MetaContentTypeArgs= {}>(args?: Subset<T, MetaContentTypeArgs>): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContent base type for findUnique actions
+   */
+  export type MetaContentFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * Filter, which MetaContent to fetch.
+     */
+    where: MetaContentWhereUniqueInput
+  }
+
+  /**
+   * MetaContent findUnique
+   */
+  export interface MetaContentFindUniqueArgs extends MetaContentFindUniqueArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContent findUniqueOrThrow
+   */
+  export type MetaContentFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * Filter, which MetaContent to fetch.
+     */
+    where: MetaContentWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContent base type for findFirst actions
+   */
+  export type MetaContentFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * Filter, which MetaContent to fetch.
+     */
+    where?: MetaContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContents to fetch.
+     */
+    orderBy?: Enumerable<MetaContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContents.
+     */
+    cursor?: MetaContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContents.
+     */
+    distinct?: Enumerable<MetaContentScalarFieldEnum>
+  }
+
+  /**
+   * MetaContent findFirst
+   */
+  export interface MetaContentFindFirstArgs extends MetaContentFindFirstArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContent findFirstOrThrow
+   */
+  export type MetaContentFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * Filter, which MetaContent to fetch.
+     */
+    where?: MetaContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContents to fetch.
+     */
+    orderBy?: Enumerable<MetaContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContents.
+     */
+    cursor?: MetaContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContents.
+     */
+    distinct?: Enumerable<MetaContentScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContent findMany
+   */
+  export type MetaContentFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * Filter, which MetaContents to fetch.
+     */
+    where?: MetaContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContents to fetch.
+     */
+    orderBy?: Enumerable<MetaContentOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing MetaContents.
+     */
+    cursor?: MetaContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContents.
+     */
+    skip?: number
+    distinct?: Enumerable<MetaContentScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContent create
+   */
+  export type MetaContentCreateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * The data needed to create a MetaContent.
+     */
+    data: XOR<MetaContentCreateInput, MetaContentUncheckedCreateInput>
+  }
+
+
+  /**
+   * MetaContent createMany
+   */
+  export type MetaContentCreateManyArgs = {
+    /**
+     * The data used to create many MetaContents.
+     */
+    data: Enumerable<MetaContentCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * MetaContent update
+   */
+  export type MetaContentUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * The data needed to update a MetaContent.
+     */
+    data: XOR<MetaContentUpdateInput, MetaContentUncheckedUpdateInput>
+    /**
+     * Choose, which MetaContent to update.
+     */
+    where: MetaContentWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContent updateMany
+   */
+  export type MetaContentUpdateManyArgs = {
+    /**
+     * The data used to update MetaContents.
+     */
+    data: XOR<MetaContentUpdateManyMutationInput, MetaContentUncheckedUpdateManyInput>
+    /**
+     * Filter which MetaContents to update
+     */
+    where?: MetaContentWhereInput
+  }
+
+
+  /**
+   * MetaContent upsert
+   */
+  export type MetaContentUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * The filter to search for the MetaContent to update in case it exists.
+     */
+    where: MetaContentWhereUniqueInput
+    /**
+     * In case the MetaContent found by the `where` argument doesn't exist, create a new MetaContent with this data.
+     */
+    create: XOR<MetaContentCreateInput, MetaContentUncheckedCreateInput>
+    /**
+     * In case the MetaContent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MetaContentUpdateInput, MetaContentUncheckedUpdateInput>
+  }
+
+
+  /**
+   * MetaContent delete
+   */
+  export type MetaContentDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    /**
+     * Filter which MetaContent to delete.
+     */
+    where: MetaContentWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContent deleteMany
+   */
+  export type MetaContentDeleteManyArgs = {
+    /**
+     * Filter which MetaContents to delete
+     */
+    where?: MetaContentWhereInput
+  }
+
+
+  /**
+   * MetaContent without action
+   */
+  export type MetaContentArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+  }
+
+
+
+  /**
+   * Model MetaContentType
+   */
+
+
+  export type AggregateMetaContentType = {
+    _count: MetaContentTypeCountAggregateOutputType | null
+    _min: MetaContentTypeMinAggregateOutputType | null
+    _max: MetaContentTypeMaxAggregateOutputType | null
+  }
+
+  export type MetaContentTypeMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentTypeMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentTypeCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MetaContentTypeMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentTypeMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentTypeCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MetaContentTypeAggregateArgs = {
+    /**
+     * Filter which MetaContentType to aggregate.
+     */
+    where?: MetaContentTypeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentTypes to fetch.
+     */
+    orderBy?: Enumerable<MetaContentTypeOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: MetaContentTypeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentTypes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentTypes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned MetaContentTypes
+     **/
+    _count?: true | MetaContentTypeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: MetaContentTypeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: MetaContentTypeMaxAggregateInputType
+  }
+
+  export type GetMetaContentTypeAggregateType<T extends MetaContentTypeAggregateArgs> = {
+    [P in keyof T & keyof AggregateMetaContentType]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMetaContentType[P]>
+      : GetScalarType<T[P], AggregateMetaContentType[P]>
+  }
+
+
+
+
+  export type MetaContentTypeGroupByArgs = {
+    where?: MetaContentTypeWhereInput
+    orderBy?: Enumerable<MetaContentTypeOrderByWithAggregationInput>
+    by: MetaContentTypeScalarFieldEnum[]
+    having?: MetaContentTypeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MetaContentTypeCountAggregateInputType | true
+    _min?: MetaContentTypeMinAggregateInputType
+    _max?: MetaContentTypeMaxAggregateInputType
+  }
+
+
+  export type MetaContentTypeGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    _count: MetaContentTypeCountAggregateOutputType | null
+    _min: MetaContentTypeMinAggregateOutputType | null
+    _max: MetaContentTypeMaxAggregateOutputType | null
+  }
+
+  type GetMetaContentTypeGroupByPayload<T extends MetaContentTypeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<MetaContentTypeGroupByOutputType, T['by']> &
+      {
+        [P in ((keyof T) & (keyof MetaContentTypeGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], MetaContentTypeGroupByOutputType[P]>
+        : GetScalarType<T[P], MetaContentTypeGroupByOutputType[P]>
+      }
+    >
+  >
+
+
+  export type MetaContentTypeSelect = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    metaContents?: boolean | MetaContentType$metaContentsArgs
+    _count?: boolean | MetaContentTypeCountOutputTypeArgs
+  }
+
+
+  export type MetaContentTypeInclude = {
+    metaContents?: boolean | MetaContentType$metaContentsArgs
+    _count?: boolean | MetaContentTypeCountOutputTypeArgs
+  }
+
+  export type MetaContentTypeGetPayload<S extends boolean | null | undefined | MetaContentTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentType :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentTypeArgs | MetaContentTypeFindManyArgs)
+            ? MetaContentType  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'metaContents' ? Array < MetaContentGetPayload<S['include'][P]>>  :
+              P extends '_count' ? MetaContentTypeCountOutputTypeGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (MetaContentTypeArgs | MetaContentTypeFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'metaContents' ? Array < MetaContentGetPayload<S['select'][P]>>  :
+                  P extends '_count' ? MetaContentTypeCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof MetaContentType ? MetaContentType[P] : never
+              }
+              : MetaContentType
+
+
+  type MetaContentTypeCountArgs =
+    Omit<MetaContentTypeFindManyArgs, 'select' | 'include'> & {
+    select?: MetaContentTypeCountAggregateInputType | true
+  }
+
+  export interface MetaContentTypeDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one MetaContentType that matches the filter.
+     * @param {MetaContentTypeFindUniqueArgs} args - Arguments to find a MetaContentType
+     * @example
+     * // Get one MetaContentType
+     * const metaContentType = await prisma.metaContentType.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<T extends MetaContentTypeFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, MetaContentTypeFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'MetaContentType'> extends True ? Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>> : Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T> | null, null>
+
+    /**
+     * Find one MetaContentType that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {MetaContentTypeFindUniqueOrThrowArgs} args - Arguments to find a MetaContentType
+     * @example
+     * // Get one MetaContentType
+     * const metaContentType = await prisma.metaContentType.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends MetaContentTypeFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentTypeFindUniqueOrThrowArgs>
+    ): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>>
+
+    /**
+     * Find the first MetaContentType that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeFindFirstArgs} args - Arguments to find a MetaContentType
+     * @example
+     * // Get one MetaContentType
+     * const metaContentType = await prisma.metaContentType.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<T extends MetaContentTypeFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, MetaContentTypeFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'MetaContentType'> extends True ? Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>> : Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T> | null, null>
+
+    /**
+     * Find the first MetaContentType that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeFindFirstOrThrowArgs} args - Arguments to find a MetaContentType
+     * @example
+     * // Get one MetaContentType
+     * const metaContentType = await prisma.metaContentType.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends MetaContentTypeFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentTypeFindFirstOrThrowArgs>
+    ): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>>
+
+    /**
+     * Find zero or more MetaContentTypes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MetaContentTypes
+     * const metaContentTypes = await prisma.metaContentType.findMany()
+     *
+     * // Get first 10 MetaContentTypes
+     * const metaContentTypes = await prisma.metaContentType.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const metaContentTypeWithIdOnly = await prisma.metaContentType.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends MetaContentTypeFindManyArgs>(
+      args?: SelectSubset<T, MetaContentTypeFindManyArgs>
+    ): Prisma.PrismaPromise<Array<MetaContentTypeGetPayload<T>>>
+
+    /**
+     * Create a MetaContentType.
+     * @param {MetaContentTypeCreateArgs} args - Arguments to create a MetaContentType.
+     * @example
+     * // Create one MetaContentType
+     * const MetaContentType = await prisma.metaContentType.create({
+     *   data: {
+     *     // ... data to create a MetaContentType
+     *   }
+     * })
+     *
+     **/
+    create<T extends MetaContentTypeCreateArgs>(
+      args: SelectSubset<T, MetaContentTypeCreateArgs>
+    ): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>>
+
+    /**
+     * Create many MetaContentTypes.
+     *     @param {MetaContentTypeCreateManyArgs} args - Arguments to create many MetaContentTypes.
+     *     @example
+     *     // Create many MetaContentTypes
+     *     const metaContentType = await prisma.metaContentType.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends MetaContentTypeCreateManyArgs>(
+      args?: SelectSubset<T, MetaContentTypeCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MetaContentType.
+     * @param {MetaContentTypeDeleteArgs} args - Arguments to delete one MetaContentType.
+     * @example
+     * // Delete one MetaContentType
+     * const MetaContentType = await prisma.metaContentType.delete({
+     *   where: {
+     *     // ... filter to delete one MetaContentType
+     *   }
+     * })
+     *
+     **/
+    delete<T extends MetaContentTypeDeleteArgs>(
+      args: SelectSubset<T, MetaContentTypeDeleteArgs>
+    ): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>>
+
+    /**
+     * Update one MetaContentType.
+     * @param {MetaContentTypeUpdateArgs} args - Arguments to update one MetaContentType.
+     * @example
+     * // Update one MetaContentType
+     * const metaContentType = await prisma.metaContentType.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends MetaContentTypeUpdateArgs>(
+      args: SelectSubset<T, MetaContentTypeUpdateArgs>
+    ): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>>
+
+    /**
+     * Delete zero or more MetaContentTypes.
+     * @param {MetaContentTypeDeleteManyArgs} args - Arguments to filter MetaContentTypes to delete.
+     * @example
+     * // Delete a few MetaContentTypes
+     * const { count } = await prisma.metaContentType.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends MetaContentTypeDeleteManyArgs>(
+      args?: SelectSubset<T, MetaContentTypeDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MetaContentTypes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MetaContentTypes
+     * const metaContentType = await prisma.metaContentType.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends MetaContentTypeUpdateManyArgs>(
+      args: SelectSubset<T, MetaContentTypeUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MetaContentType.
+     * @param {MetaContentTypeUpsertArgs} args - Arguments to update or create a MetaContentType.
+     * @example
+     * // Update or create a MetaContentType
+     * const metaContentType = await prisma.metaContentType.upsert({
+     *   create: {
+     *     // ... data to create a MetaContentType
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MetaContentType we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends MetaContentTypeUpsertArgs>(
+      args: SelectSubset<T, MetaContentTypeUpsertArgs>
+    ): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T>>
+
+    /**
+     * Count the number of MetaContentTypes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeCountArgs} args - Arguments to filter MetaContentTypes to count.
+     * @example
+     * // Count the number of MetaContentTypes
+     * const count = await prisma.metaContentType.count({
+     *   where: {
+     *     // ... the filter for the MetaContentTypes we want to count
+     *   }
+     * })
+     **/
+    count<T extends MetaContentTypeCountArgs>(
+      args?: Subset<T, MetaContentTypeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MetaContentTypeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MetaContentType.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends MetaContentTypeAggregateArgs>(args: Subset<T, MetaContentTypeAggregateArgs>): Prisma.PrismaPromise<GetMetaContentTypeAggregateType<T>>
+
+    /**
+     * Group by MetaContentType.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentTypeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends MetaContentTypeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MetaContentTypeGroupByArgs['orderBy'] }
+        : { orderBy?: MetaContentTypeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+    >(args: SubsetIntersection<T, MetaContentTypeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMetaContentTypeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MetaContentType.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__MetaContentTypeClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    metaContents<T extends MetaContentType$metaContentsArgs= {}>(args?: Subset<T, MetaContentType$metaContentsArgs>): Prisma.PrismaPromise<Array<MetaContentGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentType base type for findUnique actions
+   */
+  export type MetaContentTypeFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * Filter, which MetaContentType to fetch.
+     */
+    where: MetaContentTypeWhereUniqueInput
+  }
+
+  /**
+   * MetaContentType findUnique
+   */
+  export interface MetaContentTypeFindUniqueArgs extends MetaContentTypeFindUniqueArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContentType findUniqueOrThrow
+   */
+  export type MetaContentTypeFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * Filter, which MetaContentType to fetch.
+     */
+    where: MetaContentTypeWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentType base type for findFirst actions
+   */
+  export type MetaContentTypeFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * Filter, which MetaContentType to fetch.
+     */
+    where?: MetaContentTypeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentTypes to fetch.
+     */
+    orderBy?: Enumerable<MetaContentTypeOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContentTypes.
+     */
+    cursor?: MetaContentTypeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentTypes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentTypes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContentTypes.
+     */
+    distinct?: Enumerable<MetaContentTypeScalarFieldEnum>
+  }
+
+  /**
+   * MetaContentType findFirst
+   */
+  export interface MetaContentTypeFindFirstArgs extends MetaContentTypeFindFirstArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContentType findFirstOrThrow
+   */
+  export type MetaContentTypeFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * Filter, which MetaContentType to fetch.
+     */
+    where?: MetaContentTypeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentTypes to fetch.
+     */
+    orderBy?: Enumerable<MetaContentTypeOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContentTypes.
+     */
+    cursor?: MetaContentTypeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentTypes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentTypes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContentTypes.
+     */
+    distinct?: Enumerable<MetaContentTypeScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentType findMany
+   */
+  export type MetaContentTypeFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * Filter, which MetaContentTypes to fetch.
+     */
+    where?: MetaContentTypeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentTypes to fetch.
+     */
+    orderBy?: Enumerable<MetaContentTypeOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing MetaContentTypes.
+     */
+    cursor?: MetaContentTypeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentTypes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentTypes.
+     */
+    skip?: number
+    distinct?: Enumerable<MetaContentTypeScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentType create
+   */
+  export type MetaContentTypeCreateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * The data needed to create a MetaContentType.
+     */
+    data: XOR<MetaContentTypeCreateInput, MetaContentTypeUncheckedCreateInput>
+  }
+
+
+  /**
+   * MetaContentType createMany
+   */
+  export type MetaContentTypeCreateManyArgs = {
+    /**
+     * The data used to create many MetaContentTypes.
+     */
+    data: Enumerable<MetaContentTypeCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * MetaContentType update
+   */
+  export type MetaContentTypeUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * The data needed to update a MetaContentType.
+     */
+    data: XOR<MetaContentTypeUpdateInput, MetaContentTypeUncheckedUpdateInput>
+    /**
+     * Choose, which MetaContentType to update.
+     */
+    where: MetaContentTypeWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentType updateMany
+   */
+  export type MetaContentTypeUpdateManyArgs = {
+    /**
+     * The data used to update MetaContentTypes.
+     */
+    data: XOR<MetaContentTypeUpdateManyMutationInput, MetaContentTypeUncheckedUpdateManyInput>
+    /**
+     * Filter which MetaContentTypes to update
+     */
+    where?: MetaContentTypeWhereInput
+  }
+
+
+  /**
+   * MetaContentType upsert
+   */
+  export type MetaContentTypeUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * The filter to search for the MetaContentType to update in case it exists.
+     */
+    where: MetaContentTypeWhereUniqueInput
+    /**
+     * In case the MetaContentType found by the `where` argument doesn't exist, create a new MetaContentType with this data.
+     */
+    create: XOR<MetaContentTypeCreateInput, MetaContentTypeUncheckedCreateInput>
+    /**
+     * In case the MetaContentType was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MetaContentTypeUpdateInput, MetaContentTypeUncheckedUpdateInput>
+  }
+
+
+  /**
+   * MetaContentType delete
+   */
+  export type MetaContentTypeDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+    /**
+     * Filter which MetaContentType to delete.
+     */
+    where: MetaContentTypeWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentType deleteMany
+   */
+  export type MetaContentTypeDeleteManyArgs = {
+    /**
+     * Filter which MetaContentTypes to delete
+     */
+    where?: MetaContentTypeWhereInput
+  }
+
+
+  /**
+   * MetaContentType.metaContents
+   */
+  export type MetaContentType$metaContentsArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    where?: MetaContentWhereInput
+    orderBy?: Enumerable<MetaContentOrderByWithRelationInput>
+    cursor?: MetaContentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<MetaContentScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentType without action
+   */
+  export type MetaContentTypeArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentType
+     */
+    select?: MetaContentTypeSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentTypeInclude | null
+  }
+
+
+
+  /**
    * Model Campaign
    */
 
@@ -17161,6 +20338,44 @@ export namespace Prisma {
   export type ImpressionScalarFieldEnum = (typeof ImpressionScalarFieldEnum)[keyof typeof ImpressionScalarFieldEnum]
 
 
+  export const MetaContentScalarFieldEnum: {
+    id: 'id',
+    metaContentSpotId: 'metaContentSpotId',
+    metaContentTypeId: 'metaContentTypeId',
+    generatedText: 'generatedText',
+    generatedHeading: 'generatedHeading',
+    diveristyClassifierResult: 'diveristyClassifierResult',
+    diveristyClassifierReason: 'diveristyClassifierReason',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MetaContentScalarFieldEnum = (typeof MetaContentScalarFieldEnum)[keyof typeof MetaContentScalarFieldEnum]
+
+
+  export const MetaContentSpotScalarFieldEnum: {
+    id: 'id',
+    webpageId: 'webpageId',
+    contentText: 'contentText',
+    buildFailCount: 'buildFailCount',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MetaContentSpotScalarFieldEnum = (typeof MetaContentSpotScalarFieldEnum)[keyof typeof MetaContentSpotScalarFieldEnum]
+
+
+  export const MetaContentTypeScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MetaContentTypeScalarFieldEnum = (typeof MetaContentTypeScalarFieldEnum)[keyof typeof MetaContentTypeScalarFieldEnum]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -17201,6 +20416,7 @@ export namespace Prisma {
     status: 'status',
     sponsoredWording: 'sponsoredWording',
     desiredAdvertisementSpotCount: 'desiredAdvertisementSpotCount',
+    desiredMetaContentSpotCount: 'desiredMetaContentSpotCount',
     desiredAdvertisementCount: 'desiredAdvertisementCount',
     webpageLookbackDays: 'webpageLookbackDays',
     webpageInsertCap: 'webpageInsertCap',
@@ -17208,7 +20424,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount: 'recentlyMostVisitedUrlCount',
     mainPostBodySelector: 'mainPostBodySelector',
     contentSelector: 'contentSelector',
+    metaContentSpotSelector: 'metaContentSpotSelector',
     minCharLimit: 'minCharLimit',
+    minMetaContentSpotWordLimit: 'minMetaContentSpotWordLimit',
     sameTypeElemWithTextToFollow: 'sameTypeElemWithTextToFollow',
     makeLinksBold: 'makeLinksBold',
     bestCampaignCount: 'bestCampaignCount',
@@ -17577,6 +20795,7 @@ export namespace Prisma {
     status?: BoolFilter | boolean
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
+    desiredMetaContentSpotCount?: IntFilter | number
     desiredAdvertisementCount?: IntFilter | number
     webpageLookbackDays?: IntFilter | number
     webpageInsertCap?: IntFilter | number
@@ -17584,7 +20803,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFilter | number
     mainPostBodySelector?: StringFilter | string
     contentSelector?: StringFilter | string
+    metaContentSpotSelector?: StringFilter | string
     minCharLimit?: IntFilter | number
+    minMetaContentSpotWordLimit?: IntFilter | number
     sameTypeElemWithTextToFollow?: BoolFilter | boolean
     makeLinksBold?: BoolFilter | boolean
     bestCampaignCount?: IntFilter | number
@@ -17601,6 +20822,7 @@ export namespace Prisma {
     status?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
@@ -17608,7 +20830,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: SortOrder
     mainPostBodySelector?: SortOrder
     contentSelector?: SortOrder
+    metaContentSpotSelector?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
     bestCampaignCount?: SortOrder
@@ -17628,6 +20852,7 @@ export namespace Prisma {
     status?: BoolFilter | boolean
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
+    desiredMetaContentSpotCount?: IntFilter | number
     desiredAdvertisementCount?: IntFilter | number
     webpageLookbackDays?: IntFilter | number
     webpageInsertCap?: IntFilter | number
@@ -17635,7 +20860,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFilter | number
     mainPostBodySelector?: StringFilter | string
     contentSelector?: StringFilter | string
+    metaContentSpotSelector?: StringFilter | string
     minCharLimit?: IntFilter | number
+    minMetaContentSpotWordLimit?: IntFilter | number
     sameTypeElemWithTextToFollow?: BoolFilter | boolean
     makeLinksBold?: BoolFilter | boolean
     bestCampaignCount?: IntFilter | number
@@ -17652,6 +20879,7 @@ export namespace Prisma {
     status?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
@@ -17659,7 +20887,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: SortOrder
     mainPostBodySelector?: SortOrder
     contentSelector?: SortOrder
+    metaContentSpotSelector?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
     bestCampaignCount?: SortOrder
@@ -17683,6 +20913,7 @@ export namespace Prisma {
     status?: BoolWithAggregatesFilter | boolean
     sponsoredWording?: StringWithAggregatesFilter | string
     desiredAdvertisementSpotCount?: IntWithAggregatesFilter | number
+    desiredMetaContentSpotCount?: IntWithAggregatesFilter | number
     desiredAdvertisementCount?: IntWithAggregatesFilter | number
     webpageLookbackDays?: IntWithAggregatesFilter | number
     webpageInsertCap?: IntWithAggregatesFilter | number
@@ -17690,7 +20921,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntWithAggregatesFilter | number
     mainPostBodySelector?: StringWithAggregatesFilter | string
     contentSelector?: StringWithAggregatesFilter | string
+    metaContentSpotSelector?: StringWithAggregatesFilter | string
     minCharLimit?: IntWithAggregatesFilter | number
+    minMetaContentSpotWordLimit?: IntWithAggregatesFilter | number
     sameTypeElemWithTextToFollow?: BoolWithAggregatesFilter | boolean
     makeLinksBold?: BoolWithAggregatesFilter | boolean
     bestCampaignCount?: IntWithAggregatesFilter | number
@@ -17896,6 +21129,7 @@ export namespace Prisma {
     website?: XOR<WebsiteRelationFilter, WebsiteWhereInput>
     scoredCampaigns?: ScoredCampaignListRelationFilter
     advertisementSpots?: AdvertisementSpotListRelationFilter
+    metaContentSpots?: MetaContentSpotListRelationFilter
     categories?: CategoryListRelationFilter
     auctions?: AuctionListRelationFilter
     content?: XOR<ContentRelationFilter, ContentWhereInput> | null
@@ -17912,6 +21146,7 @@ export namespace Prisma {
     website?: WebsiteOrderByWithRelationInput
     scoredCampaigns?: ScoredCampaignOrderByRelationAggregateInput
     advertisementSpots?: AdvertisementSpotOrderByRelationAggregateInput
+    metaContentSpots?: MetaContentSpotOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     auctions?: AuctionOrderByRelationAggregateInput
     content?: ContentOrderByWithRelationInput
@@ -17932,6 +21167,7 @@ export namespace Prisma {
     website?: XOR<WebsiteRelationFilter, WebsiteWhereInput>
     scoredCampaigns?: ScoredCampaignListRelationFilter
     advertisementSpots?: AdvertisementSpotListRelationFilter
+    metaContentSpots?: MetaContentSpotListRelationFilter
     categories?: CategoryListRelationFilter
     auctions?: AuctionListRelationFilter
     content?: XOR<ContentRelationFilter, ContentWhereInput> | null
@@ -18319,6 +21555,204 @@ export namespace Prisma {
     advertisementSpotId?: StringWithAggregatesFilter | string
     advertText?: StringWithAggregatesFilter | string
     status?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type MetaContentSpotWhereInput = {
+    AND?: Enumerable<MetaContentSpotWhereInput>
+    OR?: Enumerable<MetaContentSpotWhereInput>
+    NOT?: Enumerable<MetaContentSpotWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    contentText?: StringFilter | string
+    buildFailCount?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+    metaContents?: MetaContentListRelationFilter
+  }
+
+  export type MetaContentSpotOrderByWithRelationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    contentText?: SortOrder
+    buildFailCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    webpage?: WebpageOrderByWithRelationInput
+    metaContents?: MetaContentOrderByRelationAggregateInput
+  }
+
+  export type MetaContentSpotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<MetaContentSpotWhereInput>
+    OR?: Enumerable<MetaContentSpotWhereInput>
+    NOT?: Enumerable<MetaContentSpotWhereInput>
+    webpageId?: StringFilter | string
+    contentText?: StringFilter | string
+    buildFailCount?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    webpage?: XOR<WebpageRelationFilter, WebpageWhereInput>
+    metaContents?: MetaContentListRelationFilter
+  }, "id">
+
+  export type MetaContentSpotOrderByWithAggregationInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    contentText?: SortOrder
+    buildFailCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MetaContentSpotCountOrderByAggregateInput
+    _avg?: MetaContentSpotAvgOrderByAggregateInput
+    _max?: MetaContentSpotMaxOrderByAggregateInput
+    _min?: MetaContentSpotMinOrderByAggregateInput
+    _sum?: MetaContentSpotSumOrderByAggregateInput
+  }
+
+  export type MetaContentSpotScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<MetaContentSpotScalarWhereWithAggregatesInput>
+    OR?: Enumerable<MetaContentSpotScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<MetaContentSpotScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    webpageId?: StringWithAggregatesFilter | string
+    contentText?: StringWithAggregatesFilter | string
+    buildFailCount?: IntWithAggregatesFilter | number
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type MetaContentWhereInput = {
+    AND?: Enumerable<MetaContentWhereInput>
+    OR?: Enumerable<MetaContentWhereInput>
+    NOT?: Enumerable<MetaContentWhereInput>
+    id?: StringFilter | string
+    metaContentSpotId?: StringFilter | string
+    metaContentTypeId?: StringFilter | string
+    generatedText?: StringFilter | string
+    generatedHeading?: StringFilter | string
+    diveristyClassifierResult?: StringFilter | string
+    diveristyClassifierReason?: StringFilter | string
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContentSpot?: XOR<MetaContentSpotRelationFilter, MetaContentSpotWhereInput>
+    metaContentType?: XOR<MetaContentTypeRelationFilter, MetaContentTypeWhereInput>
+  }
+
+  export type MetaContentOrderByWithRelationInput = {
+    id?: SortOrder
+    metaContentSpotId?: SortOrder
+    metaContentTypeId?: SortOrder
+    generatedText?: SortOrder
+    generatedHeading?: SortOrder
+    diveristyClassifierResult?: SortOrder
+    diveristyClassifierReason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    metaContentSpot?: MetaContentSpotOrderByWithRelationInput
+    metaContentType?: MetaContentTypeOrderByWithRelationInput
+  }
+
+  export type MetaContentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<MetaContentWhereInput>
+    OR?: Enumerable<MetaContentWhereInput>
+    NOT?: Enumerable<MetaContentWhereInput>
+    metaContentSpotId?: StringFilter | string
+    metaContentTypeId?: StringFilter | string
+    generatedText?: StringFilter | string
+    generatedHeading?: StringFilter | string
+    diveristyClassifierResult?: StringFilter | string
+    diveristyClassifierReason?: StringFilter | string
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContentSpot?: XOR<MetaContentSpotRelationFilter, MetaContentSpotWhereInput>
+    metaContentType?: XOR<MetaContentTypeRelationFilter, MetaContentTypeWhereInput>
+  }, "id">
+
+  export type MetaContentOrderByWithAggregationInput = {
+    id?: SortOrder
+    metaContentSpotId?: SortOrder
+    metaContentTypeId?: SortOrder
+    generatedText?: SortOrder
+    generatedHeading?: SortOrder
+    diveristyClassifierResult?: SortOrder
+    diveristyClassifierReason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MetaContentCountOrderByAggregateInput
+    _max?: MetaContentMaxOrderByAggregateInput
+    _min?: MetaContentMinOrderByAggregateInput
+  }
+
+  export type MetaContentScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<MetaContentScalarWhereWithAggregatesInput>
+    OR?: Enumerable<MetaContentScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<MetaContentScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    metaContentSpotId?: StringWithAggregatesFilter | string
+    metaContentTypeId?: StringWithAggregatesFilter | string
+    generatedText?: StringWithAggregatesFilter | string
+    generatedHeading?: StringWithAggregatesFilter | string
+    diveristyClassifierResult?: StringWithAggregatesFilter | string
+    diveristyClassifierReason?: StringWithAggregatesFilter | string
+    status?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type MetaContentTypeWhereInput = {
+    AND?: Enumerable<MetaContentTypeWhereInput>
+    OR?: Enumerable<MetaContentTypeWhereInput>
+    NOT?: Enumerable<MetaContentTypeWhereInput>
+    id?: StringFilter | string
+    name?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContents?: MetaContentListRelationFilter
+  }
+
+  export type MetaContentTypeOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    metaContents?: MetaContentOrderByRelationAggregateInput
+  }
+
+  export type MetaContentTypeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: Enumerable<MetaContentTypeWhereInput>
+    OR?: Enumerable<MetaContentTypeWhereInput>
+    NOT?: Enumerable<MetaContentTypeWhereInput>
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContents?: MetaContentListRelationFilter
+  }, "id" | "name">
+
+  export type MetaContentTypeOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MetaContentTypeCountOrderByAggregateInput
+    _max?: MetaContentTypeMaxOrderByAggregateInput
+    _min?: MetaContentTypeMinOrderByAggregateInput
+  }
+
+  export type MetaContentTypeScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<MetaContentTypeScalarWhereWithAggregatesInput>
+    OR?: Enumerable<MetaContentTypeScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<MetaContentTypeScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -18805,6 +22239,7 @@ export namespace Prisma {
     status: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
+    desiredMetaContentSpotCount?: number
     desiredAdvertisementCount?: number
     webpageLookbackDays?: number
     webpageInsertCap?: number
@@ -18812,7 +22247,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: number
     mainPostBodySelector?: string
     contentSelector?: string
+    metaContentSpotSelector?: string
     minCharLimit?: number
+    minMetaContentSpotWordLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
     bestCampaignCount?: number
@@ -18829,6 +22266,7 @@ export namespace Prisma {
     status: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
+    desiredMetaContentSpotCount?: number
     desiredAdvertisementCount?: number
     webpageLookbackDays?: number
     webpageInsertCap?: number
@@ -18836,7 +22274,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: number
     mainPostBodySelector?: string
     contentSelector?: string
+    metaContentSpotSelector?: string
     minCharLimit?: number
+    minMetaContentSpotWordLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
     bestCampaignCount?: number
@@ -18851,6 +22291,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
     desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
     webpageLookbackDays?: IntFieldUpdateOperationsInput | number
     webpageInsertCap?: IntFieldUpdateOperationsInput | number
@@ -18858,7 +22299,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
     mainPostBodySelector?: StringFieldUpdateOperationsInput | string
     contentSelector?: StringFieldUpdateOperationsInput | string
+    metaContentSpotSelector?: StringFieldUpdateOperationsInput | string
     minCharLimit?: IntFieldUpdateOperationsInput | number
+    minMetaContentSpotWordLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
     bestCampaignCount?: IntFieldUpdateOperationsInput | number
@@ -18875,6 +22318,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
     desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
     webpageLookbackDays?: IntFieldUpdateOperationsInput | number
     webpageInsertCap?: IntFieldUpdateOperationsInput | number
@@ -18882,7 +22326,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
     mainPostBodySelector?: StringFieldUpdateOperationsInput | string
     contentSelector?: StringFieldUpdateOperationsInput | string
+    metaContentSpotSelector?: StringFieldUpdateOperationsInput | string
     minCharLimit?: IntFieldUpdateOperationsInput | number
+    minMetaContentSpotWordLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
     bestCampaignCount?: IntFieldUpdateOperationsInput | number
@@ -18898,6 +22344,7 @@ export namespace Prisma {
     status: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
+    desiredMetaContentSpotCount?: number
     desiredAdvertisementCount?: number
     webpageLookbackDays?: number
     webpageInsertCap?: number
@@ -18905,7 +22352,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: number
     mainPostBodySelector?: string
     contentSelector?: string
+    metaContentSpotSelector?: string
     minCharLimit?: number
+    minMetaContentSpotWordLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
     bestCampaignCount?: number
@@ -18920,6 +22369,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
     desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
     webpageLookbackDays?: IntFieldUpdateOperationsInput | number
     webpageInsertCap?: IntFieldUpdateOperationsInput | number
@@ -18927,7 +22377,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
     mainPostBodySelector?: StringFieldUpdateOperationsInput | string
     contentSelector?: StringFieldUpdateOperationsInput | string
+    metaContentSpotSelector?: StringFieldUpdateOperationsInput | string
     minCharLimit?: IntFieldUpdateOperationsInput | number
+    minMetaContentSpotWordLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
     bestCampaignCount?: IntFieldUpdateOperationsInput | number
@@ -18943,6 +22395,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
     desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
     webpageLookbackDays?: IntFieldUpdateOperationsInput | number
     webpageInsertCap?: IntFieldUpdateOperationsInput | number
@@ -18950,7 +22403,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
     mainPostBodySelector?: StringFieldUpdateOperationsInput | string
     contentSelector?: StringFieldUpdateOperationsInput | string
+    metaContentSpotSelector?: StringFieldUpdateOperationsInput | string
     minCharLimit?: IntFieldUpdateOperationsInput | number
+    minMetaContentSpotWordLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
     bestCampaignCount?: IntFieldUpdateOperationsInput | number
@@ -19166,6 +22621,7 @@ export namespace Prisma {
     website: WebsiteCreateNestedOneWithoutWebpagesInput
     scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     categories?: CategoryCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionCreateNestedManyWithoutWebpageInput
     content?: ContentCreateNestedOneWithoutWebpageInput
@@ -19181,6 +22637,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
     content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
@@ -19196,6 +22653,7 @@ export namespace Prisma {
     website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
     scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUpdateManyWithoutWebpageNestedInput
     content?: ContentUpdateOneWithoutWebpageNestedInput
@@ -19211,6 +22669,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
     content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
@@ -19618,6 +23077,214 @@ export namespace Prisma {
     advertisementSpotId?: StringFieldUpdateOperationsInput | string
     advertText?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentSpotCreateInput = {
+    id?: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutMetaContentSpotsInput
+    metaContents?: MetaContentCreateNestedManyWithoutMetaContentSpotInput
+  }
+
+  export type MetaContentSpotUncheckedCreateInput = {
+    id?: string
+    webpageId: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContents?: MetaContentUncheckedCreateNestedManyWithoutMetaContentSpotInput
+  }
+
+  export type MetaContentSpotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutMetaContentSpotsNestedInput
+    metaContents?: MetaContentUpdateManyWithoutMetaContentSpotNestedInput
+  }
+
+  export type MetaContentSpotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContents?: MetaContentUncheckedUpdateManyWithoutMetaContentSpotNestedInput
+  }
+
+  export type MetaContentSpotCreateManyInput = {
+    id?: string
+    webpageId: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentSpotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentSpotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentCreateInput = {
+    id?: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContentSpot: MetaContentSpotCreateNestedOneWithoutMetaContentsInput
+    metaContentType: MetaContentTypeCreateNestedOneWithoutMetaContentsInput
+  }
+
+  export type MetaContentUncheckedCreateInput = {
+    id?: string
+    metaContentSpotId: string
+    metaContentTypeId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentSpot?: MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput
+    metaContentType?: MetaContentTypeUpdateOneRequiredWithoutMetaContentsNestedInput
+  }
+
+  export type MetaContentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentSpotId?: StringFieldUpdateOperationsInput | string
+    metaContentTypeId?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentCreateManyInput = {
+    id?: string
+    metaContentSpotId: string
+    metaContentTypeId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentSpotId?: StringFieldUpdateOperationsInput | string
+    metaContentTypeId?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentTypeCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContents?: MetaContentCreateNestedManyWithoutMetaContentTypeInput
+  }
+
+  export type MetaContentTypeUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContents?: MetaContentUncheckedCreateNestedManyWithoutMetaContentTypeInput
+  }
+
+  export type MetaContentTypeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContents?: MetaContentUpdateManyWithoutMetaContentTypeNestedInput
+  }
+
+  export type MetaContentTypeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContents?: MetaContentUncheckedUpdateManyWithoutMetaContentTypeNestedInput
+  }
+
+  export type MetaContentTypeCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentTypeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentTypeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20195,6 +23862,7 @@ export namespace Prisma {
     status?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
@@ -20202,7 +23870,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: SortOrder
     mainPostBodySelector?: SortOrder
     contentSelector?: SortOrder
+    metaContentSpotSelector?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
     bestCampaignCount?: SortOrder
@@ -20214,12 +23884,14 @@ export namespace Prisma {
   export type SettingAvgOrderByAggregateInput = {
     scoreThreshold?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
     allTimeMostVisitedUrlCount?: SortOrder
     recentlyMostVisitedUrlCount?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     bestCampaignCount?: SortOrder
   }
 
@@ -20230,6 +23902,7 @@ export namespace Prisma {
     status?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
@@ -20237,7 +23910,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: SortOrder
     mainPostBodySelector?: SortOrder
     contentSelector?: SortOrder
+    metaContentSpotSelector?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
     bestCampaignCount?: SortOrder
@@ -20253,6 +23928,7 @@ export namespace Prisma {
     status?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
@@ -20260,7 +23936,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: SortOrder
     mainPostBodySelector?: SortOrder
     contentSelector?: SortOrder
+    metaContentSpotSelector?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     sameTypeElemWithTextToFollow?: SortOrder
     makeLinksBold?: SortOrder
     bestCampaignCount?: SortOrder
@@ -20272,12 +23950,14 @@ export namespace Prisma {
   export type SettingSumOrderByAggregateInput = {
     scoreThreshold?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
+    desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
     webpageLookbackDays?: SortOrder
     webpageInsertCap?: SortOrder
     allTimeMostVisitedUrlCount?: SortOrder
     recentlyMostVisitedUrlCount?: SortOrder
     minCharLimit?: SortOrder
+    minMetaContentSpotWordLimit?: SortOrder
     bestCampaignCount?: SortOrder
   }
 
@@ -20433,6 +24113,12 @@ export namespace Prisma {
     none?: AdvertisementSpotWhereInput
   }
 
+  export type MetaContentSpotListRelationFilter = {
+    every?: MetaContentSpotWhereInput
+    some?: MetaContentSpotWhereInput
+    none?: MetaContentSpotWhereInput
+  }
+
   export type ContentRelationFilter = {
     is?: ContentWhereInput | null
     isNot?: ContentWhereInput | null
@@ -20443,6 +24129,10 @@ export namespace Prisma {
   }
 
   export type AdvertisementSpotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MetaContentSpotOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20678,6 +24368,121 @@ export namespace Prisma {
     advertisementSpotId?: SortOrder
     advertText?: SortOrder
     status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentListRelationFilter = {
+    every?: MetaContentWhereInput
+    some?: MetaContentWhereInput
+    none?: MetaContentWhereInput
+  }
+
+  export type MetaContentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MetaContentSpotCountOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    contentText?: SortOrder
+    buildFailCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentSpotAvgOrderByAggregateInput = {
+    buildFailCount?: SortOrder
+  }
+
+  export type MetaContentSpotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    contentText?: SortOrder
+    buildFailCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentSpotMinOrderByAggregateInput = {
+    id?: SortOrder
+    webpageId?: SortOrder
+    contentText?: SortOrder
+    buildFailCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentSpotSumOrderByAggregateInput = {
+    buildFailCount?: SortOrder
+  }
+
+  export type MetaContentSpotRelationFilter = {
+    is?: MetaContentSpotWhereInput
+    isNot?: MetaContentSpotWhereInput
+  }
+
+  export type MetaContentTypeRelationFilter = {
+    is?: MetaContentTypeWhereInput
+    isNot?: MetaContentTypeWhereInput
+  }
+
+  export type MetaContentCountOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentSpotId?: SortOrder
+    metaContentTypeId?: SortOrder
+    generatedText?: SortOrder
+    generatedHeading?: SortOrder
+    diveristyClassifierResult?: SortOrder
+    diveristyClassifierReason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentSpotId?: SortOrder
+    metaContentTypeId?: SortOrder
+    generatedText?: SortOrder
+    generatedHeading?: SortOrder
+    diveristyClassifierResult?: SortOrder
+    diveristyClassifierReason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentMinOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentSpotId?: SortOrder
+    metaContentTypeId?: SortOrder
+    generatedText?: SortOrder
+    generatedHeading?: SortOrder
+    diveristyClassifierResult?: SortOrder
+    diveristyClassifierReason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentTypeCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentTypeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentTypeMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -21385,6 +25190,13 @@ export namespace Prisma {
     connect?: Enumerable<AdvertisementSpotWhereUniqueInput>
   }
 
+  export type MetaContentSpotCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<MetaContentSpotCreateWithoutWebpageInput>, Enumerable<MetaContentSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<MetaContentSpotCreateOrConnectWithoutWebpageInput>
+    createMany?: MetaContentSpotCreateManyWebpageInputEnvelope
+    connect?: Enumerable<MetaContentSpotWhereUniqueInput>
+  }
+
   export type CategoryCreateNestedManyWithoutWebpagesInput = {
     create?: XOR<Enumerable<CategoryCreateWithoutWebpagesInput>, Enumerable<CategoryUncheckedCreateWithoutWebpagesInput>>
     connectOrCreate?: Enumerable<CategoryCreateOrConnectWithoutWebpagesInput>
@@ -21416,6 +25228,13 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<AdvertisementSpotCreateOrConnectWithoutWebpageInput>
     createMany?: AdvertisementSpotCreateManyWebpageInputEnvelope
     connect?: Enumerable<AdvertisementSpotWhereUniqueInput>
+  }
+
+  export type MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput = {
+    create?: XOR<Enumerable<MetaContentSpotCreateWithoutWebpageInput>, Enumerable<MetaContentSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<MetaContentSpotCreateOrConnectWithoutWebpageInput>
+    createMany?: MetaContentSpotCreateManyWebpageInputEnvelope
+    connect?: Enumerable<MetaContentSpotWhereUniqueInput>
   }
 
   export type CategoryUncheckedCreateNestedManyWithoutWebpagesInput = {
@@ -21471,6 +25290,20 @@ export namespace Prisma {
     update?: Enumerable<AdvertisementSpotUpdateWithWhereUniqueWithoutWebpageInput>
     updateMany?: Enumerable<AdvertisementSpotUpdateManyWithWhereWithoutWebpageInput>
     deleteMany?: Enumerable<AdvertisementSpotScalarWhereInput>
+  }
+
+  export type MetaContentSpotUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<MetaContentSpotCreateWithoutWebpageInput>, Enumerable<MetaContentSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<MetaContentSpotCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<MetaContentSpotUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: MetaContentSpotCreateManyWebpageInputEnvelope
+    set?: Enumerable<MetaContentSpotWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentSpotWhereUniqueInput>
+    delete?: Enumerable<MetaContentSpotWhereUniqueInput>
+    connect?: Enumerable<MetaContentSpotWhereUniqueInput>
+    update?: Enumerable<MetaContentSpotUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<MetaContentSpotUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<MetaContentSpotScalarWhereInput>
   }
 
   export type CategoryUpdateManyWithoutWebpagesNestedInput = {
@@ -21536,6 +25369,20 @@ export namespace Prisma {
     update?: Enumerable<AdvertisementSpotUpdateWithWhereUniqueWithoutWebpageInput>
     updateMany?: Enumerable<AdvertisementSpotUpdateManyWithWhereWithoutWebpageInput>
     deleteMany?: Enumerable<AdvertisementSpotScalarWhereInput>
+  }
+
+  export type MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput = {
+    create?: XOR<Enumerable<MetaContentSpotCreateWithoutWebpageInput>, Enumerable<MetaContentSpotUncheckedCreateWithoutWebpageInput>>
+    connectOrCreate?: Enumerable<MetaContentSpotCreateOrConnectWithoutWebpageInput>
+    upsert?: Enumerable<MetaContentSpotUpsertWithWhereUniqueWithoutWebpageInput>
+    createMany?: MetaContentSpotCreateManyWebpageInputEnvelope
+    set?: Enumerable<MetaContentSpotWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentSpotWhereUniqueInput>
+    delete?: Enumerable<MetaContentSpotWhereUniqueInput>
+    connect?: Enumerable<MetaContentSpotWhereUniqueInput>
+    update?: Enumerable<MetaContentSpotUpdateWithWhereUniqueWithoutWebpageInput>
+    updateMany?: Enumerable<MetaContentSpotUpdateManyWithWhereWithoutWebpageInput>
+    deleteMany?: Enumerable<MetaContentSpotScalarWhereInput>
   }
 
   export type CategoryUncheckedUpdateManyWithoutWebpagesNestedInput = {
@@ -21873,6 +25720,132 @@ export namespace Prisma {
     update?: Enumerable<ImpressionUpdateWithWhereUniqueWithoutAdvertisementInput>
     updateMany?: Enumerable<ImpressionUpdateManyWithWhereWithoutAdvertisementInput>
     deleteMany?: Enumerable<ImpressionScalarWhereInput>
+  }
+
+  export type WebpageCreateNestedOneWithoutMetaContentSpotsInput = {
+    create?: XOR<WebpageCreateWithoutMetaContentSpotsInput, WebpageUncheckedCreateWithoutMetaContentSpotsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutMetaContentSpotsInput
+    connect?: WebpageWhereUniqueInput
+  }
+
+  export type MetaContentCreateNestedManyWithoutMetaContentSpotInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentSpotInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentSpotInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentSpotInput>
+    createMany?: MetaContentCreateManyMetaContentSpotInputEnvelope
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+  }
+
+  export type MetaContentUncheckedCreateNestedManyWithoutMetaContentSpotInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentSpotInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentSpotInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentSpotInput>
+    createMany?: MetaContentCreateManyMetaContentSpotInputEnvelope
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+  }
+
+  export type WebpageUpdateOneRequiredWithoutMetaContentSpotsNestedInput = {
+    create?: XOR<WebpageCreateWithoutMetaContentSpotsInput, WebpageUncheckedCreateWithoutMetaContentSpotsInput>
+    connectOrCreate?: WebpageCreateOrConnectWithoutMetaContentSpotsInput
+    upsert?: WebpageUpsertWithoutMetaContentSpotsInput
+    connect?: WebpageWhereUniqueInput
+    update?: XOR<XOR<WebpageUpdateToOneWithWhereWithoutMetaContentSpotsInput, WebpageUpdateWithoutMetaContentSpotsInput>, WebpageUncheckedUpdateWithoutMetaContentSpotsInput>
+  }
+
+  export type MetaContentUpdateManyWithoutMetaContentSpotNestedInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentSpotInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentSpotInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentSpotInput>
+    upsert?: Enumerable<MetaContentUpsertWithWhereUniqueWithoutMetaContentSpotInput>
+    createMany?: MetaContentCreateManyMetaContentSpotInputEnvelope
+    set?: Enumerable<MetaContentWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentWhereUniqueInput>
+    delete?: Enumerable<MetaContentWhereUniqueInput>
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+    update?: Enumerable<MetaContentUpdateWithWhereUniqueWithoutMetaContentSpotInput>
+    updateMany?: Enumerable<MetaContentUpdateManyWithWhereWithoutMetaContentSpotInput>
+    deleteMany?: Enumerable<MetaContentScalarWhereInput>
+  }
+
+  export type MetaContentUncheckedUpdateManyWithoutMetaContentSpotNestedInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentSpotInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentSpotInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentSpotInput>
+    upsert?: Enumerable<MetaContentUpsertWithWhereUniqueWithoutMetaContentSpotInput>
+    createMany?: MetaContentCreateManyMetaContentSpotInputEnvelope
+    set?: Enumerable<MetaContentWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentWhereUniqueInput>
+    delete?: Enumerable<MetaContentWhereUniqueInput>
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+    update?: Enumerable<MetaContentUpdateWithWhereUniqueWithoutMetaContentSpotInput>
+    updateMany?: Enumerable<MetaContentUpdateManyWithWhereWithoutMetaContentSpotInput>
+    deleteMany?: Enumerable<MetaContentScalarWhereInput>
+  }
+
+  export type MetaContentSpotCreateNestedOneWithoutMetaContentsInput = {
+    create?: XOR<MetaContentSpotCreateWithoutMetaContentsInput, MetaContentSpotUncheckedCreateWithoutMetaContentsInput>
+    connectOrCreate?: MetaContentSpotCreateOrConnectWithoutMetaContentsInput
+    connect?: MetaContentSpotWhereUniqueInput
+  }
+
+  export type MetaContentTypeCreateNestedOneWithoutMetaContentsInput = {
+    create?: XOR<MetaContentTypeCreateWithoutMetaContentsInput, MetaContentTypeUncheckedCreateWithoutMetaContentsInput>
+    connectOrCreate?: MetaContentTypeCreateOrConnectWithoutMetaContentsInput
+    connect?: MetaContentTypeWhereUniqueInput
+  }
+
+  export type MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput = {
+    create?: XOR<MetaContentSpotCreateWithoutMetaContentsInput, MetaContentSpotUncheckedCreateWithoutMetaContentsInput>
+    connectOrCreate?: MetaContentSpotCreateOrConnectWithoutMetaContentsInput
+    upsert?: MetaContentSpotUpsertWithoutMetaContentsInput
+    connect?: MetaContentSpotWhereUniqueInput
+    update?: XOR<XOR<MetaContentSpotUpdateToOneWithWhereWithoutMetaContentsInput, MetaContentSpotUpdateWithoutMetaContentsInput>, MetaContentSpotUncheckedUpdateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentTypeUpdateOneRequiredWithoutMetaContentsNestedInput = {
+    create?: XOR<MetaContentTypeCreateWithoutMetaContentsInput, MetaContentTypeUncheckedCreateWithoutMetaContentsInput>
+    connectOrCreate?: MetaContentTypeCreateOrConnectWithoutMetaContentsInput
+    upsert?: MetaContentTypeUpsertWithoutMetaContentsInput
+    connect?: MetaContentTypeWhereUniqueInput
+    update?: XOR<XOR<MetaContentTypeUpdateToOneWithWhereWithoutMetaContentsInput, MetaContentTypeUpdateWithoutMetaContentsInput>, MetaContentTypeUncheckedUpdateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentCreateNestedManyWithoutMetaContentTypeInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentTypeInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentTypeInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentTypeInput>
+    createMany?: MetaContentCreateManyMetaContentTypeInputEnvelope
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+  }
+
+  export type MetaContentUncheckedCreateNestedManyWithoutMetaContentTypeInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentTypeInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentTypeInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentTypeInput>
+    createMany?: MetaContentCreateManyMetaContentTypeInputEnvelope
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+  }
+
+  export type MetaContentUpdateManyWithoutMetaContentTypeNestedInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentTypeInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentTypeInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentTypeInput>
+    upsert?: Enumerable<MetaContentUpsertWithWhereUniqueWithoutMetaContentTypeInput>
+    createMany?: MetaContentCreateManyMetaContentTypeInputEnvelope
+    set?: Enumerable<MetaContentWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentWhereUniqueInput>
+    delete?: Enumerable<MetaContentWhereUniqueInput>
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+    update?: Enumerable<MetaContentUpdateWithWhereUniqueWithoutMetaContentTypeInput>
+    updateMany?: Enumerable<MetaContentUpdateManyWithWhereWithoutMetaContentTypeInput>
+    deleteMany?: Enumerable<MetaContentScalarWhereInput>
+  }
+
+  export type MetaContentUncheckedUpdateManyWithoutMetaContentTypeNestedInput = {
+    create?: XOR<Enumerable<MetaContentCreateWithoutMetaContentTypeInput>, Enumerable<MetaContentUncheckedCreateWithoutMetaContentTypeInput>>
+    connectOrCreate?: Enumerable<MetaContentCreateOrConnectWithoutMetaContentTypeInput>
+    upsert?: Enumerable<MetaContentUpsertWithWhereUniqueWithoutMetaContentTypeInput>
+    createMany?: MetaContentCreateManyMetaContentTypeInputEnvelope
+    set?: Enumerable<MetaContentWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentWhereUniqueInput>
+    delete?: Enumerable<MetaContentWhereUniqueInput>
+    connect?: Enumerable<MetaContentWhereUniqueInput>
+    update?: Enumerable<MetaContentUpdateWithWhereUniqueWithoutMetaContentTypeInput>
+    updateMany?: Enumerable<MetaContentUpdateManyWithWhereWithoutMetaContentTypeInput>
+    deleteMany?: Enumerable<MetaContentScalarWhereInput>
   }
 
   export type UserCreateNestedOneWithoutCampaignsInput = {
@@ -22623,6 +26596,7 @@ export namespace Prisma {
     status: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
+    desiredMetaContentSpotCount?: number
     desiredAdvertisementCount?: number
     webpageLookbackDays?: number
     webpageInsertCap?: number
@@ -22630,7 +26604,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: number
     mainPostBodySelector?: string
     contentSelector?: string
+    metaContentSpotSelector?: string
     minCharLimit?: number
+    minMetaContentSpotWordLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
     bestCampaignCount?: number
@@ -22645,6 +26621,7 @@ export namespace Prisma {
     status: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
+    desiredMetaContentSpotCount?: number
     desiredAdvertisementCount?: number
     webpageLookbackDays?: number
     webpageInsertCap?: number
@@ -22652,7 +26629,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: number
     mainPostBodySelector?: string
     contentSelector?: string
+    metaContentSpotSelector?: string
     minCharLimit?: number
+    minMetaContentSpotWordLimit?: number
     sameTypeElemWithTextToFollow?: boolean
     makeLinksBold?: boolean
     bestCampaignCount?: number
@@ -22873,6 +26852,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
     desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
     webpageLookbackDays?: IntFieldUpdateOperationsInput | number
     webpageInsertCap?: IntFieldUpdateOperationsInput | number
@@ -22880,7 +26860,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
     mainPostBodySelector?: StringFieldUpdateOperationsInput | string
     contentSelector?: StringFieldUpdateOperationsInput | string
+    metaContentSpotSelector?: StringFieldUpdateOperationsInput | string
     minCharLimit?: IntFieldUpdateOperationsInput | number
+    minMetaContentSpotWordLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
     bestCampaignCount?: IntFieldUpdateOperationsInput | number
@@ -22895,6 +26877,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
+    desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
     desiredAdvertisementCount?: IntFieldUpdateOperationsInput | number
     webpageLookbackDays?: IntFieldUpdateOperationsInput | number
     webpageInsertCap?: IntFieldUpdateOperationsInput | number
@@ -22902,7 +26885,9 @@ export namespace Prisma {
     recentlyMostVisitedUrlCount?: IntFieldUpdateOperationsInput | number
     mainPostBodySelector?: StringFieldUpdateOperationsInput | string
     contentSelector?: StringFieldUpdateOperationsInput | string
+    metaContentSpotSelector?: StringFieldUpdateOperationsInput | string
     minCharLimit?: IntFieldUpdateOperationsInput | number
+    minMetaContentSpotWordLimit?: IntFieldUpdateOperationsInput | number
     sameTypeElemWithTextToFollow?: BoolFieldUpdateOperationsInput | boolean
     makeLinksBold?: BoolFieldUpdateOperationsInput | boolean
     bestCampaignCount?: IntFieldUpdateOperationsInput | number
@@ -23073,6 +27058,7 @@ export namespace Prisma {
     website: WebsiteCreateNestedOneWithoutWebpagesInput
     scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     categories?: CategoryCreateNestedManyWithoutWebpagesInput
     content?: ContentCreateNestedOneWithoutWebpageInput
   }
@@ -23087,6 +27073,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
     content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
   }
@@ -23223,6 +27210,7 @@ export namespace Prisma {
     website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
     scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUpdateManyWithoutWebpagesNestedInput
     content?: ContentUpdateOneWithoutWebpageNestedInput
   }
@@ -23237,6 +27225,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
     content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
   }
@@ -23317,6 +27306,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     categories?: CategoryCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionCreateNestedManyWithoutWebpageInput
     content?: ContentCreateNestedOneWithoutWebpageInput
@@ -23331,6 +27321,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
     content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
@@ -23569,6 +27560,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MetaContentSpotCreateWithoutWebpageInput = {
+    id?: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContents?: MetaContentCreateNestedManyWithoutMetaContentSpotInput
+  }
+
+  export type MetaContentSpotUncheckedCreateWithoutWebpageInput = {
+    id?: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContents?: MetaContentUncheckedCreateNestedManyWithoutMetaContentSpotInput
+  }
+
+  export type MetaContentSpotCreateOrConnectWithoutWebpageInput = {
+    where: MetaContentSpotWhereUniqueInput
+    create: XOR<MetaContentSpotCreateWithoutWebpageInput, MetaContentSpotUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type MetaContentSpotCreateManyWebpageInputEnvelope = {
+    data: Enumerable<MetaContentSpotCreateManyWebpageInput>
+    skipDuplicates?: boolean
+  }
+
   export type CategoryCreateWithoutWebpagesInput = {
     id?: string
     name: string
@@ -23757,6 +27776,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
   }
 
+  export type MetaContentSpotUpsertWithWhereUniqueWithoutWebpageInput = {
+    where: MetaContentSpotWhereUniqueInput
+    update: XOR<MetaContentSpotUpdateWithoutWebpageInput, MetaContentSpotUncheckedUpdateWithoutWebpageInput>
+    create: XOR<MetaContentSpotCreateWithoutWebpageInput, MetaContentSpotUncheckedCreateWithoutWebpageInput>
+  }
+
+  export type MetaContentSpotUpdateWithWhereUniqueWithoutWebpageInput = {
+    where: MetaContentSpotWhereUniqueInput
+    data: XOR<MetaContentSpotUpdateWithoutWebpageInput, MetaContentSpotUncheckedUpdateWithoutWebpageInput>
+  }
+
+  export type MetaContentSpotUpdateManyWithWhereWithoutWebpageInput = {
+    where: MetaContentSpotScalarWhereInput
+    data: XOR<MetaContentSpotUpdateManyMutationInput, MetaContentSpotUncheckedUpdateManyWithoutMetaContentSpotsInput>
+  }
+
+  export type MetaContentSpotScalarWhereInput = {
+    AND?: Enumerable<MetaContentSpotScalarWhereInput>
+    OR?: Enumerable<MetaContentSpotScalarWhereInput>
+    NOT?: Enumerable<MetaContentSpotScalarWhereInput>
+    id?: StringFilter | string
+    webpageId?: StringFilter | string
+    contentText?: StringFilter | string
+    buildFailCount?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
   export type CategoryUpsertWithWhereUniqueWithoutWebpagesInput = {
     where: CategoryWhereUniqueInput
     update: XOR<CategoryUpdateWithoutWebpagesInput, CategoryUncheckedUpdateWithoutWebpagesInput>
@@ -23832,6 +27879,7 @@ export namespace Prisma {
     website: WebsiteCreateNestedOneWithoutWebpagesInput
     scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     categories?: CategoryCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionCreateNestedManyWithoutWebpageInput
   }
@@ -23846,6 +27894,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
   }
@@ -23876,6 +27925,7 @@ export namespace Prisma {
     website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
     scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUpdateManyWithoutWebpageNestedInput
   }
@@ -23890,6 +27940,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
   }
@@ -23943,6 +27994,7 @@ export namespace Prisma {
     website: WebsiteCreateNestedOneWithoutWebpagesInput
     scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     auctions?: AuctionCreateNestedManyWithoutWebpageInput
     content?: ContentCreateNestedOneWithoutWebpageInput
   }
@@ -23957,6 +28009,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
     advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
     content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
   }
@@ -24095,6 +28148,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     website: WebsiteCreateNestedOneWithoutWebpagesInput
     scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     categories?: CategoryCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionCreateNestedManyWithoutWebpageInput
     content?: ContentCreateNestedOneWithoutWebpageInput
@@ -24109,6 +28163,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
     content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
@@ -24169,6 +28224,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
     scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUpdateManyWithoutWebpageNestedInput
     content?: ContentUpdateOneWithoutWebpageNestedInput
@@ -24183,6 +28239,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
     content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
@@ -24226,6 +28283,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     website: WebsiteCreateNestedOneWithoutWebpagesInput
     advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotCreateNestedManyWithoutWebpageInput
     categories?: CategoryCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionCreateNestedManyWithoutWebpageInput
     content?: ContentCreateNestedOneWithoutWebpageInput
@@ -24240,6 +28298,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    metaContentSpots?: MetaContentSpotUncheckedCreateNestedManyWithoutWebpageInput
     categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
     auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
     content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
@@ -24343,6 +28402,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
     advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUpdateManyWithoutWebpageNestedInput
     content?: ContentUpdateOneWithoutWebpageNestedInput
@@ -24357,6 +28417,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
     content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
@@ -24583,6 +28644,294 @@ export namespace Prisma {
     afterText?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebpageCreateWithoutMetaContentSpotsInput = {
+    id?: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    website: WebsiteCreateNestedOneWithoutWebpagesInput
+    scoredCampaigns?: ScoredCampaignCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotCreateNestedManyWithoutWebpageInput
+    categories?: CategoryCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionCreateNestedManyWithoutWebpageInput
+    content?: ContentCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageUncheckedCreateWithoutMetaContentSpotsInput = {
+    id?: string
+    websiteId: string
+    url: string
+    status: boolean
+    lastModifiedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedCreateNestedManyWithoutWebpageInput
+    advertisementSpots?: AdvertisementSpotUncheckedCreateNestedManyWithoutWebpageInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutWebpagesInput
+    auctions?: AuctionUncheckedCreateNestedManyWithoutWebpageInput
+    content?: ContentUncheckedCreateNestedOneWithoutWebpageInput
+  }
+
+  export type WebpageCreateOrConnectWithoutMetaContentSpotsInput = {
+    where: WebpageWhereUniqueInput
+    create: XOR<WebpageCreateWithoutMetaContentSpotsInput, WebpageUncheckedCreateWithoutMetaContentSpotsInput>
+  }
+
+  export type MetaContentCreateWithoutMetaContentSpotInput = {
+    id?: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContentType: MetaContentTypeCreateNestedOneWithoutMetaContentsInput
+  }
+
+  export type MetaContentUncheckedCreateWithoutMetaContentSpotInput = {
+    id?: string
+    metaContentTypeId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentCreateOrConnectWithoutMetaContentSpotInput = {
+    where: MetaContentWhereUniqueInput
+    create: XOR<MetaContentCreateWithoutMetaContentSpotInput, MetaContentUncheckedCreateWithoutMetaContentSpotInput>
+  }
+
+  export type MetaContentCreateManyMetaContentSpotInputEnvelope = {
+    data: Enumerable<MetaContentCreateManyMetaContentSpotInput>
+    skipDuplicates?: boolean
+  }
+
+  export type WebpageUpsertWithoutMetaContentSpotsInput = {
+    update: XOR<WebpageUpdateWithoutMetaContentSpotsInput, WebpageUncheckedUpdateWithoutMetaContentSpotsInput>
+    create: XOR<WebpageCreateWithoutMetaContentSpotsInput, WebpageUncheckedCreateWithoutMetaContentSpotsInput>
+    where?: WebpageWhereInput
+  }
+
+  export type WebpageUpdateToOneWithWhereWithoutMetaContentSpotsInput = {
+    where?: WebpageWhereInput
+    data: XOR<WebpageUpdateWithoutMetaContentSpotsInput, WebpageUncheckedUpdateWithoutMetaContentSpotsInput>
+  }
+
+  export type WebpageUpdateWithoutMetaContentSpotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
+    scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUpdateManyWithoutWebpageNestedInput
+    content?: ContentUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type WebpageUncheckedUpdateWithoutMetaContentSpotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    websiteId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    lastModifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
+    advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
+    auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
+    content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
+  }
+
+  export type MetaContentUpsertWithWhereUniqueWithoutMetaContentSpotInput = {
+    where: MetaContentWhereUniqueInput
+    update: XOR<MetaContentUpdateWithoutMetaContentSpotInput, MetaContentUncheckedUpdateWithoutMetaContentSpotInput>
+    create: XOR<MetaContentCreateWithoutMetaContentSpotInput, MetaContentUncheckedCreateWithoutMetaContentSpotInput>
+  }
+
+  export type MetaContentUpdateWithWhereUniqueWithoutMetaContentSpotInput = {
+    where: MetaContentWhereUniqueInput
+    data: XOR<MetaContentUpdateWithoutMetaContentSpotInput, MetaContentUncheckedUpdateWithoutMetaContentSpotInput>
+  }
+
+  export type MetaContentUpdateManyWithWhereWithoutMetaContentSpotInput = {
+    where: MetaContentScalarWhereInput
+    data: XOR<MetaContentUpdateManyMutationInput, MetaContentUncheckedUpdateManyWithoutMetaContentsInput>
+  }
+
+  export type MetaContentScalarWhereInput = {
+    AND?: Enumerable<MetaContentScalarWhereInput>
+    OR?: Enumerable<MetaContentScalarWhereInput>
+    NOT?: Enumerable<MetaContentScalarWhereInput>
+    id?: StringFilter | string
+    metaContentSpotId?: StringFilter | string
+    metaContentTypeId?: StringFilter | string
+    generatedText?: StringFilter | string
+    generatedHeading?: StringFilter | string
+    diveristyClassifierResult?: StringFilter | string
+    diveristyClassifierReason?: StringFilter | string
+    status?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type MetaContentSpotCreateWithoutMetaContentsInput = {
+    id?: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    webpage: WebpageCreateNestedOneWithoutMetaContentSpotsInput
+  }
+
+  export type MetaContentSpotUncheckedCreateWithoutMetaContentsInput = {
+    id?: string
+    webpageId: string
+    contentText: string
+    buildFailCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentSpotCreateOrConnectWithoutMetaContentsInput = {
+    where: MetaContentSpotWhereUniqueInput
+    create: XOR<MetaContentSpotCreateWithoutMetaContentsInput, MetaContentSpotUncheckedCreateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentTypeCreateWithoutMetaContentsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentTypeUncheckedCreateWithoutMetaContentsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentTypeCreateOrConnectWithoutMetaContentsInput = {
+    where: MetaContentTypeWhereUniqueInput
+    create: XOR<MetaContentTypeCreateWithoutMetaContentsInput, MetaContentTypeUncheckedCreateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentSpotUpsertWithoutMetaContentsInput = {
+    update: XOR<MetaContentSpotUpdateWithoutMetaContentsInput, MetaContentSpotUncheckedUpdateWithoutMetaContentsInput>
+    create: XOR<MetaContentSpotCreateWithoutMetaContentsInput, MetaContentSpotUncheckedCreateWithoutMetaContentsInput>
+    where?: MetaContentSpotWhereInput
+  }
+
+  export type MetaContentSpotUpdateToOneWithWhereWithoutMetaContentsInput = {
+    where?: MetaContentSpotWhereInput
+    data: XOR<MetaContentSpotUpdateWithoutMetaContentsInput, MetaContentSpotUncheckedUpdateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentSpotUpdateWithoutMetaContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    webpage?: WebpageUpdateOneRequiredWithoutMetaContentSpotsNestedInput
+  }
+
+  export type MetaContentSpotUncheckedUpdateWithoutMetaContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    webpageId?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentTypeUpsertWithoutMetaContentsInput = {
+    update: XOR<MetaContentTypeUpdateWithoutMetaContentsInput, MetaContentTypeUncheckedUpdateWithoutMetaContentsInput>
+    create: XOR<MetaContentTypeCreateWithoutMetaContentsInput, MetaContentTypeUncheckedCreateWithoutMetaContentsInput>
+    where?: MetaContentTypeWhereInput
+  }
+
+  export type MetaContentTypeUpdateToOneWithWhereWithoutMetaContentsInput = {
+    where?: MetaContentTypeWhereInput
+    data: XOR<MetaContentTypeUpdateWithoutMetaContentsInput, MetaContentTypeUncheckedUpdateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentTypeUpdateWithoutMetaContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentTypeUncheckedUpdateWithoutMetaContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentCreateWithoutMetaContentTypeInput = {
+    id?: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContentSpot: MetaContentSpotCreateNestedOneWithoutMetaContentsInput
+  }
+
+  export type MetaContentUncheckedCreateWithoutMetaContentTypeInput = {
+    id?: string
+    metaContentSpotId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentCreateOrConnectWithoutMetaContentTypeInput = {
+    where: MetaContentWhereUniqueInput
+    create: XOR<MetaContentCreateWithoutMetaContentTypeInput, MetaContentUncheckedCreateWithoutMetaContentTypeInput>
+  }
+
+  export type MetaContentCreateManyMetaContentTypeInputEnvelope = {
+    data: Enumerable<MetaContentCreateManyMetaContentTypeInput>
+    skipDuplicates?: boolean
+  }
+
+  export type MetaContentUpsertWithWhereUniqueWithoutMetaContentTypeInput = {
+    where: MetaContentWhereUniqueInput
+    update: XOR<MetaContentUpdateWithoutMetaContentTypeInput, MetaContentUncheckedUpdateWithoutMetaContentTypeInput>
+    create: XOR<MetaContentCreateWithoutMetaContentTypeInput, MetaContentUncheckedCreateWithoutMetaContentTypeInput>
+  }
+
+  export type MetaContentUpdateWithWhereUniqueWithoutMetaContentTypeInput = {
+    where: MetaContentWhereUniqueInput
+    data: XOR<MetaContentUpdateWithoutMetaContentTypeInput, MetaContentUncheckedUpdateWithoutMetaContentTypeInput>
+  }
+
+  export type MetaContentUpdateManyWithWhereWithoutMetaContentTypeInput = {
+    where: MetaContentScalarWhereInput
+    data: XOR<MetaContentUpdateManyMutationInput, MetaContentUncheckedUpdateManyWithoutMetaContentsInput>
   }
 
   export type UserCreateWithoutCampaignsInput = {
@@ -25255,6 +29604,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUpdateManyWithoutWebpageNestedInput
     content?: ContentUpdateOneWithoutWebpageNestedInput
@@ -25269,6 +29619,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutWebpagesNestedInput
     auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
     content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
@@ -25330,6 +29681,14 @@ export namespace Prisma {
     id?: string
     beforeText: string
     afterText: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentSpotCreateManyWebpageInput = {
+    id?: string
+    contentText: string
+    buildFailCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25410,6 +29769,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MetaContentSpotUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContents?: MetaContentUpdateManyWithoutMetaContentSpotNestedInput
+  }
+
+  export type MetaContentSpotUncheckedUpdateWithoutWebpageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContents?: MetaContentUncheckedUpdateManyWithoutMetaContentSpotNestedInput
+  }
+
+  export type MetaContentSpotUncheckedUpdateManyWithoutMetaContentSpotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentText?: StringFieldUpdateOperationsInput | string
+    buildFailCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CategoryUpdateWithoutWebpagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -25472,6 +29857,7 @@ export namespace Prisma {
     website?: WebsiteUpdateOneRequiredWithoutWebpagesNestedInput
     scoredCampaigns?: ScoredCampaignUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUpdateManyWithoutWebpageNestedInput
     auctions?: AuctionUpdateManyWithoutWebpageNestedInput
     content?: ContentUpdateOneWithoutWebpageNestedInput
   }
@@ -25486,6 +29872,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scoredCampaigns?: ScoredCampaignUncheckedUpdateManyWithoutWebpageNestedInput
     advertisementSpots?: AdvertisementSpotUncheckedUpdateManyWithoutWebpageNestedInput
+    metaContentSpots?: MetaContentSpotUncheckedUpdateManyWithoutWebpageNestedInput
     auctions?: AuctionUncheckedUpdateManyWithoutWebpageNestedInput
     content?: ContentUncheckedUpdateOneWithoutWebpageNestedInput
   }
@@ -25615,6 +30002,90 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     auctionId?: StringFieldUpdateOperationsInput | string
     clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentCreateManyMetaContentSpotInput = {
+    id?: string
+    metaContentTypeId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentUpdateWithoutMetaContentSpotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentType?: MetaContentTypeUpdateOneRequiredWithoutMetaContentsNestedInput
+  }
+
+  export type MetaContentUncheckedUpdateWithoutMetaContentSpotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentTypeId?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentUncheckedUpdateManyWithoutMetaContentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentTypeId?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentCreateManyMetaContentTypeInput = {
+    id?: string
+    metaContentSpotId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentUpdateWithoutMetaContentTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentSpot?: MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput
+  }
+
+  export type MetaContentUncheckedUpdateWithoutMetaContentTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentSpotId?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

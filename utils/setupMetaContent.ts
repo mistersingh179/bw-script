@@ -10,7 +10,8 @@ declare var BW_CDN_BASE_URL: string;
 const setupMetaContent = async (
   aid: string,
   metaContentSpotSelector: string,
-  metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[]
+  metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[],
+  metaContentDisplayPercentage: number
 ) => {
   console.log("in setupMetaContent with: ", metaContentSpotsWithDetail);
 
@@ -102,16 +103,16 @@ const setupMetaContent = async (
 
   const SHOW_NOTHING = "show nothing";
   const SHOW_TIPPY = "show tippy";
-  const extraValues = [SHOW_TIPPY];
-  const extra = sample(extraValues) as string;
-  console.log("random extra value is: ", extra);
-  if (extra === SHOW_NOTHING) {
-    console.log("will show nothing");
+  const random = Math.random();
+  const diplayRate = metaContentDisplayPercentage / 100;
+  if (random < diplayRate) {
+    console.log("will YES show tippy: ", random, diplayRate);
+  }else{
+    console.log("will NOT show tippy: ", random, diplayRate);
     await updateExtra(aid, SHOW_NOTHING);
     return;
   }
 
-  console.log("will show tippy");
   await updateExtra(aid, SHOW_TIPPY);
 
   // adding css file being built by esbuild

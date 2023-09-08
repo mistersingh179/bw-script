@@ -77,6 +77,7 @@ export type Setting = {
   scoreThreshold: number
   status: boolean
   metaContentStatus: boolean
+  metaContentDisplayPercentage: number
   sponsoredWording: string
   desiredAdvertisementSpotCount: number
   desiredMetaContentSpotCount: number
@@ -5886,6 +5887,7 @@ export namespace Prisma {
 
   export type SettingAvgAggregateOutputType = {
     scoreThreshold: number | null
+    metaContentDisplayPercentage: number | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
@@ -5900,6 +5902,7 @@ export namespace Prisma {
 
   export type SettingSumAggregateOutputType = {
     scoreThreshold: number | null
+    metaContentDisplayPercentage: number | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
@@ -5918,6 +5921,7 @@ export namespace Prisma {
     scoreThreshold: number | null
     status: boolean | null
     metaContentStatus: boolean | null
+    metaContentDisplayPercentage: number | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
@@ -5945,6 +5949,7 @@ export namespace Prisma {
     scoreThreshold: number | null
     status: boolean | null
     metaContentStatus: boolean | null
+    metaContentDisplayPercentage: number | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
@@ -5972,6 +5977,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: number
     metaContentStatus: number
+    metaContentDisplayPercentage: number
     sponsoredWording: number
     desiredAdvertisementSpotCount: number
     desiredMetaContentSpotCount: number
@@ -5997,6 +6003,7 @@ export namespace Prisma {
 
   export type SettingAvgAggregateInputType = {
     scoreThreshold?: true
+    metaContentDisplayPercentage?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
@@ -6011,6 +6018,7 @@ export namespace Prisma {
 
   export type SettingSumAggregateInputType = {
     scoreThreshold?: true
+    metaContentDisplayPercentage?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
@@ -6029,6 +6037,7 @@ export namespace Prisma {
     scoreThreshold?: true
     status?: true
     metaContentStatus?: true
+    metaContentDisplayPercentage?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6056,6 +6065,7 @@ export namespace Prisma {
     scoreThreshold?: true
     status?: true
     metaContentStatus?: true
+    metaContentDisplayPercentage?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6083,6 +6093,7 @@ export namespace Prisma {
     scoreThreshold?: true
     status?: true
     metaContentStatus?: true
+    metaContentDisplayPercentage?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6198,6 +6209,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: boolean
     metaContentStatus: boolean
+    metaContentDisplayPercentage: number
     sponsoredWording: string
     desiredAdvertisementSpotCount: number
     desiredMetaContentSpotCount: number
@@ -6244,6 +6256,7 @@ export namespace Prisma {
     scoreThreshold?: boolean
     status?: boolean
     metaContentStatus?: boolean
+    metaContentDisplayPercentage?: boolean
     sponsoredWording?: boolean
     desiredAdvertisementSpotCount?: boolean
     desiredMetaContentSpotCount?: boolean
@@ -20424,6 +20437,7 @@ export namespace Prisma {
     scoreThreshold: 'scoreThreshold',
     status: 'status',
     metaContentStatus: 'metaContentStatus',
+    metaContentDisplayPercentage: 'metaContentDisplayPercentage',
     sponsoredWording: 'sponsoredWording',
     desiredAdvertisementSpotCount: 'desiredAdvertisementSpotCount',
     desiredMetaContentSpotCount: 'desiredMetaContentSpotCount',
@@ -20804,6 +20818,7 @@ export namespace Prisma {
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
+    metaContentDisplayPercentage?: IntFilter | number
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
     desiredMetaContentSpotCount?: IntFilter | number
@@ -20832,6 +20847,7 @@ export namespace Prisma {
     scoreThreshold?: SortOrder
     status?: SortOrder
     metaContentStatus?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -20863,6 +20879,7 @@ export namespace Prisma {
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
+    metaContentDisplayPercentage?: IntFilter | number
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
     desiredMetaContentSpotCount?: IntFilter | number
@@ -20891,6 +20908,7 @@ export namespace Prisma {
     scoreThreshold?: SortOrder
     status?: SortOrder
     metaContentStatus?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -20926,6 +20944,7 @@ export namespace Prisma {
     scoreThreshold?: IntWithAggregatesFilter | number
     status?: BoolWithAggregatesFilter | boolean
     metaContentStatus?: BoolWithAggregatesFilter | boolean
+    metaContentDisplayPercentage?: IntWithAggregatesFilter | number
     sponsoredWording?: StringWithAggregatesFilter | string
     desiredAdvertisementSpotCount?: IntWithAggregatesFilter | number
     desiredMetaContentSpotCount?: IntWithAggregatesFilter | number
@@ -22253,6 +22272,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: boolean
     metaContentStatus?: boolean
+    metaContentDisplayPercentage?: number
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -22281,6 +22301,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: boolean
     metaContentStatus?: boolean
+    metaContentDisplayPercentage?: number
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -22307,6 +22328,7 @@ export namespace Prisma {
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
+    metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -22335,6 +22357,7 @@ export namespace Prisma {
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
+    metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -22362,6 +22385,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: boolean
     metaContentStatus?: boolean
+    metaContentDisplayPercentage?: number
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -22388,6 +22412,7 @@ export namespace Prisma {
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
+    metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -22415,6 +22440,7 @@ export namespace Prisma {
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
+    metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -23883,6 +23909,7 @@ export namespace Prisma {
     scoreThreshold?: SortOrder
     status?: SortOrder
     metaContentStatus?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -23906,6 +23933,7 @@ export namespace Prisma {
 
   export type SettingAvgOrderByAggregateInput = {
     scoreThreshold?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
@@ -23924,6 +23952,7 @@ export namespace Prisma {
     scoreThreshold?: SortOrder
     status?: SortOrder
     metaContentStatus?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -23951,6 +23980,7 @@ export namespace Prisma {
     scoreThreshold?: SortOrder
     status?: SortOrder
     metaContentStatus?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -23974,6 +24004,7 @@ export namespace Prisma {
 
   export type SettingSumOrderByAggregateInput = {
     scoreThreshold?: SortOrder
+    metaContentDisplayPercentage?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
@@ -26620,6 +26651,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: boolean
     metaContentStatus?: boolean
+    metaContentDisplayPercentage?: number
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -26646,6 +26678,7 @@ export namespace Prisma {
     scoreThreshold: number
     status: boolean
     metaContentStatus?: boolean
+    metaContentDisplayPercentage?: number
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -26878,6 +26911,7 @@ export namespace Prisma {
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
+    metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -26904,6 +26938,7 @@ export namespace Prisma {
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
+    metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number

@@ -47,9 +47,13 @@ const init = async () => {
     const {
       metaContentSpotsWithDetail,
       auction: { id: aid },
-      settings: { metaContentSpotSelector, metaContentStatus }
+      settings: {
+        metaContentSpotSelector,
+        metaContentStatus,
+        metaContentDisplayPercentage,
+      },
     } = auctionResponse;
-    if(metaContentStatus){
+    if (metaContentStatus) {
       console.log("meta content status is on");
       const hasMetaContent = metaContentSpotsWithDetail.some(
         (mcs) => mcs.metaContents.length > 0
@@ -59,12 +63,13 @@ const init = async () => {
         setupMetaContent(
           aid,
           metaContentSpotSelector,
-          metaContentSpotsWithDetail
+          metaContentSpotsWithDetail,
+          metaContentDisplayPercentage
         );
       } else {
         console.log("meta content not found. skipping setup");
       }
-    }else{
+    } else {
       console.log("meta content status is off. wont set it up");
     }
   }

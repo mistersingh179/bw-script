@@ -19,6 +19,7 @@ export type LimitedSettingsType = Pick<
   | "customStyles"
   | "mainPostBodySelector"
   | "metaContentSpotSelector"
+  | "metaContentStatus"
 >;
 
 export type MetaContentSpotsWithMetaContentAndType = MetaContentSpot & {

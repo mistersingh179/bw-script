@@ -76,6 +76,7 @@ export type Setting = {
   userId: string
   scoreThreshold: number
   status: boolean
+  metaContentStatus: boolean
   sponsoredWording: string
   desiredAdvertisementSpotCount: number
   desiredMetaContentSpotCount: number
@@ -5916,6 +5917,7 @@ export namespace Prisma {
     userId: string | null
     scoreThreshold: number | null
     status: boolean | null
+    metaContentStatus: boolean | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
@@ -5942,6 +5944,7 @@ export namespace Prisma {
     userId: string | null
     scoreThreshold: number | null
     status: boolean | null
+    metaContentStatus: boolean | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
@@ -5968,6 +5971,7 @@ export namespace Prisma {
     userId: number
     scoreThreshold: number
     status: number
+    metaContentStatus: number
     sponsoredWording: number
     desiredAdvertisementSpotCount: number
     desiredMetaContentSpotCount: number
@@ -6024,6 +6028,7 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
+    metaContentStatus?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6050,6 +6055,7 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
+    metaContentStatus?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6076,6 +6082,7 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
+    metaContentStatus?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6190,6 +6197,7 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
+    metaContentStatus: boolean
     sponsoredWording: string
     desiredAdvertisementSpotCount: number
     desiredMetaContentSpotCount: number
@@ -6235,6 +6243,7 @@ export namespace Prisma {
     userId?: boolean
     scoreThreshold?: boolean
     status?: boolean
+    metaContentStatus?: boolean
     sponsoredWording?: boolean
     desiredAdvertisementSpotCount?: boolean
     desiredMetaContentSpotCount?: boolean
@@ -20414,6 +20423,7 @@ export namespace Prisma {
     userId: 'userId',
     scoreThreshold: 'scoreThreshold',
     status: 'status',
+    metaContentStatus: 'metaContentStatus',
     sponsoredWording: 'sponsoredWording',
     desiredAdvertisementSpotCount: 'desiredAdvertisementSpotCount',
     desiredMetaContentSpotCount: 'desiredMetaContentSpotCount',
@@ -20793,6 +20803,7 @@ export namespace Prisma {
     userId?: StringFilter | string
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
+    metaContentStatus?: BoolFilter | boolean
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
     desiredMetaContentSpotCount?: IntFilter | number
@@ -20820,6 +20831,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    metaContentStatus?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -20850,6 +20862,7 @@ export namespace Prisma {
     NOT?: Enumerable<SettingWhereInput>
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
+    metaContentStatus?: BoolFilter | boolean
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
     desiredMetaContentSpotCount?: IntFilter | number
@@ -20877,6 +20890,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    metaContentStatus?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -20911,6 +20925,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter | string
     scoreThreshold?: IntWithAggregatesFilter | number
     status?: BoolWithAggregatesFilter | boolean
+    metaContentStatus?: BoolWithAggregatesFilter | boolean
     sponsoredWording?: StringWithAggregatesFilter | string
     desiredAdvertisementSpotCount?: IntWithAggregatesFilter | number
     desiredMetaContentSpotCount?: IntWithAggregatesFilter | number
@@ -22237,6 +22252,7 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
+    metaContentStatus?: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -22264,6 +22280,7 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
+    metaContentStatus?: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -22289,6 +22306,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -22316,6 +22334,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -22342,6 +22361,7 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
+    metaContentStatus?: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -22367,6 +22387,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -22393,6 +22414,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -23860,6 +23882,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    metaContentStatus?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -23900,6 +23923,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    metaContentStatus?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -23926,6 +23950,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    metaContentStatus?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -26594,6 +26619,7 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
+    metaContentStatus?: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -26619,6 +26645,7 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
+    metaContentStatus?: boolean
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -26850,6 +26877,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -26875,6 +26903,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number

@@ -131,7 +131,7 @@ const setupMetaContent = async (
     heading.innerHTML = item.generatedHeading;
     metaDiv.appendChild(heading);
 
-    const generatedTextArray = item.generatedText.split("\\n");
+    const generatedTextArray = item.generatedText.split(/\n|\\n/);
 
     generatedTextArray.forEach((generatedTextItem, idx) => {
       if (generatedTextItem === "") {
@@ -140,7 +140,7 @@ const setupMetaContent = async (
 
       const p = document.createElement("p");
       p.style.fontSize = "18px";
-      p.innerHTML = generatedTextItem;
+      p.innerHTML = generatedTextItem.trim();
       if (idx > 0) {
         p.style.display = "none";
       }

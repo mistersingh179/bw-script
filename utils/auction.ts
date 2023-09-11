@@ -48,6 +48,8 @@ export const generateAuction = async () => {
     body: JSON.stringify({
       userId: getUserId(),
       url: getCleanUrl(window.document.location.href),
+      screenWidth: window.screen?.availWidth,
+      screenHeight: window.screen?.availHeight,
     }),
     credentials: "include",
   });

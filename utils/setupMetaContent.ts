@@ -4,6 +4,7 @@ import "tippy.js/dist/tippy.css"; // optional for styling
 import { once, sample } from "lodash";
 import { MetaContentSpotsWithMetaContentAndType, updateExtra } from "./auction";
 import { MetaContent } from "../prisma-client-index";
+import {generateMetaContentImpression, setMetaContentFeedback} from "./metaContentImpression";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -107,7 +108,7 @@ const setupMetaContent = async (
   const diplayRate = metaContentDisplayPercentage / 100;
   if (random < diplayRate) {
     console.log("will YES show tippy: ", random, diplayRate);
-  }else{
+  } else {
     console.log("will NOT show tippy: ", random, diplayRate);
     await updateExtra(aid, SHOW_NOTHING);
     return;
@@ -146,21 +147,73 @@ const setupMetaContent = async (
       }
       metaDiv.appendChild(p);
     });
+
+    const thanksDiv = document.createElement("div");
+    thanksDiv.innerHTML="Thanks!"
+    thanksDiv.style.opacity='0';
+    thanksDiv.style.display='none';
+
+    const feedbackDiv = document.createElement("div");
+    const thumbsUpButton = document.createElement("button");
+    thumbsUpButton.style.backgroundColor = "transparent";
+    thumbsUpButton.style.cursor = "pointer";
+    thumbsUpButton.style.border = "none";
+    thumbsUpButton.innerHTML = "👍";
+    thumbsUpButton.addEventListener("click", (evt) => {
+      const targetElement = evt.target as HTMLElement;
+      const popperElement = targetElement.closest("[mciid]")
+      const mciid = popperElement?.getAttribute("mciid");
+      if(mciid){
+        setMetaContentFeedback(mciid, "thumbsUp");
+        feedbackDiv.style.opacity='0';
+        feedbackDiv.style.transition="opacity 400ms";
+        feedbackDiv.style.display='none';
+        thanksDiv.style.opacity='1';
+        thanksDiv.style.transition="opacity 400ms";
+        thanksDiv.style.display='block';
+      }
+    })
+    const thumbsDownButton = document.createElement("button");
+    thumbsDownButton.style.backgroundColor = "transparent";
+    thumbsDownButton.style.cursor = "pointer";
+    thumbsDownButton.style.border = "none";
+    thumbsDownButton.innerHTML = "👎";
+    thumbsDownButton.addEventListener("click", (evt) => {
+      const targetElement = evt.target as HTMLElement;
+      const popperElement = targetElement.closest("[mciid]")
+      const mciid = popperElement?.getAttribute("mciid");
+      if(mciid){
+        setMetaContentFeedback(mciid, "thumbsDown");
+        feedbackDiv.style.opacity='0';
+        feedbackDiv.style.transition="opacity 400ms";
+        feedbackDiv.style.display='none';
+        thanksDiv.style.opacity='1';
+        thanksDiv.style.transition="opacity 400ms";
+        thanksDiv.style.display='block';
+      }
+    })
+    feedbackDiv.appendChild(thumbsUpButton);
+    feedbackDiv.appendChild(thumbsDownButton);
+
     if (generatedTextArray.length > 1) {
       const button = document.createElement("button");
       button.innerHTML = "Read More";
       button.style.marginBottom = "10px";
+      button.style.float = "right";
       button.addEventListener("click", (evt) => {
         const targetElement = evt.target as HTMLElement;
         if (targetElement) {
-          targetElement.parentElement
+          targetElement.parentElement?.parentElement
             ?.querySelectorAll("p")
             .forEach((x) => (x.style.display = "block"));
           targetElement.style.display = "none";
         }
       });
-      metaDiv.appendChild(button);
+      feedbackDiv.appendChild(button);
     }
+
+    metaDiv.appendChild(thanksDiv);
+    metaDiv.appendChild(feedbackDiv);
     return metaDiv;
   };
 
@@ -191,8 +244,12 @@ const setupMetaContent = async (
         placement: "right",
         followCursor: "vertical",
         plugins: [followCursor],
-        onShow: once(() => {
+        onShow: once((instance) => {
           updateExtra(aid, SHOW_TIPPY + " and it popped up");
+          (async () => {
+            const mci = await generateMetaContentImpression(aid, item.metaContents[0].id);
+            instance.popper.setAttribute("mciid", mci.id);
+          })()
         }),
       });
     }

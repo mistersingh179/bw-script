@@ -110,6 +110,8 @@ export type Auction = {
   webpageId: string | null
   url: string | null
   userAgent: string
+  screenWidth: number | null
+  screenHeight: number | null
   ip: string
   endUserCuid: string
   endUserFp: string
@@ -257,6 +259,19 @@ export type MetaContent = {
 export type MetaContentType = {
   id: string
   name: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model MetaContentImpression
+ *
+ */
+export type MetaContentImpression = {
+  id: string
+  metaContentId: string
+  auctionId: string
+  feedbackEmoji: string | null
   createdAt: Date
   updatedAt: Date
 }
@@ -573,6 +588,16 @@ export class PrismaClient<
    * ```
    */
   get metaContentType(): Prisma.MetaContentTypeDelegate<GlobalReject>;
+
+  /**
+   * `prisma.metaContentImpression`: Exposes CRUD operations for the **MetaContentImpression** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more MetaContentImpressions
+   * const metaContentImpressions = await prisma.metaContentImpression.findMany()
+   * ```
+   */
+  get metaContentImpression(): Prisma.MetaContentImpressionDelegate<GlobalReject>;
 
   /**
    * `prisma.campaign`: Exposes CRUD operations for the **Campaign** model.
@@ -1078,6 +1103,7 @@ export namespace Prisma {
     MetaContentSpot: 'MetaContentSpot',
     MetaContent: 'MetaContent',
     MetaContentType: 'MetaContentType',
+    MetaContentImpression: 'MetaContentImpression',
     Campaign: 'Campaign',
     Impression: 'Impression'
   };
@@ -1348,10 +1374,12 @@ export namespace Prisma {
 
   export type AuctionCountOutputType = {
     impressions: number
+    metaContentImpressions: number
   }
 
   export type AuctionCountOutputTypeSelect = {
     impressions?: boolean | AuctionCountOutputTypeCountImpressionsArgs
+    metaContentImpressions?: boolean | AuctionCountOutputTypeCountMetaContentImpressionsArgs
   }
 
   export type AuctionCountOutputTypeGetPayload<S extends boolean | null | undefined | AuctionCountOutputTypeArgs> =
@@ -1388,6 +1416,14 @@ export namespace Prisma {
    */
   export type AuctionCountOutputTypeCountImpressionsArgs = {
     where?: ImpressionWhereInput
+  }
+
+
+  /**
+   * AuctionCountOutputType without action
+   */
+  export type AuctionCountOutputTypeCountMetaContentImpressionsArgs = {
+    where?: MetaContentImpressionWhereInput
   }
 
 
@@ -1805,6 +1841,57 @@ export namespace Prisma {
    */
   export type MetaContentSpotCountOutputTypeCountMetaContentsArgs = {
     where?: MetaContentWhereInput
+  }
+
+
+
+  /**
+   * Count Type MetaContentCountOutputType
+   */
+
+
+  export type MetaContentCountOutputType = {
+    metaContentImpressions: number
+  }
+
+  export type MetaContentCountOutputTypeSelect = {
+    metaContentImpressions?: boolean | MetaContentCountOutputTypeCountMetaContentImpressionsArgs
+  }
+
+  export type MetaContentCountOutputTypeGetPayload<S extends boolean | null | undefined | MetaContentCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentCountOutputTypeArgs)
+            ? MetaContentCountOutputType
+            : S extends { select: any } & (MetaContentCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof MetaContentCountOutputType ? MetaContentCountOutputType[P] : never
+              }
+              : MetaContentCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentCountOutputType without action
+   */
+  export type MetaContentCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentCountOutputType
+     */
+    select?: MetaContentCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * MetaContentCountOutputType without action
+   */
+  export type MetaContentCountOutputTypeCountMetaContentImpressionsArgs = {
+    where?: MetaContentImpressionWhereInput
   }
 
 
@@ -7055,10 +7142,14 @@ export namespace Prisma {
   }
 
   export type AuctionAvgAggregateOutputType = {
+    screenWidth: number | null
+    screenHeight: number | null
     timeSpent: number | null
   }
 
   export type AuctionSumAggregateOutputType = {
+    screenWidth: number | null
+    screenHeight: number | null
     timeSpent: number | null
   }
 
@@ -7069,6 +7160,8 @@ export namespace Prisma {
     webpageId: string | null
     url: string | null
     userAgent: string | null
+    screenWidth: number | null
+    screenHeight: number | null
     ip: string | null
     endUserCuid: string | null
     endUserFp: string | null
@@ -7085,6 +7178,8 @@ export namespace Prisma {
     webpageId: string | null
     url: string | null
     userAgent: string | null
+    screenWidth: number | null
+    screenHeight: number | null
     ip: string | null
     endUserCuid: string | null
     endUserFp: string | null
@@ -7101,6 +7196,8 @@ export namespace Prisma {
     webpageId: number
     url: number
     userAgent: number
+    screenWidth: number
+    screenHeight: number
     ip: number
     endUserCuid: number
     endUserFp: number
@@ -7113,10 +7210,14 @@ export namespace Prisma {
 
 
   export type AuctionAvgAggregateInputType = {
+    screenWidth?: true
+    screenHeight?: true
     timeSpent?: true
   }
 
   export type AuctionSumAggregateInputType = {
+    screenWidth?: true
+    screenHeight?: true
     timeSpent?: true
   }
 
@@ -7127,6 +7228,8 @@ export namespace Prisma {
     webpageId?: true
     url?: true
     userAgent?: true
+    screenWidth?: true
+    screenHeight?: true
     ip?: true
     endUserCuid?: true
     endUserFp?: true
@@ -7143,6 +7246,8 @@ export namespace Prisma {
     webpageId?: true
     url?: true
     userAgent?: true
+    screenWidth?: true
+    screenHeight?: true
     ip?: true
     endUserCuid?: true
     endUserFp?: true
@@ -7159,6 +7264,8 @@ export namespace Prisma {
     webpageId?: true
     url?: true
     userAgent?: true
+    screenWidth?: true
+    screenHeight?: true
     ip?: true
     endUserCuid?: true
     endUserFp?: true
@@ -7263,6 +7370,8 @@ export namespace Prisma {
     webpageId: string | null
     url: string | null
     userAgent: string
+    screenWidth: number | null
+    screenHeight: number | null
     ip: string
     endUserCuid: string
     endUserFp: string
@@ -7298,6 +7407,8 @@ export namespace Prisma {
     webpageId?: boolean
     url?: boolean
     userAgent?: boolean
+    screenWidth?: boolean
+    screenHeight?: boolean
     ip?: boolean
     endUserCuid?: boolean
     endUserFp?: boolean
@@ -7309,6 +7420,7 @@ export namespace Prisma {
     website?: boolean | Auction$websiteArgs
     webpage?: boolean | Auction$webpageArgs
     impressions?: boolean | Auction$impressionsArgs
+    metaContentImpressions?: boolean | Auction$metaContentImpressionsArgs
     _count?: boolean | AuctionCountOutputTypeArgs
   }
 
@@ -7318,6 +7430,7 @@ export namespace Prisma {
     website?: boolean | Auction$websiteArgs
     webpage?: boolean | Auction$webpageArgs
     impressions?: boolean | Auction$impressionsArgs
+    metaContentImpressions?: boolean | Auction$metaContentImpressionsArgs
     _count?: boolean | AuctionCountOutputTypeArgs
   }
 
@@ -7332,7 +7445,8 @@ export namespace Prisma {
               P extends 'website' ? WebsiteGetPayload<S['include'][P]> | null :
                 P extends 'webpage' ? WebpageGetPayload<S['include'][P]> | null :
                   P extends 'impressions' ? Array < ImpressionGetPayload<S['include'][P]>>  :
-                    P extends '_count' ? AuctionCountOutputTypeGetPayload<S['include'][P]> :  never
+                    P extends 'metaContentImpressions' ? Array < MetaContentImpressionGetPayload<S['include'][P]>>  :
+                      P extends '_count' ? AuctionCountOutputTypeGetPayload<S['include'][P]> :  never
           }
             : S extends { select: any } & (AuctionArgs | AuctionFindManyArgs)
               ? {
@@ -7341,7 +7455,8 @@ export namespace Prisma {
                   P extends 'website' ? WebsiteGetPayload<S['select'][P]> | null :
                     P extends 'webpage' ? WebpageGetPayload<S['select'][P]> | null :
                       P extends 'impressions' ? Array < ImpressionGetPayload<S['select'][P]>>  :
-                        P extends '_count' ? AuctionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Auction ? Auction[P] : never
+                        P extends 'metaContentImpressions' ? Array < MetaContentImpressionGetPayload<S['select'][P]>>  :
+                          P extends '_count' ? AuctionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Auction ? Auction[P] : never
               }
               : Auction
 
@@ -7720,6 +7835,8 @@ export namespace Prisma {
     webpage<T extends Auction$webpageArgs= {}>(args?: Subset<T, Auction$webpageArgs>): Prisma__WebpageClient<WebpageGetPayload<T> | Null>;
 
     impressions<T extends Auction$impressionsArgs= {}>(args?: Subset<T, Auction$impressionsArgs>): Prisma.PrismaPromise<Array<ImpressionGetPayload<T>>| Null>;
+
+    metaContentImpressions<T extends Auction$metaContentImpressionsArgs= {}>(args?: Subset<T, Auction$metaContentImpressionsArgs>): Prisma.PrismaPromise<Array<MetaContentImpressionGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -8142,6 +8259,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<ImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * Auction.metaContentImpressions
+   */
+  export type Auction$metaContentImpressionsArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    where?: MetaContentImpressionWhereInput
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithRelationInput>
+    cursor?: MetaContentImpressionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<MetaContentImpressionScalarFieldEnum>
   }
 
 
@@ -16446,12 +16584,16 @@ export namespace Prisma {
     updatedAt?: boolean
     metaContentSpot?: boolean | MetaContentSpotArgs
     metaContentType?: boolean | MetaContentTypeArgs
+    metaContentImpressions?: boolean | MetaContent$metaContentImpressionsArgs
+    _count?: boolean | MetaContentCountOutputTypeArgs
   }
 
 
   export type MetaContentInclude = {
     metaContentSpot?: boolean | MetaContentSpotArgs
     metaContentType?: boolean | MetaContentTypeArgs
+    metaContentImpressions?: boolean | MetaContent$metaContentImpressionsArgs
+    _count?: boolean | MetaContentCountOutputTypeArgs
   }
 
   export type MetaContentGetPayload<S extends boolean | null | undefined | MetaContentArgs> =
@@ -16462,13 +16604,17 @@ export namespace Prisma {
             ? MetaContent  & {
             [P in TruthyKeys<S['include']>]:
             P extends 'metaContentSpot' ? MetaContentSpotGetPayload<S['include'][P]> :
-              P extends 'metaContentType' ? MetaContentTypeGetPayload<S['include'][P]> :  never
+              P extends 'metaContentType' ? MetaContentTypeGetPayload<S['include'][P]> :
+                P extends 'metaContentImpressions' ? Array < MetaContentImpressionGetPayload<S['include'][P]>>  :
+                  P extends '_count' ? MetaContentCountOutputTypeGetPayload<S['include'][P]> :  never
           }
             : S extends { select: any } & (MetaContentArgs | MetaContentFindManyArgs)
               ? {
                 [P in TruthyKeys<S['select']>]:
                 P extends 'metaContentSpot' ? MetaContentSpotGetPayload<S['select'][P]> :
-                  P extends 'metaContentType' ? MetaContentTypeGetPayload<S['select'][P]> :  P extends keyof MetaContent ? MetaContent[P] : never
+                  P extends 'metaContentType' ? MetaContentTypeGetPayload<S['select'][P]> :
+                    P extends 'metaContentImpressions' ? Array < MetaContentImpressionGetPayload<S['select'][P]>>  :
+                      P extends '_count' ? MetaContentCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof MetaContent ? MetaContent[P] : never
               }
               : MetaContent
 
@@ -16844,6 +16990,8 @@ export namespace Prisma {
 
     metaContentType<T extends MetaContentTypeArgs= {}>(args?: Subset<T, MetaContentTypeArgs>): Prisma__MetaContentTypeClient<MetaContentTypeGetPayload<T> | Null>;
 
+    metaContentImpressions<T extends MetaContent$metaContentImpressionsArgs= {}>(args?: Subset<T, MetaContent$metaContentImpressionsArgs>): Prisma.PrismaPromise<Array<MetaContentImpressionGetPayload<T>>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -17196,6 +17344,27 @@ export namespace Prisma {
      * Filter which MetaContents to delete
      */
     where?: MetaContentWhereInput
+  }
+
+
+  /**
+   * MetaContent.metaContentImpressions
+   */
+  export type MetaContent$metaContentImpressionsArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    where?: MetaContentImpressionWhereInput
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithRelationInput>
+    cursor?: MetaContentImpressionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<MetaContentImpressionScalarFieldEnum>
   }
 
 
@@ -18159,6 +18328,951 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: MetaContentTypeInclude | null
+  }
+
+
+
+  /**
+   * Model MetaContentImpression
+   */
+
+
+  export type AggregateMetaContentImpression = {
+    _count: MetaContentImpressionCountAggregateOutputType | null
+    _min: MetaContentImpressionMinAggregateOutputType | null
+    _max: MetaContentImpressionMaxAggregateOutputType | null
+  }
+
+  export type MetaContentImpressionMinAggregateOutputType = {
+    id: string | null
+    metaContentId: string | null
+    auctionId: string | null
+    feedbackEmoji: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentImpressionMaxAggregateOutputType = {
+    id: string | null
+    metaContentId: string | null
+    auctionId: string | null
+    feedbackEmoji: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaContentImpressionCountAggregateOutputType = {
+    id: number
+    metaContentId: number
+    auctionId: number
+    feedbackEmoji: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MetaContentImpressionMinAggregateInputType = {
+    id?: true
+    metaContentId?: true
+    auctionId?: true
+    feedbackEmoji?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentImpressionMaxAggregateInputType = {
+    id?: true
+    metaContentId?: true
+    auctionId?: true
+    feedbackEmoji?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaContentImpressionCountAggregateInputType = {
+    id?: true
+    metaContentId?: true
+    auctionId?: true
+    feedbackEmoji?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MetaContentImpressionAggregateArgs = {
+    /**
+     * Filter which MetaContentImpression to aggregate.
+     */
+    where?: MetaContentImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentImpressions to fetch.
+     */
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: MetaContentImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentImpressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentImpressions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned MetaContentImpressions
+     **/
+    _count?: true | MetaContentImpressionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: MetaContentImpressionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: MetaContentImpressionMaxAggregateInputType
+  }
+
+  export type GetMetaContentImpressionAggregateType<T extends MetaContentImpressionAggregateArgs> = {
+    [P in keyof T & keyof AggregateMetaContentImpression]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMetaContentImpression[P]>
+      : GetScalarType<T[P], AggregateMetaContentImpression[P]>
+  }
+
+
+
+
+  export type MetaContentImpressionGroupByArgs = {
+    where?: MetaContentImpressionWhereInput
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithAggregationInput>
+    by: MetaContentImpressionScalarFieldEnum[]
+    having?: MetaContentImpressionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MetaContentImpressionCountAggregateInputType | true
+    _min?: MetaContentImpressionMinAggregateInputType
+    _max?: MetaContentImpressionMaxAggregateInputType
+  }
+
+
+  export type MetaContentImpressionGroupByOutputType = {
+    id: string
+    metaContentId: string
+    auctionId: string
+    feedbackEmoji: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MetaContentImpressionCountAggregateOutputType | null
+    _min: MetaContentImpressionMinAggregateOutputType | null
+    _max: MetaContentImpressionMaxAggregateOutputType | null
+  }
+
+  type GetMetaContentImpressionGroupByPayload<T extends MetaContentImpressionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<MetaContentImpressionGroupByOutputType, T['by']> &
+      {
+        [P in ((keyof T) & (keyof MetaContentImpressionGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], MetaContentImpressionGroupByOutputType[P]>
+        : GetScalarType<T[P], MetaContentImpressionGroupByOutputType[P]>
+      }
+    >
+  >
+
+
+  export type MetaContentImpressionSelect = {
+    id?: boolean
+    metaContentId?: boolean
+    auctionId?: boolean
+    feedbackEmoji?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    metaContent?: boolean | MetaContentArgs
+    auction?: boolean | AuctionArgs
+  }
+
+
+  export type MetaContentImpressionInclude = {
+    metaContent?: boolean | MetaContentArgs
+    auction?: boolean | AuctionArgs
+  }
+
+  export type MetaContentImpressionGetPayload<S extends boolean | null | undefined | MetaContentImpressionArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentImpression :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentImpressionArgs | MetaContentImpressionFindManyArgs)
+            ? MetaContentImpression  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'metaContent' ? MetaContentGetPayload<S['include'][P]> :
+              P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
+          }
+            : S extends { select: any } & (MetaContentImpressionArgs | MetaContentImpressionFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'metaContent' ? MetaContentGetPayload<S['select'][P]> :
+                  P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof MetaContentImpression ? MetaContentImpression[P] : never
+              }
+              : MetaContentImpression
+
+
+  type MetaContentImpressionCountArgs =
+    Omit<MetaContentImpressionFindManyArgs, 'select' | 'include'> & {
+    select?: MetaContentImpressionCountAggregateInputType | true
+  }
+
+  export interface MetaContentImpressionDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one MetaContentImpression that matches the filter.
+     * @param {MetaContentImpressionFindUniqueArgs} args - Arguments to find a MetaContentImpression
+     * @example
+     * // Get one MetaContentImpression
+     * const metaContentImpression = await prisma.metaContentImpression.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<T extends MetaContentImpressionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, MetaContentImpressionFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'MetaContentImpression'> extends True ? Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>> : Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T> | null, null>
+
+    /**
+     * Find one MetaContentImpression that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {MetaContentImpressionFindUniqueOrThrowArgs} args - Arguments to find a MetaContentImpression
+     * @example
+     * // Get one MetaContentImpression
+     * const metaContentImpression = await prisma.metaContentImpression.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends MetaContentImpressionFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentImpressionFindUniqueOrThrowArgs>
+    ): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>>
+
+    /**
+     * Find the first MetaContentImpression that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionFindFirstArgs} args - Arguments to find a MetaContentImpression
+     * @example
+     * // Get one MetaContentImpression
+     * const metaContentImpression = await prisma.metaContentImpression.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<T extends MetaContentImpressionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, MetaContentImpressionFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'MetaContentImpression'> extends True ? Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>> : Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T> | null, null>
+
+    /**
+     * Find the first MetaContentImpression that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionFindFirstOrThrowArgs} args - Arguments to find a MetaContentImpression
+     * @example
+     * // Get one MetaContentImpression
+     * const metaContentImpression = await prisma.metaContentImpression.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends MetaContentImpressionFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, MetaContentImpressionFindFirstOrThrowArgs>
+    ): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>>
+
+    /**
+     * Find zero or more MetaContentImpressions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MetaContentImpressions
+     * const metaContentImpressions = await prisma.metaContentImpression.findMany()
+     *
+     * // Get first 10 MetaContentImpressions
+     * const metaContentImpressions = await prisma.metaContentImpression.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const metaContentImpressionWithIdOnly = await prisma.metaContentImpression.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends MetaContentImpressionFindManyArgs>(
+      args?: SelectSubset<T, MetaContentImpressionFindManyArgs>
+    ): Prisma.PrismaPromise<Array<MetaContentImpressionGetPayload<T>>>
+
+    /**
+     * Create a MetaContentImpression.
+     * @param {MetaContentImpressionCreateArgs} args - Arguments to create a MetaContentImpression.
+     * @example
+     * // Create one MetaContentImpression
+     * const MetaContentImpression = await prisma.metaContentImpression.create({
+     *   data: {
+     *     // ... data to create a MetaContentImpression
+     *   }
+     * })
+     *
+     **/
+    create<T extends MetaContentImpressionCreateArgs>(
+      args: SelectSubset<T, MetaContentImpressionCreateArgs>
+    ): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>>
+
+    /**
+     * Create many MetaContentImpressions.
+     *     @param {MetaContentImpressionCreateManyArgs} args - Arguments to create many MetaContentImpressions.
+     *     @example
+     *     // Create many MetaContentImpressions
+     *     const metaContentImpression = await prisma.metaContentImpression.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends MetaContentImpressionCreateManyArgs>(
+      args?: SelectSubset<T, MetaContentImpressionCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MetaContentImpression.
+     * @param {MetaContentImpressionDeleteArgs} args - Arguments to delete one MetaContentImpression.
+     * @example
+     * // Delete one MetaContentImpression
+     * const MetaContentImpression = await prisma.metaContentImpression.delete({
+     *   where: {
+     *     // ... filter to delete one MetaContentImpression
+     *   }
+     * })
+     *
+     **/
+    delete<T extends MetaContentImpressionDeleteArgs>(
+      args: SelectSubset<T, MetaContentImpressionDeleteArgs>
+    ): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>>
+
+    /**
+     * Update one MetaContentImpression.
+     * @param {MetaContentImpressionUpdateArgs} args - Arguments to update one MetaContentImpression.
+     * @example
+     * // Update one MetaContentImpression
+     * const metaContentImpression = await prisma.metaContentImpression.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends MetaContentImpressionUpdateArgs>(
+      args: SelectSubset<T, MetaContentImpressionUpdateArgs>
+    ): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>>
+
+    /**
+     * Delete zero or more MetaContentImpressions.
+     * @param {MetaContentImpressionDeleteManyArgs} args - Arguments to filter MetaContentImpressions to delete.
+     * @example
+     * // Delete a few MetaContentImpressions
+     * const { count } = await prisma.metaContentImpression.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends MetaContentImpressionDeleteManyArgs>(
+      args?: SelectSubset<T, MetaContentImpressionDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MetaContentImpressions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MetaContentImpressions
+     * const metaContentImpression = await prisma.metaContentImpression.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends MetaContentImpressionUpdateManyArgs>(
+      args: SelectSubset<T, MetaContentImpressionUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MetaContentImpression.
+     * @param {MetaContentImpressionUpsertArgs} args - Arguments to update or create a MetaContentImpression.
+     * @example
+     * // Update or create a MetaContentImpression
+     * const metaContentImpression = await prisma.metaContentImpression.upsert({
+     *   create: {
+     *     // ... data to create a MetaContentImpression
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MetaContentImpression we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends MetaContentImpressionUpsertArgs>(
+      args: SelectSubset<T, MetaContentImpressionUpsertArgs>
+    ): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T>>
+
+    /**
+     * Count the number of MetaContentImpressions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionCountArgs} args - Arguments to filter MetaContentImpressions to count.
+     * @example
+     * // Count the number of MetaContentImpressions
+     * const count = await prisma.metaContentImpression.count({
+     *   where: {
+     *     // ... the filter for the MetaContentImpressions we want to count
+     *   }
+     * })
+     **/
+    count<T extends MetaContentImpressionCountArgs>(
+      args?: Subset<T, MetaContentImpressionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MetaContentImpressionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MetaContentImpression.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends MetaContentImpressionAggregateArgs>(args: Subset<T, MetaContentImpressionAggregateArgs>): Prisma.PrismaPromise<GetMetaContentImpressionAggregateType<T>>
+
+    /**
+     * Group by MetaContentImpression.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaContentImpressionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends MetaContentImpressionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MetaContentImpressionGroupByArgs['orderBy'] }
+        : { orderBy?: MetaContentImpressionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+    >(args: SubsetIntersection<T, MetaContentImpressionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMetaContentImpressionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MetaContentImpression.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__MetaContentImpressionClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    metaContent<T extends MetaContentArgs= {}>(args?: Subset<T, MetaContentArgs>): Prisma__MetaContentClient<MetaContentGetPayload<T> | Null>;
+
+    auction<T extends AuctionArgs= {}>(args?: Subset<T, AuctionArgs>): Prisma__AuctionClient<AuctionGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentImpression base type for findUnique actions
+   */
+  export type MetaContentImpressionFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * Filter, which MetaContentImpression to fetch.
+     */
+    where: MetaContentImpressionWhereUniqueInput
+  }
+
+  /**
+   * MetaContentImpression findUnique
+   */
+  export interface MetaContentImpressionFindUniqueArgs extends MetaContentImpressionFindUniqueArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContentImpression findUniqueOrThrow
+   */
+  export type MetaContentImpressionFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * Filter, which MetaContentImpression to fetch.
+     */
+    where: MetaContentImpressionWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentImpression base type for findFirst actions
+   */
+  export type MetaContentImpressionFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * Filter, which MetaContentImpression to fetch.
+     */
+    where?: MetaContentImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentImpressions to fetch.
+     */
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContentImpressions.
+     */
+    cursor?: MetaContentImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentImpressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentImpressions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContentImpressions.
+     */
+    distinct?: Enumerable<MetaContentImpressionScalarFieldEnum>
+  }
+
+  /**
+   * MetaContentImpression findFirst
+   */
+  export interface MetaContentImpressionFindFirstArgs extends MetaContentImpressionFindFirstArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * MetaContentImpression findFirstOrThrow
+   */
+  export type MetaContentImpressionFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * Filter, which MetaContentImpression to fetch.
+     */
+    where?: MetaContentImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentImpressions to fetch.
+     */
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for MetaContentImpressions.
+     */
+    cursor?: MetaContentImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentImpressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentImpressions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of MetaContentImpressions.
+     */
+    distinct?: Enumerable<MetaContentImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentImpression findMany
+   */
+  export type MetaContentImpressionFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * Filter, which MetaContentImpressions to fetch.
+     */
+    where?: MetaContentImpressionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of MetaContentImpressions to fetch.
+     */
+    orderBy?: Enumerable<MetaContentImpressionOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing MetaContentImpressions.
+     */
+    cursor?: MetaContentImpressionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` MetaContentImpressions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` MetaContentImpressions.
+     */
+    skip?: number
+    distinct?: Enumerable<MetaContentImpressionScalarFieldEnum>
+  }
+
+
+  /**
+   * MetaContentImpression create
+   */
+  export type MetaContentImpressionCreateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * The data needed to create a MetaContentImpression.
+     */
+    data: XOR<MetaContentImpressionCreateInput, MetaContentImpressionUncheckedCreateInput>
+  }
+
+
+  /**
+   * MetaContentImpression createMany
+   */
+  export type MetaContentImpressionCreateManyArgs = {
+    /**
+     * The data used to create many MetaContentImpressions.
+     */
+    data: Enumerable<MetaContentImpressionCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * MetaContentImpression update
+   */
+  export type MetaContentImpressionUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * The data needed to update a MetaContentImpression.
+     */
+    data: XOR<MetaContentImpressionUpdateInput, MetaContentImpressionUncheckedUpdateInput>
+    /**
+     * Choose, which MetaContentImpression to update.
+     */
+    where: MetaContentImpressionWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentImpression updateMany
+   */
+  export type MetaContentImpressionUpdateManyArgs = {
+    /**
+     * The data used to update MetaContentImpressions.
+     */
+    data: XOR<MetaContentImpressionUpdateManyMutationInput, MetaContentImpressionUncheckedUpdateManyInput>
+    /**
+     * Filter which MetaContentImpressions to update
+     */
+    where?: MetaContentImpressionWhereInput
+  }
+
+
+  /**
+   * MetaContentImpression upsert
+   */
+  export type MetaContentImpressionUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * The filter to search for the MetaContentImpression to update in case it exists.
+     */
+    where: MetaContentImpressionWhereUniqueInput
+    /**
+     * In case the MetaContentImpression found by the `where` argument doesn't exist, create a new MetaContentImpression with this data.
+     */
+    create: XOR<MetaContentImpressionCreateInput, MetaContentImpressionUncheckedCreateInput>
+    /**
+     * In case the MetaContentImpression was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MetaContentImpressionUpdateInput, MetaContentImpressionUncheckedUpdateInput>
+  }
+
+
+  /**
+   * MetaContentImpression delete
+   */
+  export type MetaContentImpressionDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    /**
+     * Filter which MetaContentImpression to delete.
+     */
+    where: MetaContentImpressionWhereUniqueInput
+  }
+
+
+  /**
+   * MetaContentImpression deleteMany
+   */
+  export type MetaContentImpressionDeleteManyArgs = {
+    /**
+     * Filter which MetaContentImpressions to delete
+     */
+    where?: MetaContentImpressionWhereInput
+  }
+
+
+  /**
+   * MetaContentImpression without action
+   */
+  export type MetaContentImpressionArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
   }
 
 
@@ -20288,6 +21402,8 @@ export namespace Prisma {
     webpageId: 'webpageId',
     url: 'url',
     userAgent: 'userAgent',
+    screenWidth: 'screenWidth',
+    screenHeight: 'screenHeight',
     ip: 'ip',
     endUserCuid: 'endUserCuid',
     endUserFp: 'endUserFp',
@@ -20358,6 +21474,18 @@ export namespace Prisma {
   };
 
   export type ImpressionScalarFieldEnum = (typeof ImpressionScalarFieldEnum)[keyof typeof ImpressionScalarFieldEnum]
+
+
+  export const MetaContentImpressionScalarFieldEnum: {
+    id: 'id',
+    metaContentId: 'metaContentId',
+    auctionId: 'auctionId',
+    feedbackEmoji: 'feedbackEmoji',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MetaContentImpressionScalarFieldEnum = (typeof MetaContentImpressionScalarFieldEnum)[keyof typeof MetaContentImpressionScalarFieldEnum]
 
 
   export const MetaContentScalarFieldEnum: {
@@ -20976,6 +22104,8 @@ export namespace Prisma {
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
     userAgent?: StringFilter | string
+    screenWidth?: IntNullableFilter | number | null
+    screenHeight?: IntNullableFilter | number | null
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
@@ -20987,6 +22117,7 @@ export namespace Prisma {
     website?: XOR<WebsiteRelationFilter, WebsiteWhereInput> | null
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
     impressions?: ImpressionListRelationFilter
+    metaContentImpressions?: MetaContentImpressionListRelationFilter
   }
 
   export type AuctionOrderByWithRelationInput = {
@@ -20996,6 +22127,8 @@ export namespace Prisma {
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
@@ -21007,6 +22140,7 @@ export namespace Prisma {
     website?: WebsiteOrderByWithRelationInput
     webpage?: WebpageOrderByWithRelationInput
     impressions?: ImpressionOrderByRelationAggregateInput
+    metaContentImpressions?: MetaContentImpressionOrderByRelationAggregateInput
   }
 
   export type AuctionWhereUniqueInput = Prisma.AtLeast<{
@@ -21019,6 +22153,8 @@ export namespace Prisma {
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
     userAgent?: StringFilter | string
+    screenWidth?: IntNullableFilter | number | null
+    screenHeight?: IntNullableFilter | number | null
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
@@ -21030,6 +22166,7 @@ export namespace Prisma {
     website?: XOR<WebsiteRelationFilter, WebsiteWhereInput> | null
     webpage?: XOR<WebpageRelationFilter, WebpageWhereInput> | null
     impressions?: ImpressionListRelationFilter
+    metaContentImpressions?: MetaContentImpressionListRelationFilter
   }, "id">
 
   export type AuctionOrderByWithAggregationInput = {
@@ -21039,6 +22176,8 @@ export namespace Prisma {
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
@@ -21063,6 +22202,8 @@ export namespace Prisma {
     webpageId?: StringNullableWithAggregatesFilter | string | null
     url?: StringNullableWithAggregatesFilter | string | null
     userAgent?: StringWithAggregatesFilter | string
+    screenWidth?: IntNullableWithAggregatesFilter | number | null
+    screenHeight?: IntNullableWithAggregatesFilter | number | null
     ip?: StringWithAggregatesFilter | string
     endUserCuid?: StringWithAggregatesFilter | string
     endUserFp?: StringWithAggregatesFilter | string
@@ -21674,6 +22815,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     metaContentSpot?: XOR<MetaContentSpotRelationFilter, MetaContentSpotWhereInput>
     metaContentType?: XOR<MetaContentTypeRelationFilter, MetaContentTypeWhereInput>
+    metaContentImpressions?: MetaContentImpressionListRelationFilter
   }
 
   export type MetaContentOrderByWithRelationInput = {
@@ -21689,6 +22831,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     metaContentSpot?: MetaContentSpotOrderByWithRelationInput
     metaContentType?: MetaContentTypeOrderByWithRelationInput
+    metaContentImpressions?: MetaContentImpressionOrderByRelationAggregateInput
   }
 
   export type MetaContentWhereUniqueInput = Prisma.AtLeast<{
@@ -21707,6 +22850,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     metaContentSpot?: XOR<MetaContentSpotRelationFilter, MetaContentSpotWhereInput>
     metaContentType?: XOR<MetaContentTypeRelationFilter, MetaContentTypeWhereInput>
+    metaContentImpressions?: MetaContentImpressionListRelationFilter
   }, "id">
 
   export type MetaContentOrderByWithAggregationInput = {
@@ -21787,6 +22931,69 @@ export namespace Prisma {
     NOT?: Enumerable<MetaContentTypeScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type MetaContentImpressionWhereInput = {
+    AND?: Enumerable<MetaContentImpressionWhereInput>
+    OR?: Enumerable<MetaContentImpressionWhereInput>
+    NOT?: Enumerable<MetaContentImpressionWhereInput>
+    id?: StringFilter | string
+    metaContentId?: StringFilter | string
+    auctionId?: StringFilter | string
+    feedbackEmoji?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput>
+    auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
+  }
+
+  export type MetaContentImpressionOrderByWithRelationInput = {
+    id?: SortOrder
+    metaContentId?: SortOrder
+    auctionId?: SortOrder
+    feedbackEmoji?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    metaContent?: MetaContentOrderByWithRelationInput
+    auction?: AuctionOrderByWithRelationInput
+  }
+
+  export type MetaContentImpressionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<MetaContentImpressionWhereInput>
+    OR?: Enumerable<MetaContentImpressionWhereInput>
+    NOT?: Enumerable<MetaContentImpressionWhereInput>
+    metaContentId?: StringFilter | string
+    auctionId?: StringFilter | string
+    feedbackEmoji?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput>
+    auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
+  }, "id">
+
+  export type MetaContentImpressionOrderByWithAggregationInput = {
+    id?: SortOrder
+    metaContentId?: SortOrder
+    auctionId?: SortOrder
+    feedbackEmoji?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MetaContentImpressionCountOrderByAggregateInput
+    _max?: MetaContentImpressionMaxOrderByAggregateInput
+    _min?: MetaContentImpressionMinOrderByAggregateInput
+  }
+
+  export type MetaContentImpressionScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<MetaContentImpressionScalarWhereWithAggregatesInput>
+    OR?: Enumerable<MetaContentImpressionScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<MetaContentImpressionScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    metaContentId?: StringWithAggregatesFilter | string
+    auctionId?: StringWithAggregatesFilter | string
+    feedbackEmoji?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -22466,6 +23673,8 @@ export namespace Prisma {
     id?: string
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -22477,6 +23686,7 @@ export namespace Prisma {
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateInput = {
@@ -22486,6 +23696,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -22494,12 +23706,15 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -22511,6 +23726,7 @@ export namespace Prisma {
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateInput = {
@@ -22520,6 +23736,8 @@ export namespace Prisma {
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -22528,6 +23746,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionCreateManyInput = {
@@ -22537,6 +23756,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -22550,6 +23771,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -22566,6 +23789,8 @@ export namespace Prisma {
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -23206,6 +24431,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     metaContentSpot: MetaContentSpotCreateNestedOneWithoutMetaContentsInput
     metaContentType: MetaContentTypeCreateNestedOneWithoutMetaContentsInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutMetaContentInput
   }
 
   export type MetaContentUncheckedCreateInput = {
@@ -23219,6 +24445,7 @@ export namespace Prisma {
     status: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutMetaContentInput
   }
 
   export type MetaContentUpdateInput = {
@@ -23232,6 +24459,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContentSpot?: MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput
     metaContentType?: MetaContentTypeUpdateOneRequiredWithoutMetaContentsNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutMetaContentNestedInput
   }
 
   export type MetaContentUncheckedUpdateInput = {
@@ -23245,6 +24473,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutMetaContentNestedInput
   }
 
   export type MetaContentCreateManyInput = {
@@ -23333,6 +24562,67 @@ export namespace Prisma {
   export type MetaContentTypeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentImpressionCreateInput = {
+    id?: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContent: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
+    auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
+  }
+
+  export type MetaContentImpressionUncheckedCreateInput = {
+    id?: string
+    metaContentId: string
+    auctionId: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentImpressionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContent?: MetaContentUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+    auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+  }
+
+  export type MetaContentImpressionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentId?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentImpressionCreateManyInput = {
+    id?: string
+    metaContentId: string
+    auctionId: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentImpressionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentImpressionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentId?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24049,7 +25339,17 @@ export namespace Prisma {
     none?: ImpressionWhereInput
   }
 
+  export type MetaContentImpressionListRelationFilter = {
+    every?: MetaContentImpressionWhereInput
+    some?: MetaContentImpressionWhereInput
+    none?: MetaContentImpressionWhereInput
+  }
+
   export type ImpressionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MetaContentImpressionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24060,6 +25360,8 @@ export namespace Prisma {
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
@@ -24070,6 +25372,8 @@ export namespace Prisma {
   }
 
   export type AuctionAvgOrderByAggregateInput = {
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     timeSpent?: SortOrder
   }
 
@@ -24080,6 +25384,8 @@ export namespace Prisma {
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
@@ -24096,6 +25402,8 @@ export namespace Prisma {
     webpageId?: SortOrder
     url?: SortOrder
     userAgent?: SortOrder
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
@@ -24106,6 +25414,8 @@ export namespace Prisma {
   }
 
   export type AuctionSumOrderByAggregateInput = {
+    screenWidth?: SortOrder
+    screenHeight?: SortOrder
     timeSpent?: SortOrder
   }
 
@@ -24543,6 +25853,43 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type MetaContentRelationFilter = {
+    is?: MetaContentWhereInput
+    isNot?: MetaContentWhereInput
+  }
+
+  export type AuctionRelationFilter = {
+    is?: AuctionWhereInput
+    isNot?: AuctionWhereInput
+  }
+
+  export type MetaContentImpressionCountOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentId?: SortOrder
+    auctionId?: SortOrder
+    feedbackEmoji?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentImpressionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentId?: SortOrder
+    auctionId?: SortOrder
+    feedbackEmoji?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentImpressionMinOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentId?: SortOrder
+    auctionId?: SortOrder
+    feedbackEmoji?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type DecimalFilter = {
     equals?: Decimal | DecimalJsLike | number | string
     in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string>
@@ -24642,11 +25989,6 @@ export namespace Prisma {
   export type AdvertisementRelationFilter = {
     is?: AdvertisementWhereInput | null
     isNot?: AdvertisementWhereInput | null
-  }
-
-  export type AuctionRelationFilter = {
-    is?: AuctionWhereInput
-    isNot?: AuctionWhereInput
   }
 
   export type ImpressionCountOrderByAggregateInput = {
@@ -25063,11 +26405,25 @@ export namespace Prisma {
     connect?: Enumerable<ImpressionWhereUniqueInput>
   }
 
+  export type MetaContentImpressionCreateNestedManyWithoutAuctionInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutAuctionInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutAuctionInput>
+    createMany?: MetaContentImpressionCreateManyAuctionInputEnvelope
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+  }
+
   export type ImpressionUncheckedCreateNestedManyWithoutAuctionInput = {
     create?: XOR<Enumerable<ImpressionCreateWithoutAuctionInput>, Enumerable<ImpressionUncheckedCreateWithoutAuctionInput>>
     connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAuctionInput>
     createMany?: ImpressionCreateManyAuctionInputEnvelope
     connect?: Enumerable<ImpressionWhereUniqueInput>
+  }
+
+  export type MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutAuctionInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutAuctionInput>
+    createMany?: MetaContentImpressionCreateManyAuctionInputEnvelope
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
   }
 
   export type UserUpdateOneWithoutAuctionsNestedInput = {
@@ -25114,6 +26470,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<ImpressionScalarWhereInput>
   }
 
+  export type MetaContentImpressionUpdateManyWithoutAuctionNestedInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutAuctionInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutAuctionInput>
+    upsert?: Enumerable<MetaContentImpressionUpsertWithWhereUniqueWithoutAuctionInput>
+    createMany?: MetaContentImpressionCreateManyAuctionInputEnvelope
+    set?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    delete?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    update?: Enumerable<MetaContentImpressionUpdateWithWhereUniqueWithoutAuctionInput>
+    updateMany?: Enumerable<MetaContentImpressionUpdateManyWithWhereWithoutAuctionInput>
+    deleteMany?: Enumerable<MetaContentImpressionScalarWhereInput>
+  }
+
   export type ImpressionUncheckedUpdateManyWithoutAuctionNestedInput = {
     create?: XOR<Enumerable<ImpressionCreateWithoutAuctionInput>, Enumerable<ImpressionUncheckedCreateWithoutAuctionInput>>
     connectOrCreate?: Enumerable<ImpressionCreateOrConnectWithoutAuctionInput>
@@ -25126,6 +26496,20 @@ export namespace Prisma {
     update?: Enumerable<ImpressionUpdateWithWhereUniqueWithoutAuctionInput>
     updateMany?: Enumerable<ImpressionUpdateManyWithWhereWithoutAuctionInput>
     deleteMany?: Enumerable<ImpressionScalarWhereInput>
+  }
+
+  export type MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutAuctionInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutAuctionInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutAuctionInput>
+    upsert?: Enumerable<MetaContentImpressionUpsertWithWhereUniqueWithoutAuctionInput>
+    createMany?: MetaContentImpressionCreateManyAuctionInputEnvelope
+    set?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    delete?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    update?: Enumerable<MetaContentImpressionUpdateWithWhereUniqueWithoutAuctionInput>
+    updateMany?: Enumerable<MetaContentImpressionUpdateManyWithWhereWithoutAuctionInput>
+    deleteMany?: Enumerable<MetaContentImpressionScalarWhereInput>
   }
 
   export type UserCreateNestedOneWithoutWebsitesInput = {
@@ -25846,6 +27230,20 @@ export namespace Prisma {
     connect?: MetaContentTypeWhereUniqueInput
   }
 
+  export type MetaContentImpressionCreateNestedManyWithoutMetaContentInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutMetaContentInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutMetaContentInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutMetaContentInput>
+    createMany?: MetaContentImpressionCreateManyMetaContentInputEnvelope
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+  }
+
+  export type MetaContentImpressionUncheckedCreateNestedManyWithoutMetaContentInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutMetaContentInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutMetaContentInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutMetaContentInput>
+    createMany?: MetaContentImpressionCreateManyMetaContentInputEnvelope
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+  }
+
   export type MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput = {
     create?: XOR<MetaContentSpotCreateWithoutMetaContentsInput, MetaContentSpotUncheckedCreateWithoutMetaContentsInput>
     connectOrCreate?: MetaContentSpotCreateOrConnectWithoutMetaContentsInput
@@ -25860,6 +27258,34 @@ export namespace Prisma {
     upsert?: MetaContentTypeUpsertWithoutMetaContentsInput
     connect?: MetaContentTypeWhereUniqueInput
     update?: XOR<XOR<MetaContentTypeUpdateToOneWithWhereWithoutMetaContentsInput, MetaContentTypeUpdateWithoutMetaContentsInput>, MetaContentTypeUncheckedUpdateWithoutMetaContentsInput>
+  }
+
+  export type MetaContentImpressionUpdateManyWithoutMetaContentNestedInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutMetaContentInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutMetaContentInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutMetaContentInput>
+    upsert?: Enumerable<MetaContentImpressionUpsertWithWhereUniqueWithoutMetaContentInput>
+    createMany?: MetaContentImpressionCreateManyMetaContentInputEnvelope
+    set?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    delete?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    update?: Enumerable<MetaContentImpressionUpdateWithWhereUniqueWithoutMetaContentInput>
+    updateMany?: Enumerable<MetaContentImpressionUpdateManyWithWhereWithoutMetaContentInput>
+    deleteMany?: Enumerable<MetaContentImpressionScalarWhereInput>
+  }
+
+  export type MetaContentImpressionUncheckedUpdateManyWithoutMetaContentNestedInput = {
+    create?: XOR<Enumerable<MetaContentImpressionCreateWithoutMetaContentInput>, Enumerable<MetaContentImpressionUncheckedCreateWithoutMetaContentInput>>
+    connectOrCreate?: Enumerable<MetaContentImpressionCreateOrConnectWithoutMetaContentInput>
+    upsert?: Enumerable<MetaContentImpressionUpsertWithWhereUniqueWithoutMetaContentInput>
+    createMany?: MetaContentImpressionCreateManyMetaContentInputEnvelope
+    set?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    disconnect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    delete?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    connect?: Enumerable<MetaContentImpressionWhereUniqueInput>
+    update?: Enumerable<MetaContentImpressionUpdateWithWhereUniqueWithoutMetaContentInput>
+    updateMany?: Enumerable<MetaContentImpressionUpdateManyWithWhereWithoutMetaContentInput>
+    deleteMany?: Enumerable<MetaContentImpressionScalarWhereInput>
   }
 
   export type MetaContentCreateNestedManyWithoutMetaContentTypeInput = {
@@ -25902,6 +27328,34 @@ export namespace Prisma {
     update?: Enumerable<MetaContentUpdateWithWhereUniqueWithoutMetaContentTypeInput>
     updateMany?: Enumerable<MetaContentUpdateManyWithWhereWithoutMetaContentTypeInput>
     deleteMany?: Enumerable<MetaContentScalarWhereInput>
+  }
+
+  export type MetaContentCreateNestedOneWithoutMetaContentImpressionsInput = {
+    create?: XOR<MetaContentCreateWithoutMetaContentImpressionsInput, MetaContentUncheckedCreateWithoutMetaContentImpressionsInput>
+    connectOrCreate?: MetaContentCreateOrConnectWithoutMetaContentImpressionsInput
+    connect?: MetaContentWhereUniqueInput
+  }
+
+  export type AuctionCreateNestedOneWithoutMetaContentImpressionsInput = {
+    create?: XOR<AuctionCreateWithoutMetaContentImpressionsInput, AuctionUncheckedCreateWithoutMetaContentImpressionsInput>
+    connectOrCreate?: AuctionCreateOrConnectWithoutMetaContentImpressionsInput
+    connect?: AuctionWhereUniqueInput
+  }
+
+  export type MetaContentUpdateOneRequiredWithoutMetaContentImpressionsNestedInput = {
+    create?: XOR<MetaContentCreateWithoutMetaContentImpressionsInput, MetaContentUncheckedCreateWithoutMetaContentImpressionsInput>
+    connectOrCreate?: MetaContentCreateOrConnectWithoutMetaContentImpressionsInput
+    upsert?: MetaContentUpsertWithoutMetaContentImpressionsInput
+    connect?: MetaContentWhereUniqueInput
+    update?: XOR<XOR<MetaContentUpdateToOneWithWhereWithoutMetaContentImpressionsInput, MetaContentUpdateWithoutMetaContentImpressionsInput>, MetaContentUncheckedUpdateWithoutMetaContentImpressionsInput>
+  }
+
+  export type AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput = {
+    create?: XOR<AuctionCreateWithoutMetaContentImpressionsInput, AuctionUncheckedCreateWithoutMetaContentImpressionsInput>
+    connectOrCreate?: AuctionCreateOrConnectWithoutMetaContentImpressionsInput
+    upsert?: AuctionUpsertWithoutMetaContentImpressionsInput
+    connect?: AuctionWhereUniqueInput
+    update?: XOR<XOR<AuctionUpdateToOneWithWhereWithoutMetaContentImpressionsInput, AuctionUpdateWithoutMetaContentImpressionsInput>, AuctionUncheckedUpdateWithoutMetaContentImpressionsInput>
   }
 
   export type UserCreateNestedOneWithoutCampaignsInput = {
@@ -26496,6 +27950,8 @@ export namespace Prisma {
     id?: string
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -26506,6 +27962,7 @@ export namespace Prisma {
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutUserInput = {
@@ -26514,6 +27971,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -26522,6 +27981,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionCreateOrConnectWithoutUserInput = {
@@ -26791,6 +28251,8 @@ export namespace Prisma {
     webpageId?: StringNullableFilter | string | null
     url?: StringNullableFilter | string | null
     userAgent?: StringFilter | string
+    screenWidth?: IntNullableFilter | number | null
+    screenHeight?: IntNullableFilter | number | null
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
@@ -27173,6 +28635,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MetaContentImpressionCreateWithoutAuctionInput = {
+    id?: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContent: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
+  }
+
+  export type MetaContentImpressionUncheckedCreateWithoutAuctionInput = {
+    id?: string
+    metaContentId: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentImpressionCreateOrConnectWithoutAuctionInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    create: XOR<MetaContentImpressionCreateWithoutAuctionInput, MetaContentImpressionUncheckedCreateWithoutAuctionInput>
+  }
+
+  export type MetaContentImpressionCreateManyAuctionInputEnvelope = {
+    data: Enumerable<MetaContentImpressionCreateManyAuctionInput>
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAuctionsInput = {
     update: XOR<UserUpdateWithoutAuctionsInput, UserUncheckedUpdateWithoutAuctionsInput>
     create: XOR<UserCreateWithoutAuctionsInput, UserUncheckedCreateWithoutAuctionsInput>
@@ -27322,6 +28810,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
   }
 
+  export type MetaContentImpressionUpsertWithWhereUniqueWithoutAuctionInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    update: XOR<MetaContentImpressionUpdateWithoutAuctionInput, MetaContentImpressionUncheckedUpdateWithoutAuctionInput>
+    create: XOR<MetaContentImpressionCreateWithoutAuctionInput, MetaContentImpressionUncheckedCreateWithoutAuctionInput>
+  }
+
+  export type MetaContentImpressionUpdateWithWhereUniqueWithoutAuctionInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    data: XOR<MetaContentImpressionUpdateWithoutAuctionInput, MetaContentImpressionUncheckedUpdateWithoutAuctionInput>
+  }
+
+  export type MetaContentImpressionUpdateManyWithWhereWithoutAuctionInput = {
+    where: MetaContentImpressionScalarWhereInput
+    data: XOR<MetaContentImpressionUpdateManyMutationInput, MetaContentImpressionUncheckedUpdateManyWithoutMetaContentImpressionsInput>
+  }
+
+  export type MetaContentImpressionScalarWhereInput = {
+    AND?: Enumerable<MetaContentImpressionScalarWhereInput>
+    OR?: Enumerable<MetaContentImpressionScalarWhereInput>
+    NOT?: Enumerable<MetaContentImpressionScalarWhereInput>
+    id?: StringFilter | string
+    metaContentId?: StringFilter | string
+    auctionId?: StringFilter | string
+    feedbackEmoji?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
   export type UserCreateWithoutWebsitesInput = {
     id?: string
     name?: string | null
@@ -27405,6 +28921,8 @@ export namespace Prisma {
     id?: string
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -27415,6 +28933,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutWebsiteInput = {
@@ -27423,6 +28942,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -27431,6 +28952,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionCreateOrConnectWithoutWebsiteInput = {
@@ -27681,6 +29203,8 @@ export namespace Prisma {
     id?: string
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -27691,6 +29215,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutAuctionsInput
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutWebpageInput = {
@@ -27699,6 +29224,8 @@ export namespace Prisma {
     websiteId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -27707,6 +29234,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionCreateOrConnectWithoutWebpageInput = {
@@ -28755,6 +30283,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     metaContentType: MetaContentTypeCreateNestedOneWithoutMetaContentsInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutMetaContentInput
   }
 
   export type MetaContentUncheckedCreateWithoutMetaContentSpotInput = {
@@ -28767,6 +30296,7 @@ export namespace Prisma {
     status: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutMetaContentInput
   }
 
   export type MetaContentCreateOrConnectWithoutMetaContentSpotInput = {
@@ -28894,6 +30424,32 @@ export namespace Prisma {
     create: XOR<MetaContentTypeCreateWithoutMetaContentsInput, MetaContentTypeUncheckedCreateWithoutMetaContentsInput>
   }
 
+  export type MetaContentImpressionCreateWithoutMetaContentInput = {
+    id?: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
+  }
+
+  export type MetaContentImpressionUncheckedCreateWithoutMetaContentInput = {
+    id?: string
+    auctionId: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentImpressionCreateOrConnectWithoutMetaContentInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    create: XOR<MetaContentImpressionCreateWithoutMetaContentInput, MetaContentImpressionUncheckedCreateWithoutMetaContentInput>
+  }
+
+  export type MetaContentImpressionCreateManyMetaContentInputEnvelope = {
+    data: Enumerable<MetaContentImpressionCreateManyMetaContentInput>
+    skipDuplicates?: boolean
+  }
+
   export type MetaContentSpotUpsertWithoutMetaContentsInput = {
     update: XOR<MetaContentSpotUpdateWithoutMetaContentsInput, MetaContentSpotUncheckedUpdateWithoutMetaContentsInput>
     create: XOR<MetaContentSpotCreateWithoutMetaContentsInput, MetaContentSpotUncheckedCreateWithoutMetaContentsInput>
@@ -28948,6 +30504,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MetaContentImpressionUpsertWithWhereUniqueWithoutMetaContentInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    update: XOR<MetaContentImpressionUpdateWithoutMetaContentInput, MetaContentImpressionUncheckedUpdateWithoutMetaContentInput>
+    create: XOR<MetaContentImpressionCreateWithoutMetaContentInput, MetaContentImpressionUncheckedCreateWithoutMetaContentInput>
+  }
+
+  export type MetaContentImpressionUpdateWithWhereUniqueWithoutMetaContentInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    data: XOR<MetaContentImpressionUpdateWithoutMetaContentInput, MetaContentImpressionUncheckedUpdateWithoutMetaContentInput>
+  }
+
+  export type MetaContentImpressionUpdateManyWithWhereWithoutMetaContentInput = {
+    where: MetaContentImpressionScalarWhereInput
+    data: XOR<MetaContentImpressionUpdateManyMutationInput, MetaContentImpressionUncheckedUpdateManyWithoutMetaContentImpressionsInput>
+  }
+
   export type MetaContentCreateWithoutMetaContentTypeInput = {
     id?: string
     generatedText: string
@@ -28958,6 +30530,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     metaContentSpot: MetaContentSpotCreateNestedOneWithoutMetaContentsInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutMetaContentInput
   }
 
   export type MetaContentUncheckedCreateWithoutMetaContentTypeInput = {
@@ -28970,6 +30543,7 @@ export namespace Prisma {
     status: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutMetaContentInput
   }
 
   export type MetaContentCreateOrConnectWithoutMetaContentTypeInput = {
@@ -28996,6 +30570,166 @@ export namespace Prisma {
   export type MetaContentUpdateManyWithWhereWithoutMetaContentTypeInput = {
     where: MetaContentScalarWhereInput
     data: XOR<MetaContentUpdateManyMutationInput, MetaContentUncheckedUpdateManyWithoutMetaContentsInput>
+  }
+
+  export type MetaContentCreateWithoutMetaContentImpressionsInput = {
+    id?: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContentSpot: MetaContentSpotCreateNestedOneWithoutMetaContentsInput
+    metaContentType: MetaContentTypeCreateNestedOneWithoutMetaContentsInput
+  }
+
+  export type MetaContentUncheckedCreateWithoutMetaContentImpressionsInput = {
+    id?: string
+    metaContentSpotId: string
+    metaContentTypeId: string
+    generatedText: string
+    generatedHeading: string
+    diveristyClassifierResult: string
+    diveristyClassifierReason: string
+    status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentCreateOrConnectWithoutMetaContentImpressionsInput = {
+    where: MetaContentWhereUniqueInput
+    create: XOR<MetaContentCreateWithoutMetaContentImpressionsInput, MetaContentUncheckedCreateWithoutMetaContentImpressionsInput>
+  }
+
+  export type AuctionCreateWithoutMetaContentImpressionsInput = {
+    id?: string
+    url?: string | null
+    userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutAuctionsInput
+    website?: WebsiteCreateNestedOneWithoutAuctionsInput
+    webpage?: WebpageCreateNestedOneWithoutAuctionsInput
+    impressions?: ImpressionCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionUncheckedCreateWithoutMetaContentImpressionsInput = {
+    id?: string
+    userId?: string | null
+    websiteId?: string | null
+    webpageId?: string | null
+    url?: string | null
+    userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
+    ip?: string
+    endUserCuid?: string
+    endUserFp?: string
+    timeSpent?: number
+    extra?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
+  }
+
+  export type AuctionCreateOrConnectWithoutMetaContentImpressionsInput = {
+    where: AuctionWhereUniqueInput
+    create: XOR<AuctionCreateWithoutMetaContentImpressionsInput, AuctionUncheckedCreateWithoutMetaContentImpressionsInput>
+  }
+
+  export type MetaContentUpsertWithoutMetaContentImpressionsInput = {
+    update: XOR<MetaContentUpdateWithoutMetaContentImpressionsInput, MetaContentUncheckedUpdateWithoutMetaContentImpressionsInput>
+    create: XOR<MetaContentCreateWithoutMetaContentImpressionsInput, MetaContentUncheckedCreateWithoutMetaContentImpressionsInput>
+    where?: MetaContentWhereInput
+  }
+
+  export type MetaContentUpdateToOneWithWhereWithoutMetaContentImpressionsInput = {
+    where?: MetaContentWhereInput
+    data: XOR<MetaContentUpdateWithoutMetaContentImpressionsInput, MetaContentUncheckedUpdateWithoutMetaContentImpressionsInput>
+  }
+
+  export type MetaContentUpdateWithoutMetaContentImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentSpot?: MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput
+    metaContentType?: MetaContentTypeUpdateOneRequiredWithoutMetaContentsNestedInput
+  }
+
+  export type MetaContentUncheckedUpdateWithoutMetaContentImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentSpotId?: StringFieldUpdateOperationsInput | string
+    metaContentTypeId?: StringFieldUpdateOperationsInput | string
+    generatedText?: StringFieldUpdateOperationsInput | string
+    generatedHeading?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
+    diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuctionUpsertWithoutMetaContentImpressionsInput = {
+    update: XOR<AuctionUpdateWithoutMetaContentImpressionsInput, AuctionUncheckedUpdateWithoutMetaContentImpressionsInput>
+    create: XOR<AuctionCreateWithoutMetaContentImpressionsInput, AuctionUncheckedCreateWithoutMetaContentImpressionsInput>
+    where?: AuctionWhereInput
+  }
+
+  export type AuctionUpdateToOneWithWhereWithoutMetaContentImpressionsInput = {
+    where?: AuctionWhereInput
+    data: XOR<AuctionUpdateWithoutMetaContentImpressionsInput, AuctionUncheckedUpdateWithoutMetaContentImpressionsInput>
+  }
+
+  export type AuctionUpdateWithoutMetaContentImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutAuctionsNestedInput
+    website?: WebsiteUpdateOneWithoutAuctionsNestedInput
+    webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
+    impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type AuctionUncheckedUpdateWithoutMetaContentImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    websiteId?: NullableStringFieldUpdateOperationsInput | string | null
+    webpageId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    ip?: StringFieldUpdateOperationsInput | string
+    endUserCuid?: StringFieldUpdateOperationsInput | string
+    endUserFp?: StringFieldUpdateOperationsInput | string
+    timeSpent?: IntFieldUpdateOperationsInput | number
+    extra?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
   }
 
   export type UserCreateWithoutCampaignsInput = {
@@ -29202,6 +30936,8 @@ export namespace Prisma {
     id?: string
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -29212,6 +30948,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutAuctionsInput
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
     webpage?: WebpageCreateNestedOneWithoutAuctionsInput
+    metaContentImpressions?: MetaContentImpressionCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionUncheckedCreateWithoutImpressionsInput = {
@@ -29221,6 +30958,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -29228,6 +30967,7 @@ export namespace Prisma {
     extra?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput
   }
 
   export type AuctionCreateOrConnectWithoutImpressionsInput = {
@@ -29281,6 +31021,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29291,6 +31033,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutAuctionsNestedInput
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutImpressionsInput = {
@@ -29300,6 +31043,8 @@ export namespace Prisma {
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29307,6 +31052,7 @@ export namespace Prisma {
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -29335,6 +31081,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -29443,6 +31191,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29453,6 +31203,7 @@ export namespace Prisma {
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutUserInput = {
@@ -29461,6 +31212,8 @@ export namespace Prisma {
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29469,6 +31222,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateManyWithoutAuctionsInput = {
@@ -29477,6 +31231,8 @@ export namespace Prisma {
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29611,6 +31367,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type MetaContentImpressionCreateManyAuctionInput = {
+    id?: string
+    metaContentId: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ImpressionUpdateWithoutAuctionInput = {
     id?: StringFieldUpdateOperationsInput | string
     clicked?: BoolFieldUpdateOperationsInput | boolean
@@ -29635,6 +31399,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MetaContentImpressionUpdateWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContent?: MetaContentUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+  }
+
+  export type MetaContentImpressionUncheckedUpdateWithoutAuctionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentId?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentImpressionUncheckedUpdateManyWithoutMetaContentImpressionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentId?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type WebpageCreateManyWebsiteInput = {
     id?: string
     url: string
@@ -29650,6 +31438,8 @@ export namespace Prisma {
     webpageId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -29702,6 +31492,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29712,6 +31504,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutAuctionsNestedInput
     webpage?: WebpageUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutWebsiteInput = {
@@ -29720,6 +31513,8 @@ export namespace Prisma {
     webpageId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29728,6 +31523,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
   }
 
   export type ScoredCampaignCreateManyWebpageInput = {
@@ -29763,6 +31559,8 @@ export namespace Prisma {
     websiteId?: string | null
     url?: string | null
     userAgent?: string
+    screenWidth?: number | null
+    screenHeight?: number | null
     ip?: string
     endUserCuid?: string
     endUserFp?: string
@@ -29883,6 +31681,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29893,6 +31693,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutAuctionsNestedInput
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
     impressions?: ImpressionUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutAuctionNestedInput
   }
 
   export type AuctionUncheckedUpdateWithoutWebpageInput = {
@@ -29901,6 +31702,8 @@ export namespace Prisma {
     websiteId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: StringFieldUpdateOperationsInput | string
+    screenWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    screenHeight?: NullableIntFieldUpdateOperationsInput | number | null
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
@@ -29909,6 +31712,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
   }
 
   export type WebpageUpdateWithoutCategoriesInput = {
@@ -30092,6 +31896,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContentType?: MetaContentTypeUpdateOneRequiredWithoutMetaContentsNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutMetaContentNestedInput
   }
 
   export type MetaContentUncheckedUpdateWithoutMetaContentSpotInput = {
@@ -30104,6 +31909,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutMetaContentNestedInput
   }
 
   export type MetaContentUncheckedUpdateManyWithoutMetaContentsInput = {
@@ -30114,6 +31920,30 @@ export namespace Prisma {
     diveristyClassifierResult?: StringFieldUpdateOperationsInput | string
     diveristyClassifierReason?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaContentImpressionCreateManyMetaContentInput = {
+    id?: string
+    auctionId: string
+    feedbackEmoji?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentImpressionUpdateWithoutMetaContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+  }
+
+  export type MetaContentImpressionUncheckedUpdateWithoutMetaContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auctionId?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30140,6 +31970,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContentSpot?: MetaContentSpotUpdateOneRequiredWithoutMetaContentsNestedInput
+    metaContentImpressions?: MetaContentImpressionUpdateManyWithoutMetaContentNestedInput
   }
 
   export type MetaContentUncheckedUpdateWithoutMetaContentTypeInput = {
@@ -30152,6 +31983,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutMetaContentNestedInput
   }
 
   export type ScoredCampaignCreateManyCampaignInput = {

@@ -7,6 +7,7 @@ import { MetaContent } from "../prisma-client-index";
 import {generateMetaContentImpression, setMetaContentFeedback} from "./metaContentImpression";
 
 declare var BW_CDN_BASE_URL: string;
+declare let gtag: Function;
 
 const setupMetaContent = async (
   aid: string,
@@ -110,8 +111,21 @@ const setupMetaContent = async (
     console.log("will YES show tippy: ", random, diplayRate);
   } else {
     console.log("will NOT show tippy: ", random, diplayRate);
+    try{
+      gtag('event', 'page_view', {"bw_show_meta_content": "no"});
+      console.log("Sent NO to GA");
+    }catch(err){
+      console.log("unable to send event NO to GA");
+    }
     await updateExtra(aid, SHOW_NOTHING);
     return;
+  }
+
+  try{
+    gtag('event', 'page_view', {"bw_show_meta_content": "yes"});
+    console.log("Sent YES to GA");
+  }catch(err){
+    console.log("unable to send event YES to GA");
   }
 
   await updateExtra(aid, SHOW_TIPPY);

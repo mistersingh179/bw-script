@@ -18,6 +18,7 @@
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
+    "@types/gtag.js": "^0.0.14",
     "@types/lodash": "^4.14.196",
     "@types/node": "^18.15.11"
   }

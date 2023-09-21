@@ -16,6 +16,15 @@ import { insertStyles } from "./dom";
 declare var BW_CDN_BASE_URL: string;
 declare let gtag: Function;
 
+const sendMetaContentMessageToGA = (message: string) => {
+  try {
+    gtag("event", "page_view", { bw_show_meta_content: message });
+    console.log("Sent to GA: " + message);
+  } catch (err) {
+    console.log("unable to send to GA: " + message);
+  }
+}
+
 const setupMetaContent = async (
   aid: string,
   metaContentSpotSelector: string,
@@ -120,23 +129,12 @@ const setupMetaContent = async (
     console.log("will YES show tippy: ", random, diplayRate);
   } else {
     console.log("will NOT show tippy: ", random, diplayRate);
-    try {
-      gtag("event", "page_view", { bw_show_meta_content: "no" });
-      console.log("Sent NO to GA");
-    } catch (err) {
-      console.log("unable to send event NO to GA");
-    }
+    sendMetaContentMessageToGA("no");
     await updateExtra(aid, SHOW_NOTHING);
     return;
   }
 
-  try {
-    gtag("event", "page_view", { bw_show_meta_content: "yes" });
-    console.log("Sent YES to GA");
-  } catch (err) {
-    console.log("unable to send event YES to GA");
-  }
-
+  sendMetaContentMessageToGA("yes");
   await updateExtra(aid, SHOW_TIPPY);
 
   // adding css file being built by esbuild
@@ -275,6 +273,7 @@ const setupMetaContent = async (
         followCursor: "vertical",
         plugins: [followCursor],
         onShow: once((instance) => {
+          sendMetaContentMessageToGA("yes_and_displayed");
           updateExtra(aid, SHOW_TIPPY + " and it popped up");
           (async () => {
             const mci = await generateMetaContentImpression(

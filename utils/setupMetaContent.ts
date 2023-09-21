@@ -151,7 +151,7 @@ const setupMetaContent = async (
     const heading = document.createElement("p");
     heading.style.fontSize = "18px";
     heading.style.fontWeight = "700";
-    heading.style.color = metaContentToolTipTextColor || "initial";
+    heading.style.color = metaContentToolTipTextColor || "";
     heading.innerHTML = item.generatedHeading;
     metaDiv.appendChild(heading);
 
@@ -164,7 +164,7 @@ const setupMetaContent = async (
 
       const p = document.createElement("p");
       p.style.fontSize = "18px";
-      p.style.color = metaContentToolTipTextColor || "initial";
+      p.style.color = metaContentToolTipTextColor || "";
       p.innerHTML = generatedTextItem.trim();
       if (idx > 0) {
         p.style.display = "none";
@@ -175,7 +175,7 @@ const setupMetaContent = async (
     const thanksDiv = document.createElement("div");
     thanksDiv.innerHTML = "Thanks!";
     thanksDiv.style.opacity = "0";
-    thanksDiv.style.color = metaContentToolTipTextColor || "initial";
+    thanksDiv.style.color = metaContentToolTipTextColor || "";
     thanksDiv.style.display = "none";
 
     const feedbackDiv = document.createElement("div");

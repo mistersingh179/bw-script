@@ -11,6 +11,7 @@ import {
   generateMetaContentImpression,
   setMetaContentFeedback,
 } from "./metaContentImpression";
+import { insertStyles } from "./dom";
 
 declare var BW_CDN_BASE_URL: string;
 declare let gtag: Function;
@@ -147,6 +148,9 @@ const setupMetaContent = async (
 
   const getMetaDiv = (item: MetaContent) => {
     const metaDiv = document.createElement("div");
+    metaDiv.style.maxHeight =
+      document.documentElement.clientHeight * 0.8 + "px";
+    metaDiv.style.overflowY = "auto";
 
     const heading = document.createElement("p");
     heading.style.fontSize = "18px";
@@ -283,6 +287,10 @@ const setupMetaContent = async (
       });
     }
   });
+
+  insertStyles(
+    `.tippy-content > div::-webkit-scrollbar { display: none; /* Safari and Chrome */} \n\
+.tippy-content > div { -ms-overflow-style: none;  /* Internet Explorer 10+ */ scrollbar-width: none;  /* Firefox */}`);
 };
 
 export default setupMetaContent;

@@ -78,6 +78,8 @@ export type Setting = {
   status: boolean
   metaContentStatus: boolean
   metaContentDisplayPercentage: number
+  metaContentToolTipTheme: string
+  metaContentToolTipTextColor: string
   sponsoredWording: string
   desiredAdvertisementSpotCount: number
   desiredMetaContentSpotCount: number
@@ -269,7 +271,7 @@ export type MetaContentType = {
  */
 export type MetaContentImpression = {
   id: string
-  metaContentId: string
+  metaContentId: string | null
   auctionId: string
   feedbackEmoji: string | null
   createdAt: Date
@@ -6009,6 +6011,8 @@ export namespace Prisma {
     status: boolean | null
     metaContentStatus: boolean | null
     metaContentDisplayPercentage: number | null
+    metaContentToolTipTheme: string | null
+    metaContentToolTipTextColor: string | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
@@ -6037,6 +6041,8 @@ export namespace Prisma {
     status: boolean | null
     metaContentStatus: boolean | null
     metaContentDisplayPercentage: number | null
+    metaContentToolTipTheme: string | null
+    metaContentToolTipTextColor: string | null
     sponsoredWording: string | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
@@ -6065,6 +6071,8 @@ export namespace Prisma {
     status: number
     metaContentStatus: number
     metaContentDisplayPercentage: number
+    metaContentToolTipTheme: number
+    metaContentToolTipTextColor: number
     sponsoredWording: number
     desiredAdvertisementSpotCount: number
     desiredMetaContentSpotCount: number
@@ -6125,6 +6133,8 @@ export namespace Prisma {
     status?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
+    metaContentToolTipTheme?: true
+    metaContentToolTipTextColor?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6153,6 +6163,8 @@ export namespace Prisma {
     status?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
+    metaContentToolTipTheme?: true
+    metaContentToolTipTextColor?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6181,6 +6193,8 @@ export namespace Prisma {
     status?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
+    metaContentToolTipTheme?: true
+    metaContentToolTipTextColor?: true
     sponsoredWording?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
@@ -6297,6 +6311,8 @@ export namespace Prisma {
     status: boolean
     metaContentStatus: boolean
     metaContentDisplayPercentage: number
+    metaContentToolTipTheme: string
+    metaContentToolTipTextColor: string
     sponsoredWording: string
     desiredAdvertisementSpotCount: number
     desiredMetaContentSpotCount: number
@@ -6344,6 +6360,8 @@ export namespace Prisma {
     status?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: boolean
+    metaContentToolTipTheme?: boolean
+    metaContentToolTipTextColor?: boolean
     sponsoredWording?: boolean
     desiredAdvertisementSpotCount?: boolean
     desiredMetaContentSpotCount?: boolean
@@ -18475,7 +18493,7 @@ export namespace Prisma {
 
   export type MetaContentImpressionGroupByOutputType = {
     id: string
-    metaContentId: string
+    metaContentId: string | null
     auctionId: string
     feedbackEmoji: string | null
     createdAt: Date
@@ -18506,13 +18524,13 @@ export namespace Prisma {
     feedbackEmoji?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    metaContent?: boolean | MetaContentArgs
+    metaContent?: boolean | MetaContentImpression$metaContentArgs
     auction?: boolean | AuctionArgs
   }
 
 
   export type MetaContentImpressionInclude = {
-    metaContent?: boolean | MetaContentArgs
+    metaContent?: boolean | MetaContentImpression$metaContentArgs
     auction?: boolean | AuctionArgs
   }
 
@@ -18523,13 +18541,13 @@ export namespace Prisma {
           S extends { include: any } & (MetaContentImpressionArgs | MetaContentImpressionFindManyArgs)
             ? MetaContentImpression  & {
             [P in TruthyKeys<S['include']>]:
-            P extends 'metaContent' ? MetaContentGetPayload<S['include'][P]> :
+            P extends 'metaContent' ? MetaContentGetPayload<S['include'][P]> | null :
               P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
           }
             : S extends { select: any } & (MetaContentImpressionArgs | MetaContentImpressionFindManyArgs)
               ? {
                 [P in TruthyKeys<S['select']>]:
-                P extends 'metaContent' ? MetaContentGetPayload<S['select'][P]> :
+                P extends 'metaContent' ? MetaContentGetPayload<S['select'][P]> | null :
                   P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof MetaContentImpression ? MetaContentImpression[P] : never
               }
               : MetaContentImpression
@@ -18902,7 +18920,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    metaContent<T extends MetaContentArgs= {}>(args?: Subset<T, MetaContentArgs>): Prisma__MetaContentClient<MetaContentGetPayload<T> | Null>;
+    metaContent<T extends MetaContentImpression$metaContentArgs= {}>(args?: Subset<T, MetaContentImpression$metaContentArgs>): Prisma__MetaContentClient<MetaContentGetPayload<T> | Null>;
 
     auction<T extends AuctionArgs= {}>(args?: Subset<T, AuctionArgs>): Prisma__AuctionClient<AuctionGetPayload<T> | Null>;
 
@@ -19258,6 +19276,22 @@ export namespace Prisma {
      * Filter which MetaContentImpressions to delete
      */
     where?: MetaContentImpressionWhereInput
+  }
+
+
+  /**
+   * MetaContentImpression.metaContent
+   */
+  export type MetaContentImpression$metaContentArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContent
+     */
+    select?: MetaContentSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentInclude | null
+    where?: MetaContentWhereInput
   }
 
 
@@ -21566,6 +21600,8 @@ export namespace Prisma {
     status: 'status',
     metaContentStatus: 'metaContentStatus',
     metaContentDisplayPercentage: 'metaContentDisplayPercentage',
+    metaContentToolTipTheme: 'metaContentToolTipTheme',
+    metaContentToolTipTextColor: 'metaContentToolTipTextColor',
     sponsoredWording: 'sponsoredWording',
     desiredAdvertisementSpotCount: 'desiredAdvertisementSpotCount',
     desiredMetaContentSpotCount: 'desiredMetaContentSpotCount',
@@ -21947,6 +21983,8 @@ export namespace Prisma {
     status?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
     metaContentDisplayPercentage?: IntFilter | number
+    metaContentToolTipTheme?: StringFilter | string
+    metaContentToolTipTextColor?: StringFilter | string
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
     desiredMetaContentSpotCount?: IntFilter | number
@@ -21976,6 +22014,8 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentToolTipTheme?: SortOrder
+    metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -22008,6 +22048,8 @@ export namespace Prisma {
     status?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
     metaContentDisplayPercentage?: IntFilter | number
+    metaContentToolTipTheme?: StringFilter | string
+    metaContentToolTipTextColor?: StringFilter | string
     sponsoredWording?: StringFilter | string
     desiredAdvertisementSpotCount?: IntFilter | number
     desiredMetaContentSpotCount?: IntFilter | number
@@ -22037,6 +22079,8 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentToolTipTheme?: SortOrder
+    metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -22073,6 +22117,8 @@ export namespace Prisma {
     status?: BoolWithAggregatesFilter | boolean
     metaContentStatus?: BoolWithAggregatesFilter | boolean
     metaContentDisplayPercentage?: IntWithAggregatesFilter | number
+    metaContentToolTipTheme?: StringWithAggregatesFilter | string
+    metaContentToolTipTextColor?: StringWithAggregatesFilter | string
     sponsoredWording?: StringWithAggregatesFilter | string
     desiredAdvertisementSpotCount?: IntWithAggregatesFilter | number
     desiredMetaContentSpotCount?: IntWithAggregatesFilter | number
@@ -22940,12 +22986,12 @@ export namespace Prisma {
     OR?: Enumerable<MetaContentImpressionWhereInput>
     NOT?: Enumerable<MetaContentImpressionWhereInput>
     id?: StringFilter | string
-    metaContentId?: StringFilter | string
+    metaContentId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     feedbackEmoji?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput>
+    metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput> | null
     auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
   }
 
@@ -22965,12 +23011,12 @@ export namespace Prisma {
     AND?: Enumerable<MetaContentImpressionWhereInput>
     OR?: Enumerable<MetaContentImpressionWhereInput>
     NOT?: Enumerable<MetaContentImpressionWhereInput>
-    metaContentId?: StringFilter | string
+    metaContentId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     feedbackEmoji?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput>
+    metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput> | null
     auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
   }, "id">
 
@@ -22991,7 +23037,7 @@ export namespace Prisma {
     OR?: Enumerable<MetaContentImpressionScalarWhereWithAggregatesInput>
     NOT?: Enumerable<MetaContentImpressionScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    metaContentId?: StringWithAggregatesFilter | string
+    metaContentId?: StringNullableWithAggregatesFilter | string | null
     auctionId?: StringWithAggregatesFilter | string
     feedbackEmoji?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -23480,6 +23526,8 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentToolTipTheme?: string
+    metaContentToolTipTextColor?: string
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -23509,6 +23557,8 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentToolTipTheme?: string
+    metaContentToolTipTextColor?: string
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -23536,6 +23586,8 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
+    metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -23565,6 +23617,8 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
+    metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -23593,6 +23647,8 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentToolTipTheme?: string
+    metaContentToolTipTextColor?: string
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -23620,6 +23676,8 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
+    metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -23648,6 +23706,8 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
+    metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -24571,13 +24631,13 @@ export namespace Prisma {
     feedbackEmoji?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    metaContent: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
+    metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
     auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
   }
 
   export type MetaContentImpressionUncheckedCreateInput = {
     id?: string
-    metaContentId: string
+    metaContentId?: string | null
     auctionId: string
     feedbackEmoji?: string | null
     createdAt?: Date | string
@@ -24589,13 +24649,13 @@ export namespace Prisma {
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    metaContent?: MetaContentUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+    metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
     auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
   }
 
   export type MetaContentImpressionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    metaContentId?: StringFieldUpdateOperationsInput | string
+    metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24604,7 +24664,7 @@ export namespace Prisma {
 
   export type MetaContentImpressionCreateManyInput = {
     id?: string
-    metaContentId: string
+    metaContentId?: string | null
     auctionId: string
     feedbackEmoji?: string | null
     createdAt?: Date | string
@@ -24620,7 +24680,7 @@ export namespace Prisma {
 
   export type MetaContentImpressionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    metaContentId?: StringFieldUpdateOperationsInput | string
+    metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25200,6 +25260,8 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentToolTipTheme?: SortOrder
+    metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -25243,6 +25305,8 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentToolTipTheme?: SortOrder
+    metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -25271,6 +25335,8 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentToolTipTheme?: SortOrder
+    metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
@@ -25854,8 +25920,8 @@ export namespace Prisma {
   }
 
   export type MetaContentRelationFilter = {
-    is?: MetaContentWhereInput
-    isNot?: MetaContentWhereInput
+    is?: MetaContentWhereInput | null
+    isNot?: MetaContentWhereInput | null
   }
 
   export type AuctionRelationFilter = {
@@ -27342,10 +27408,12 @@ export namespace Prisma {
     connect?: AuctionWhereUniqueInput
   }
 
-  export type MetaContentUpdateOneRequiredWithoutMetaContentImpressionsNestedInput = {
+  export type MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput = {
     create?: XOR<MetaContentCreateWithoutMetaContentImpressionsInput, MetaContentUncheckedCreateWithoutMetaContentImpressionsInput>
     connectOrCreate?: MetaContentCreateOrConnectWithoutMetaContentImpressionsInput
     upsert?: MetaContentUpsertWithoutMetaContentImpressionsInput
+    disconnect?: MetaContentWhereInput | boolean
+    delete?: MetaContentWhereInput | boolean
     connect?: MetaContentWhereUniqueInput
     update?: XOR<XOR<MetaContentUpdateToOneWithWhereWithoutMetaContentImpressionsInput, MetaContentUpdateWithoutMetaContentImpressionsInput>, MetaContentUncheckedUpdateWithoutMetaContentImpressionsInput>
   }
@@ -28112,6 +28180,8 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentToolTipTheme?: string
+    metaContentToolTipTextColor?: string
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -28139,6 +28209,8 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentToolTipTheme?: string
+    metaContentToolTipTextColor?: string
     sponsoredWording?: string
     desiredAdvertisementSpotCount?: number
     desiredMetaContentSpotCount?: number
@@ -28374,6 +28446,8 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
+    metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -28401,6 +28475,8 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
+    metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
     desiredAdvertisementSpotCount?: IntFieldUpdateOperationsInput | number
     desiredMetaContentSpotCount?: IntFieldUpdateOperationsInput | number
@@ -28640,12 +28716,12 @@ export namespace Prisma {
     feedbackEmoji?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    metaContent: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
+    metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
   }
 
   export type MetaContentImpressionUncheckedCreateWithoutAuctionInput = {
     id?: string
-    metaContentId: string
+    metaContentId?: string | null
     feedbackEmoji?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28831,7 +28907,7 @@ export namespace Prisma {
     OR?: Enumerable<MetaContentImpressionScalarWhereInput>
     NOT?: Enumerable<MetaContentImpressionScalarWhereInput>
     id?: StringFilter | string
-    metaContentId?: StringFilter | string
+    metaContentId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     feedbackEmoji?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -31369,7 +31445,7 @@ export namespace Prisma {
 
   export type MetaContentImpressionCreateManyAuctionInput = {
     id?: string
-    metaContentId: string
+    metaContentId?: string | null
     feedbackEmoji?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31404,12 +31480,12 @@ export namespace Prisma {
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    metaContent?: MetaContentUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+    metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
   }
 
   export type MetaContentImpressionUncheckedUpdateWithoutAuctionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    metaContentId?: StringFieldUpdateOperationsInput | string
+    metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31417,7 +31493,7 @@ export namespace Prisma {
 
   export type MetaContentImpressionUncheckedUpdateManyWithoutMetaContentImpressionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    metaContentId?: StringFieldUpdateOperationsInput | string
+    metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

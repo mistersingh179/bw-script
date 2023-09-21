@@ -1,10 +1,16 @@
 import tippy, { followCursor } from "tippy.js";
 import "tippy.js/dist/tippy.css"; // optional for styling
-// import "tippy.js/themes/light.css";
+import "tippy.js/themes/light.css";
+import "tippy.js/themes/light-border.css";
+import "tippy.js/themes/material.css";
+import "tippy.js/themes/translucent.css";
 import { once, sample } from "lodash";
 import { MetaContentSpotsWithMetaContentAndType, updateExtra } from "./auction";
 import { MetaContent } from "../prisma-client-index";
-import {generateMetaContentImpression, setMetaContentFeedback} from "./metaContentImpression";
+import {
+  generateMetaContentImpression,
+  setMetaContentFeedback,
+} from "./metaContentImpression";
 
 declare var BW_CDN_BASE_URL: string;
 declare let gtag: Function;
@@ -13,7 +19,9 @@ const setupMetaContent = async (
   aid: string,
   metaContentSpotSelector: string,
   metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[],
-  metaContentDisplayPercentage: number
+  metaContentDisplayPercentage: number,
+  metaContentToolTipTheme: string,
+  metaContentToolTipTextColor: string
 ) => {
   console.log("in setupMetaContent with: ", metaContentSpotsWithDetail);
 
@@ -111,20 +119,20 @@ const setupMetaContent = async (
     console.log("will YES show tippy: ", random, diplayRate);
   } else {
     console.log("will NOT show tippy: ", random, diplayRate);
-    try{
-      gtag('event', 'page_view', {"bw_show_meta_content": "no"});
+    try {
+      gtag("event", "page_view", { bw_show_meta_content: "no" });
       console.log("Sent NO to GA");
-    }catch(err){
+    } catch (err) {
       console.log("unable to send event NO to GA");
     }
     await updateExtra(aid, SHOW_NOTHING);
     return;
   }
 
-  try{
-    gtag('event', 'page_view', {"bw_show_meta_content": "yes"});
+  try {
+    gtag("event", "page_view", { bw_show_meta_content: "yes" });
     console.log("Sent YES to GA");
-  }catch(err){
+  } catch (err) {
     console.log("unable to send event YES to GA");
   }
 
@@ -143,6 +151,7 @@ const setupMetaContent = async (
     const heading = document.createElement("p");
     heading.style.fontSize = "18px";
     heading.style.fontWeight = "700";
+    heading.style.color = metaContentToolTipTextColor || "initial";
     heading.innerHTML = item.generatedHeading;
     metaDiv.appendChild(heading);
 
@@ -155,6 +164,7 @@ const setupMetaContent = async (
 
       const p = document.createElement("p");
       p.style.fontSize = "18px";
+      p.style.color = metaContentToolTipTextColor || "initial";
       p.innerHTML = generatedTextItem.trim();
       if (idx > 0) {
         p.style.display = "none";
@@ -163,9 +173,10 @@ const setupMetaContent = async (
     });
 
     const thanksDiv = document.createElement("div");
-    thanksDiv.innerHTML="Thanks!"
-    thanksDiv.style.opacity='0';
-    thanksDiv.style.display='none';
+    thanksDiv.innerHTML = "Thanks!";
+    thanksDiv.style.opacity = "0";
+    thanksDiv.style.color = metaContentToolTipTextColor || "initial";
+    thanksDiv.style.display = "none";
 
     const feedbackDiv = document.createElement("div");
     const thumbsUpButton = document.createElement("button");
@@ -175,18 +186,18 @@ const setupMetaContent = async (
     thumbsUpButton.innerHTML = "👍";
     thumbsUpButton.addEventListener("click", (evt) => {
       const targetElement = evt.target as HTMLElement;
-      const popperElement = targetElement.closest("[mciid]")
+      const popperElement = targetElement.closest("[mciid]");
       const mciid = popperElement?.getAttribute("mciid");
-      if(mciid){
+      if (mciid) {
         setMetaContentFeedback(mciid, "thumbsUp");
-        feedbackDiv.style.opacity='0';
-        feedbackDiv.style.transition="opacity 400ms";
-        feedbackDiv.style.display='none';
-        thanksDiv.style.opacity='1';
-        thanksDiv.style.transition="opacity 400ms";
-        thanksDiv.style.display='block';
+        feedbackDiv.style.opacity = "0";
+        feedbackDiv.style.transition = "opacity 400ms";
+        feedbackDiv.style.display = "none";
+        thanksDiv.style.opacity = "1";
+        thanksDiv.style.transition = "opacity 400ms";
+        thanksDiv.style.display = "block";
       }
-    })
+    });
     const thumbsDownButton = document.createElement("button");
     thumbsDownButton.style.backgroundColor = "transparent";
     thumbsDownButton.style.cursor = "pointer";
@@ -194,18 +205,18 @@ const setupMetaContent = async (
     thumbsDownButton.innerHTML = "👎";
     thumbsDownButton.addEventListener("click", (evt) => {
       const targetElement = evt.target as HTMLElement;
-      const popperElement = targetElement.closest("[mciid]")
+      const popperElement = targetElement.closest("[mciid]");
       const mciid = popperElement?.getAttribute("mciid");
-      if(mciid){
+      if (mciid) {
         setMetaContentFeedback(mciid, "thumbsDown");
-        feedbackDiv.style.opacity='0';
-        feedbackDiv.style.transition="opacity 400ms";
-        feedbackDiv.style.display='none';
-        thanksDiv.style.opacity='1';
-        thanksDiv.style.transition="opacity 400ms";
-        thanksDiv.style.display='block';
+        feedbackDiv.style.opacity = "0";
+        feedbackDiv.style.transition = "opacity 400ms";
+        feedbackDiv.style.display = "none";
+        thanksDiv.style.opacity = "1";
+        thanksDiv.style.transition = "opacity 400ms";
+        thanksDiv.style.display = "block";
       }
-    })
+    });
     feedbackDiv.appendChild(thumbsUpButton);
     feedbackDiv.appendChild(thumbsDownButton);
 
@@ -248,6 +259,7 @@ const setupMetaContent = async (
     });
     if (element) {
       tippy(element, {
+        theme: metaContentToolTipTheme,
         appendTo: document.body,
         // trigger: "click",
         // hideOnClick: false,
@@ -261,9 +273,12 @@ const setupMetaContent = async (
         onShow: once((instance) => {
           updateExtra(aid, SHOW_TIPPY + " and it popped up");
           (async () => {
-            const mci = await generateMetaContentImpression(aid, item.metaContents[0].id);
+            const mci = await generateMetaContentImpression(
+              aid,
+              item.metaContents[0].id
+            );
             instance.popper.setAttribute("mciid", mci.id);
-          })()
+          })();
         }),
       });
     }

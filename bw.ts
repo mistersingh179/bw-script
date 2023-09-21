@@ -51,6 +51,8 @@ const init = async () => {
         metaContentSpotSelector,
         metaContentStatus,
         metaContentDisplayPercentage,
+        metaContentToolTipTheme,
+        metaContentToolTipTextColor
       },
     } = auctionResponse;
     if (metaContentStatus) {
@@ -64,7 +66,9 @@ const init = async () => {
           aid,
           metaContentSpotSelector,
           metaContentSpotsWithDetail,
-          metaContentDisplayPercentage
+          metaContentDisplayPercentage,
+          metaContentToolTipTheme,
+          metaContentToolTipTextColor
         );
       } else {
         console.log("meta content not found. skipping setup");

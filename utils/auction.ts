@@ -21,6 +21,8 @@ export type LimitedSettingsType = Pick<
   | "metaContentSpotSelector"
   | "metaContentStatus"
   | "metaContentDisplayPercentage"
+  | "metaContentToolTipTheme"
+  | "metaContentToolTipTextColor"
 >;
 
 export type MetaContentSpotsWithMetaContentAndType = MetaContentSpot & {

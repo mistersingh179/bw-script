@@ -25,6 +25,25 @@ const sendMetaContentMessageToGA = (message: string) => {
   }
 }
 
+const sendMouseMovementMessageToGA = once( () => {
+  try {
+    gtag("event", "page_view", { bw_mouse_move_detected: true });
+    console.log("Sent to GA: bw_mouse_move_detected");
+  } catch (err) {
+    console.log("unable to send to GA: bw_mouse_move_detected");
+  }
+});
+
+const sendMouseScrollMessageToGA = once( () => {
+  try {
+    gtag("event", "page_view", { bw_mouse_scroll_detected: true });
+    console.log("Sent to GA: bw_mouse_scroll_detected");
+  } catch (err) {
+    console.log("unable to send to GA: bw_mouse_scroll_detected");
+  }
+});
+
+
 const setupMetaContent = async (
   aid: string,
   metaContentSpotSelector: string,
@@ -112,6 +131,7 @@ const setupMetaContent = async (
     for (const para of allParas) {
       processElement(para as HTMLElement);
     }
+    sendMouseMovementMessageToGA();
   });
 
   window.document.addEventListener("scroll", (event) => {
@@ -119,6 +139,7 @@ const setupMetaContent = async (
     for (const para of allParas) {
       processElement(para as HTMLElement);
     }
+    sendMouseScrollMessageToGA();
   });
 
   const SHOW_NOTHING = "show nothing";

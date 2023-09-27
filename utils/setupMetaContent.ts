@@ -134,7 +134,7 @@ const setupMetaContent = async (
     return;
   }
 
-  // sendMetaContentMessageToGA("yes");
+  sendMetaContentMessageToGA("yes");
   await updateExtra(aid, SHOW_TIPPY);
 
   // adding css file being built by esbuild

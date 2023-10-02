@@ -27,7 +27,7 @@ const sendMetaContentMessageToGA = (message: string) => {
 
 const sendMouseMovementMessageToGA = once( () => {
   try {
-    gtag("event", "page_view", { bw_mouse_move_detected: true });
+    gtag("event", "page_view", { bw_mouse_move_detected: "yes" });
     console.log("Sent to GA: bw_mouse_move_detected");
   } catch (err) {
     console.log("unable to send to GA: bw_mouse_move_detected");
@@ -36,10 +36,19 @@ const sendMouseMovementMessageToGA = once( () => {
 
 const sendMouseScrollMessageToGA = once( () => {
   try {
-    gtag("event", "page_view", { bw_mouse_scroll_detected: true });
+    gtag("event", "page_view", { bw_mouse_scroll_detected: "yes" });
     console.log("Sent to GA: bw_mouse_scroll_detected");
   } catch (err) {
     console.log("unable to send to GA: bw_mouse_scroll_detected");
+  }
+});
+
+const sendSpentFiveSecondsToGA = once( () => {
+  try {
+    gtag("event", "page_view", { bw_spent_five_seconds: "yes" });
+    console.log("Sent to GA: bw_spent_five_seconds");
+  } catch (err) {
+    console.log("unable to send to GA: bw_spent_five_seconds");
   }
 });
 
@@ -141,6 +150,8 @@ const setupMetaContent = async (
     }
     sendMouseScrollMessageToGA();
   });
+
+  setTimeout(sendSpentFiveSecondsToGA, 5000);
 
   const SHOW_NOTHING = "show nothing";
   const SHOW_TIPPY = "show tippy";

@@ -21,6 +21,7 @@ export type LimitedSettingsType = Pick<
   | "metaContentSpotSelector"
   | "metaContentStatus"
   | "metaContentDisplayPercentage"
+  | "metaContentMobileDisplayPercentage"
   | "metaContentToolTipTheme"
   | "metaContentToolTipTextColor"
 >;
@@ -31,7 +32,7 @@ export type MetaContentSpotsWithMetaContentAndType = MetaContentSpot & {
   })[];
 };
 
-type AuctionResponse = {
+export type AuctionResponse = {
   auction: Auction;
   adsWithDetail: AdWithDetail[];
   metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[];

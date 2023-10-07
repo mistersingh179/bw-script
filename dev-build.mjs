@@ -12,8 +12,8 @@ const options = {
   sourcemap: true,
   minify: false,
   define: {
-    BW_DASHBOARD_BASE_URL: '"http://localhost:3000"',
-    BW_CDN_BASE_URL: '"http://localhost:8000"',
+    BW_DASHBOARD_BASE_URL: '"http://192.168.86.212:3000"',
+    BW_CDN_BASE_URL: '"http://192.168.86.212:8000"',
   },
 };
 

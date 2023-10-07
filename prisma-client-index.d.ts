@@ -78,6 +78,7 @@ export type Setting = {
   status: boolean
   metaContentStatus: boolean
   metaContentDisplayPercentage: number
+  metaContentMobileDisplayPercentage: number
   metaContentToolTipTheme: string
   metaContentToolTipTextColor: string
   sponsoredWording: string
@@ -5977,6 +5978,7 @@ export namespace Prisma {
   export type SettingAvgAggregateOutputType = {
     scoreThreshold: number | null
     metaContentDisplayPercentage: number | null
+    metaContentMobileDisplayPercentage: number | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
@@ -5992,6 +5994,7 @@ export namespace Prisma {
   export type SettingSumAggregateOutputType = {
     scoreThreshold: number | null
     metaContentDisplayPercentage: number | null
+    metaContentMobileDisplayPercentage: number | null
     desiredAdvertisementSpotCount: number | null
     desiredMetaContentSpotCount: number | null
     desiredAdvertisementCount: number | null
@@ -6011,6 +6014,7 @@ export namespace Prisma {
     status: boolean | null
     metaContentStatus: boolean | null
     metaContentDisplayPercentage: number | null
+    metaContentMobileDisplayPercentage: number | null
     metaContentToolTipTheme: string | null
     metaContentToolTipTextColor: string | null
     sponsoredWording: string | null
@@ -6041,6 +6045,7 @@ export namespace Prisma {
     status: boolean | null
     metaContentStatus: boolean | null
     metaContentDisplayPercentage: number | null
+    metaContentMobileDisplayPercentage: number | null
     metaContentToolTipTheme: string | null
     metaContentToolTipTextColor: string | null
     sponsoredWording: string | null
@@ -6071,6 +6076,7 @@ export namespace Prisma {
     status: number
     metaContentStatus: number
     metaContentDisplayPercentage: number
+    metaContentMobileDisplayPercentage: number
     metaContentToolTipTheme: number
     metaContentToolTipTextColor: number
     sponsoredWording: number
@@ -6099,6 +6105,7 @@ export namespace Prisma {
   export type SettingAvgAggregateInputType = {
     scoreThreshold?: true
     metaContentDisplayPercentage?: true
+    metaContentMobileDisplayPercentage?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
@@ -6114,6 +6121,7 @@ export namespace Prisma {
   export type SettingSumAggregateInputType = {
     scoreThreshold?: true
     metaContentDisplayPercentage?: true
+    metaContentMobileDisplayPercentage?: true
     desiredAdvertisementSpotCount?: true
     desiredMetaContentSpotCount?: true
     desiredAdvertisementCount?: true
@@ -6133,6 +6141,7 @@ export namespace Prisma {
     status?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
+    metaContentMobileDisplayPercentage?: true
     metaContentToolTipTheme?: true
     metaContentToolTipTextColor?: true
     sponsoredWording?: true
@@ -6163,6 +6172,7 @@ export namespace Prisma {
     status?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
+    metaContentMobileDisplayPercentage?: true
     metaContentToolTipTheme?: true
     metaContentToolTipTextColor?: true
     sponsoredWording?: true
@@ -6193,6 +6203,7 @@ export namespace Prisma {
     status?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
+    metaContentMobileDisplayPercentage?: true
     metaContentToolTipTheme?: true
     metaContentToolTipTextColor?: true
     sponsoredWording?: true
@@ -6311,6 +6322,7 @@ export namespace Prisma {
     status: boolean
     metaContentStatus: boolean
     metaContentDisplayPercentage: number
+    metaContentMobileDisplayPercentage: number
     metaContentToolTipTheme: string
     metaContentToolTipTextColor: string
     sponsoredWording: string
@@ -6360,6 +6372,7 @@ export namespace Prisma {
     status?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: boolean
+    metaContentMobileDisplayPercentage?: boolean
     metaContentToolTipTheme?: boolean
     metaContentToolTipTextColor?: boolean
     sponsoredWording?: boolean
@@ -21600,6 +21613,7 @@ export namespace Prisma {
     status: 'status',
     metaContentStatus: 'metaContentStatus',
     metaContentDisplayPercentage: 'metaContentDisplayPercentage',
+    metaContentMobileDisplayPercentage: 'metaContentMobileDisplayPercentage',
     metaContentToolTipTheme: 'metaContentToolTipTheme',
     metaContentToolTipTextColor: 'metaContentToolTipTextColor',
     sponsoredWording: 'sponsoredWording',
@@ -21983,6 +21997,7 @@ export namespace Prisma {
     status?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
     metaContentDisplayPercentage?: IntFilter | number
+    metaContentMobileDisplayPercentage?: IntFilter | number
     metaContentToolTipTheme?: StringFilter | string
     metaContentToolTipTextColor?: StringFilter | string
     sponsoredWording?: StringFilter | string
@@ -22014,6 +22029,7 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     metaContentToolTipTheme?: SortOrder
     metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
@@ -22048,6 +22064,7 @@ export namespace Prisma {
     status?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
     metaContentDisplayPercentage?: IntFilter | number
+    metaContentMobileDisplayPercentage?: IntFilter | number
     metaContentToolTipTheme?: StringFilter | string
     metaContentToolTipTextColor?: StringFilter | string
     sponsoredWording?: StringFilter | string
@@ -22079,6 +22096,7 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     metaContentToolTipTheme?: SortOrder
     metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
@@ -22117,6 +22135,7 @@ export namespace Prisma {
     status?: BoolWithAggregatesFilter | boolean
     metaContentStatus?: BoolWithAggregatesFilter | boolean
     metaContentDisplayPercentage?: IntWithAggregatesFilter | number
+    metaContentMobileDisplayPercentage?: IntWithAggregatesFilter | number
     metaContentToolTipTheme?: StringWithAggregatesFilter | string
     metaContentToolTipTextColor?: StringWithAggregatesFilter | string
     sponsoredWording?: StringWithAggregatesFilter | string
@@ -23526,6 +23545,7 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentMobileDisplayPercentage?: number
     metaContentToolTipTheme?: string
     metaContentToolTipTextColor?: string
     sponsoredWording?: string
@@ -23557,6 +23577,7 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentMobileDisplayPercentage?: number
     metaContentToolTipTheme?: string
     metaContentToolTipTextColor?: string
     sponsoredWording?: string
@@ -23586,6 +23607,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
     metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
@@ -23617,6 +23639,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
     metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
@@ -23647,6 +23670,7 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentMobileDisplayPercentage?: number
     metaContentToolTipTheme?: string
     metaContentToolTipTextColor?: string
     sponsoredWording?: string
@@ -23676,6 +23700,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
     metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
@@ -23706,6 +23731,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
     metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
@@ -25260,6 +25286,7 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     metaContentToolTipTheme?: SortOrder
     metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
@@ -25286,6 +25313,7 @@ export namespace Prisma {
   export type SettingAvgOrderByAggregateInput = {
     scoreThreshold?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
@@ -25305,6 +25333,7 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     metaContentToolTipTheme?: SortOrder
     metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
@@ -25335,6 +25364,7 @@ export namespace Prisma {
     status?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     metaContentToolTipTheme?: SortOrder
     metaContentToolTipTextColor?: SortOrder
     sponsoredWording?: SortOrder
@@ -25361,6 +25391,7 @@ export namespace Prisma {
   export type SettingSumOrderByAggregateInput = {
     scoreThreshold?: SortOrder
     metaContentDisplayPercentage?: SortOrder
+    metaContentMobileDisplayPercentage?: SortOrder
     desiredAdvertisementSpotCount?: SortOrder
     desiredMetaContentSpotCount?: SortOrder
     desiredAdvertisementCount?: SortOrder
@@ -28180,6 +28211,7 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentMobileDisplayPercentage?: number
     metaContentToolTipTheme?: string
     metaContentToolTipTextColor?: string
     sponsoredWording?: string
@@ -28209,6 +28241,7 @@ export namespace Prisma {
     status: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
+    metaContentMobileDisplayPercentage?: number
     metaContentToolTipTheme?: string
     metaContentToolTipTextColor?: string
     sponsoredWording?: string
@@ -28446,6 +28479,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
     metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string
@@ -28475,6 +28509,7 @@ export namespace Prisma {
     status?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
+    metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentToolTipTheme?: StringFieldUpdateOperationsInput | string
     metaContentToolTipTextColor?: StringFieldUpdateOperationsInput | string
     sponsoredWording?: StringFieldUpdateOperationsInput | string

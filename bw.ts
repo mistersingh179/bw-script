@@ -5,9 +5,6 @@ import { insertAd, insertStyles } from "./utils/dom";
 import { Impression } from "./prisma-client-index";
 import getCategories from "./utils/categories/getCategories";
 import setupMetaContent from "./utils/setupMetaContent";
-import mobileCheck from "./utils/mobileCheck";
-import { getCleanUrl } from "./utils/url";
-import getMetaContent, { getMetaContentUrls } from "./data/getMetaContent";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
@@ -42,41 +39,7 @@ const init = async () => {
     }
   });
 
-  if (mobileCheck() == false) {
-    console.log("Not on mobile");
-    const {
-      metaContentSpotsWithDetail,
-      auction: { id: aid },
-      settings: {
-        metaContentSpotSelector,
-        metaContentStatus,
-        metaContentDisplayPercentage,
-        metaContentToolTipTheme,
-        metaContentToolTipTextColor
-      },
-    } = auctionResponse;
-    if (metaContentStatus) {
-      console.log("meta content status is on");
-      const hasMetaContent = metaContentSpotsWithDetail.some(
-        (mcs) => mcs.metaContents.length > 0
-      );
-      if (hasMetaContent) {
-        console.log("we have meta content. will set it up");
-        setupMetaContent(
-          aid,
-          metaContentSpotSelector,
-          metaContentSpotsWithDetail,
-          metaContentDisplayPercentage,
-          metaContentToolTipTheme,
-          metaContentToolTipTextColor
-        );
-      } else {
-        console.log("meta content not found. skipping setup");
-      }
-    } else {
-      console.log("meta content status is off. wont set it up");
-    }
-  }
+  setupMetaContent(auctionResponse);
 
   const { auction, adsWithDetail, settings, abortCategoryNames } =
     auctionResponse;

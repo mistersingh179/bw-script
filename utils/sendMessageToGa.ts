@@ -1,7 +1,7 @@
 declare let gtag: Function;
 
 type GaProperties = {
-  bw_show_meta_content: "(not set)" | "yes" | "no" | "yes_and_displayed",
+  bw_show_meta_content: "(not set)" | "yes" | "no" | "yes_and_displayed" | "no_and_scrolled",
   bw_mouse_move_detected: "(not set)" | "yes",
   bw_mouse_scroll_detected: "(not set)" | "yes",
   bw_spent_five_seconds: "(not set)" | "yes",

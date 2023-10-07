@@ -96,6 +96,8 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
       sendPageViewEventToGa();
       if (doTheDisplay == false) {
         updateExtra(aid, SHOW_NOTHING_AND_MOUSE_SCROLLED);
+        gaProperties.bw_show_meta_content = "no_and_scrolled";
+        sendPageViewEventToGa();
       }
     })
   );

@@ -4,8 +4,9 @@ import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/themes/material.css';
 import 'tippy.js/themes/translucent.css';
+import logger from "./utils/logger";
 
-console.log("I am tippyExample.js");
+logger.info("I am tippyExample.js");
 
 const cssElement = document.createElement("link");
 cssElement.href='/tippyExample.css';

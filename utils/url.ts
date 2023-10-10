@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 type UrlProperties = {
   origin: string;
   originWithPathName: string;
@@ -18,7 +20,7 @@ export const getCleanUrl = (url: string): string => {
     const { originWithPathName } = getUrlProperties(url);
     return originWithPathName;
   } catch (err) {
-    console.log("got error while cleaning url: ", url);
+    logger.info("got error while cleaning url: ", url);
   }
   return "";
 };

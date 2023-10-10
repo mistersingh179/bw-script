@@ -1,5 +1,6 @@
 import getUserId from "./utils/getUserId";
 import superjson from "superjson";
+import logger from "./utils/logger";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
@@ -20,7 +21,7 @@ const getPreviewSettings = async () => {
   try {
     const text = await res.text();
     const data = await superjson.parse<any>(text);
-    console.log("in setting forPreview  with data: ", data);
+    logger.info("in setting forPreview  with data: ", data);
     return data as {
       minMetaContentSpotWordLimit: number;
       desiredMetaContentSpotCount: number;
@@ -69,8 +70,7 @@ const getAllElements = (document: Document, selector: string) => {
 };
 
 const init = async () => {
-  console.groupCollapsed("preview.js");
-  console.log("in preview.js");
+  logger.info("in preview.js");
 
   const bannerElement = document.createElement("div");
   bannerElement.innerHTML = "Meta Content Spot Preview ";
@@ -90,10 +90,10 @@ const init = async () => {
   document.body.append(bannerElement);
 
   const previewSettings = await getPreviewSettings();
-  console.log("previewSettings: ", previewSettings);
+  logger.info("previewSettings: ", previewSettings);
 
   if (previewSettings == null) {
-    console.log("stopping as not able to fetch preview settings");
+    logger.info("stopping as not able to fetch preview settings");
     return;
   }
   const {
@@ -103,7 +103,7 @@ const init = async () => {
   } = previewSettings;
 
   let elementsArr = getAllElements(document, metaContentSpotSelector) as HTMLElement[];
-  console.log("got elements: ", elementsArr);
+  logger.info("got elements: ", elementsArr);
 
   for (const elem of elementsArr) {
     elem.style.border = "5px solid #4A5568";
@@ -141,7 +141,6 @@ const init = async () => {
   //
   // adSpotBannerElem.innerHTML += elementsArr.length;
 
-  console.groupEnd();
 };
 
 (() => {

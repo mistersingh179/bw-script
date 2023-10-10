@@ -5,6 +5,7 @@ import setupInlineTooltip from "./setupInlineTooltip";
 import setupHoverTooltip from "./setupHoverTooltip";
 import { once } from "lodash";
 import { generateMetaContentImpression } from "./metaContentImpression";
+import logger from "./logger";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -47,9 +48,9 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   } = settings;
 
   if (metaContentStatus) {
-    console.log("continuing as meta content status is ON");
+    logger.info("continuing as meta content status is ON");
   } else {
-    console.log("aborting as meta content status is OFF");
+    logger.info("aborting as meta content status is OFF");
     return;
   }
 
@@ -58,9 +59,9 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   );
 
   if (hasMetaContent) {
-    console.log("continuing as this page HAS meta content");
+    logger.info("continuing as this page HAS meta content");
   } else {
-    console.log("aborting as this meta content NOT FOUND for this page");
+    logger.info("aborting as this meta content NOT FOUND for this page");
     return;
   }
 
@@ -73,12 +74,12 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   const doTheDisplay = random < displayPercentage ? true : false;
 
   if (doTheDisplay) {
-    console.log("random A/B - SHOW: ", random, displayPercentage);
+    logger.info("random A/B - SHOW: ", random, displayPercentage);
     gaProperties.bw_show_meta_content = "yes";
     sendPageViewEventToGa();
     await updateExtra(aid, SHOW_TIPPY);
   } else {
-    console.log("random A/B - DO NOT SHOW: ", random, displayPercentage);
+    logger.info("random A/B - DO NOT SHOW: ", random, displayPercentage);
     gaProperties.bw_show_meta_content = "no";
     sendPageViewEventToGa();
     await updateExtra(aid, SHOW_NOTHING);
@@ -111,7 +112,7 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   );
 
   if (doTheDisplay == false) {
-    console.log("aborting as random A/B says do not show");
+    logger.info("aborting as random A/B says do not show");
     return;
   }
 

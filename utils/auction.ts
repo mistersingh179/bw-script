@@ -9,6 +9,7 @@ import {
 import superjson from "superjson";
 import { AdWithDetail } from "./dom";
 import { MetaContentType } from "../data/getMetaContent";
+import logger from "./logger";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
@@ -59,7 +60,7 @@ export const generateAuction = async () => {
   try {
     const text = await res.text();
     const data = await superjson.parse<any>(text);
-    console.log("in generateAuction with data: ", data);
+    logger.info("in generateAuction with data: ", data);
     return data as AuctionResponse;
   } catch (err) {
     return null;

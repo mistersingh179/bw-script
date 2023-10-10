@@ -1,6 +1,7 @@
 import getUserId from "./getUserId";
 import superjson from "superjson";
 import { Impression, MetaContentImpression } from "../prisma-client-index";
+import logger from "./logger";
 
 declare var BW_DASHBOARD_BASE_URL: string;
 
@@ -8,7 +9,7 @@ export const generateMetaContentImpression = async (
   aid: string,
   mcid: string
 ) => {
-  console.log("in generateImpression with: ", aid, mcid);
+  logger.info("in generateImpression with: ", aid, mcid);
   const res = await fetch(
     `${BW_DASHBOARD_BASE_URL}/api/metaContentImpressions/generate`,
     {
@@ -28,7 +29,7 @@ export const generateMetaContentImpression = async (
 
   const text = await res.text();
   const data = await superjson.parse<any>(text);
-  console.log("genereated MetaContentImpression: ", data);
+  logger.info("genereated MetaContentImpression: ", data);
   return data as MetaContentImpression;
 };
 
@@ -36,7 +37,7 @@ export const setMetaContentFeedback = async (
   metaContentImpressionId: string,
   feedbackEmoji: string
 ) => {
-  console.log("in setMetaContentFeedback with: ", metaContentImpressionId, feedbackEmoji);
+  logger.info("in setMetaContentFeedback with: ", metaContentImpressionId, feedbackEmoji);
   const res = await fetch(
     `${BW_DASHBOARD_BASE_URL}/api/metaContentImpressions/setFeedbackEmoji`,
     {

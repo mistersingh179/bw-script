@@ -3,6 +3,7 @@ import "../styles/inlineTooltip.css";
 import { MetaContent } from "../prisma-client-index";
 import {loadCSS, recordDisplay} from "./setupMetaContent";
 import { setMetaContentFeedback } from "./metaContentImpression";
+import logger from "./logger";
 
 const getAnswerDiv = (metaContent: MetaContent) => {
   const template = document.createElement("template");
@@ -51,7 +52,7 @@ const setupInlineTooltip = (
   metaContentSpotSelector: string,
   metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[]
 ) => {
-  console.log("in setupInlineTooltip with: ", metaContentSpotsWithDetail);
+  logger.info("in setupInlineTooltip with: ", metaContentSpotsWithDetail);
 
   loadCSS();
 
@@ -119,10 +120,10 @@ const setupInlineTooltip = (
       // console.table({ id, intersecting, answerBottom, pageTopPortion });
 
       if (intersecting == true) {
-        // console.log("it is visible");
+        // logger.info("it is visible");
         if (answerBottom < pageTopPortion) {
-          // console.log("i am at top of page");
-          // console.log("show inline tooltip");
+          // logger.info("i am at top of page");
+          // logger.info("show inline tooltip");
           const mcsId = entry.target.getAttribute("bw-mcs-id");
           const answerElement = document.querySelector<HTMLElement>(
             `.bw-inline-tooltip-container[bw-mcs-id=${mcsId}]`

@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 export const getCurrentScript = (): HTMLScriptElement | null  => {
   if(document.currentScript){
     return document.currentScript as HTMLScriptElement
@@ -9,7 +11,7 @@ export const getCurrentScript = (): HTMLScriptElement | null  => {
 const getUserId = () => {
   const scriptTag = getCurrentScript();
   if(scriptTag === null){
-    console.error("unable to find bw js script tag");
+    logger.error("unable to find bw js script tag");
     return null;
   }
   const src = scriptTag.src;

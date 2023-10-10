@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 declare let gtag: Function;
 
 type GaProperties = {
@@ -17,9 +19,9 @@ export const gaProperties: GaProperties = {
 const sendPageViewEventToGa = () => {
   try {
     gtag("event", "page_view", gaProperties);
-    console.log("Sent page_view to GA with: " , gaProperties);
+    logger.info("Sent page_view to GA with: " , gaProperties);
   } catch (err) {
-    console.log("UNABLE to send page_view to GA with: " , gaProperties);
+    logger.info("UNABLE to send page_view to GA with: " , gaProperties);
   }
 };
 

@@ -9,6 +9,7 @@ import { MetaContentSpotsWithMetaContentAndType, updateExtra } from "./auction";
 import { MetaContent } from "../prisma-client-index";
 import { setMetaContentFeedback } from "./metaContentImpression";
 import { loadCSS, recordDisplay } from "./setupMetaContent";
+import logger from "./logger";
 
 const setupHoverTooltip = async (
   aid: string,
@@ -17,7 +18,7 @@ const setupHoverTooltip = async (
   metaContentToolTipTheme: string,
   metaContentToolTipTextColor: string
 ) => {
-  console.log("in setupMetaContent with: ", metaContentSpotsWithDetail);
+  logger.info("in setupMetaContent with: ", metaContentSpotsWithDetail);
 
   if (!metaContentSpotSelector) {
     metaContentSpotSelector = "body p";

@@ -113,7 +113,7 @@ const setupHoverTooltip = async (
   const getMetaDiv = (item: MetaContent) => {
     const metaDiv = document.createElement("div");
     metaDiv.style.maxHeight =
-      document.documentElement.clientHeight * 0.2 + "px";
+      document.documentElement.clientHeight * 0.8 + "px";
     metaDiv.style.overflowY = "auto";
     metaDiv.addEventListener("scroll", reportScrollPercentage)
 

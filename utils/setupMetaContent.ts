@@ -24,12 +24,13 @@ export const loadCSS = () => {
 
 export const recordDisplay = async (
   aid: string,
-  mcid: string
+  mcid: string,
+  contentHasScroll: boolean
 ): Promise<string> => {
   gaProperties.bw_show_meta_content = "yes_and_displayed";
   sendPageViewEventToGa();
   updateExtra(aid, SHOW_TIPPY_AND_DISPLAYED);
-  const mci = await generateMetaContentImpression(aid, mcid);
+  const mci = await generateMetaContentImpression(aid, mcid, contentHasScroll);
   return mci.id;
 };
 

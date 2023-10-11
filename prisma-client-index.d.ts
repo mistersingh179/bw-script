@@ -275,6 +275,8 @@ export type MetaContentImpression = {
   metaContentId: string | null
   auctionId: string
   feedbackEmoji: string | null
+  contentHasScroll: boolean
+  percentageScrolled: number
   createdAt: Date
   updatedAt: Date
 }
@@ -18370,8 +18372,18 @@ export namespace Prisma {
 
   export type AggregateMetaContentImpression = {
     _count: MetaContentImpressionCountAggregateOutputType | null
+    _avg: MetaContentImpressionAvgAggregateOutputType | null
+    _sum: MetaContentImpressionSumAggregateOutputType | null
     _min: MetaContentImpressionMinAggregateOutputType | null
     _max: MetaContentImpressionMaxAggregateOutputType | null
+  }
+
+  export type MetaContentImpressionAvgAggregateOutputType = {
+    percentageScrolled: number | null
+  }
+
+  export type MetaContentImpressionSumAggregateOutputType = {
+    percentageScrolled: number | null
   }
 
   export type MetaContentImpressionMinAggregateOutputType = {
@@ -18379,6 +18391,8 @@ export namespace Prisma {
     metaContentId: string | null
     auctionId: string | null
     feedbackEmoji: string | null
+    contentHasScroll: boolean | null
+    percentageScrolled: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18388,6 +18402,8 @@ export namespace Prisma {
     metaContentId: string | null
     auctionId: string | null
     feedbackEmoji: string | null
+    contentHasScroll: boolean | null
+    percentageScrolled: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18397,17 +18413,29 @@ export namespace Prisma {
     metaContentId: number
     auctionId: number
     feedbackEmoji: number
+    contentHasScroll: number
+    percentageScrolled: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type MetaContentImpressionAvgAggregateInputType = {
+    percentageScrolled?: true
+  }
+
+  export type MetaContentImpressionSumAggregateInputType = {
+    percentageScrolled?: true
+  }
+
   export type MetaContentImpressionMinAggregateInputType = {
     id?: true
     metaContentId?: true
     auctionId?: true
     feedbackEmoji?: true
+    contentHasScroll?: true
+    percentageScrolled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18417,6 +18445,8 @@ export namespace Prisma {
     metaContentId?: true
     auctionId?: true
     feedbackEmoji?: true
+    contentHasScroll?: true
+    percentageScrolled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18426,6 +18456,8 @@ export namespace Prisma {
     metaContentId?: true
     auctionId?: true
     feedbackEmoji?: true
+    contentHasScroll?: true
+    percentageScrolled?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18469,6 +18501,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+     **/
+    _avg?: MetaContentImpressionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: MetaContentImpressionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
      **/
     _min?: MetaContentImpressionMinAggregateInputType
@@ -18499,6 +18543,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: MetaContentImpressionCountAggregateInputType | true
+    _avg?: MetaContentImpressionAvgAggregateInputType
+    _sum?: MetaContentImpressionSumAggregateInputType
     _min?: MetaContentImpressionMinAggregateInputType
     _max?: MetaContentImpressionMaxAggregateInputType
   }
@@ -18509,9 +18555,13 @@ export namespace Prisma {
     metaContentId: string | null
     auctionId: string
     feedbackEmoji: string | null
+    contentHasScroll: boolean
+    percentageScrolled: number
     createdAt: Date
     updatedAt: Date
     _count: MetaContentImpressionCountAggregateOutputType | null
+    _avg: MetaContentImpressionAvgAggregateOutputType | null
+    _sum: MetaContentImpressionSumAggregateOutputType | null
     _min: MetaContentImpressionMinAggregateOutputType | null
     _max: MetaContentImpressionMaxAggregateOutputType | null
   }
@@ -18535,6 +18585,8 @@ export namespace Prisma {
     metaContentId?: boolean
     auctionId?: boolean
     feedbackEmoji?: boolean
+    contentHasScroll?: boolean
+    percentageScrolled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     metaContent?: boolean | MetaContentImpression$metaContentArgs
@@ -21528,6 +21580,8 @@ export namespace Prisma {
     metaContentId: 'metaContentId',
     auctionId: 'auctionId',
     feedbackEmoji: 'feedbackEmoji',
+    contentHasScroll: 'contentHasScroll',
+    percentageScrolled: 'percentageScrolled',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -23008,6 +23062,8 @@ export namespace Prisma {
     metaContentId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     feedbackEmoji?: StringNullableFilter | string | null
+    contentHasScroll?: BoolFilter | boolean
+    percentageScrolled?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput> | null
@@ -23019,6 +23075,8 @@ export namespace Prisma {
     metaContentId?: SortOrder
     auctionId?: SortOrder
     feedbackEmoji?: SortOrder
+    contentHasScroll?: SortOrder
+    percentageScrolled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     metaContent?: MetaContentOrderByWithRelationInput
@@ -23033,6 +23091,8 @@ export namespace Prisma {
     metaContentId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     feedbackEmoji?: StringNullableFilter | string | null
+    contentHasScroll?: BoolFilter | boolean
+    percentageScrolled?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput> | null
@@ -23044,11 +23104,15 @@ export namespace Prisma {
     metaContentId?: SortOrder
     auctionId?: SortOrder
     feedbackEmoji?: SortOrder
+    contentHasScroll?: SortOrder
+    percentageScrolled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MetaContentImpressionCountOrderByAggregateInput
+    _avg?: MetaContentImpressionAvgOrderByAggregateInput
     _max?: MetaContentImpressionMaxOrderByAggregateInput
     _min?: MetaContentImpressionMinOrderByAggregateInput
+    _sum?: MetaContentImpressionSumOrderByAggregateInput
   }
 
   export type MetaContentImpressionScalarWhereWithAggregatesInput = {
@@ -23059,6 +23123,8 @@ export namespace Prisma {
     metaContentId?: StringNullableWithAggregatesFilter | string | null
     auctionId?: StringWithAggregatesFilter | string
     feedbackEmoji?: StringNullableWithAggregatesFilter | string | null
+    contentHasScroll?: BoolWithAggregatesFilter | boolean
+    percentageScrolled?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -24655,6 +24721,8 @@ export namespace Prisma {
   export type MetaContentImpressionCreateInput = {
     id?: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
@@ -24666,6 +24734,8 @@ export namespace Prisma {
     metaContentId?: string | null
     auctionId: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24673,6 +24743,8 @@ export namespace Prisma {
   export type MetaContentImpressionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
@@ -24684,6 +24756,8 @@ export namespace Prisma {
     metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24693,6 +24767,8 @@ export namespace Prisma {
     metaContentId?: string | null
     auctionId: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24700,6 +24776,8 @@ export namespace Prisma {
   export type MetaContentImpressionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24709,6 +24787,8 @@ export namespace Prisma {
     metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25965,8 +26045,14 @@ export namespace Prisma {
     metaContentId?: SortOrder
     auctionId?: SortOrder
     feedbackEmoji?: SortOrder
+    contentHasScroll?: SortOrder
+    percentageScrolled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type MetaContentImpressionAvgOrderByAggregateInput = {
+    percentageScrolled?: SortOrder
   }
 
   export type MetaContentImpressionMaxOrderByAggregateInput = {
@@ -25974,6 +26060,8 @@ export namespace Prisma {
     metaContentId?: SortOrder
     auctionId?: SortOrder
     feedbackEmoji?: SortOrder
+    contentHasScroll?: SortOrder
+    percentageScrolled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25983,8 +26071,14 @@ export namespace Prisma {
     metaContentId?: SortOrder
     auctionId?: SortOrder
     feedbackEmoji?: SortOrder
+    contentHasScroll?: SortOrder
+    percentageScrolled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type MetaContentImpressionSumOrderByAggregateInput = {
+    percentageScrolled?: SortOrder
   }
 
   export type DecimalFilter = {
@@ -28749,6 +28843,8 @@ export namespace Prisma {
   export type MetaContentImpressionCreateWithoutAuctionInput = {
     id?: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
@@ -28758,6 +28854,8 @@ export namespace Prisma {
     id?: string
     metaContentId?: string | null
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28945,6 +29043,8 @@ export namespace Prisma {
     metaContentId?: StringNullableFilter | string | null
     auctionId?: StringFilter | string
     feedbackEmoji?: StringNullableFilter | string | null
+    contentHasScroll?: BoolFilter | boolean
+    percentageScrolled?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -30538,6 +30638,8 @@ export namespace Prisma {
   export type MetaContentImpressionCreateWithoutMetaContentInput = {
     id?: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
@@ -30547,6 +30649,8 @@ export namespace Prisma {
     id?: string
     auctionId: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31482,6 +31586,8 @@ export namespace Prisma {
     id?: string
     metaContentId?: string | null
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31513,6 +31619,8 @@ export namespace Prisma {
   export type MetaContentImpressionUpdateWithoutAuctionInput = {
     id?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
@@ -31522,6 +31630,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31530,6 +31640,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32039,6 +32151,8 @@ export namespace Prisma {
     id?: string
     auctionId: string
     feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32046,6 +32160,8 @@ export namespace Prisma {
   export type MetaContentImpressionUpdateWithoutMetaContentInput = {
     id?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
@@ -32055,6 +32171,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     auctionId?: StringFieldUpdateOperationsInput | string
     feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

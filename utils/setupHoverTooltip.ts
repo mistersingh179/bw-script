@@ -10,6 +10,8 @@ import { MetaContent } from "../prisma-client-index";
 import { setMetaContentFeedback } from "./metaContentImpression";
 import { loadCSS, recordDisplay } from "./setupMetaContent";
 import logger from "./logger";
+import { hasScroll } from "./scrollbar";
+import {reportScrollPercentage} from "./setupInlineTooltip";
 
 const setupHoverTooltip = async (
   aid: string,
@@ -111,8 +113,9 @@ const setupHoverTooltip = async (
   const getMetaDiv = (item: MetaContent) => {
     const metaDiv = document.createElement("div");
     metaDiv.style.maxHeight =
-      document.documentElement.clientHeight * 0.8 + "px";
+      document.documentElement.clientHeight * 0.2 + "px";
     metaDiv.style.overflowY = "auto";
+    metaDiv.addEventListener("scroll", reportScrollPercentage)
 
     const heading = document.createElement("p");
     heading.style.fontSize = "18px";
@@ -236,10 +239,19 @@ const setupHoverTooltip = async (
         placement: "right",
         followCursor: "vertical",
         plugins: [followCursor],
-        onShow: once((instance) => {
+        onShown: once((instance) => {
           (async () => {
-            const mciid = await recordDisplay(aid, item.metaContents[0].id);
+            const scrollingDiv = instance.popper.querySelector(
+              ".tippy-content > div"
+            )!;
+            const contentHasScroll = hasScroll(scrollingDiv);
+            const mciid = await recordDisplay(
+              aid,
+              item.metaContents[0].id,
+              contentHasScroll
+            );
             instance.popper.setAttribute("mciid", mciid);
+            instance.popper.setAttribute("bw-mci-id", mciid);
           })();
         }),
       });

@@ -1,9 +1,42 @@
 import { MetaContentSpotsWithMetaContentAndType, updateExtra } from "./auction";
 import "../styles/inlineTooltip.css";
 import { MetaContent } from "../prisma-client-index";
-import {loadCSS, recordDisplay} from "./setupMetaContent";
-import { setMetaContentFeedback } from "./metaContentImpression";
+import { loadCSS, recordDisplay } from "./setupMetaContent";
+import {
+  setMetaContentFeedback,
+  setMetaContentPercentageScrolled,
+} from "./metaContentImpression";
 import logger from "./logger";
+import { hasScroll, scrollPercentage } from "./scrollbar";
+import { debounce, max, once } from "lodash";
+
+const debouncedSetMetaContentPercentageRead = debounce(
+  setMetaContentPercentageScrolled,
+  1000,
+  {
+    trailing: true,
+  }
+);
+
+export const reportScrollPercentage = async (evt: Event) => {
+  if (evt.currentTarget) {
+    const scrollableElement = evt.currentTarget as HTMLElement;
+    const mciid = scrollableElement
+      .closest<HTMLElement>(".bw-inline-tooltip-container,[data-tippy-root]")!
+      .getAttribute("bw-mci-id");
+    if (mciid) {
+      const newScrollPercentage = scrollPercentage(scrollableElement);
+      let maxScrolled: number = parseInt(
+        scrollableElement.getAttribute("maxScrolled") || "0"
+      );
+      if (newScrollPercentage > maxScrolled) {
+        maxScrolled = newScrollPercentage;
+        scrollableElement.setAttribute("maxScrolled", String(maxScrolled));
+        await debouncedSetMetaContentPercentageRead(mciid, maxScrolled);
+      }
+    }
+  }
+};
 
 const getAnswerDiv = (metaContent: MetaContent) => {
   const template = document.createElement("template");
@@ -58,13 +91,16 @@ const setupInlineTooltip = (
 
   const showAnswer = async (elem: HTMLElement) => {
     elem.style.display = "block";
-    window.setTimeout(() => {
+    window.setTimeout(async () => {
       elem.classList.remove("bw-inline-tooltip-hidden");
       elem.classList.add("bw-inline-tooltip-visible");
+      const contentHasScroll = hasScroll(
+        elem.querySelector(".bw-inline-tooltip-scrollable-content")!
+      );
+      const mcid = elem.getAttribute("bw-mc-id")!;
+      const mciid = await recordDisplay(aid, mcid, contentHasScroll);
+      elem.setAttribute("bw-mci-id", mciid);
     }, 100);
-    const mcid = elem.getAttribute("bw-mc-id")!;
-    const mciid = await recordDisplay(aid, mcid);
-    elem.setAttribute("bw-mci-id", mciid);
   };
 
   const hideAnswer = (elem: HTMLElement) => {
@@ -187,6 +223,12 @@ const setupInlineTooltip = (
     thumbButtons.forEach((elem) => {
       elem.addEventListener("click", handleFeedbackThumb);
     });
+
+    const scrollableElement = mcElement.querySelector(
+      ".bw-inline-tooltip-scrollable-content"
+    ) as HTMLElement;
+
+    scrollableElement.addEventListener("scroll", reportScrollPercentage);
 
     mcsElement.after(mcElement);
     observer.observe(mcsElement);

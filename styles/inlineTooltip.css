@@ -86,7 +86,10 @@
   text-decoration: none;
 }
 .bw-inline-tooltip-info-svg {
-  margin: 0px 5px;
+  margin: 0px 2px;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: middle;
 }
 .bw-inline-tooltip-skip-button {
   background-color: transparent;

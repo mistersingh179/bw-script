@@ -75,12 +75,12 @@ const getAnswerDiv = (metaContent: MetaContent) => {
     <div class="bw-inline-tooltip-diclaimer">
       Content by 
       <a class="bw-inline-tooltip-feedback-link" target="_blank" 
-        href="https://brandweaver.ai/what-is-brandweaver-content/?utm_source={website_domain}&utm_term={webpage_URL}&metacontentid={metaContentID}">
+        href="https://brandweaver.ai/what-is-brandweaver-content">
         BrandWeaver
       </a> – info quality may vary
     </div>
     <a class="bw-inline-tooltip-feedback-link" target="_blank"
-      href="https://brandweaver.ai/what-is-brandweaver-content/?utm_source={website_domain}&utm_term={webpage_URL}&metacontentid={metaContentID}">
+      href="https://brandweaver.ai/what-is-brandweaver-content/">
         <svg class="bw-inline-tooltip-info-svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
           <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -112,6 +112,16 @@ const setupInlineTooltip = (
       const mcid = elem.getAttribute("bw-mc-id")!;
       const mciid = await recordDisplay(aid, mcid, contentHasScroll);
       elem.setAttribute("bw-mci-id", mciid);
+      const feedbackLinks = [
+        ...elem.querySelectorAll<HTMLAnchorElement>(
+          "a.bw-inline-tooltip-feedback-link"
+        ),
+      ];
+      for (const feedbackLink of feedbackLinks) {
+        const url = new URL(feedbackLink.href);
+        url.searchParams.append("metaContentImpressionId", mciid);
+        feedbackLink.href = url.href;
+      }
     }, 100);
   };
 

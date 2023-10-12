@@ -78,24 +78,31 @@
   align-items: center;
   border-top: dotted #ffffff60 1px;
 }
-.bw-inline-tooltip-logo-svg {
+.bw-inline-tooltip-diclaimer{
   margin: 0px 5px;
 }
-button.bw-inline-tooltip-skip-button {
+.bw-inline-tooltip-feedback-link{
+  color: inherit;
+  text-decoration: none;
+}
+.bw-inline-tooltip-info-svg {
+  margin: 0px 5px;
+}
+.bw-inline-tooltip-skip-button {
   background-color: transparent;
   border: none;
   padding: 0px;
   margin: 8px 5px 5px 15px;
 }
 
-button.bw-inline-tooltip-thumbs-button {
+.bw-inline-tooltip-thumbs-button {
   background-color: transparent;
   border: none;
   padding: 0px;
   margin: 5px 5px;
 }
 
-button.bw-inline-tooltip-feedback{
+.bw-inline-tooltip-feedback{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

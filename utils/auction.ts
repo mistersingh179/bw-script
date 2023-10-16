@@ -40,6 +40,7 @@ export type AuctionResponse = {
   settings: LimitedSettingsType;
   abortCategoryNames: string[];
   messages: string[];
+  optOutCookieValue: boolean
 };
 
 export const generateAuction = async () => {

@@ -11,7 +11,7 @@ import { setMetaContentFeedback } from "./metaContentImpression";
 import { loadCSS, recordDisplay } from "./setupMetaContent";
 import logger from "./logger";
 import { hasScroll } from "./scrollbar";
-import {reportScrollPercentage} from "./setupInlineTooltip";
+import { reportScrollPercentage } from "./setupInlineTooltip";
 
 const setupHoverTooltip = async (
   aid: string,
@@ -115,7 +115,7 @@ const setupHoverTooltip = async (
     metaDiv.style.maxHeight =
       document.documentElement.clientHeight * 0.8 + "px";
     metaDiv.style.overflowY = "auto";
-    metaDiv.addEventListener("scroll", reportScrollPercentage)
+    metaDiv.addEventListener("scroll", reportScrollPercentage);
 
     const heading = document.createElement("p");
     heading.style.fontSize = "18px";
@@ -148,10 +148,14 @@ const setupHoverTooltip = async (
     thanksDiv.style.display = "none";
 
     const feedbackDiv = document.createElement("div");
+    feedbackDiv.style.display = "flex";
+    feedbackDiv.style.flexDirection = "row";
+    feedbackDiv.style.justifyContent = "space-evenly";
     const thumbsUpButton = document.createElement("button");
     thumbsUpButton.style.backgroundColor = "transparent";
     thumbsUpButton.style.cursor = "pointer";
     thumbsUpButton.style.border = "none";
+    thumbsUpButton.style.padding = "5px";
     thumbsUpButton.innerHTML = "👍";
     thumbsUpButton.addEventListener("click", (evt) => {
       const targetElement = evt.target as HTMLElement;
@@ -171,6 +175,7 @@ const setupHoverTooltip = async (
     thumbsDownButton.style.backgroundColor = "transparent";
     thumbsDownButton.style.cursor = "pointer";
     thumbsDownButton.style.border = "none";
+    thumbsDownButton.style.padding = "5px";
     thumbsDownButton.innerHTML = "👎";
     thumbsDownButton.addEventListener("click", (evt) => {
       const targetElement = evt.target as HTMLElement;

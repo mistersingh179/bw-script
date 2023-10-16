@@ -35,7 +35,8 @@ export const recordDisplay = async (
 };
 
 const setupMetaContent = async (auctionResponse: AuctionResponse) => {
-  const { metaContentSpotsWithDetail, auction, settings } = auctionResponse;
+  const { metaContentSpotsWithDetail, auction, settings, optOutCookieValue } =
+    auctionResponse;
 
   const { id: aid } = auction;
 
@@ -53,6 +54,13 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   } else {
     logger.info("aborting as meta content status is OFF");
     return;
+  }
+
+  if(optOutCookieValue === true){
+    logger.info("aborting as user has opt out cookie with true");
+    return;
+  }else{
+    logger.info("continuing as user has not opted out");
   }
 
   const hasMetaContent = metaContentSpotsWithDetail.some(

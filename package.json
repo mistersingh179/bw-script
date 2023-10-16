@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "esbuild": "0.17.14",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "pino": "^8.16.0",
     "superjson": "^1.12.3",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.14",
+    "@types/js-cookie": "^3.0.4",
     "@types/lodash": "^4.14.196",
     "@types/node": "^18.15.11"
   }

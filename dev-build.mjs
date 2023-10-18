@@ -12,8 +12,8 @@ const options = {
   sourcemap: true,
   minify: false,
   define: {
-    BW_DASHBOARD_BASE_URL: '"https://brandweaver-app-server.loca.lt"',
-    BW_CDN_BASE_URL: '"https://brandweaver-web-server.loca.lt"',
+    BW_DASHBOARD_BASE_URL: '"http://localhost:3000"',
+    BW_CDN_BASE_URL: '"http://localhost:8000"',
     BW_FEEDBACK_URL: '"https://brandweaver.ai/what-is-brandweaver-content-dev"'
   },
 };

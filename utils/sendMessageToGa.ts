@@ -17,12 +17,12 @@ export const gaProperties: GaProperties = {
 };
 
 const sendPageViewEventToGa = () => {
-  try {
-    gtag("event", "page_view", gaProperties);
-    logger.info("Sent page_view to GA with: " , gaProperties);
-  } catch (err) {
-    logger.info("UNABLE to send page_view to GA with: " , gaProperties);
-  }
+  // try {
+  //   gtag("event", "page_view", gaProperties);
+  //   logger.info("Sent page_view to GA with: " , gaProperties);
+  // } catch (err) {
+  //   logger.info("UNABLE to send page_view to GA with: " , gaProperties);
+  // }
 };
 
 export default sendPageViewEventToGa;

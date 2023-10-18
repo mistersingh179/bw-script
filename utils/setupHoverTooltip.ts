@@ -231,35 +231,43 @@ const setupHoverTooltip = async (
       textContent = textContent.replaceAll(/[\s]+/g, " ");
       return textContent.includes(item.contentText);
     });
+
     if (element) {
-      tippy(element, {
-        theme: metaContentToolTipTheme,
-        appendTo: document.body,
-        // trigger: "click",
-        // hideOnClick: false,
-        zIndex: 2147483647,
-        interactive: true,
-        content: getMetaDiv(item.metaContents[0]),
-        allowHTML: true,
-        placement: "right",
-        followCursor: "vertical",
-        plugins: [followCursor],
-        onShown: once((instance) => {
-          (async () => {
-            const scrollingDiv = instance.popper.querySelector(
-              ".tippy-content > div"
-            )!;
-            const contentHasScroll = hasScroll(scrollingDiv);
-            const mciid = await recordDisplay(
-              aid,
-              item.metaContents[0].id,
-              contentHasScroll
-            );
-            instance.popper.setAttribute("mciid", mciid);
-            instance.popper.setAttribute("bw-mci-id", mciid);
-          })();
-        }),
-      });
+      const spaceNeededForTippy = element.getBoundingClientRect().right + 350;
+      const viewportWidth = window.innerWidth;
+      logger.info("building tippy: ", spaceNeededForTippy, viewportWidth);
+      if (spaceNeededForTippy > viewportWidth) {
+        logger.info("WONT build tippy: ", spaceNeededForTippy, viewportWidth);
+      } else {
+        tippy(element, {
+          theme: metaContentToolTipTheme,
+          appendTo: document.body,
+          // trigger: "click",
+          // hideOnClick: false,
+          zIndex: 2147483647,
+          interactive: true,
+          content: getMetaDiv(item.metaContents[0]),
+          allowHTML: true,
+          placement: "right",
+          followCursor: "vertical",
+          plugins: [followCursor],
+          onShown: once((instance) => {
+            (async () => {
+              const scrollingDiv = instance.popper.querySelector(
+                ".tippy-content > div"
+              )!;
+              const contentHasScroll = hasScroll(scrollingDiv);
+              const mciid = await recordDisplay(
+                aid,
+                item.metaContents[0].id,
+                contentHasScroll
+              );
+              instance.popper.setAttribute("mciid", mciid);
+              instance.popper.setAttribute("bw-mci-id", mciid);
+            })();
+          }),
+        });
+      }
     }
   });
 };

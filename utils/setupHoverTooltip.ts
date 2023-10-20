@@ -133,6 +133,8 @@ const setupHoverTooltip = async (
 
       const p = document.createElement("p");
       p.style.fontSize = "18px";
+      p.style.paddingBottom = "0px";
+      p.style.marginBottom = "0px";
       p.style.color = metaContentToolTipTextColor || "";
       p.innerHTML = generatedTextItem.trim();
       if (idx > 0) {

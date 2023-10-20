@@ -40,10 +40,15 @@ export const reportScrollPercentage = async (evt: Event) => {
   }
 };
 
-const getAnswerDiv = (metaContent: MetaContent) => {
+const getAnswerDiv = (
+  metaContent: MetaContent,
+  metaContentToolTipTheme: string
+) => {
   const template = document.createElement("template");
+  const themeName =
+    metaContentToolTipTheme === "light" ? "bw-inline-tooltip-inverse" : "";
   template.innerHTML = `
-<div class="bw-inline-tooltip-container bw-inline-tooltip-hidden">
+<div class="bw-inline-tooltip-container bw-inline-tooltip-hidden ${themeName}">
   <div class="bw-inline-tooltip-scrollable-content">
     <div class="bw-inline-tooltip-heading-row">
       <div class="bw-inline-tooltip-heading-title">
@@ -97,7 +102,8 @@ const getAnswerDiv = (metaContent: MetaContent) => {
 const setupInlineTooltip = (
   aid: string,
   metaContentSpotSelector: string,
-  metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[]
+  metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[],
+  metaContentToolTipTheme: string
 ) => {
   logger.info("in setupInlineTooltip with: ", metaContentSpotsWithDetail);
 
@@ -232,7 +238,10 @@ const setupInlineTooltip = (
     mcsElement.setAttribute("bw-mcs-id", mcs.id);
     mcsElement.setAttribute("bw-mc-id", mcs.metaContents[0].id);
 
-    const mcElement = getAnswerDiv(mcs.metaContents[0]);
+    const mcElement = getAnswerDiv(
+      mcs.metaContents[0],
+      metaContentToolTipTheme
+    );
     mcElement.setAttribute("bw-mcs-id", mcs.id);
     mcElement.setAttribute("bw-mc-id", mcs.metaContents[0].id);
 

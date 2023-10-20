@@ -1,3 +1,23 @@
+:root {
+  --bw-bg-color: #222;
+  --bw-text-color: #fff;
+}
+
+:root .bw-inline-tooltip-inverse {
+  --bw-bg-color: #fff;
+  --bw-text-color: #222;
+}
+
+.bw-inline-tooltip-bottom-row {
+  --bw-bg-color: #222;
+  --bw-text-color: #ddd;
+}
+
+.bw-inline-tooltip-inverse .bw-inline-tooltip-bottom-row {
+  --bw-bg-color: #ddd;
+  --bw-text-color: #222;
+}
+
 .bw-inline-tooltip-container::before {
   content: "";
   position: absolute;
@@ -6,14 +26,15 @@
   margin-left: -10px; /* Half of the arrow width */
   border-width: 10px;
   border-style: solid;
-  border-color: transparent transparent #222 transparent;
+  border-color: transparent transparent var(--bw-bg-color) transparent;
 }
 .bw-inline-tooltip-container {
   position: relative;
-  background-color: #222;
+  background-color: var(--bw-bg-color);
   border-radius: 5px;
-  box-shadow: 0px 2px 10px #22222260;
-  color: #fff;
+  /*box-shadow: 0px 2px 10px #22222260;*/
+  box-shadow:0 0 20px 4px rgba(154, 161, 177, 0.15), 0 4px 80px -8px rgba(36, 40, 47, 0.25), 0 4px 4px -2px rgba(91, 94, 105, 0.15);
+  color: var(--bw-text-color);
   margin: 10px 0px;
 }
 .bw-inline-tooltip-hidden {
@@ -65,23 +86,23 @@
   text-align: right; /* Align text in div-2 to the right */
 }
 .bw-inline-tooltip-bottom-row {
+  background-color: var(--bw-bg-color);
+  color: var(--bw-text-color);
   height: 24px;
   padding: 0px 5px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  background-color: #22222260;
-  color: #ddd;
   overflow: hidden;
   font-size: 12px;
   font-family: "PT Sans";
   display: flex;
   align-items: center;
-  border-top: dotted #ffffff60 1px;
+  border-top: dotted var(--bw-text-color) 1px;
 }
-.bw-inline-tooltip-diclaimer{
+.bw-inline-tooltip-diclaimer {
   margin: 0px 5px;
 }
-a.bw-inline-tooltip-feedback-link{
+a.bw-inline-tooltip-feedback-link {
   color: inherit;
   text-decoration: none;
 }
@@ -107,12 +128,11 @@ button.bw-inline-tooltip-thumbs-button {
   margin: 5px 5px;
 }
 
-.bw-inline-tooltip-feedback{
+.bw-inline-tooltip-feedback {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
-
 
 .tippy-content > div::-webkit-scrollbar {
   display: none; /* Safari and Chrome */

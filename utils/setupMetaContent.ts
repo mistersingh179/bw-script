@@ -129,7 +129,8 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     setupInlineTooltip(
       aid,
       metaContentSpotSelector,
-      metaContentSpotsWithDetail
+      metaContentSpotsWithDetail,
+      metaContentToolTipTheme
     );
   } else {
     setupHoverTooltip(

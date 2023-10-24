@@ -1,4 +1,5 @@
 import tippy, { followCursor } from "tippy.js";
+import "../styles/hoverTooltip.css"; // optional for styling
 import "tippy.js/dist/tippy.css"; // optional for styling
 import "tippy.js/themes/light.css";
 import "tippy.js/themes/light-border.css";
@@ -115,12 +116,15 @@ const setupHoverTooltip = async (
     metaDiv.style.maxHeight =
       document.documentElement.clientHeight * 0.8 + "px";
     metaDiv.style.overflowY = "auto";
+    metaDiv.style.color = "inherit";
+    metaDiv.style.backgroundColor = "inherit";
     metaDiv.addEventListener("scroll", reportScrollPercentage);
 
     const heading = document.createElement("p");
     heading.style.fontSize = "18px";
     heading.style.fontWeight = "700";
-    heading.style.color = metaContentToolTipTextColor || "";
+    heading.style.color = metaContentToolTipTextColor || "inherit";
+    heading.style.backgroundColor = "inherit";
     heading.innerHTML = item.generatedHeading;
     metaDiv.appendChild(heading);
 
@@ -135,7 +139,8 @@ const setupHoverTooltip = async (
       p.style.fontSize = "18px";
       p.style.paddingBottom = "0px";
       p.style.marginBottom = "0px";
-      p.style.color = metaContentToolTipTextColor || "";
+      p.style.color = metaContentToolTipTextColor || "inherit";
+      p.style.backgroundColor = "inherit";
       p.innerHTML = generatedTextItem.trim();
       if (idx > 0) {
         p.style.display = "none";
@@ -146,13 +151,17 @@ const setupHoverTooltip = async (
     const thanksDiv = document.createElement("div");
     thanksDiv.innerHTML = "Thanks!";
     thanksDiv.style.opacity = "0";
-    thanksDiv.style.color = metaContentToolTipTextColor || "";
+    thanksDiv.style.color = metaContentToolTipTextColor || "inherit";
+    thanksDiv.style.backgroundColor = "inherit";
     thanksDiv.style.display = "none";
 
     const feedbackDiv = document.createElement("div");
     feedbackDiv.style.display = "flex";
     feedbackDiv.style.flexDirection = "row";
     feedbackDiv.style.justifyContent = "space-evenly";
+    feedbackDiv.style.backgroundColor = "inherit";
+    feedbackDiv.style.color = "inherit";
+
     const thumbsUpButton = document.createElement("button");
     thumbsUpButton.style.backgroundColor = "transparent";
     thumbsUpButton.style.cursor = "pointer";

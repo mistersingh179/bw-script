@@ -31,10 +31,10 @@
 .bw-inline-tooltip-container {
   position: relative;
   background-color: var(--bw-bg-color);
+  color: var(--bw-text-color);
   border-radius: 5px;
   /*box-shadow: 0px 2px 10px #22222260;*/
   box-shadow:0 0 20px 4px rgba(154, 161, 177, 0.15), 0 4px 80px -8px rgba(36, 40, 47, 0.25), 0 4px 4px -2px rgba(91, 94, 105, 0.15);
-  color: var(--bw-text-color);
   margin: 10px 0px;
 }
 .bw-inline-tooltip-hidden {
@@ -48,7 +48,7 @@
   max-height: 250px;
   opacity: 1;
 }
-.bw-inline-tooltip-scrollable-content {
+:not(#non-existing-bw-id) div.bw-inline-tooltip-scrollable-content {
   max-height: 205px;
   overflow: auto;
   padding: 0px 10px;
@@ -56,6 +56,13 @@
   border-top: 10px solid transparent;
   line-height: 1.5;
 }
+
+:not(#non-existing-bw-id) div.bw-inline-tooltip-content {
+  background-color: var(--bw-bg-color);
+  color: var(--bw-text-color);
+  line-height: inherit;
+}
+
 @media only screen and (orientation: landscape) {
   .bw-inline-tooltip-scrollable-content {
     max-height: 175px;
@@ -80,12 +87,16 @@
 .bw-inline-tooltip-heading-title {
   flex: 1;
 }
+.bw-inline-tooltip-heading-title > strong {
+  background-color: var(--bw-bg-color);
+  color: var(--bw-text-color);
+}
 .bw-inline-tooltip-icon {
   flex-shrink: 0; /* Prevent div-2 from shrinking */
   width: 40px; /* Set the maximum width of div-2 */
   text-align: right; /* Align text in div-2 to the right */
 }
-.bw-inline-tooltip-bottom-row {
+:not(#non-existing-bw-id) .bw-inline-tooltip-bottom-row {
   background-color: var(--bw-bg-color);
   color: var(--bw-text-color);
   height: 24px;
@@ -99,11 +110,15 @@
   align-items: center;
   border-top: dotted var(--bw-text-color) 1px;
 }
-.bw-inline-tooltip-diclaimer {
+:not(#non-existing-bw-id) .bw-inline-tooltip-diclaimer {
+  background-color: var(--bw-bg-color);
+  color: var(--bw-text-color);
+  font-size: inherit;
   margin: 0px 5px;
 }
 :not(#non-existing-bw-id) a.bw-inline-tooltip-feedback-link {
   color: inherit;
+  font-size: inherit;
   text-decoration: none;
 }
 .bw-inline-tooltip-info-svg {

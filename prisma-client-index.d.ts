@@ -118,6 +118,8 @@ export type Auction = {
   ip: string
   endUserCuid: string
   endUserFp: string
+  scrollPosition: number | null
+  firstScrollAt: number | null
   timeSpent: number
   extra: string | null
   createdAt: Date
@@ -312,6 +314,22 @@ export type Impression = {
   advertisementId: string | null
   auctionId: string
   clicked: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * Model WebsiteFeedback
+ *
+ */
+export type WebsiteFeedback = {
+  id: string
+  metaContentImpressionId: string | null
+  experienceEnhanced: string | null
+  contentRelevant: string | null
+  optOut: boolean
+  specificExamplesText: string | null
+  suggesstionsText: string | null
   createdAt: Date
   updatedAt: Date
 }
@@ -623,6 +641,16 @@ export class PrismaClient<
    * ```
    */
   get impression(): Prisma.ImpressionDelegate<GlobalReject>;
+
+  /**
+   * `prisma.websiteFeedback`: Exposes CRUD operations for the **WebsiteFeedback** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more WebsiteFeedbacks
+   * const websiteFeedbacks = await prisma.websiteFeedback.findMany()
+   * ```
+   */
+  get websiteFeedback(): Prisma.WebsiteFeedbackDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -1110,7 +1138,8 @@ export namespace Prisma {
     MetaContentType: 'MetaContentType',
     MetaContentImpression: 'MetaContentImpression',
     Campaign: 'Campaign',
-    Impression: 'Impression'
+    Impression: 'Impression',
+    WebsiteFeedback: 'WebsiteFeedback'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1948,6 +1977,57 @@ export namespace Prisma {
    */
   export type MetaContentTypeCountOutputTypeCountMetaContentsArgs = {
     where?: MetaContentWhereInput
+  }
+
+
+
+  /**
+   * Count Type MetaContentImpressionCountOutputType
+   */
+
+
+  export type MetaContentImpressionCountOutputType = {
+    WebsiteFeedbacks: number
+  }
+
+  export type MetaContentImpressionCountOutputTypeSelect = {
+    WebsiteFeedbacks?: boolean | MetaContentImpressionCountOutputTypeCountWebsiteFeedbacksArgs
+  }
+
+  export type MetaContentImpressionCountOutputTypeGetPayload<S extends boolean | null | undefined | MetaContentImpressionCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? MetaContentImpressionCountOutputType :
+        S extends undefined ? never :
+          S extends { include: any } & (MetaContentImpressionCountOutputTypeArgs)
+            ? MetaContentImpressionCountOutputType
+            : S extends { select: any } & (MetaContentImpressionCountOutputTypeArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends keyof MetaContentImpressionCountOutputType ? MetaContentImpressionCountOutputType[P] : never
+              }
+              : MetaContentImpressionCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MetaContentImpressionCountOutputType without action
+   */
+  export type MetaContentImpressionCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpressionCountOutputType
+     */
+    select?: MetaContentImpressionCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * MetaContentImpressionCountOutputType without action
+   */
+  export type MetaContentImpressionCountOutputTypeCountWebsiteFeedbacksArgs = {
+    where?: WebsiteFeedbackWhereInput
   }
 
 
@@ -7177,12 +7257,16 @@ export namespace Prisma {
   export type AuctionAvgAggregateOutputType = {
     screenWidth: number | null
     screenHeight: number | null
+    scrollPosition: number | null
+    firstScrollAt: number | null
     timeSpent: number | null
   }
 
   export type AuctionSumAggregateOutputType = {
     screenWidth: number | null
     screenHeight: number | null
+    scrollPosition: number | null
+    firstScrollAt: number | null
     timeSpent: number | null
   }
 
@@ -7198,6 +7282,8 @@ export namespace Prisma {
     ip: string | null
     endUserCuid: string | null
     endUserFp: string | null
+    scrollPosition: number | null
+    firstScrollAt: number | null
     timeSpent: number | null
     extra: string | null
     createdAt: Date | null
@@ -7216,6 +7302,8 @@ export namespace Prisma {
     ip: string | null
     endUserCuid: string | null
     endUserFp: string | null
+    scrollPosition: number | null
+    firstScrollAt: number | null
     timeSpent: number | null
     extra: string | null
     createdAt: Date | null
@@ -7234,6 +7322,8 @@ export namespace Prisma {
     ip: number
     endUserCuid: number
     endUserFp: number
+    scrollPosition: number
+    firstScrollAt: number
     timeSpent: number
     extra: number
     createdAt: number
@@ -7245,12 +7335,16 @@ export namespace Prisma {
   export type AuctionAvgAggregateInputType = {
     screenWidth?: true
     screenHeight?: true
+    scrollPosition?: true
+    firstScrollAt?: true
     timeSpent?: true
   }
 
   export type AuctionSumAggregateInputType = {
     screenWidth?: true
     screenHeight?: true
+    scrollPosition?: true
+    firstScrollAt?: true
     timeSpent?: true
   }
 
@@ -7266,6 +7360,8 @@ export namespace Prisma {
     ip?: true
     endUserCuid?: true
     endUserFp?: true
+    scrollPosition?: true
+    firstScrollAt?: true
     timeSpent?: true
     extra?: true
     createdAt?: true
@@ -7284,6 +7380,8 @@ export namespace Prisma {
     ip?: true
     endUserCuid?: true
     endUserFp?: true
+    scrollPosition?: true
+    firstScrollAt?: true
     timeSpent?: true
     extra?: true
     createdAt?: true
@@ -7302,6 +7400,8 @@ export namespace Prisma {
     ip?: true
     endUserCuid?: true
     endUserFp?: true
+    scrollPosition?: true
+    firstScrollAt?: true
     timeSpent?: true
     extra?: true
     createdAt?: true
@@ -7408,6 +7508,8 @@ export namespace Prisma {
     ip: string
     endUserCuid: string
     endUserFp: string
+    scrollPosition: number | null
+    firstScrollAt: number | null
     timeSpent: number
     extra: string | null
     createdAt: Date
@@ -7445,6 +7547,8 @@ export namespace Prisma {
     ip?: boolean
     endUserCuid?: boolean
     endUserFp?: boolean
+    scrollPosition?: boolean
+    firstScrollAt?: boolean
     timeSpent?: boolean
     extra?: boolean
     createdAt?: boolean
@@ -18591,12 +18695,16 @@ export namespace Prisma {
     updatedAt?: boolean
     metaContent?: boolean | MetaContentImpression$metaContentArgs
     auction?: boolean | AuctionArgs
+    WebsiteFeedbacks?: boolean | MetaContentImpression$WebsiteFeedbacksArgs
+    _count?: boolean | MetaContentImpressionCountOutputTypeArgs
   }
 
 
   export type MetaContentImpressionInclude = {
     metaContent?: boolean | MetaContentImpression$metaContentArgs
     auction?: boolean | AuctionArgs
+    WebsiteFeedbacks?: boolean | MetaContentImpression$WebsiteFeedbacksArgs
+    _count?: boolean | MetaContentImpressionCountOutputTypeArgs
   }
 
   export type MetaContentImpressionGetPayload<S extends boolean | null | undefined | MetaContentImpressionArgs> =
@@ -18607,13 +18715,17 @@ export namespace Prisma {
             ? MetaContentImpression  & {
             [P in TruthyKeys<S['include']>]:
             P extends 'metaContent' ? MetaContentGetPayload<S['include'][P]> | null :
-              P extends 'auction' ? AuctionGetPayload<S['include'][P]> :  never
+              P extends 'auction' ? AuctionGetPayload<S['include'][P]> :
+                P extends 'WebsiteFeedbacks' ? Array < WebsiteFeedbackGetPayload<S['include'][P]>>  :
+                  P extends '_count' ? MetaContentImpressionCountOutputTypeGetPayload<S['include'][P]> :  never
           }
             : S extends { select: any } & (MetaContentImpressionArgs | MetaContentImpressionFindManyArgs)
               ? {
                 [P in TruthyKeys<S['select']>]:
                 P extends 'metaContent' ? MetaContentGetPayload<S['select'][P]> | null :
-                  P extends 'auction' ? AuctionGetPayload<S['select'][P]> :  P extends keyof MetaContentImpression ? MetaContentImpression[P] : never
+                  P extends 'auction' ? AuctionGetPayload<S['select'][P]> :
+                    P extends 'WebsiteFeedbacks' ? Array < WebsiteFeedbackGetPayload<S['select'][P]>>  :
+                      P extends '_count' ? MetaContentImpressionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof MetaContentImpression ? MetaContentImpression[P] : never
               }
               : MetaContentImpression
 
@@ -18989,6 +19101,8 @@ export namespace Prisma {
 
     auction<T extends AuctionArgs= {}>(args?: Subset<T, AuctionArgs>): Prisma__AuctionClient<AuctionGetPayload<T> | Null>;
 
+    WebsiteFeedbacks<T extends MetaContentImpression$WebsiteFeedbacksArgs= {}>(args?: Subset<T, MetaContentImpression$WebsiteFeedbacksArgs>): Prisma.PrismaPromise<Array<WebsiteFeedbackGetPayload<T>>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -19357,6 +19471,27 @@ export namespace Prisma {
      */
     include?: MetaContentInclude | null
     where?: MetaContentWhereInput
+  }
+
+
+  /**
+   * MetaContentImpression.WebsiteFeedbacks
+   */
+  export type MetaContentImpression$WebsiteFeedbacksArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    where?: WebsiteFeedbackWhereInput
+    orderBy?: Enumerable<WebsiteFeedbackOrderByWithRelationInput>
+    cursor?: WebsiteFeedbackWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<WebsiteFeedbackScalarFieldEnum>
   }
 
 
@@ -21445,6 +21580,985 @@ export namespace Prisma {
 
 
   /**
+   * Model WebsiteFeedback
+   */
+
+
+  export type AggregateWebsiteFeedback = {
+    _count: WebsiteFeedbackCountAggregateOutputType | null
+    _min: WebsiteFeedbackMinAggregateOutputType | null
+    _max: WebsiteFeedbackMaxAggregateOutputType | null
+  }
+
+  export type WebsiteFeedbackMinAggregateOutputType = {
+    id: string | null
+    metaContentImpressionId: string | null
+    experienceEnhanced: string | null
+    contentRelevant: string | null
+    optOut: boolean | null
+    specificExamplesText: string | null
+    suggesstionsText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebsiteFeedbackMaxAggregateOutputType = {
+    id: string | null
+    metaContentImpressionId: string | null
+    experienceEnhanced: string | null
+    contentRelevant: string | null
+    optOut: boolean | null
+    specificExamplesText: string | null
+    suggesstionsText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebsiteFeedbackCountAggregateOutputType = {
+    id: number
+    metaContentImpressionId: number
+    experienceEnhanced: number
+    contentRelevant: number
+    optOut: number
+    specificExamplesText: number
+    suggesstionsText: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WebsiteFeedbackMinAggregateInputType = {
+    id?: true
+    metaContentImpressionId?: true
+    experienceEnhanced?: true
+    contentRelevant?: true
+    optOut?: true
+    specificExamplesText?: true
+    suggesstionsText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebsiteFeedbackMaxAggregateInputType = {
+    id?: true
+    metaContentImpressionId?: true
+    experienceEnhanced?: true
+    contentRelevant?: true
+    optOut?: true
+    specificExamplesText?: true
+    suggesstionsText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebsiteFeedbackCountAggregateInputType = {
+    id?: true
+    metaContentImpressionId?: true
+    experienceEnhanced?: true
+    contentRelevant?: true
+    optOut?: true
+    specificExamplesText?: true
+    suggesstionsText?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WebsiteFeedbackAggregateArgs = {
+    /**
+     * Filter which WebsiteFeedback to aggregate.
+     */
+    where?: WebsiteFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebsiteFeedbacks to fetch.
+     */
+    orderBy?: Enumerable<WebsiteFeedbackOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: WebsiteFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebsiteFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebsiteFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned WebsiteFeedbacks
+     **/
+    _count?: true | WebsiteFeedbackCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: WebsiteFeedbackMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: WebsiteFeedbackMaxAggregateInputType
+  }
+
+  export type GetWebsiteFeedbackAggregateType<T extends WebsiteFeedbackAggregateArgs> = {
+    [P in keyof T & keyof AggregateWebsiteFeedback]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebsiteFeedback[P]>
+      : GetScalarType<T[P], AggregateWebsiteFeedback[P]>
+  }
+
+
+
+
+  export type WebsiteFeedbackGroupByArgs = {
+    where?: WebsiteFeedbackWhereInput
+    orderBy?: Enumerable<WebsiteFeedbackOrderByWithAggregationInput>
+    by: WebsiteFeedbackScalarFieldEnum[]
+    having?: WebsiteFeedbackScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebsiteFeedbackCountAggregateInputType | true
+    _min?: WebsiteFeedbackMinAggregateInputType
+    _max?: WebsiteFeedbackMaxAggregateInputType
+  }
+
+
+  export type WebsiteFeedbackGroupByOutputType = {
+    id: string
+    metaContentImpressionId: string | null
+    experienceEnhanced: string | null
+    contentRelevant: string | null
+    optOut: boolean
+    specificExamplesText: string | null
+    suggesstionsText: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WebsiteFeedbackCountAggregateOutputType | null
+    _min: WebsiteFeedbackMinAggregateOutputType | null
+    _max: WebsiteFeedbackMaxAggregateOutputType | null
+  }
+
+  type GetWebsiteFeedbackGroupByPayload<T extends WebsiteFeedbackGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<WebsiteFeedbackGroupByOutputType, T['by']> &
+      {
+        [P in ((keyof T) & (keyof WebsiteFeedbackGroupByOutputType))]: P extends '_count'
+        ? T[P] extends boolean
+          ? number
+          : GetScalarType<T[P], WebsiteFeedbackGroupByOutputType[P]>
+        : GetScalarType<T[P], WebsiteFeedbackGroupByOutputType[P]>
+      }
+    >
+  >
+
+
+  export type WebsiteFeedbackSelect = {
+    id?: boolean
+    metaContentImpressionId?: boolean
+    experienceEnhanced?: boolean
+    contentRelevant?: boolean
+    optOut?: boolean
+    specificExamplesText?: boolean
+    suggesstionsText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    metaContentImpression?: boolean | WebsiteFeedback$metaContentImpressionArgs
+  }
+
+
+  export type WebsiteFeedbackInclude = {
+    metaContentImpression?: boolean | WebsiteFeedback$metaContentImpressionArgs
+  }
+
+  export type WebsiteFeedbackGetPayload<S extends boolean | null | undefined | WebsiteFeedbackArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+      S extends true ? WebsiteFeedback :
+        S extends undefined ? never :
+          S extends { include: any } & (WebsiteFeedbackArgs | WebsiteFeedbackFindManyArgs)
+            ? WebsiteFeedback  & {
+            [P in TruthyKeys<S['include']>]:
+            P extends 'metaContentImpression' ? MetaContentImpressionGetPayload<S['include'][P]> | null :  never
+          }
+            : S extends { select: any } & (WebsiteFeedbackArgs | WebsiteFeedbackFindManyArgs)
+              ? {
+                [P in TruthyKeys<S['select']>]:
+                P extends 'metaContentImpression' ? MetaContentImpressionGetPayload<S['select'][P]> | null :  P extends keyof WebsiteFeedback ? WebsiteFeedback[P] : never
+              }
+              : WebsiteFeedback
+
+
+  type WebsiteFeedbackCountArgs =
+    Omit<WebsiteFeedbackFindManyArgs, 'select' | 'include'> & {
+    select?: WebsiteFeedbackCountAggregateInputType | true
+  }
+
+  export interface WebsiteFeedbackDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one WebsiteFeedback that matches the filter.
+     * @param {WebsiteFeedbackFindUniqueArgs} args - Arguments to find a WebsiteFeedback
+     * @example
+     * // Get one WebsiteFeedback
+     * const websiteFeedback = await prisma.websiteFeedback.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<T extends WebsiteFeedbackFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, WebsiteFeedbackFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'WebsiteFeedback'> extends True ? Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>> : Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T> | null, null>
+
+    /**
+     * Find one WebsiteFeedback that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {WebsiteFeedbackFindUniqueOrThrowArgs} args - Arguments to find a WebsiteFeedback
+     * @example
+     * // Get one WebsiteFeedback
+     * const websiteFeedback = await prisma.websiteFeedback.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends WebsiteFeedbackFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, WebsiteFeedbackFindUniqueOrThrowArgs>
+    ): Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>>
+
+    /**
+     * Find the first WebsiteFeedback that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackFindFirstArgs} args - Arguments to find a WebsiteFeedback
+     * @example
+     * // Get one WebsiteFeedback
+     * const websiteFeedback = await prisma.websiteFeedback.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<T extends WebsiteFeedbackFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, WebsiteFeedbackFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'WebsiteFeedback'> extends True ? Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>> : Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T> | null, null>
+
+    /**
+     * Find the first WebsiteFeedback that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackFindFirstOrThrowArgs} args - Arguments to find a WebsiteFeedback
+     * @example
+     * // Get one WebsiteFeedback
+     * const websiteFeedback = await prisma.websiteFeedback.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends WebsiteFeedbackFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, WebsiteFeedbackFindFirstOrThrowArgs>
+    ): Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>>
+
+    /**
+     * Find zero or more WebsiteFeedbacks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebsiteFeedbacks
+     * const websiteFeedbacks = await prisma.websiteFeedback.findMany()
+     *
+     * // Get first 10 WebsiteFeedbacks
+     * const websiteFeedbacks = await prisma.websiteFeedback.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const websiteFeedbackWithIdOnly = await prisma.websiteFeedback.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends WebsiteFeedbackFindManyArgs>(
+      args?: SelectSubset<T, WebsiteFeedbackFindManyArgs>
+    ): Prisma.PrismaPromise<Array<WebsiteFeedbackGetPayload<T>>>
+
+    /**
+     * Create a WebsiteFeedback.
+     * @param {WebsiteFeedbackCreateArgs} args - Arguments to create a WebsiteFeedback.
+     * @example
+     * // Create one WebsiteFeedback
+     * const WebsiteFeedback = await prisma.websiteFeedback.create({
+     *   data: {
+     *     // ... data to create a WebsiteFeedback
+     *   }
+     * })
+     *
+     **/
+    create<T extends WebsiteFeedbackCreateArgs>(
+      args: SelectSubset<T, WebsiteFeedbackCreateArgs>
+    ): Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>>
+
+    /**
+     * Create many WebsiteFeedbacks.
+     *     @param {WebsiteFeedbackCreateManyArgs} args - Arguments to create many WebsiteFeedbacks.
+     *     @example
+     *     // Create many WebsiteFeedbacks
+     *     const websiteFeedback = await prisma.websiteFeedback.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends WebsiteFeedbackCreateManyArgs>(
+      args?: SelectSubset<T, WebsiteFeedbackCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a WebsiteFeedback.
+     * @param {WebsiteFeedbackDeleteArgs} args - Arguments to delete one WebsiteFeedback.
+     * @example
+     * // Delete one WebsiteFeedback
+     * const WebsiteFeedback = await prisma.websiteFeedback.delete({
+     *   where: {
+     *     // ... filter to delete one WebsiteFeedback
+     *   }
+     * })
+     *
+     **/
+    delete<T extends WebsiteFeedbackDeleteArgs>(
+      args: SelectSubset<T, WebsiteFeedbackDeleteArgs>
+    ): Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>>
+
+    /**
+     * Update one WebsiteFeedback.
+     * @param {WebsiteFeedbackUpdateArgs} args - Arguments to update one WebsiteFeedback.
+     * @example
+     * // Update one WebsiteFeedback
+     * const websiteFeedback = await prisma.websiteFeedback.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends WebsiteFeedbackUpdateArgs>(
+      args: SelectSubset<T, WebsiteFeedbackUpdateArgs>
+    ): Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>>
+
+    /**
+     * Delete zero or more WebsiteFeedbacks.
+     * @param {WebsiteFeedbackDeleteManyArgs} args - Arguments to filter WebsiteFeedbacks to delete.
+     * @example
+     * // Delete a few WebsiteFeedbacks
+     * const { count } = await prisma.websiteFeedback.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends WebsiteFeedbackDeleteManyArgs>(
+      args?: SelectSubset<T, WebsiteFeedbackDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebsiteFeedbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebsiteFeedbacks
+     * const websiteFeedback = await prisma.websiteFeedback.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends WebsiteFeedbackUpdateManyArgs>(
+      args: SelectSubset<T, WebsiteFeedbackUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one WebsiteFeedback.
+     * @param {WebsiteFeedbackUpsertArgs} args - Arguments to update or create a WebsiteFeedback.
+     * @example
+     * // Update or create a WebsiteFeedback
+     * const websiteFeedback = await prisma.websiteFeedback.upsert({
+     *   create: {
+     *     // ... data to create a WebsiteFeedback
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebsiteFeedback we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends WebsiteFeedbackUpsertArgs>(
+      args: SelectSubset<T, WebsiteFeedbackUpsertArgs>
+    ): Prisma__WebsiteFeedbackClient<WebsiteFeedbackGetPayload<T>>
+
+    /**
+     * Count the number of WebsiteFeedbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackCountArgs} args - Arguments to filter WebsiteFeedbacks to count.
+     * @example
+     * // Count the number of WebsiteFeedbacks
+     * const count = await prisma.websiteFeedback.count({
+     *   where: {
+     *     // ... the filter for the WebsiteFeedbacks we want to count
+     *   }
+     * })
+     **/
+    count<T extends WebsiteFeedbackCountArgs>(
+      args?: Subset<T, WebsiteFeedbackCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebsiteFeedbackCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebsiteFeedback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends WebsiteFeedbackAggregateArgs>(args: Subset<T, WebsiteFeedbackAggregateArgs>): Prisma.PrismaPromise<GetWebsiteFeedbackAggregateType<T>>
+
+    /**
+     * Group by WebsiteFeedback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebsiteFeedbackGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends WebsiteFeedbackGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebsiteFeedbackGroupByArgs['orderBy'] }
+        : { orderBy?: WebsiteFeedbackGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+                ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`,
+                ]
+          }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                  }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                  [P in OrderFields]: P extends ByFields
+                    ? never
+                    : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+                }[OrderFields]
+    >(args: SubsetIntersection<T, WebsiteFeedbackGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebsiteFeedbackGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebsiteFeedback.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__WebsiteFeedbackClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    metaContentImpression<T extends WebsiteFeedback$metaContentImpressionArgs= {}>(args?: Subset<T, WebsiteFeedback$metaContentImpressionArgs>): Prisma__MetaContentImpressionClient<MetaContentImpressionGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * WebsiteFeedback base type for findUnique actions
+   */
+  export type WebsiteFeedbackFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * Filter, which WebsiteFeedback to fetch.
+     */
+    where: WebsiteFeedbackWhereUniqueInput
+  }
+
+  /**
+   * WebsiteFeedback findUnique
+   */
+  export interface WebsiteFeedbackFindUniqueArgs extends WebsiteFeedbackFindUniqueArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * WebsiteFeedback findUniqueOrThrow
+   */
+  export type WebsiteFeedbackFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * Filter, which WebsiteFeedback to fetch.
+     */
+    where: WebsiteFeedbackWhereUniqueInput
+  }
+
+
+  /**
+   * WebsiteFeedback base type for findFirst actions
+   */
+  export type WebsiteFeedbackFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * Filter, which WebsiteFeedback to fetch.
+     */
+    where?: WebsiteFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebsiteFeedbacks to fetch.
+     */
+    orderBy?: Enumerable<WebsiteFeedbackOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for WebsiteFeedbacks.
+     */
+    cursor?: WebsiteFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebsiteFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebsiteFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of WebsiteFeedbacks.
+     */
+    distinct?: Enumerable<WebsiteFeedbackScalarFieldEnum>
+  }
+
+  /**
+   * WebsiteFeedback findFirst
+   */
+  export interface WebsiteFeedbackFindFirstArgs extends WebsiteFeedbackFindFirstArgsBase {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+
+  /**
+   * WebsiteFeedback findFirstOrThrow
+   */
+  export type WebsiteFeedbackFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * Filter, which WebsiteFeedback to fetch.
+     */
+    where?: WebsiteFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebsiteFeedbacks to fetch.
+     */
+    orderBy?: Enumerable<WebsiteFeedbackOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for WebsiteFeedbacks.
+     */
+    cursor?: WebsiteFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebsiteFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebsiteFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of WebsiteFeedbacks.
+     */
+    distinct?: Enumerable<WebsiteFeedbackScalarFieldEnum>
+  }
+
+
+  /**
+   * WebsiteFeedback findMany
+   */
+  export type WebsiteFeedbackFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * Filter, which WebsiteFeedbacks to fetch.
+     */
+    where?: WebsiteFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of WebsiteFeedbacks to fetch.
+     */
+    orderBy?: Enumerable<WebsiteFeedbackOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing WebsiteFeedbacks.
+     */
+    cursor?: WebsiteFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` WebsiteFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` WebsiteFeedbacks.
+     */
+    skip?: number
+    distinct?: Enumerable<WebsiteFeedbackScalarFieldEnum>
+  }
+
+
+  /**
+   * WebsiteFeedback create
+   */
+  export type WebsiteFeedbackCreateArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * The data needed to create a WebsiteFeedback.
+     */
+    data: XOR<WebsiteFeedbackCreateInput, WebsiteFeedbackUncheckedCreateInput>
+  }
+
+
+  /**
+   * WebsiteFeedback createMany
+   */
+  export type WebsiteFeedbackCreateManyArgs = {
+    /**
+     * The data used to create many WebsiteFeedbacks.
+     */
+    data: Enumerable<WebsiteFeedbackCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * WebsiteFeedback update
+   */
+  export type WebsiteFeedbackUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * The data needed to update a WebsiteFeedback.
+     */
+    data: XOR<WebsiteFeedbackUpdateInput, WebsiteFeedbackUncheckedUpdateInput>
+    /**
+     * Choose, which WebsiteFeedback to update.
+     */
+    where: WebsiteFeedbackWhereUniqueInput
+  }
+
+
+  /**
+   * WebsiteFeedback updateMany
+   */
+  export type WebsiteFeedbackUpdateManyArgs = {
+    /**
+     * The data used to update WebsiteFeedbacks.
+     */
+    data: XOR<WebsiteFeedbackUpdateManyMutationInput, WebsiteFeedbackUncheckedUpdateManyInput>
+    /**
+     * Filter which WebsiteFeedbacks to update
+     */
+    where?: WebsiteFeedbackWhereInput
+  }
+
+
+  /**
+   * WebsiteFeedback upsert
+   */
+  export type WebsiteFeedbackUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * The filter to search for the WebsiteFeedback to update in case it exists.
+     */
+    where: WebsiteFeedbackWhereUniqueInput
+    /**
+     * In case the WebsiteFeedback found by the `where` argument doesn't exist, create a new WebsiteFeedback with this data.
+     */
+    create: XOR<WebsiteFeedbackCreateInput, WebsiteFeedbackUncheckedCreateInput>
+    /**
+     * In case the WebsiteFeedback was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebsiteFeedbackUpdateInput, WebsiteFeedbackUncheckedUpdateInput>
+  }
+
+
+  /**
+   * WebsiteFeedback delete
+   */
+  export type WebsiteFeedbackDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+    /**
+     * Filter which WebsiteFeedback to delete.
+     */
+    where: WebsiteFeedbackWhereUniqueInput
+  }
+
+
+  /**
+   * WebsiteFeedback deleteMany
+   */
+  export type WebsiteFeedbackDeleteManyArgs = {
+    /**
+     * Filter which WebsiteFeedbacks to delete
+     */
+    where?: WebsiteFeedbackWhereInput
+  }
+
+
+  /**
+   * WebsiteFeedback.metaContentImpression
+   */
+  export type WebsiteFeedback$metaContentImpressionArgs = {
+    /**
+     * Select specific fields to fetch from the MetaContentImpression
+     */
+    select?: MetaContentImpressionSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MetaContentImpressionInclude | null
+    where?: MetaContentImpressionWhereInput
+  }
+
+
+  /**
+   * WebsiteFeedback without action
+   */
+  export type WebsiteFeedbackArgs = {
+    /**
+     * Select specific fields to fetch from the WebsiteFeedback
+     */
+    select?: WebsiteFeedbackSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: WebsiteFeedbackInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -21506,6 +22620,8 @@ export namespace Prisma {
     ip: 'ip',
     endUserCuid: 'endUserCuid',
     endUserFp: 'endUserFp',
+    scrollPosition: 'scrollPosition',
+    firstScrollAt: 'firstScrollAt',
     timeSpent: 'timeSpent',
     extra: 'extra',
     createdAt: 'createdAt',
@@ -21746,6 +22862,21 @@ export namespace Prisma {
   };
 
   export type WebpageScalarFieldEnum = (typeof WebpageScalarFieldEnum)[keyof typeof WebpageScalarFieldEnum]
+
+
+  export const WebsiteFeedbackScalarFieldEnum: {
+    id: 'id',
+    metaContentImpressionId: 'metaContentImpressionId',
+    experienceEnhanced: 'experienceEnhanced',
+    contentRelevant: 'contentRelevant',
+    optOut: 'optOut',
+    specificExamplesText: 'specificExamplesText',
+    suggesstionsText: 'suggesstionsText',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WebsiteFeedbackScalarFieldEnum = (typeof WebsiteFeedbackScalarFieldEnum)[keyof typeof WebsiteFeedbackScalarFieldEnum]
 
 
   export const WebsiteScalarFieldEnum: {
@@ -22228,6 +23359,8 @@ export namespace Prisma {
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
+    scrollPosition?: IntNullableFilter | number | null
+    firstScrollAt?: IntNullableFilter | number | null
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -22251,6 +23384,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
     createdAt?: SortOrder
@@ -22277,6 +23412,8 @@ export namespace Prisma {
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
+    scrollPosition?: IntNullableFilter | number | null
+    firstScrollAt?: IntNullableFilter | number | null
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -22300,6 +23437,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
     createdAt?: SortOrder
@@ -22326,6 +23465,8 @@ export namespace Prisma {
     ip?: StringWithAggregatesFilter | string
     endUserCuid?: StringWithAggregatesFilter | string
     endUserFp?: StringWithAggregatesFilter | string
+    scrollPosition?: IntNullableWithAggregatesFilter | number | null
+    firstScrollAt?: IntNullableWithAggregatesFilter | number | null
     timeSpent?: IntWithAggregatesFilter | number
     extra?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -23068,6 +24209,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput> | null
     auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
+    WebsiteFeedbacks?: WebsiteFeedbackListRelationFilter
   }
 
   export type MetaContentImpressionOrderByWithRelationInput = {
@@ -23081,6 +24223,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     metaContent?: MetaContentOrderByWithRelationInput
     auction?: AuctionOrderByWithRelationInput
+    WebsiteFeedbacks?: WebsiteFeedbackOrderByRelationAggregateInput
   }
 
   export type MetaContentImpressionWhereUniqueInput = Prisma.AtLeast<{
@@ -23097,6 +24240,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     metaContent?: XOR<MetaContentRelationFilter, MetaContentWhereInput> | null
     auction?: XOR<AuctionRelationFilter, AuctionWhereInput>
+    WebsiteFeedbacks?: WebsiteFeedbackListRelationFilter
   }, "id">
 
   export type MetaContentImpressionOrderByWithAggregationInput = {
@@ -23302,6 +24446,81 @@ export namespace Prisma {
     advertisementId?: StringNullableWithAggregatesFilter | string | null
     auctionId?: StringWithAggregatesFilter | string
     clicked?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type WebsiteFeedbackWhereInput = {
+    AND?: Enumerable<WebsiteFeedbackWhereInput>
+    OR?: Enumerable<WebsiteFeedbackWhereInput>
+    NOT?: Enumerable<WebsiteFeedbackWhereInput>
+    id?: StringFilter | string
+    metaContentImpressionId?: StringNullableFilter | string | null
+    experienceEnhanced?: StringNullableFilter | string | null
+    contentRelevant?: StringNullableFilter | string | null
+    optOut?: BoolFilter | boolean
+    specificExamplesText?: StringNullableFilter | string | null
+    suggesstionsText?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContentImpression?: XOR<MetaContentImpressionRelationFilter, MetaContentImpressionWhereInput> | null
+  }
+
+  export type WebsiteFeedbackOrderByWithRelationInput = {
+    id?: SortOrder
+    metaContentImpressionId?: SortOrder
+    experienceEnhanced?: SortOrder
+    contentRelevant?: SortOrder
+    optOut?: SortOrder
+    specificExamplesText?: SortOrder
+    suggesstionsText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    metaContentImpression?: MetaContentImpressionOrderByWithRelationInput
+  }
+
+  export type WebsiteFeedbackWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: Enumerable<WebsiteFeedbackWhereInput>
+    OR?: Enumerable<WebsiteFeedbackWhereInput>
+    NOT?: Enumerable<WebsiteFeedbackWhereInput>
+    metaContentImpressionId?: StringNullableFilter | string | null
+    experienceEnhanced?: StringNullableFilter | string | null
+    contentRelevant?: StringNullableFilter | string | null
+    optOut?: BoolFilter | boolean
+    specificExamplesText?: StringNullableFilter | string | null
+    suggesstionsText?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    metaContentImpression?: XOR<MetaContentImpressionRelationFilter, MetaContentImpressionWhereInput> | null
+  }, "id">
+
+  export type WebsiteFeedbackOrderByWithAggregationInput = {
+    id?: SortOrder
+    metaContentImpressionId?: SortOrder
+    experienceEnhanced?: SortOrder
+    contentRelevant?: SortOrder
+    optOut?: SortOrder
+    specificExamplesText?: SortOrder
+    suggesstionsText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WebsiteFeedbackCountOrderByAggregateInput
+    _max?: WebsiteFeedbackMaxOrderByAggregateInput
+    _min?: WebsiteFeedbackMinOrderByAggregateInput
+  }
+
+  export type WebsiteFeedbackScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<WebsiteFeedbackScalarWhereWithAggregatesInput>
+    OR?: Enumerable<WebsiteFeedbackScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<WebsiteFeedbackScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    metaContentImpressionId?: StringNullableWithAggregatesFilter | string | null
+    experienceEnhanced?: StringNullableWithAggregatesFilter | string | null
+    contentRelevant?: StringNullableWithAggregatesFilter | string | null
+    optOut?: BoolWithAggregatesFilter | boolean
+    specificExamplesText?: StringNullableWithAggregatesFilter | string | null
+    suggesstionsText?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -23830,6 +25049,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -23853,6 +25074,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -23870,6 +25093,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23893,6 +25118,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23913,6 +25140,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -23928,6 +25157,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23946,6 +25177,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24727,6 +25960,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
     auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
+    WebsiteFeedbacks?: WebsiteFeedbackCreateNestedManyWithoutMetaContentImpressionInput
   }
 
   export type MetaContentImpressionUncheckedCreateInput = {
@@ -24738,6 +25972,7 @@ export namespace Prisma {
     percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    WebsiteFeedbacks?: WebsiteFeedbackUncheckedCreateNestedManyWithoutMetaContentImpressionInput
   }
 
   export type MetaContentImpressionUpdateInput = {
@@ -24749,6 +25984,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
     auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+    WebsiteFeedbacks?: WebsiteFeedbackUpdateManyWithoutMetaContentImpressionNestedInput
   }
 
   export type MetaContentImpressionUncheckedUpdateInput = {
@@ -24760,6 +25996,7 @@ export namespace Prisma {
     percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    WebsiteFeedbacks?: WebsiteFeedbackUncheckedUpdateManyWithoutMetaContentImpressionNestedInput
   }
 
   export type MetaContentImpressionCreateManyInput = {
@@ -24983,6 +26220,89 @@ export namespace Prisma {
     advertisementId?: NullableStringFieldUpdateOperationsInput | string | null
     auctionId?: StringFieldUpdateOperationsInput | string
     clicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteFeedbackCreateInput = {
+    id?: string
+    experienceEnhanced?: string | null
+    contentRelevant?: string | null
+    optOut?: boolean
+    specificExamplesText?: string | null
+    suggesstionsText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContentImpression?: MetaContentImpressionCreateNestedOneWithoutWebsiteFeedbacksInput
+  }
+
+  export type WebsiteFeedbackUncheckedCreateInput = {
+    id?: string
+    metaContentImpressionId?: string | null
+    experienceEnhanced?: string | null
+    contentRelevant?: string | null
+    optOut?: boolean
+    specificExamplesText?: string | null
+    suggesstionsText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteFeedbackUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContentImpression?: MetaContentImpressionUpdateOneWithoutWebsiteFeedbacksNestedInput
+  }
+
+  export type WebsiteFeedbackUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentImpressionId?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteFeedbackCreateManyInput = {
+    id?: string
+    metaContentImpressionId?: string | null
+    experienceEnhanced?: string | null
+    contentRelevant?: string | null
+    optOut?: boolean
+    specificExamplesText?: string | null
+    suggesstionsText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteFeedbackUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteFeedbackUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentImpressionId?: NullableStringFieldUpdateOperationsInput | string | null
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25542,6 +26862,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
     createdAt?: SortOrder
@@ -25551,6 +26873,8 @@ export namespace Prisma {
   export type AuctionAvgOrderByAggregateInput = {
     screenWidth?: SortOrder
     screenHeight?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
   }
 
@@ -25566,6 +26890,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
     createdAt?: SortOrder
@@ -25584,6 +26910,8 @@ export namespace Prisma {
     ip?: SortOrder
     endUserCuid?: SortOrder
     endUserFp?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
     createdAt?: SortOrder
@@ -25593,6 +26921,8 @@ export namespace Prisma {
   export type AuctionSumOrderByAggregateInput = {
     screenWidth?: SortOrder
     screenHeight?: SortOrder
+    scrollPosition?: SortOrder
+    firstScrollAt?: SortOrder
     timeSpent?: SortOrder
   }
 
@@ -26040,6 +27370,16 @@ export namespace Prisma {
     isNot?: AuctionWhereInput
   }
 
+  export type WebsiteFeedbackListRelationFilter = {
+    every?: WebsiteFeedbackWhereInput
+    some?: WebsiteFeedbackWhereInput
+    none?: WebsiteFeedbackWhereInput
+  }
+
+  export type WebsiteFeedbackOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type MetaContentImpressionCountOrderByAggregateInput = {
     id?: SortOrder
     metaContentId?: SortOrder
@@ -26205,6 +27545,47 @@ export namespace Prisma {
     advertisementId?: SortOrder
     auctionId?: SortOrder
     clicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaContentImpressionRelationFilter = {
+    is?: MetaContentImpressionWhereInput | null
+    isNot?: MetaContentImpressionWhereInput | null
+  }
+
+  export type WebsiteFeedbackCountOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentImpressionId?: SortOrder
+    experienceEnhanced?: SortOrder
+    contentRelevant?: SortOrder
+    optOut?: SortOrder
+    specificExamplesText?: SortOrder
+    suggesstionsText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebsiteFeedbackMaxOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentImpressionId?: SortOrder
+    experienceEnhanced?: SortOrder
+    contentRelevant?: SortOrder
+    optOut?: SortOrder
+    specificExamplesText?: SortOrder
+    suggesstionsText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebsiteFeedbackMinOrderByAggregateInput = {
+    id?: SortOrder
+    metaContentImpressionId?: SortOrder
+    experienceEnhanced?: SortOrder
+    contentRelevant?: SortOrder
+    optOut?: SortOrder
+    specificExamplesText?: SortOrder
+    suggesstionsText?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27533,6 +28914,20 @@ export namespace Prisma {
     connect?: AuctionWhereUniqueInput
   }
 
+  export type WebsiteFeedbackCreateNestedManyWithoutMetaContentImpressionInput = {
+    create?: XOR<Enumerable<WebsiteFeedbackCreateWithoutMetaContentImpressionInput>, Enumerable<WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput>>
+    connectOrCreate?: Enumerable<WebsiteFeedbackCreateOrConnectWithoutMetaContentImpressionInput>
+    createMany?: WebsiteFeedbackCreateManyMetaContentImpressionInputEnvelope
+    connect?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+  }
+
+  export type WebsiteFeedbackUncheckedCreateNestedManyWithoutMetaContentImpressionInput = {
+    create?: XOR<Enumerable<WebsiteFeedbackCreateWithoutMetaContentImpressionInput>, Enumerable<WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput>>
+    connectOrCreate?: Enumerable<WebsiteFeedbackCreateOrConnectWithoutMetaContentImpressionInput>
+    createMany?: WebsiteFeedbackCreateManyMetaContentImpressionInputEnvelope
+    connect?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+  }
+
   export type MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput = {
     create?: XOR<MetaContentCreateWithoutMetaContentImpressionsInput, MetaContentUncheckedCreateWithoutMetaContentImpressionsInput>
     connectOrCreate?: MetaContentCreateOrConnectWithoutMetaContentImpressionsInput
@@ -27549,6 +28944,34 @@ export namespace Prisma {
     upsert?: AuctionUpsertWithoutMetaContentImpressionsInput
     connect?: AuctionWhereUniqueInput
     update?: XOR<XOR<AuctionUpdateToOneWithWhereWithoutMetaContentImpressionsInput, AuctionUpdateWithoutMetaContentImpressionsInput>, AuctionUncheckedUpdateWithoutMetaContentImpressionsInput>
+  }
+
+  export type WebsiteFeedbackUpdateManyWithoutMetaContentImpressionNestedInput = {
+    create?: XOR<Enumerable<WebsiteFeedbackCreateWithoutMetaContentImpressionInput>, Enumerable<WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput>>
+    connectOrCreate?: Enumerable<WebsiteFeedbackCreateOrConnectWithoutMetaContentImpressionInput>
+    upsert?: Enumerable<WebsiteFeedbackUpsertWithWhereUniqueWithoutMetaContentImpressionInput>
+    createMany?: WebsiteFeedbackCreateManyMetaContentImpressionInputEnvelope
+    set?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    disconnect?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    delete?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    connect?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    update?: Enumerable<WebsiteFeedbackUpdateWithWhereUniqueWithoutMetaContentImpressionInput>
+    updateMany?: Enumerable<WebsiteFeedbackUpdateManyWithWhereWithoutMetaContentImpressionInput>
+    deleteMany?: Enumerable<WebsiteFeedbackScalarWhereInput>
+  }
+
+  export type WebsiteFeedbackUncheckedUpdateManyWithoutMetaContentImpressionNestedInput = {
+    create?: XOR<Enumerable<WebsiteFeedbackCreateWithoutMetaContentImpressionInput>, Enumerable<WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput>>
+    connectOrCreate?: Enumerable<WebsiteFeedbackCreateOrConnectWithoutMetaContentImpressionInput>
+    upsert?: Enumerable<WebsiteFeedbackUpsertWithWhereUniqueWithoutMetaContentImpressionInput>
+    createMany?: WebsiteFeedbackCreateManyMetaContentImpressionInputEnvelope
+    set?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    disconnect?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    delete?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    connect?: Enumerable<WebsiteFeedbackWhereUniqueInput>
+    update?: Enumerable<WebsiteFeedbackUpdateWithWhereUniqueWithoutMetaContentImpressionInput>
+    updateMany?: Enumerable<WebsiteFeedbackUpdateManyWithWhereWithoutMetaContentImpressionInput>
+    deleteMany?: Enumerable<WebsiteFeedbackScalarWhereInput>
   }
 
   export type UserCreateNestedOneWithoutCampaignsInput = {
@@ -27681,6 +29104,22 @@ export namespace Prisma {
     upsert?: AuctionUpsertWithoutImpressionsInput
     connect?: AuctionWhereUniqueInput
     update?: XOR<XOR<AuctionUpdateToOneWithWhereWithoutImpressionsInput, AuctionUpdateWithoutImpressionsInput>, AuctionUncheckedUpdateWithoutImpressionsInput>
+  }
+
+  export type MetaContentImpressionCreateNestedOneWithoutWebsiteFeedbacksInput = {
+    create?: XOR<MetaContentImpressionCreateWithoutWebsiteFeedbacksInput, MetaContentImpressionUncheckedCreateWithoutWebsiteFeedbacksInput>
+    connectOrCreate?: MetaContentImpressionCreateOrConnectWithoutWebsiteFeedbacksInput
+    connect?: MetaContentImpressionWhereUniqueInput
+  }
+
+  export type MetaContentImpressionUpdateOneWithoutWebsiteFeedbacksNestedInput = {
+    create?: XOR<MetaContentImpressionCreateWithoutWebsiteFeedbacksInput, MetaContentImpressionUncheckedCreateWithoutWebsiteFeedbacksInput>
+    connectOrCreate?: MetaContentImpressionCreateOrConnectWithoutWebsiteFeedbacksInput
+    upsert?: MetaContentImpressionUpsertWithoutWebsiteFeedbacksInput
+    disconnect?: MetaContentImpressionWhereInput | boolean
+    delete?: MetaContentImpressionWhereInput | boolean
+    connect?: MetaContentImpressionWhereUniqueInput
+    update?: XOR<XOR<MetaContentImpressionUpdateToOneWithWhereWithoutWebsiteFeedbacksInput, MetaContentImpressionUpdateWithoutWebsiteFeedbacksInput>, MetaContentImpressionUncheckedUpdateWithoutWebsiteFeedbacksInput>
   }
 
   export type NestedStringFilter = {
@@ -28148,6 +29587,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -28169,6 +29610,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -28455,6 +29898,8 @@ export namespace Prisma {
     ip?: StringFilter | string
     endUserCuid?: StringFilter | string
     endUserFp?: StringFilter | string
+    scrollPosition?: IntNullableFilter | number | null
+    firstScrollAt?: IntNullableFilter | number | null
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -28848,6 +30293,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
+    WebsiteFeedbacks?: WebsiteFeedbackCreateNestedManyWithoutMetaContentImpressionInput
   }
 
   export type MetaContentImpressionUncheckedCreateWithoutAuctionInput = {
@@ -28858,6 +30304,7 @@ export namespace Prisma {
     percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    WebsiteFeedbacks?: WebsiteFeedbackUncheckedCreateNestedManyWithoutMetaContentImpressionInput
   }
 
   export type MetaContentImpressionCreateOrConnectWithoutAuctionInput = {
@@ -29137,6 +30584,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -29158,6 +30607,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -29419,6 +30870,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -29440,6 +30893,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -30643,6 +32098,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
+    WebsiteFeedbacks?: WebsiteFeedbackCreateNestedManyWithoutMetaContentImpressionInput
   }
 
   export type MetaContentImpressionUncheckedCreateWithoutMetaContentInput = {
@@ -30653,6 +32109,7 @@ export namespace Prisma {
     percentageScrolled?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    WebsiteFeedbacks?: WebsiteFeedbackUncheckedCreateNestedManyWithoutMetaContentImpressionInput
   }
 
   export type MetaContentImpressionCreateOrConnectWithoutMetaContentInput = {
@@ -30827,6 +32284,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -30849,6 +32308,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -30859,6 +32320,38 @@ export namespace Prisma {
   export type AuctionCreateOrConnectWithoutMetaContentImpressionsInput = {
     where: AuctionWhereUniqueInput
     create: XOR<AuctionCreateWithoutMetaContentImpressionsInput, AuctionUncheckedCreateWithoutMetaContentImpressionsInput>
+  }
+
+  export type WebsiteFeedbackCreateWithoutMetaContentImpressionInput = {
+    id?: string
+    experienceEnhanced?: string | null
+    contentRelevant?: string | null
+    optOut?: boolean
+    specificExamplesText?: string | null
+    suggesstionsText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput = {
+    id?: string
+    experienceEnhanced?: string | null
+    contentRelevant?: string | null
+    optOut?: boolean
+    specificExamplesText?: string | null
+    suggesstionsText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteFeedbackCreateOrConnectWithoutMetaContentImpressionInput = {
+    where: WebsiteFeedbackWhereUniqueInput
+    create: XOR<WebsiteFeedbackCreateWithoutMetaContentImpressionInput, WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput>
+  }
+
+  export type WebsiteFeedbackCreateManyMetaContentImpressionInputEnvelope = {
+    data: Enumerable<WebsiteFeedbackCreateManyMetaContentImpressionInput>
+    skipDuplicates?: boolean
   }
 
   export type MetaContentUpsertWithoutMetaContentImpressionsInput = {
@@ -30918,6 +32411,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30940,11 +32435,44 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type WebsiteFeedbackUpsertWithWhereUniqueWithoutMetaContentImpressionInput = {
+    where: WebsiteFeedbackWhereUniqueInput
+    update: XOR<WebsiteFeedbackUpdateWithoutMetaContentImpressionInput, WebsiteFeedbackUncheckedUpdateWithoutMetaContentImpressionInput>
+    create: XOR<WebsiteFeedbackCreateWithoutMetaContentImpressionInput, WebsiteFeedbackUncheckedCreateWithoutMetaContentImpressionInput>
+  }
+
+  export type WebsiteFeedbackUpdateWithWhereUniqueWithoutMetaContentImpressionInput = {
+    where: WebsiteFeedbackWhereUniqueInput
+    data: XOR<WebsiteFeedbackUpdateWithoutMetaContentImpressionInput, WebsiteFeedbackUncheckedUpdateWithoutMetaContentImpressionInput>
+  }
+
+  export type WebsiteFeedbackUpdateManyWithWhereWithoutMetaContentImpressionInput = {
+    where: WebsiteFeedbackScalarWhereInput
+    data: XOR<WebsiteFeedbackUpdateManyMutationInput, WebsiteFeedbackUncheckedUpdateManyWithoutWebsiteFeedbacksInput>
+  }
+
+  export type WebsiteFeedbackScalarWhereInput = {
+    AND?: Enumerable<WebsiteFeedbackScalarWhereInput>
+    OR?: Enumerable<WebsiteFeedbackScalarWhereInput>
+    NOT?: Enumerable<WebsiteFeedbackScalarWhereInput>
+    id?: StringFilter | string
+    metaContentImpressionId?: StringNullableFilter | string | null
+    experienceEnhanced?: StringNullableFilter | string | null
+    contentRelevant?: StringNullableFilter | string | null
+    optOut?: BoolFilter | boolean
+    specificExamplesText?: StringNullableFilter | string | null
+    suggesstionsText?: StringNullableFilter | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type UserCreateWithoutCampaignsInput = {
@@ -31156,6 +32684,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -31178,6 +32708,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -31241,6 +32773,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31263,11 +32797,73 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
+  }
+
+  export type MetaContentImpressionCreateWithoutWebsiteFeedbacksInput = {
+    id?: string
+    feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    metaContent?: MetaContentCreateNestedOneWithoutMetaContentImpressionsInput
+    auction: AuctionCreateNestedOneWithoutMetaContentImpressionsInput
+  }
+
+  export type MetaContentImpressionUncheckedCreateWithoutWebsiteFeedbacksInput = {
+    id?: string
+    metaContentId?: string | null
+    auctionId: string
+    feedbackEmoji?: string | null
+    contentHasScroll?: boolean
+    percentageScrolled?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaContentImpressionCreateOrConnectWithoutWebsiteFeedbacksInput = {
+    where: MetaContentImpressionWhereUniqueInput
+    create: XOR<MetaContentImpressionCreateWithoutWebsiteFeedbacksInput, MetaContentImpressionUncheckedCreateWithoutWebsiteFeedbacksInput>
+  }
+
+  export type MetaContentImpressionUpsertWithoutWebsiteFeedbacksInput = {
+    update: XOR<MetaContentImpressionUpdateWithoutWebsiteFeedbacksInput, MetaContentImpressionUncheckedUpdateWithoutWebsiteFeedbacksInput>
+    create: XOR<MetaContentImpressionCreateWithoutWebsiteFeedbacksInput, MetaContentImpressionUncheckedCreateWithoutWebsiteFeedbacksInput>
+    where?: MetaContentImpressionWhereInput
+  }
+
+  export type MetaContentImpressionUpdateToOneWithWhereWithoutWebsiteFeedbacksInput = {
+    where?: MetaContentImpressionWhereInput
+    data: XOR<MetaContentImpressionUpdateWithoutWebsiteFeedbacksInput, MetaContentImpressionUncheckedUpdateWithoutWebsiteFeedbacksInput>
+  }
+
+  export type MetaContentImpressionUpdateWithoutWebsiteFeedbacksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
+    auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+  }
+
+  export type MetaContentImpressionUncheckedUpdateWithoutWebsiteFeedbacksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    auctionId?: StringFieldUpdateOperationsInput | string
+    feedbackEmoji?: NullableStringFieldUpdateOperationsInput | string | null
+    contentHasScroll?: BoolFieldUpdateOperationsInput | boolean
+    percentageScrolled?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountCreateManyUserInput = {
@@ -31301,6 +32897,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -31411,6 +33009,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31432,6 +33032,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31451,6 +33053,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31624,6 +33228,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContent?: MetaContentUpdateOneWithoutMetaContentImpressionsNestedInput
+    WebsiteFeedbacks?: WebsiteFeedbackUpdateManyWithoutMetaContentImpressionNestedInput
   }
 
   export type MetaContentImpressionUncheckedUpdateWithoutAuctionInput = {
@@ -31634,6 +33239,7 @@ export namespace Prisma {
     percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    WebsiteFeedbacks?: WebsiteFeedbackUncheckedUpdateManyWithoutMetaContentImpressionNestedInput
   }
 
   export type MetaContentImpressionUncheckedUpdateManyWithoutMetaContentImpressionsInput = {
@@ -31666,6 +33272,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -31720,6 +33328,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31741,6 +33351,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31787,6 +33399,8 @@ export namespace Prisma {
     ip?: string
     endUserCuid?: string
     endUserFp?: string
+    scrollPosition?: number | null
+    firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
     createdAt?: Date | string
@@ -31909,6 +33523,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31930,6 +33546,8 @@ export namespace Prisma {
     ip?: StringFieldUpdateOperationsInput | string
     endUserCuid?: StringFieldUpdateOperationsInput | string
     endUserFp?: StringFieldUpdateOperationsInput | string
+    scrollPosition?: NullableIntFieldUpdateOperationsInput | number | null
+    firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32165,6 +33783,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     auction?: AuctionUpdateOneRequiredWithoutMetaContentImpressionsNestedInput
+    WebsiteFeedbacks?: WebsiteFeedbackUpdateManyWithoutMetaContentImpressionNestedInput
   }
 
   export type MetaContentImpressionUncheckedUpdateWithoutMetaContentInput = {
@@ -32175,6 +33794,7 @@ export namespace Prisma {
     percentageScrolled?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    WebsiteFeedbacks?: WebsiteFeedbackUncheckedUpdateManyWithoutMetaContentImpressionNestedInput
   }
 
   export type MetaContentCreateManyMetaContentTypeInput = {
@@ -32213,6 +33833,50 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutMetaContentNestedInput
+  }
+
+  export type WebsiteFeedbackCreateManyMetaContentImpressionInput = {
+    id?: string
+    experienceEnhanced?: string | null
+    contentRelevant?: string | null
+    optOut?: boolean
+    specificExamplesText?: string | null
+    suggesstionsText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebsiteFeedbackUpdateWithoutMetaContentImpressionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteFeedbackUncheckedUpdateWithoutMetaContentImpressionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebsiteFeedbackUncheckedUpdateManyWithoutWebsiteFeedbacksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experienceEnhanced?: NullableStringFieldUpdateOperationsInput | string | null
+    contentRelevant?: NullableStringFieldUpdateOperationsInput | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    specificExamplesText?: NullableStringFieldUpdateOperationsInput | string | null
+    suggesstionsText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ScoredCampaignCreateManyCampaignInput = {

@@ -1,4 +1,4 @@
-import { AuctionResponse, updateExtra } from "./auction";
+import { AuctionResponse, updateAuction, updateExtra } from "./auction";
 import mobileCheck from "./mobileCheck";
 import sendPageViewEventToGa, { gaProperties } from "./sendMessageToGa";
 import setupInlineTooltip from "./setupInlineTooltip";
@@ -49,6 +49,21 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     metaContentToolTipTextColor,
   } = settings;
 
+  await updateAuction(aid, {
+    scrollPosition: document?.documentElement?.scrollTop,
+  });
+  const timeZero = Date.now();
+  document.addEventListener(
+    "scroll",
+    once(async () => {
+      await updateAuction(aid, {
+        firstScrollAt: Date.now() - timeZero
+      });
+    })
+  );
+
+  await updateExtra(aid, SHOW_TIPPY);
+
   if (metaContentStatus) {
     logger.info("continuing as meta content status is ON");
   } else {
@@ -56,10 +71,10 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     return;
   }
 
-  if(optOutCookieValue === true){
+  if (optOutCookieValue === true) {
     logger.info("aborting as user has opt out cookie with true");
     return;
-  }else{
+  } else {
     logger.info("continuing as user has not opted out");
   }
 

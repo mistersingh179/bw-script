@@ -40,7 +40,7 @@ export type AuctionResponse = {
   settings: LimitedSettingsType;
   abortCategoryNames: string[];
   messages: string[];
-  optOutCookieValue: boolean
+  optOutCookieValue: boolean;
 };
 
 export const generateAuction = async () => {
@@ -97,4 +97,18 @@ export const updateExtra = async (aid: string, extra: string) => {
       credentials: "include",
     }
   );
+};
+
+export const updateAuction = async (aid: string, data: any) => {
+  const res = await fetch(`${BW_DASHBOARD_BASE_URL}/api/auctions/${aid}`, {
+    mode: "cors",
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...data,
+    }),
+    credentials: "include",
+  });
 };

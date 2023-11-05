@@ -10,18 +10,19 @@ import logger from "./utils/logger";
 declare var BW_DASHBOARD_BASE_URL: string;
 
 const init = async () => {
-  logger.info("in bw.js from bw-script");
+  logger.info("in bw.js from bw-script", performance.now(), document.readyState);
 
   const userId = getUserId();
   logger.info("got userId: ", userId);
 
   const auctionResponse = await generateAuction();
+  logger.info("auction response: ", auctionResponse, performance.now());
+
   if (auctionResponse === null) {
     logger.info("aborting as no auction response");
     return;
   }
 
-  logger.info("setting up start time to now");
   let startTime = new Date().getTime();
   let totalTime = 0;
 
@@ -60,7 +61,7 @@ const init = async () => {
   logger.info("got auction ", auction.id, " and ads: ", adsWithDetail.length);
 
   if (adsWithDetail.length === 0) {
-    logger.info("aborting as no ads found");
+    logger.info("aborting ad placement as no ads found");
     return;
   }
 

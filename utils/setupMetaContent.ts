@@ -1,6 +1,6 @@
 import { AuctionResponse, updateAuction, updateExtra } from "./auction";
 import mobileCheck from "./mobileCheck";
-import sendPageViewEventToGa, { gaProperties } from "./sendMessageToGa";
+import sendEventToGa from "./sendMessageToGa";
 import setupInlineTooltip from "./setupInlineTooltip";
 import setupHoverTooltip from "./setupHoverTooltip";
 import { once } from "lodash";
@@ -27,8 +27,7 @@ export const recordDisplay = async (
   mcid: string,
   contentHasScroll: boolean
 ): Promise<string> => {
-  gaProperties.bw_show_meta_content = "yes_and_displayed";
-  sendPageViewEventToGa();
+  sendEventToGa("bw_inline_tooltip", { bw_inline_tooltip_displayed: "yes" });
   updateExtra(aid, SHOW_TIPPY_AND_DISPLAYED);
   const mci = await generateMetaContentImpression(aid, mcid, contentHasScroll);
   return mci.id;
@@ -37,6 +36,7 @@ export const recordDisplay = async (
 const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   const { metaContentSpotsWithDetail, auction, settings, optOutCookieValue } =
     auctionResponse;
+  logger.info("setupMetaContent initiated at:", performance.now());
 
   const { id: aid } = auction;
 
@@ -49,20 +49,18 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     metaContentToolTipTextColor,
   } = settings;
 
-  await updateAuction(aid, {
+  updateAuction(aid, {
     scrollPosition: document?.documentElement?.scrollTop,
   });
   const timeZero = Date.now();
   document.addEventListener(
     "scroll",
     once(async () => {
-      await updateAuction(aid, {
-        firstScrollAt: Date.now() - timeZero
+      updateAuction(aid, {
+        firstScrollAt: Date.now() - timeZero,
       });
     })
   );
-
-  await updateExtra(aid, SHOW_TIPPY);
 
   if (metaContentStatus) {
     logger.info("continuing as meta content status is ON");
@@ -99,62 +97,39 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
 
   if (doTheDisplay) {
     logger.info("random A/B - SHOW: ", random, displayPercentage);
-    gaProperties.bw_show_meta_content = "yes";
-    sendPageViewEventToGa();
-    await updateExtra(aid, SHOW_TIPPY);
+    sendEventToGa("bw_ab_test", { bw_ab_test_result: "yes" });
+    updateExtra(aid, SHOW_TIPPY);
   } else {
     logger.info("random A/B - DO NOT SHOW: ", random, displayPercentage);
-    gaProperties.bw_show_meta_content = "no";
-    sendPageViewEventToGa();
+    sendEventToGa("bw_ab_test", { bw_ab_test_result: "no" });
     await updateExtra(aid, SHOW_NOTHING);
-  }
-
-  setTimeout(() => {
-    gaProperties.bw_spent_five_seconds = "yes";
-    sendPageViewEventToGa();
-  }, 5000);
-
-  window.document.addEventListener(
-    "scroll",
-    once((event) => {
-      gaProperties.bw_mouse_scroll_detected = "yes";
-      sendPageViewEventToGa();
-      if (doTheDisplay == false) {
-        updateExtra(aid, SHOW_NOTHING_AND_MOUSE_SCROLLED);
-        gaProperties.bw_show_meta_content = "no_and_scrolled";
-        sendPageViewEventToGa();
-      }
-    })
-  );
-
-  window.document.addEventListener(
-    "mousemove",
-    once((event) => {
-      gaProperties.bw_mouse_move_detected = "yes";
-      sendPageViewEventToGa();
-    })
-  );
-
-  if (doTheDisplay == false) {
-    logger.info("aborting as random A/B says do not show");
     return;
   }
 
-  if (onMobile) {
-    setupInlineTooltip(
-      aid,
-      metaContentSpotSelector,
-      metaContentSpotsWithDetail,
-      metaContentToolTipTheme
-    );
+  const loadToolTip = () => {
+    if (onMobile) {
+      setupInlineTooltip(
+        aid,
+        metaContentSpotSelector,
+        metaContentSpotsWithDetail,
+        metaContentToolTipTheme
+      );
+    } else {
+      setupHoverTooltip(
+        aid,
+        metaContentSpotSelector,
+        metaContentSpotsWithDetail,
+        metaContentToolTipTheme,
+        metaContentToolTipTextColor
+      );
+    }
+  };
+
+  logger.info("initiating loadTooltip: ", document.readyState);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadToolTip);
   } else {
-    setupHoverTooltip(
-      aid,
-      metaContentSpotSelector,
-      metaContentSpotsWithDetail,
-      metaContentToolTipTheme,
-      metaContentToolTipTextColor
-    );
+    loadToolTip();
   }
 };
 

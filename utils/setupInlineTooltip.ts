@@ -1,4 +1,4 @@
-import { MetaContentSpotsWithMetaContentAndType, updateExtra } from "./auction";
+import { MetaContentSpotsWithMetaContentAndType } from "./auction";
 import "../styles/inlineTooltip.css";
 import { MetaContent } from "../prisma-client-index";
 import { loadCSS, recordDisplay } from "./setupMetaContent";
@@ -48,16 +48,17 @@ const getAnswerDiv = (
   const themeName =
     metaContentToolTipTheme === "light" ? "bw-inline-tooltip-inverse" : "";
   template.innerHTML = `
-<div class="bw-inline-tooltip-container bw-inline-tooltip-hidden ${themeName}">
+<div class="bw-inline-tooltip-container ${themeName}">
   <div class="bw-inline-tooltip-scrollable-content">
     <div class="bw-inline-tooltip-heading-row">
       <div class="bw-inline-tooltip-heading-title">
         <strong>${metaContent.generatedHeading}</strong>
       </div>
       <div class="bw-inline-tooltip-icon">
-        <button class="bw-inline-tooltip-skip-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentcolor" viewBox="0 0 16 16">
-            <path d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5zM1 4.633v6.734L6.804 8 1 4.633zm7.5 0v6.734L14.304 8 8.5 4.633z"/>
+        <button class="bw-inline-tooltip-close-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
           </svg>
         </button>
       </div>
@@ -105,53 +106,43 @@ const setupInlineTooltip = (
   metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[],
   metaContentToolTipTheme: string
 ) => {
-  logger.info("in setupInlineTooltip with: ", metaContentSpotsWithDetail);
+  logger.info(
+    "in setupInlineTooltip with: ",
+    metaContentSpotsWithDetail,
+    performance.now()
+  );
 
   loadCSS();
 
   const showAnswer = async (elem: HTMLElement) => {
-    elem.style.display = "block";
-    window.setTimeout(async () => {
-      elem.classList.remove("bw-inline-tooltip-hidden");
+    if (!elem.classList.contains("bw-inline-tooltip-visible")) {
       elem.classList.add("bw-inline-tooltip-visible");
-      const contentHasScroll = hasScroll(
-        elem.querySelector(".bw-inline-tooltip-scrollable-content")!
-      );
-      const mcid = elem.getAttribute("bw-mc-id")!;
-      const mciid = await recordDisplay(aid, mcid, contentHasScroll);
-      elem.setAttribute("bw-mci-id", mciid);
-      const feedbackLinks = [
-        ...elem.querySelectorAll<HTMLAnchorElement>(
-          "a.bw-inline-tooltip-feedback-link"
-        ),
-      ];
-      for (const feedbackLink of feedbackLinks) {
-        const url = new URL(feedbackLink.href);
-        url.searchParams.append("metaContentImpressionId", mciid);
-        feedbackLink.href = url.href;
-      }
-    }, 100);
+    }
+    const contentHasScroll = hasScroll(
+      elem.querySelector(".bw-inline-tooltip-scrollable-content")!
+    );
+    const mcid = elem.getAttribute("bw-mc-id")!;
+    const mciid = await recordDisplay(aid, mcid, contentHasScroll);
+    elem.setAttribute("bw-mci-id", mciid);
+    const feedbackLinks = [
+      ...elem.querySelectorAll<HTMLAnchorElement>(
+        "a.bw-inline-tooltip-feedback-link"
+      ),
+    ];
+    for (const feedbackLink of feedbackLinks) {
+      const url = new URL(feedbackLink.href);
+      url.searchParams.append("metaContentImpressionId", mciid);
+      feedbackLink.href = url.href;
+    }
   };
 
-  const hideAnswer = (elem: HTMLElement) => {
-    elem.classList.remove("bw-inline-tooltip-visible");
-    elem.classList.add("bw-inline-tooltip-hidden");
-    window.setTimeout(() => {
-      elem.style.display = "none";
-    }, 100);
-  };
-
-  const handleSkip = (evt: MouseEvent) => {
+  const handleClose = (evt: MouseEvent) => {
     if (evt.target) {
-      const skipButton = evt.target as HTMLButtonElement;
-      const answerBox = skipButton.closest<HTMLElement>(
+      const mcElements = document.querySelectorAll(
         ".bw-inline-tooltip-container"
       );
-      if (answerBox) {
-        window.scrollTo({
-          top: answerBox.clientHeight + answerBox.offsetTop,
-          behavior: "smooth",
-        });
+      for (const elem of mcElements) {
+        elem.remove();
       }
     }
   };
@@ -183,21 +174,10 @@ const setupInlineTooltip = (
       const pageTopPortion = document.documentElement.clientHeight * 0.5;
       const answerHalfHeight = entry.boundingClientRect.height * 0.5;
       const id = entry.target.id;
-      // console.table({ id, intersecting, answerBottom, pageTopPortion });
 
       if (intersecting == true) {
-        // logger.info("it is visible");
-        if (answerBottom < pageTopPortion) {
-          // logger.info("i am at top of page");
-          // logger.info("show inline tooltip");
-          const mcsId = entry.target.getAttribute("bw-mcs-id");
-          const answerElement = document.querySelector<HTMLElement>(
-            `.bw-inline-tooltip-container[bw-mcs-id=${mcsId}]`
-          )!;
-          if (answerElement.style.display !== "block") {
-            showAnswer(answerElement);
-          }
-        }
+        logger.info("it is visible");
+        showAnswer(entry.target as HTMLElement);
       }
     });
   };
@@ -205,7 +185,7 @@ const setupInlineTooltip = (
   let options = {
     root: null,
     rootMargin: "0px",
-    threshold: [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
+    threshold: [0.5],
   };
   let observer = new IntersectionObserver(callback, options);
 
@@ -245,10 +225,10 @@ const setupInlineTooltip = (
     mcElement.setAttribute("bw-mcs-id", mcs.id);
     mcElement.setAttribute("bw-mc-id", mcs.metaContents[0].id);
 
-    const skipButton = mcElement.querySelector<HTMLButtonElement>(
-      ".bw-inline-tooltip-skip-button"
+    const closeButton = mcElement.querySelector<HTMLButtonElement>(
+      ".bw-inline-tooltip-close-button"
     )!;
-    skipButton.addEventListener("click", handleSkip);
+    closeButton.addEventListener("click", handleClose);
 
     const thumbButtons = mcElement.querySelectorAll<HTMLButtonElement>(
       ".bw-inline-tooltip-thumbs-button"
@@ -263,8 +243,26 @@ const setupInlineTooltip = (
 
     scrollableElement.addEventListener("scroll", reportScrollPercentage);
 
-    mcsElement.after(mcElement);
-    observer.observe(mcsElement);
+    const addTooltip = () => {
+      const documentOffsetBottom =
+        window.scrollY + document.documentElement.clientHeight;
+      const contentSpotOffsetBottom =
+        mcsElement.offsetTop + mcsElement.clientHeight;
+      if (contentSpotOffsetBottom > documentOffsetBottom) {
+        logger.info("adding as spot is after viewport: ", performance.now());
+        mcsElement.append(mcElement);
+        observer.observe(mcElement);
+      } else if (contentSpotOffsetBottom < window.scrollY) {
+        logger.info("adding as spot is before viewport: ", performance.now());
+        mcsElement.append(mcElement);
+        observer.observe(mcElement);
+      } else {
+        logger.info("skipping build as it will cause CLS: ", performance.now());
+        window.addEventListener("scrollend", once(addTooltip));
+      }
+    };
+
+    addTooltip();
   });
 };
 

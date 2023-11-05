@@ -36,16 +36,10 @@
   /*box-shadow: 0px 2px 10px #22222260;*/
   box-shadow:0 0 20px 4px rgba(154, 161, 177, 0.15), 0 4px 80px -8px rgba(36, 40, 47, 0.25), 0 4px 4px -2px rgba(91, 94, 105, 0.15);
   margin: 10px 0px;
-}
-.bw-inline-tooltip-hidden {
-  transition: max-height ease-in 0.5s, opacity ease-in 0.5s;
-  max-height: 0px;
   opacity: 0;
-  display: none;
 }
 .bw-inline-tooltip-visible {
-  transition: max-height ease-in 0.5s, opacity ease-in 0.5s;
-  max-height: 250px;
+  transition: opacity ease-in 1s;
   opacity: 1;
 }
 :not(#non-existing-bw-id) div.bw-inline-tooltip-scrollable-content {
@@ -127,7 +121,7 @@
   fill: currentColor;
   vertical-align: middle;
 }
-button.bw-inline-tooltip-skip-button {
+button.bw-inline-tooltip-close-button {
   background-color: inherit;
   color: inherit;
   border: none;

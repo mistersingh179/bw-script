@@ -1,17 +1,15 @@
 import { AuctionResponse, updateAuction, updateExtra } from "./auction";
 import mobileCheck from "./mobileCheck";
-import sendEventToGa from "./sendMessageToGa";
 import setupInlineTooltip from "./setupInlineTooltip";
 import setupHoverTooltip from "./setupHoverTooltip";
 import { once } from "lodash";
 import { generateMetaContentImpression } from "./metaContentImpression";
 import logger from "./logger";
+import {sendEventToGa, sendEventToRaptive} from "./sendEvents";
 
 declare var BW_CDN_BASE_URL: string;
 
 export const SHOW_NOTHING = "show nothing";
-export const SHOW_NOTHING_AND_MOUSE_SCROLLED =
-  "show nothing and mouse scrolled";
 export const SHOW_TIPPY = "show tippy";
 export const SHOW_TIPPY_AND_DISPLAYED = "show tippy and it popped up";
 
@@ -97,12 +95,14 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
 
   if (doTheDisplay) {
     logger.info("random A/B - SHOW: ", random, displayPercentage);
+    sendEventToRaptive({key: 'bw_ab_test_result', value: "on"})
     sendEventToGa("bw_ab_test", { bw_ab_test_result: "yes" });
     updateExtra(aid, SHOW_TIPPY);
   } else {
     logger.info("random A/B - DO NOT SHOW: ", random, displayPercentage);
+    sendEventToRaptive({key: 'bw_ab_test_result', value: "off"})
     sendEventToGa("bw_ab_test", { bw_ab_test_result: "no" });
-    await updateExtra(aid, SHOW_NOTHING);
+    updateExtra(aid, SHOW_NOTHING);
     return;
   }
 

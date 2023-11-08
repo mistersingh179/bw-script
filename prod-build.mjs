@@ -7,9 +7,10 @@ const options = {
   sourcemap: true,
   minify: true,
   define: {
-    'BW_DASHBOARD_BASE_URL': '"https://app.brandweaver.ai"',
-    'BW_CDN_BASE_URL': '"https://cdn.brandweaver.ai"',
-    'BW_FEEDBACK_URL': '"https://brandweaver.ai/what-is-brandweaver-content"'
+    BW_DASHBOARD_BASE_URL: '"https://app.brandweaver.ai"',
+    BW_CDN_BASE_URL: '"https://cdn.brandweaver.ai"',
+    BW_FEEDBACK_URL: '"https://brandweaver.ai/what-is-brandweaver-content"',
+    BW_ENV: '"production"'
   },
 };
 

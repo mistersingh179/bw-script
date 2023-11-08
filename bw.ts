@@ -7,10 +7,10 @@ import getCategories from "./utils/categories/getCategories";
 import setupMetaContent from "./utils/setupMetaContent";
 import logger from "./utils/logger";
 
-declare var BW_DASHBOARD_BASE_URL: string;
+declare var BW_ENV: string;
 
 const init = async () => {
-  logger.info("in bw.js from bw-script", performance.now(), document.readyState);
+  logger.info("in bw.js from bw-script", performance.now(), document.readyState, BW_ENV);
 
   const userId = getUserId();
   logger.info("got userId: ", userId);

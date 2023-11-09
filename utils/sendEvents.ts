@@ -20,16 +20,16 @@ export const sendEventToGa = (eventName: string, eventProperties: any) => {
 };
 
 export const sendEventToRaptive = (eventProperties: any) => {
-  // try {
-  //   if (BW_ENV === "production") {
-  //     window.adthrive.cmd.push(function () {
-  //       window.adthrive.siteAds.targeting.push(eventProperties);
-  //     });
-  //     logger.info("Sent event to raptive: ", eventProperties);
-  //   } else {
-  //     logger.info("not sending event to raptive: ", BW_ENV, eventProperties);
-  //   }
-  // } catch (err) {
-  //   logger.info("UNABLE to send event to raptive: ", eventProperties);
-  // }
+  try {
+    if (BW_ENV === "production") {
+      window.adthrive.cmd.push(function () {
+        window.adthrive.siteAds.targeting.push(eventProperties);
+      });
+      logger.info("Sent event to raptive: ", eventProperties);
+    } else {
+      logger.info("not sending event to raptive: ", BW_ENV, eventProperties);
+    }
+  } catch (err) {
+    logger.info("UNABLE to send event to raptive: ", eventProperties);
+  }
 };

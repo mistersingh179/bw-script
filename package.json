@@ -17,7 +17,8 @@
     "lodash": "^4.17.21",
     "pino": "^8.16.0",
     "superjson": "^1.12.3",
-    "tippy.js": "^6.3.7"
+    "tippy.js": "^6.3.7",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.14",

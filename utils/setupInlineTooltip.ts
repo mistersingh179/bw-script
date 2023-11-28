@@ -9,8 +9,22 @@ import {
 import logger from "./logger";
 import { hasScroll, scrollPercentage } from "./scrollbar";
 import { debounce, max, once } from "lodash";
+import getUserId from "./getUserId";
 
 declare var BW_FEEDBACK_URL: string;
+declare var BW_ENV: string;
+
+const avilableAdIds = ["rectangle_1"];
+const adTagScriptUrl =
+  "https://storage.googleapis.com/didna_hb/brandweaver/brandweaverai/didna_config.js";
+
+const loadAdTagScript = (url: string) => {
+  const scriptElem = document.createElement("script");
+  scriptElem.type = "text/javascript";
+  scriptElem.src = url;
+  scriptElem.async = true;
+  document.body.appendChild(scriptElem);
+};
 
 const debouncedSetMetaContentPercentageRead = debounce(
   setMetaContentPercentageScrolled,
@@ -111,6 +125,25 @@ const setupInlineTooltip = (
     metaContentSpotsWithDetail,
     performance.now()
   );
+
+  let showAds = false;
+  const userId = getUserId()!;
+  const ourUserId = "clij1cjb60000mb08uzganxdq";
+  const userIdWhichRunAds = [ourUserId];
+
+  if (BW_ENV === 'development'){
+    console.log("*** since in dev, lets show ads");
+    showAds = true;
+    loadAdTagScript(adTagScriptUrl);
+  }
+  else if (userIdWhichRunAds.find((x) => x === userId)) {
+    console.log("*** lets show Ads as this user id is approved for ads");
+    showAds = true;
+    loadAdTagScript(adTagScriptUrl);
+  }else{
+    console.log("*** let us not show Ads");
+    showAds = false;
+  }
 
   loadCSS();
 
@@ -224,6 +257,18 @@ const setupInlineTooltip = (
     );
     mcElement.setAttribute("bw-mcs-id", mcs.id);
     mcElement.setAttribute("bw-mc-id", mcs.metaContents[0].id);
+
+    if (showAds) {
+      const adId = avilableAdIds.pop();
+      if (adId) {
+        const adDev = document.createElement("div");
+        adDev.id = adId;
+        adDev.className = "bw-inline-tooltip-ad-row";
+        mcElement
+          .querySelector(".bw-inline-tooltip-scrollable-content")!
+          .after(adDev);
+      }
+    }
 
     const closeButton = mcElement.querySelector<HTMLButtonElement>(
       ".bw-inline-tooltip-close-button"

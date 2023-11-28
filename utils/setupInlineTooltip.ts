@@ -262,8 +262,10 @@ const setupInlineTooltip = (
       const adId = avilableAdIds.pop();
       if (adId) {
         const adDev = document.createElement("div");
-        adDev.id = adId;
         adDev.className = "bw-inline-tooltip-ad-row";
+        const rectangleDiv = document.createElement("div");
+        rectangleDiv.id = adId;
+        adDev.append(rectangleDiv);
         mcElement
           .querySelector(".bw-inline-tooltip-scrollable-content")!
           .after(adDev);

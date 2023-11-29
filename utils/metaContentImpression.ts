@@ -23,15 +23,19 @@ export const generateMetaContentImpression = async (
         metaContentId: mcid,
         auctionId: aid,
         userId: getUserId(),
-        contentHasScroll
+        contentHasScroll,
       }),
       credentials: "include",
     }
   );
 
   const text = await res.text();
-  const data = await superjson.parse<any>(text);
-  logger.info("genereated MetaContentImpression: ", data);
+  let data: any = {};
+  try {
+    data = await superjson.parse<any>(text);
+  } catch (err) {
+    data = {};
+  }
   return data as MetaContentImpression;
 };
 
@@ -62,7 +66,12 @@ export const setMetaContentFeedback = async (
   );
 
   const text = await res.text();
-  const data = await superjson.parse<any>(text);
+  let data: any = {};
+  try {
+    data = await superjson.parse<any>(text);
+  } catch (err) {
+    data = {};
+  }
   return data as Impression;
 };
 
@@ -70,7 +79,11 @@ export const setMetaContentPercentageScrolled = async (
   metaContentImpressionId: string,
   percentageScrolled: number
 ) => {
-  logger.info("in setMetaContentPercentageRead with: ", metaContentImpressionId, percentageScrolled)
+  logger.info(
+    "in setMetaContentPercentageRead with: ",
+    metaContentImpressionId,
+    percentageScrolled
+  );
   const res = await fetch(
     `${BW_DASHBOARD_BASE_URL}/api/metaContentImpressions/setPercentageScrolled`,
     {
@@ -89,6 +102,11 @@ export const setMetaContentPercentageScrolled = async (
   );
 
   const text = await res.text();
-  const data = await superjson.parse<any>(text);
+  let data: any = {};
+  try {
+    data = await superjson.parse<any>(text);
+  } catch (err) {
+    data = {};
+  }
   return data as Impression;
 };

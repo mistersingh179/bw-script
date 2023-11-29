@@ -14,14 +14,31 @@ import getUserId from "./getUserId";
 declare var BW_FEEDBACK_URL: string;
 declare var BW_ENV: string;
 
-const avilableAdIds = ["rectangle_1"];
-const adTagScriptUrl =
-  "https://storage.googleapis.com/didna_hb/brandweaver/brandweaverai/didna_config.js";
+let showAds = false;
+let adProvider: "raptive" | "didna" | "" = "";
 
-const loadAdTagScript = (url: string) => {
+if (document.location.hostname === "brandweaver.ai") {
+  showAds = true;
+  adProvider = "didna";
+} else if (document.location.hostname === "localhost") {
+  showAds = true;
+  adProvider = "raptive";
+} else if (document.location.pathname === "/gargling-salt-water-covid-19/") {
+  showAds = true;
+  adProvider = "raptive";
+} else {
+  showAds = false;
+  adProvider = "";
+}
+console.log("*** set showAds & adProvider:", showAds, adProvider);
+
+const avilableAdIds = ["rectangle_1"];
+
+const loadDidnaAdTagScript = () => {
   const scriptElem = document.createElement("script");
   scriptElem.type = "text/javascript";
-  scriptElem.src = url;
+  scriptElem.src =
+    "https://storage.googleapis.com/didna_hb/brandweaver/brandweaverai/didna_config.js";
   scriptElem.async = true;
   document.body.appendChild(scriptElem);
 };
@@ -126,23 +143,10 @@ const setupInlineTooltip = (
     performance.now()
   );
 
-  let showAds = false;
-  const userId = getUserId()!;
-  const ourUserId = "clij1cjb60000mb08uzganxdq";
-  const userIdWhichRunAds = [ourUserId];
-
-  if (BW_ENV === 'development'){
-    console.log("*** since in dev, lets show ads");
-    showAds = true;
-    loadAdTagScript(adTagScriptUrl);
-  }
-  else if (userIdWhichRunAds.find((x) => x === userId)) {
-    console.log("*** lets show Ads as this user id is approved for ads");
-    showAds = true;
-    loadAdTagScript(adTagScriptUrl);
-  }else{
-    console.log("*** let us not show Ads");
-    showAds = false;
+  if(showAds){
+    if(adProvider === "didna"){
+      loadDidnaAdTagScript();
+    }
   }
 
   loadCSS();
@@ -259,17 +263,21 @@ const setupInlineTooltip = (
     mcElement.setAttribute("bw-mc-id", mcs.metaContents[0].id);
 
     if (showAds) {
-      const adId = avilableAdIds.pop();
-      if (adId) {
-        const adDev = document.createElement("div");
-        adDev.className = "bw-inline-tooltip-ad-row";
+      const adDev = document.createElement("div");
+      adDev.className = "bw-inline-tooltip-ad-row";
+      if (adProvider === "raptive") {
+        const rectangleDiv = document.createElement("div");
+        rectangleDiv.className = "raptive-custom-ad-320-50";
+        adDev.append(rectangleDiv);
+      } else if (adProvider === "didna" && avilableAdIds.length > 0) {
+        const adId = avilableAdIds.pop()!;
         const rectangleDiv = document.createElement("div");
         rectangleDiv.id = adId;
         adDev.append(rectangleDiv);
-        mcElement
-          .querySelector(".bw-inline-tooltip-scrollable-content")!
-          .after(adDev);
       }
+      mcElement
+        .querySelector(".bw-inline-tooltip-scrollable-content")!
+        .after(adDev);
     }
 
     const closeButton = mcElement.querySelector<HTMLButtonElement>(

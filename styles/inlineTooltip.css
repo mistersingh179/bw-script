@@ -92,11 +92,15 @@
 }
 
 :not(#non-existing-bw-id) .bw-inline-tooltip-ad-row {
-  height:50px;
+  max-height:50px;
   width: 100%;
   margin-bottom: 10px;
   overflow: hidden;
   text-align: center;
+}
+
+:not(#non-existing-bw-id) .bw-inline-tooltip-ad-row:empty {
+  display: none;
 }
 
 :not(#non-existing-bw-id) .bw-inline-tooltip-bottom-row {

@@ -55,6 +55,7 @@ export const generateAuction = async () => {
       url: getCleanUrl(window.document.location.href),
       screenWidth: window.screen?.availWidth,
       screenHeight: window.screen?.availHeight,
+      scrollHeight: window.document?.documentElement?.scrollHeight
     }),
     credentials: "include",
   });
@@ -100,6 +101,7 @@ export const updateExtra = async (aid: string, extra: string) => {
 };
 
 export const updateAuction = async (aid: string, data: any) => {
+  logger.info("updating auction: ", aid, data);
   const res = await fetch(`${BW_DASHBOARD_BASE_URL}/api/auctions/${aid}`, {
     mode: "cors",
     method: "PUT",

@@ -1,11 +1,12 @@
-import { AuctionResponse, updateAuction, updateExtra } from "./auction";
+import {AuctionResponse, updateAuction, updateExtra} from "./auction";
 import mobileCheck from "./mobileCheck";
 import setupInlineTooltip from "./setupInlineTooltip";
 import setupHoverTooltip from "./setupHoverTooltip";
-import { once } from "lodash";
-import { generateMetaContentImpression } from "./metaContentImpression";
+import {once} from "lodash";
+import {generateMetaContentImpression} from "./metaContentImpression";
 import logger from "./logger";
 import {sendEventToGa, sendEventToRaptive} from "./sendEvents";
+import setupPersonalization from "./setupPersonalization";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -25,18 +26,18 @@ export const recordDisplay = async (
   mcid: string,
   contentHasScroll: boolean
 ): Promise<string> => {
-  sendEventToGa("bw_inline_tooltip", { bw_inline_tooltip_displayed: "yes" });
+  sendEventToGa("bw_inline_tooltip", {bw_inline_tooltip_displayed: "yes"});
   updateExtra(aid, SHOW_TIPPY_AND_DISPLAYED);
   const mci = await generateMetaContentImpression(aid, mcid, contentHasScroll);
   return mci.id;
 };
 
 const setupMetaContent = async (auctionResponse: AuctionResponse) => {
-  const { metaContentSpotsWithDetail, auction, settings, optOutCookieValue } =
+  const {metaContentSpotsWithDetail, auction, settings, optOutCookieValue} =
     auctionResponse;
   logger.info("setupMetaContent initiated at:", performance.now());
 
-  const { id: aid } = auction;
+  const {id: aid} = auction;
 
   const {
     metaContentSpotSelector,
@@ -50,6 +51,7 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   updateAuction(aid, {
     scrollPosition: document?.documentElement?.scrollTop,
   });
+
   const timeZero = Date.now();
   document.addEventListener(
     "scroll",
@@ -59,6 +61,22 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
       });
     })
   );
+
+  let previousMaxScrollDepth = 0;
+  const recordMaxScrollDepth = async () => {
+    logger.info("in recordMaxScrollDepth");
+    const newScrollDepth = window.scrollY;
+    if(newScrollDepth > previousMaxScrollDepth){
+      previousMaxScrollDepth = newScrollDepth;
+      updateAuction(aid, {
+        maxScrollDepth: newScrollDepth
+      })
+    }
+  }
+
+  document.addEventListener("scrollend", recordMaxScrollDepth);
+  document.addEventListener("touchend", recordMaxScrollDepth);
+
 
   if (metaContentStatus) {
     logger.info("continuing as meta content status is ON");
@@ -96,32 +114,33 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   if (doTheDisplay) {
     logger.info("random A/B - SHOW: ", random, displayPercentage);
     sendEventToRaptive({key: 'at_custom_1', value: "studyfinds_test_on"})
-    sendEventToGa("bw_ab_test", { bw_ab_test_result: "yes" });
+    sendEventToGa("bw_ab_test", {bw_ab_test_result: "yes"});
     updateExtra(aid, SHOW_TIPPY);
   } else {
     logger.info("random A/B - DO NOT SHOW: ", random, displayPercentage);
     sendEventToRaptive({key: 'at_custom_1', value: "studyfinds_test_off"})
-    sendEventToGa("bw_ab_test", { bw_ab_test_result: "no" });
+    sendEventToGa("bw_ab_test", {bw_ab_test_result: "no"});
     updateExtra(aid, SHOW_NOTHING);
     return;
   }
 
   const loadToolTip = () => {
     if (onMobile) {
-      setupInlineTooltip(
-        aid,
-        metaContentSpotSelector,
-        metaContentSpotsWithDetail,
-        metaContentToolTipTheme
-      );
+      setupPersonalization(aid);
+      // setupInlineTooltip(
+      //   aid,
+      //   metaContentSpotSelector,
+      //   metaContentSpotsWithDetail,
+      //   metaContentToolTipTheme
+      // );
     } else {
-      setupHoverTooltip(
-        aid,
-        metaContentSpotSelector,
-        metaContentSpotsWithDetail,
-        metaContentToolTipTheme,
-        metaContentToolTipTextColor
-      );
+      // setupHoverTooltip(
+      //   aid,
+      //   metaContentSpotSelector,
+      //   metaContentSpotsWithDetail,
+      //   metaContentToolTipTheme,
+      //   metaContentToolTipTextColor
+      // );
     }
   };
 

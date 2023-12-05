@@ -1,0 +1,56 @@
+#bw-personalization-call-to-action {
+  position: fixed;
+  top: 46px; /* todo - make this dynamic for each website */
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+  max-height: 500px;
+  overflow: scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  padding: 10px;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#bw-personalization-call-to-action::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+#bw-personalization-call-to-action.show {
+  opacity: 1;
+  transition: all ease 1s;
+  visibility: visible;
+}
+
+#bw-personalization-call-to-action div.btn-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /*margin: 10px 0px;*/
+  margin-top: 10px;
+}
+
+#bw-personalization-call-to-action select {
+  margin: 5px 0px;
+}
+
+#bw-personalization-answer {
+  padding: 10px;
+  height: 100vh;
+  /*background-color: lightcyan;*/
+  color: #0f3647;
+  overflow-y: scroll;
+}
+
+#bw-personalization-answer > div.widgedHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#bw-personalization-answer > div.personalizedContent {
+  margin-top: 10px;
+}

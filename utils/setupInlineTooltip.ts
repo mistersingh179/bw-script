@@ -30,7 +30,7 @@ if (document.location.hostname === "brandweaver.ai") {
   showAds = false;
   adProvider = "";
 }
-console.log("*** set showAds & adProvider:", showAds, adProvider);
+logger.info(" set showAds & adProvider:", showAds, adProvider);
 
 const avilableAdIds = ["rectangle_1"];
 

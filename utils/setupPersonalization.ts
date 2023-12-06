@@ -23,35 +23,67 @@ document.addEventListener("visibilitychange", (event) => {
   }
 });
 
+const questionsWithAnswers = [
+  {
+    questionText: `Have you ever fed birds in your yard?`,
+    answers: [
+      { answerText: "Never" },
+      { answerText: "Occasionally" },
+      { answerText: "Regularly" },
+    ],
+  },
+  {
+    questionText: `Have you ever noticed sick birds at a feeder?`,
+    answers: [{ answerText: "Yes" }, { answerText: "No" }],
+  },
+  {
+    questionText: `How worried are you regarding disease spread from birds?`,
+    answers: [
+      { answerText: "Extremely" },
+      { answerText: "Average" },
+      { answerText: "None" },
+    ],
+  },
+];
+
 const ctaElemId = "bw-personalization-call-to-action";
 
 const getPersonalizationCallToAction = () => {
   const template = document.createElement("template");
-  template.innerHTML = `<div id="${ctaElemId}" class="hide">
-      <div><strong>Personalize This Article</strong></div>
-      Have you ever fed birds in your yard?
-      <select name="howOften">
-        <option value="Never">Never</option>
-        <option value="Occasionally">Occasionally</option>
-        <option value="Regularly">Regularly</option>
-      </select>
-      Have you ever noticed sick birds at a feeder?
-      <select name="whichSmartDevice">
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-      How worried are you regarding disease spread from birds?
-      <select name="primaryConcern">
-        <option value="Driving Safety">Extremely</option>
-        <option value="Overall Health">Average</option>
-        <option value="Social Interactions">None</option>
-      </select>
+  template.innerHTML = `
+    <div id="${ctaElemId}" class="hide">
+      <div class="title-row">
+        <strong>Let AI rewrite thid article based on your inputs:</strong>
+      </div>
+      <div class="questions">
+      </div>
       <div class="btn-row">
         <input type="button" value="Close" class="closePersonalize" />
         <input type="button" value="Personalize" class="personalize" />
       </div>
     </div>`.trim();
-  return template.content.firstChild as HTMLElement;
+
+  const ctaDiv = template.content.firstChild as HTMLElement;
+
+  questionsWithAnswers.map(qs => {
+    const qsDiv = document.createElement("div")
+
+    const titleDiv = document.createElement("div");
+    titleDiv.innerHTML=qs.questionText;
+    qsDiv.append(titleDiv);
+
+    const selectElem = document.createElement("select");
+    qs.answers.map(ans => {
+      const optionElem = document.createElement("option");
+      optionElem.value=ans.answerText;
+      optionElem.text=ans.answerText;
+      selectElem.append(optionElem);
+    })
+    qsDiv.append(selectElem);
+
+    ctaDiv.querySelector(".questions")!.append(qsDiv);
+  })
+  return ctaDiv
 };
 
 const getPersonalizationAnswer = () => {

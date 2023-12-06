@@ -21,6 +21,7 @@ export type LimitedSettingsType = Pick<
   | "mainPostBodySelector"
   | "metaContentSpotSelector"
   | "metaContentStatus"
+  | "personalizationStatus"
   | "metaContentDisplayPercentage"
   | "metaContentMobileDisplayPercentage"
   | "metaContentToolTipTheme"

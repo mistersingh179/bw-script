@@ -76,6 +76,7 @@ export type Setting = {
   userId: string
   scoreThreshold: number
   status: boolean
+  personalizationStatus: boolean
   metaContentStatus: boolean
   metaContentDisplayPercentage: number
   metaContentMobileDisplayPercentage: number
@@ -122,6 +123,12 @@ export type Auction = {
   firstScrollAt: number | null
   timeSpent: number
   extra: string | null
+  personalized: number | null
+  closedPersonalized: number | null
+  personalizedOptionSelected: number | null
+  personalizeCtaShown: number | null
+  maxScrollDepth: number | null
+  scrollHeight: number | null
   createdAt: Date
   updatedAt: Date
 }
@@ -135,6 +142,7 @@ export type Website = {
   userId: string
   topLevelDomainUrl: string
   sitemapUrl: string
+  adTag: string | null
   status: boolean
   processedOn: Date | null
   createdAt: Date
@@ -6094,6 +6102,7 @@ export namespace Prisma {
     userId: string | null
     scoreThreshold: number | null
     status: boolean | null
+    personalizationStatus: boolean | null
     metaContentStatus: boolean | null
     metaContentDisplayPercentage: number | null
     metaContentMobileDisplayPercentage: number | null
@@ -6125,6 +6134,7 @@ export namespace Prisma {
     userId: string | null
     scoreThreshold: number | null
     status: boolean | null
+    personalizationStatus: boolean | null
     metaContentStatus: boolean | null
     metaContentDisplayPercentage: number | null
     metaContentMobileDisplayPercentage: number | null
@@ -6156,6 +6166,7 @@ export namespace Prisma {
     userId: number
     scoreThreshold: number
     status: number
+    personalizationStatus: number
     metaContentStatus: number
     metaContentDisplayPercentage: number
     metaContentMobileDisplayPercentage: number
@@ -6221,6 +6232,7 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
+    personalizationStatus?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
     metaContentMobileDisplayPercentage?: true
@@ -6252,6 +6264,7 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
+    personalizationStatus?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
     metaContentMobileDisplayPercentage?: true
@@ -6283,6 +6296,7 @@ export namespace Prisma {
     userId?: true
     scoreThreshold?: true
     status?: true
+    personalizationStatus?: true
     metaContentStatus?: true
     metaContentDisplayPercentage?: true
     metaContentMobileDisplayPercentage?: true
@@ -6402,6 +6416,7 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
+    personalizationStatus: boolean
     metaContentStatus: boolean
     metaContentDisplayPercentage: number
     metaContentMobileDisplayPercentage: number
@@ -6452,6 +6467,7 @@ export namespace Prisma {
     userId?: boolean
     scoreThreshold?: boolean
     status?: boolean
+    personalizationStatus?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: boolean
     metaContentMobileDisplayPercentage?: boolean
@@ -7260,6 +7276,12 @@ export namespace Prisma {
     scrollPosition: number | null
     firstScrollAt: number | null
     timeSpent: number | null
+    personalized: number | null
+    closedPersonalized: number | null
+    personalizedOptionSelected: number | null
+    personalizeCtaShown: number | null
+    maxScrollDepth: number | null
+    scrollHeight: number | null
   }
 
   export type AuctionSumAggregateOutputType = {
@@ -7268,6 +7290,12 @@ export namespace Prisma {
     scrollPosition: number | null
     firstScrollAt: number | null
     timeSpent: number | null
+    personalized: number | null
+    closedPersonalized: number | null
+    personalizedOptionSelected: number | null
+    personalizeCtaShown: number | null
+    maxScrollDepth: number | null
+    scrollHeight: number | null
   }
 
   export type AuctionMinAggregateOutputType = {
@@ -7286,6 +7314,12 @@ export namespace Prisma {
     firstScrollAt: number | null
     timeSpent: number | null
     extra: string | null
+    personalized: number | null
+    closedPersonalized: number | null
+    personalizedOptionSelected: number | null
+    personalizeCtaShown: number | null
+    maxScrollDepth: number | null
+    scrollHeight: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7306,6 +7340,12 @@ export namespace Prisma {
     firstScrollAt: number | null
     timeSpent: number | null
     extra: string | null
+    personalized: number | null
+    closedPersonalized: number | null
+    personalizedOptionSelected: number | null
+    personalizeCtaShown: number | null
+    maxScrollDepth: number | null
+    scrollHeight: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7326,6 +7366,12 @@ export namespace Prisma {
     firstScrollAt: number
     timeSpent: number
     extra: number
+    personalized: number
+    closedPersonalized: number
+    personalizedOptionSelected: number
+    personalizeCtaShown: number
+    maxScrollDepth: number
+    scrollHeight: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7338,6 +7384,12 @@ export namespace Prisma {
     scrollPosition?: true
     firstScrollAt?: true
     timeSpent?: true
+    personalized?: true
+    closedPersonalized?: true
+    personalizedOptionSelected?: true
+    personalizeCtaShown?: true
+    maxScrollDepth?: true
+    scrollHeight?: true
   }
 
   export type AuctionSumAggregateInputType = {
@@ -7346,6 +7398,12 @@ export namespace Prisma {
     scrollPosition?: true
     firstScrollAt?: true
     timeSpent?: true
+    personalized?: true
+    closedPersonalized?: true
+    personalizedOptionSelected?: true
+    personalizeCtaShown?: true
+    maxScrollDepth?: true
+    scrollHeight?: true
   }
 
   export type AuctionMinAggregateInputType = {
@@ -7364,6 +7422,12 @@ export namespace Prisma {
     firstScrollAt?: true
     timeSpent?: true
     extra?: true
+    personalized?: true
+    closedPersonalized?: true
+    personalizedOptionSelected?: true
+    personalizeCtaShown?: true
+    maxScrollDepth?: true
+    scrollHeight?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7384,6 +7448,12 @@ export namespace Prisma {
     firstScrollAt?: true
     timeSpent?: true
     extra?: true
+    personalized?: true
+    closedPersonalized?: true
+    personalizedOptionSelected?: true
+    personalizeCtaShown?: true
+    maxScrollDepth?: true
+    scrollHeight?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7404,6 +7474,12 @@ export namespace Prisma {
     firstScrollAt?: true
     timeSpent?: true
     extra?: true
+    personalized?: true
+    closedPersonalized?: true
+    personalizedOptionSelected?: true
+    personalizeCtaShown?: true
+    maxScrollDepth?: true
+    scrollHeight?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7512,6 +7588,12 @@ export namespace Prisma {
     firstScrollAt: number | null
     timeSpent: number
     extra: string | null
+    personalized: number | null
+    closedPersonalized: number | null
+    personalizedOptionSelected: number | null
+    personalizeCtaShown: number | null
+    maxScrollDepth: number | null
+    scrollHeight: number | null
     createdAt: Date
     updatedAt: Date
     _count: AuctionCountAggregateOutputType | null
@@ -7551,6 +7633,12 @@ export namespace Prisma {
     firstScrollAt?: boolean
     timeSpent?: boolean
     extra?: boolean
+    personalized?: boolean
+    closedPersonalized?: boolean
+    personalizedOptionSelected?: boolean
+    personalizeCtaShown?: boolean
+    maxScrollDepth?: boolean
+    scrollHeight?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Auction$userArgs
@@ -8452,6 +8540,7 @@ export namespace Prisma {
     userId: string | null
     topLevelDomainUrl: string | null
     sitemapUrl: string | null
+    adTag: string | null
     status: boolean | null
     processedOn: Date | null
     createdAt: Date | null
@@ -8463,6 +8552,7 @@ export namespace Prisma {
     userId: string | null
     topLevelDomainUrl: string | null
     sitemapUrl: string | null
+    adTag: string | null
     status: boolean | null
     processedOn: Date | null
     createdAt: Date | null
@@ -8474,6 +8564,7 @@ export namespace Prisma {
     userId: number
     topLevelDomainUrl: number
     sitemapUrl: number
+    adTag: number
     status: number
     processedOn: number
     createdAt: number
@@ -8487,6 +8578,7 @@ export namespace Prisma {
     userId?: true
     topLevelDomainUrl?: true
     sitemapUrl?: true
+    adTag?: true
     status?: true
     processedOn?: true
     createdAt?: true
@@ -8498,6 +8590,7 @@ export namespace Prisma {
     userId?: true
     topLevelDomainUrl?: true
     sitemapUrl?: true
+    adTag?: true
     status?: true
     processedOn?: true
     createdAt?: true
@@ -8509,6 +8602,7 @@ export namespace Prisma {
     userId?: true
     topLevelDomainUrl?: true
     sitemapUrl?: true
+    adTag?: true
     status?: true
     processedOn?: true
     createdAt?: true
@@ -8594,6 +8688,7 @@ export namespace Prisma {
     userId: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag: string | null
     status: boolean
     processedOn: Date | null
     createdAt: Date
@@ -8622,6 +8717,7 @@ export namespace Prisma {
     userId?: boolean
     topLevelDomainUrl?: boolean
     sitemapUrl?: boolean
+    adTag?: boolean
     status?: boolean
     processedOn?: boolean
     createdAt?: boolean
@@ -22624,6 +22720,12 @@ export namespace Prisma {
     firstScrollAt: 'firstScrollAt',
     timeSpent: 'timeSpent',
     extra: 'extra',
+    personalized: 'personalized',
+    closedPersonalized: 'closedPersonalized',
+    personalizedOptionSelected: 'personalizedOptionSelected',
+    personalizeCtaShown: 'personalizeCtaShown',
+    maxScrollDepth: 'maxScrollDepth',
+    scrollHeight: 'scrollHeight',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -22781,6 +22883,7 @@ export namespace Prisma {
     userId: 'userId',
     scoreThreshold: 'scoreThreshold',
     status: 'status',
+    personalizationStatus: 'personalizationStatus',
     metaContentStatus: 'metaContentStatus',
     metaContentDisplayPercentage: 'metaContentDisplayPercentage',
     metaContentMobileDisplayPercentage: 'metaContentMobileDisplayPercentage',
@@ -22884,6 +22987,7 @@ export namespace Prisma {
     userId: 'userId',
     topLevelDomainUrl: 'topLevelDomainUrl',
     sitemapUrl: 'sitemapUrl',
+    adTag: 'adTag',
     status: 'status',
     processedOn: 'processedOn',
     createdAt: 'createdAt',
@@ -23180,6 +23284,7 @@ export namespace Prisma {
     userId?: StringFilter | string
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
+    personalizationStatus?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
     metaContentDisplayPercentage?: IntFilter | number
     metaContentMobileDisplayPercentage?: IntFilter | number
@@ -23212,6 +23317,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    personalizationStatus?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
     metaContentMobileDisplayPercentage?: SortOrder
@@ -23247,6 +23353,7 @@ export namespace Prisma {
     NOT?: Enumerable<SettingWhereInput>
     scoreThreshold?: IntFilter | number
     status?: BoolFilter | boolean
+    personalizationStatus?: BoolFilter | boolean
     metaContentStatus?: BoolFilter | boolean
     metaContentDisplayPercentage?: IntFilter | number
     metaContentMobileDisplayPercentage?: IntFilter | number
@@ -23279,6 +23386,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    personalizationStatus?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
     metaContentMobileDisplayPercentage?: SortOrder
@@ -23318,6 +23426,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter | string
     scoreThreshold?: IntWithAggregatesFilter | number
     status?: BoolWithAggregatesFilter | boolean
+    personalizationStatus?: BoolWithAggregatesFilter | boolean
     metaContentStatus?: BoolWithAggregatesFilter | boolean
     metaContentDisplayPercentage?: IntWithAggregatesFilter | number
     metaContentMobileDisplayPercentage?: IntWithAggregatesFilter | number
@@ -23363,6 +23472,12 @@ export namespace Prisma {
     firstScrollAt?: IntNullableFilter | number | null
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
+    personalized?: IntNullableFilter | number | null
+    closedPersonalized?: IntNullableFilter | number | null
+    personalizedOptionSelected?: IntNullableFilter | number | null
+    personalizeCtaShown?: IntNullableFilter | number | null
+    maxScrollDepth?: IntNullableFilter | number | null
+    scrollHeight?: IntNullableFilter | number | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput> | null
@@ -23388,6 +23503,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -23416,6 +23537,12 @@ export namespace Prisma {
     firstScrollAt?: IntNullableFilter | number | null
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
+    personalized?: IntNullableFilter | number | null
+    closedPersonalized?: IntNullableFilter | number | null
+    personalizedOptionSelected?: IntNullableFilter | number | null
+    personalizeCtaShown?: IntNullableFilter | number | null
+    maxScrollDepth?: IntNullableFilter | number | null
+    scrollHeight?: IntNullableFilter | number | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput> | null
@@ -23441,6 +23568,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AuctionCountOrderByAggregateInput
@@ -23469,6 +23602,12 @@ export namespace Prisma {
     firstScrollAt?: IntNullableWithAggregatesFilter | number | null
     timeSpent?: IntWithAggregatesFilter | number
     extra?: StringNullableWithAggregatesFilter | string | null
+    personalized?: IntNullableWithAggregatesFilter | number | null
+    closedPersonalized?: IntNullableWithAggregatesFilter | number | null
+    personalizedOptionSelected?: IntNullableWithAggregatesFilter | number | null
+    personalizeCtaShown?: IntNullableWithAggregatesFilter | number | null
+    maxScrollDepth?: IntNullableWithAggregatesFilter | number | null
+    scrollHeight?: IntNullableWithAggregatesFilter | number | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -23481,6 +23620,7 @@ export namespace Prisma {
     userId?: StringFilter | string
     topLevelDomainUrl?: StringFilter | string
     sitemapUrl?: StringFilter | string
+    adTag?: StringNullableFilter | string | null
     status?: BoolFilter | boolean
     processedOn?: DateTimeNullableFilter | Date | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -23495,6 +23635,7 @@ export namespace Prisma {
     userId?: SortOrder
     topLevelDomainUrl?: SortOrder
     sitemapUrl?: SortOrder
+    adTag?: SortOrder
     status?: SortOrder
     processedOn?: SortOrder
     createdAt?: SortOrder
@@ -23513,6 +23654,7 @@ export namespace Prisma {
     userId?: StringFilter | string
     topLevelDomainUrl?: StringFilter | string
     sitemapUrl?: StringFilter | string
+    adTag?: StringNullableFilter | string | null
     status?: BoolFilter | boolean
     processedOn?: DateTimeNullableFilter | Date | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -23527,6 +23669,7 @@ export namespace Prisma {
     userId?: SortOrder
     topLevelDomainUrl?: SortOrder
     sitemapUrl?: SortOrder
+    adTag?: SortOrder
     status?: SortOrder
     processedOn?: SortOrder
     createdAt?: SortOrder
@@ -23544,6 +23687,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter | string
     topLevelDomainUrl?: StringWithAggregatesFilter | string
     sitemapUrl?: StringWithAggregatesFilter | string
+    adTag?: StringNullableWithAggregatesFilter | string | null
     status?: BoolWithAggregatesFilter | boolean
     processedOn?: DateTimeNullableWithAggregatesFilter | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -24828,6 +24972,7 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
+    personalizationStatus?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
     metaContentMobileDisplayPercentage?: number
@@ -24860,6 +25005,7 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
+    personalizationStatus?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
     metaContentMobileDisplayPercentage?: number
@@ -24890,6 +25036,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    personalizationStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
@@ -24922,6 +25069,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    personalizationStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
@@ -24953,6 +25101,7 @@ export namespace Prisma {
     userId: string
     scoreThreshold: number
     status: boolean
+    personalizationStatus?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
     metaContentMobileDisplayPercentage?: number
@@ -24983,6 +25132,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    personalizationStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
@@ -25014,6 +25164,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    personalizationStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
@@ -25053,6 +25204,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -25078,6 +25235,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -25097,6 +25260,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -25122,6 +25291,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -25144,6 +25319,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25161,6 +25342,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25181,6 +25368,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25189,6 +25382,7 @@ export namespace Prisma {
     id?: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -25203,6 +25397,7 @@ export namespace Prisma {
     userId: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -25215,6 +25410,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25229,6 +25425,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25242,6 +25439,7 @@ export namespace Prisma {
     userId: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -25252,6 +25450,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25263,6 +25462,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26684,6 +26884,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    personalizationStatus?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
     metaContentMobileDisplayPercentage?: SortOrder
@@ -26731,6 +26932,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    personalizationStatus?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
     metaContentMobileDisplayPercentage?: SortOrder
@@ -26762,6 +26964,7 @@ export namespace Prisma {
     userId?: SortOrder
     scoreThreshold?: SortOrder
     status?: SortOrder
+    personalizationStatus?: SortOrder
     metaContentStatus?: SortOrder
     metaContentDisplayPercentage?: SortOrder
     metaContentMobileDisplayPercentage?: SortOrder
@@ -26866,6 +27069,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -26876,6 +27085,12 @@ export namespace Prisma {
     scrollPosition?: SortOrder
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
   }
 
   export type AuctionMaxOrderByAggregateInput = {
@@ -26894,6 +27109,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -26914,6 +27135,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     extra?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -26924,6 +27151,12 @@ export namespace Prisma {
     scrollPosition?: SortOrder
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
+    personalized?: SortOrder
+    closedPersonalized?: SortOrder
+    personalizedOptionSelected?: SortOrder
+    personalizeCtaShown?: SortOrder
+    maxScrollDepth?: SortOrder
+    scrollHeight?: SortOrder
   }
 
   export type WebpageListRelationFilter = {
@@ -26946,6 +27179,7 @@ export namespace Prisma {
     userId?: SortOrder
     topLevelDomainUrl?: SortOrder
     sitemapUrl?: SortOrder
+    adTag?: SortOrder
     status?: SortOrder
     processedOn?: SortOrder
     createdAt?: SortOrder
@@ -26957,6 +27191,7 @@ export namespace Prisma {
     userId?: SortOrder
     topLevelDomainUrl?: SortOrder
     sitemapUrl?: SortOrder
+    adTag?: SortOrder
     status?: SortOrder
     processedOn?: SortOrder
     createdAt?: SortOrder
@@ -26968,6 +27203,7 @@ export namespace Prisma {
     userId?: SortOrder
     topLevelDomainUrl?: SortOrder
     sitemapUrl?: SortOrder
+    adTag?: SortOrder
     status?: SortOrder
     processedOn?: SortOrder
     createdAt?: SortOrder
@@ -29591,6 +29827,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     website?: WebsiteCreateNestedOneWithoutAuctionsInput
@@ -29614,6 +29856,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -29682,6 +29930,7 @@ export namespace Prisma {
     id?: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -29694,6 +29943,7 @@ export namespace Prisma {
     id?: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -29746,6 +29996,7 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
+    personalizationStatus?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
     metaContentMobileDisplayPercentage?: number
@@ -29776,6 +30027,7 @@ export namespace Prisma {
     id?: string
     scoreThreshold: number
     status: boolean
+    personalizationStatus?: boolean
     metaContentStatus?: boolean
     metaContentDisplayPercentage?: number
     metaContentMobileDisplayPercentage?: number
@@ -29902,6 +30154,12 @@ export namespace Prisma {
     firstScrollAt?: IntNullableFilter | number | null
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
+    personalized?: IntNullableFilter | number | null
+    closedPersonalized?: IntNullableFilter | number | null
+    personalizedOptionSelected?: IntNullableFilter | number | null
+    personalizeCtaShown?: IntNullableFilter | number | null
+    maxScrollDepth?: IntNullableFilter | number | null
+    scrollHeight?: IntNullableFilter | number | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -29967,6 +30225,7 @@ export namespace Prisma {
     userId?: StringFilter | string
     topLevelDomainUrl?: StringFilter | string
     sitemapUrl?: StringFilter | string
+    adTag?: StringNullableFilter | string | null
     status?: BoolFilter | boolean
     processedOn?: DateTimeNullableFilter | Date | string | null
     createdAt?: DateTimeFilter | Date | string
@@ -30016,6 +30275,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    personalizationStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
@@ -30046,6 +30306,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scoreThreshold?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    personalizationStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentStatus?: BoolFieldUpdateOperationsInput | boolean
     metaContentDisplayPercentage?: IntFieldUpdateOperationsInput | number
     metaContentMobileDisplayPercentage?: IntFieldUpdateOperationsInput | number
@@ -30199,6 +30460,7 @@ export namespace Prisma {
     id?: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -30212,6 +30474,7 @@ export namespace Prisma {
     userId: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -30377,6 +30640,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30390,6 +30654,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30588,6 +30853,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -30611,6 +30882,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -30721,6 +30998,7 @@ export namespace Prisma {
     id?: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -30734,6 +31012,7 @@ export namespace Prisma {
     userId: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -30874,6 +31153,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -30897,6 +31182,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -30955,6 +31246,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30968,6 +31260,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32288,6 +32581,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -32312,6 +32611,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     impressions?: ImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -32415,6 +32720,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -32439,6 +32750,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -32688,6 +33005,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutAuctionsInput
@@ -32712,6 +33035,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     metaContentImpressions?: MetaContentImpressionUncheckedCreateNestedManyWithoutAuctionInput
@@ -32777,6 +33106,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -32801,6 +33136,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     metaContentImpressions?: MetaContentImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -32901,6 +33242,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32926,6 +33273,7 @@ export namespace Prisma {
     id?: string
     topLevelDomainUrl: string
     sitemapUrl: string
+    adTag?: string | null
     status: boolean
     processedOn?: Date | string | null
     createdAt?: Date | string
@@ -33013,6 +33361,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     website?: WebsiteUpdateOneWithoutAuctionsNestedInput
@@ -33036,6 +33390,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -33057,6 +33417,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33120,6 +33486,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33132,6 +33499,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33144,6 +33512,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     topLevelDomainUrl?: StringFieldUpdateOperationsInput | string
     sitemapUrl?: StringFieldUpdateOperationsInput | string
+    adTag?: NullableStringFieldUpdateOperationsInput | string | null
     status?: BoolFieldUpdateOperationsInput | boolean
     processedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33276,6 +33645,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33332,6 +33707,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -33355,6 +33736,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput
@@ -33403,6 +33790,12 @@ export namespace Prisma {
     firstScrollAt?: number | null
     timeSpent?: number
     extra?: string | null
+    personalized?: number | null
+    closedPersonalized?: number | null
+    personalizedOptionSelected?: number | null
+    personalizeCtaShown?: number | null
+    maxScrollDepth?: number | null
+    scrollHeight?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33527,6 +33920,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutAuctionsNestedInput
@@ -33550,6 +33949,12 @@ export namespace Prisma {
     firstScrollAt?: NullableIntFieldUpdateOperationsInput | number | null
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
+    personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
+    scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     impressions?: ImpressionUncheckedUpdateManyWithoutAuctionNestedInput

@@ -12,12 +12,6 @@ declare var BW_ENV: string;
 const init = async () => {
   logger.info("in bw.js from bw-script", performance.now(), document.readyState, BW_ENV);
 
-
-  if(!window.document.location.href.includes("feeding-birds-is-good-for-soul")){
-    logger.info("aborting on this page: ", window.document.location.href);
-    return;
-  }
-
   const userId = getUserId();
   logger.info("got userId: ", userId);
 

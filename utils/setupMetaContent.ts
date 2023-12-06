@@ -46,6 +46,7 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     metaContentMobileDisplayPercentage,
     metaContentToolTipTheme,
     metaContentToolTipTextColor,
+    personalizationStatus,
   } = settings;
 
   updateAuction(aid, {
@@ -126,7 +127,9 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
 
   const loadToolTip = () => {
     if (onMobile) {
-      setupPersonalization(aid);
+      if(personalizationStatus){
+        setupPersonalization(aid);
+      }
       // setupInlineTooltip(
       //   aid,
       //   metaContentSpotSelector,

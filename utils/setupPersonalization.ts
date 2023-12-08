@@ -3,6 +3,7 @@ import "../styles/personalizeTooltip.css";
 import { loadCSS } from "./setupMetaContent";
 import logger from "./logger";
 import { Options } from "typewriter-effect";
+import questionsWithAnswers from "../data/questionsWithAnswers.json";
 
 // @ts-ignore
 import Typewriter from "typewriter-effect/dist/core";
@@ -23,37 +24,14 @@ document.addEventListener("visibilitychange", (event) => {
   }
 });
 
-const questionsWithAnswers = [
-  {
-    questionText: `Have you ever fed birds in your yard?`,
-    answers: [
-      { answerText: "Never" },
-      { answerText: "Occasionally" },
-      { answerText: "Regularly" },
-    ],
-  },
-  {
-    questionText: `Have you ever noticed sick birds at a feeder?`,
-    answers: [{ answerText: "Yes" }, { answerText: "No" }],
-  },
-  {
-    questionText: `How worried are you regarding disease spread from birds?`,
-    answers: [
-      { answerText: "Extremely" },
-      { answerText: "Average" },
-      { answerText: "None" },
-    ],
-  },
-];
-
 const ctaElemId = "bw-personalization-call-to-action";
 
-const getPersonalizationCallToAction = () => {
+const getPersonalizationCallToAction = (qna: any) => {
   const template = document.createElement("template");
   template.innerHTML = `
     <div id="${ctaElemId}" class="hide">
       <div class="title-row">
-        <strong>Let AI rewrite thid article based on your inputs:</strong>
+        <strong>Let AI rewrite this article based on your inputs:</strong>
       </div>
       <div class="questions">
       </div>
@@ -65,25 +43,25 @@ const getPersonalizationCallToAction = () => {
 
   const ctaDiv = template.content.firstChild as HTMLElement;
 
-  questionsWithAnswers.map(qs => {
-    const qsDiv = document.createElement("div")
+  qna.map((qs: any) => {
+    const qsDiv = document.createElement("div");
 
     const titleDiv = document.createElement("div");
-    titleDiv.innerHTML=qs.questionText;
+    titleDiv.innerHTML = qs.questionText;
     qsDiv.append(titleDiv);
 
     const selectElem = document.createElement("select");
-    qs.answers.map(ans => {
+    qs.answers.map((ans: any) => {
       const optionElem = document.createElement("option");
-      optionElem.value=ans.answerText;
-      optionElem.text=ans.answerText;
+      optionElem.value = ans.answerText;
+      optionElem.text = ans.answerText;
       selectElem.append(optionElem);
-    })
+    });
     qsDiv.append(selectElem);
 
     ctaDiv.querySelector(".questions")!.append(qsDiv);
-  })
-  return ctaDiv
+  });
+  return ctaDiv;
 };
 
 const getPersonalizationAnswer = () => {
@@ -127,7 +105,7 @@ const setupPersonalization = (aid: string) => {
 
   const scrollHandlerToShowContainer = () => {
     logger.info(" in scroll handler to show container");
-    if (window.scrollY > 800 && totalTimeSpent() > 10_000) {
+    if (window.scrollY > 800 && totalTimeSpent() > 1_000) {
       showContainer();
     } else {
       logger.info("not showing because: ", window.scrollY, totalTimeSpent());
@@ -135,7 +113,16 @@ const setupPersonalization = (aid: string) => {
     }
   };
 
-  const ctaElem = getPersonalizationCallToAction();
+  const item = (questionsWithAnswers as []).find((item: any) =>
+    window.document.location.href.includes(item.url)
+  );
+  if(!item){
+    logger.info("aborting as no personalization qna found!");
+    return;
+  }
+  const { qna } = item;
+
+  const ctaElem = getPersonalizationCallToAction(qna);
   document.querySelector("body")!.append(ctaElem);
 
   const answerElem = getPersonalizationAnswer();
@@ -194,7 +181,7 @@ const setupPersonalization = (aid: string) => {
     };
     const typewriter = new Typewriter(contentElem, typewriterOptions);
 
-    const personalizedText = `
+    let personalizedText = `
       <p>Thank you for your recent interaction with our personalized text feature! This feature is currently under development.</p>
 <p>We appreciate your engagement and want to express our gratitude for your click. Your interaction helps us gauge the demand for potential features, and it's users like you who guide our development decisions.</p>
 <p>Rest assured, based on the positive response we've received, we're now actively considering the development of the personalized text feature. Your unintended participation in this test has provided valuable insights, and we're grateful for your involvement.</p>
@@ -203,6 +190,12 @@ const setupPersonalization = (aid: string) => {
 <p>Warm regards,</p>
 <p>BrandWeaver.ai</p>
 `;
+
+    const userInputs = [...ctaElem.querySelectorAll("select")].map(
+      (x) => x.value
+    );
+    logger.info("user inputs: ", userInputs);
+
     typewriter.typeString(personalizedText).start();
   });
 

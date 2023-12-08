@@ -109,7 +109,7 @@ const setupPersonalization = (aid: string) => {
 
   const scrollHandlerToShowContainer = () => {
     logger.info(" in scroll handler to show container");
-    if (window.scrollY > 800 && totalTimeSpent() > 1_000) {
+    if (window.scrollY > 800 && totalTimeSpent() > 10_000) {
       showContainer();
     } else {
       logger.info("not showing because: ", window.scrollY, totalTimeSpent());

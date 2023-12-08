@@ -26,41 +26,45 @@ document.addEventListener("visibilitychange", (event) => {
 
 const ctaElemId = "bw-personalization-call-to-action";
 
-const getPersonalizationCallToAction = (qna: any) => {
+const getPersonalizationCallToAction = (item: any) => {
+  const {qna, cta} = item;
+  console.log(cta, qna);
   const template = document.createElement("template");
   template.innerHTML = `
     <div id="${ctaElemId}" class="hide">
       <div class="title-row">
-        <strong>Let AI rewrite this article based on your inputs:</strong>
+<!--        <strong>Let AI rewrite this article based on your inputs:</strong>-->
+        <div class="title">${cta.title}</div>
+        <div class="sub-title">${cta.subTitle}</div>
       </div>
-      <div class="questions">
-      </div>
+<!--      <div class="questions">-->
+<!--      </div>-->
       <div class="btn-row">
-        <input type="button" value="Close" class="closePersonalize" />
-        <input type="button" value="Personalize" class="personalize" />
+        <input type="button" value="${cta.buttonText}" class="personalize" />
+        <input type="button" value="${cta.noThanksText}" class="closePersonalize" />            
       </div>
     </div>`.trim();
 
   const ctaDiv = template.content.firstChild as HTMLElement;
 
-  qna.map((qs: any) => {
-    const qsDiv = document.createElement("div");
-
-    const titleDiv = document.createElement("div");
-    titleDiv.innerHTML = qs.questionText;
-    qsDiv.append(titleDiv);
-
-    const selectElem = document.createElement("select");
-    qs.answers.map((ans: any) => {
-      const optionElem = document.createElement("option");
-      optionElem.value = ans.answerText;
-      optionElem.text = ans.answerText;
-      selectElem.append(optionElem);
-    });
-    qsDiv.append(selectElem);
-
-    ctaDiv.querySelector(".questions")!.append(qsDiv);
-  });
+  // qna.map((qs: any) => {
+  //   const qsDiv = document.createElement("div");
+  //
+  //   const titleDiv = document.createElement("div");
+  //   titleDiv.innerHTML = qs.questionText;
+  //   qsDiv.append(titleDiv);
+  //
+  //   const selectElem = document.createElement("select");
+  //   qs.answers.map((ans: any) => {
+  //     const optionElem = document.createElement("option");
+  //     optionElem.value = ans.answerText;
+  //     optionElem.text = ans.answerText;
+  //     selectElem.append(optionElem);
+  //   });
+  //   qsDiv.append(selectElem);
+  //
+  //   ctaDiv.querySelector(".questions")!.append(qsDiv);
+  // });
   return ctaDiv;
 };
 
@@ -122,11 +126,9 @@ const setupPersonalization = (aid: string) => {
   }
 
   // pz - v1 - baseline -> our very first iteration with qna at 10 second mark
-  updateExtra(aid, "pz - v1 - baseline");
+  updateExtra(aid, "pz - v2 - removed questions and added sub title with no thanks at bottom");
 
-  const { qna } = item;
-
-  const ctaElem = getPersonalizationCallToAction(qna);
+  const ctaElem = getPersonalizationCallToAction(item);
   document.querySelector("body")!.append(ctaElem);
 
   const answerElem = getPersonalizationAnswer();

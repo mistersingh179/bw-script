@@ -14,6 +14,17 @@
   opacity: 0;
 }
 
+#bw-personalization-call-to-action div.title-row div.title{
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+
+#bw-personalization-call-to-action div.title-row div.sub-title{
+  font-size: 1.1em;
+  margin-bottom: 1em;
+}
+
 #bw-personalization-call-to-action::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
@@ -26,11 +37,27 @@
 
 #bw-personalization-call-to-action div.btn-row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 10px;
   justify-content: space-between;
   /*margin: 10px 0px;*/
   margin-top: 10px;
 }
+
+#bw-personalization-call-to-action div.btn-row .personalize {
+  font-size: 1.1em;
+}
+
+#bw-personalization-call-to-action div.btn-row .closePersonalize {
+  background: none;
+  font-size: 14px;
+  color: #cccc;
+  font: initial;
+  padding: 0px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 
 #bw-personalization-call-to-action select {
   margin: 5px 0px;

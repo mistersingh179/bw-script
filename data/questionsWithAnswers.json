@@ -1,6 +1,12 @@
 [
   {
     "url": "feeding-birds-is-good-for-soul",
+    "cta": {
+      "title": "AI can rewrite this article – personalized for you!",
+      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
+      "buttonText": "Personalize this article",
+      "noThanksText": "No, I rather just read the generic article."
+    },
     "qna": [
       {
         "questionText": "Have you ever fed birds in your yard?",
@@ -26,6 +32,12 @@
   },
   {
     "url": "lorem-lipsum.html",
+    "cta": {
+      "title": "AI can rewrite this article – personalized for you!",
+      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
+      "buttonText": "Personalize this article",
+      "noThanksText": "No, I rather just read the generic article."
+    },
     "qna": [
       {
         "questionText": "captain?",
@@ -51,6 +63,12 @@
   },
   {
     "url": "study.html",
+    "cta": {
+      "title": "AI can rewrite this article – personalized for you!",
+      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
+      "buttonText": "Personalize this article",
+      "noThanksText": "No, I rather just read the generic article."
+    },
     "qna": [
       {
         "questionText": "mankind ?",

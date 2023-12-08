@@ -116,12 +116,12 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     logger.info("random A/B - SHOW: ", random, displayPercentage);
     sendEventToRaptive({key: 'at_custom_1', value: "studyfinds_test_on"})
     sendEventToGa("bw_ab_test", {bw_ab_test_result: "yes"});
-    updateExtra(aid, SHOW_TIPPY);
+    // updateExtra(aid, SHOW_TIPPY);
   } else {
     logger.info("random A/B - DO NOT SHOW: ", random, displayPercentage);
     sendEventToRaptive({key: 'at_custom_1', value: "studyfinds_test_off"})
     sendEventToGa("bw_ab_test", {bw_ab_test_result: "no"});
-    updateExtra(aid, SHOW_NOTHING);
+    // updateExtra(aid, SHOW_NOTHING);
     return;
   }
 

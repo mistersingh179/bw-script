@@ -1,4 +1,4 @@
-import { updateAuction } from "./auction";
+import { updateAuction, updateExtra } from "./auction";
 import "../styles/personalizeTooltip.css";
 import { loadCSS } from "./setupMetaContent";
 import logger from "./logger";
@@ -116,10 +116,14 @@ const setupPersonalization = (aid: string) => {
   const item = (questionsWithAnswers as []).find((item: any) =>
     window.document.location.href.includes(item.url)
   );
-  if(!item){
+  if (!item) {
     logger.info("aborting as no personalization qna found!");
     return;
   }
+
+  // pz - v1 - baseline -> our very first iteration with qna at 10 second mark
+  updateExtra(aid, "pz - v1 - baseline");
+
   const { qna } = item;
 
   const ctaElem = getPersonalizationCallToAction(qna);

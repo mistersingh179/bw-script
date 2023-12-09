@@ -86,6 +86,12 @@ const setupPersonalization = (aid: string) => {
 
   loadCSS();
 
+  // const collapseCta = () => {
+  //   logger.info(" in collapse cta");
+  //   const ctaElem = document.querySelector(`#${ctaElemId}`)!;
+  //   ctaElem.classList.remove("show");
+  // }
+
   const hideContainer = () => {
     logger.info(" in hideContainer");
     const ctaElem = document.querySelector(`#${ctaElemId}`)!;
@@ -152,6 +158,7 @@ const setupPersonalization = (aid: string) => {
     .addEventListener("click", () => {
       document.removeEventListener("scrollend", scrollHandlerToShowContainer);
       document.removeEventListener("touchend", scrollHandlerToShowContainer);
+      // collapseCta();
       hideContainer();
 
       updateAuction(aid, {

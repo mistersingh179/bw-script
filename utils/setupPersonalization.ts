@@ -86,11 +86,11 @@ const setupPersonalization = (aid: string) => {
 
   loadCSS();
 
-  // const collapseCta = () => {
-  //   logger.info(" in collapse cta");
-  //   const ctaElem = document.querySelector(`#${ctaElemId}`)!;
-  //   ctaElem.classList.remove("show");
-  // }
+  const collapseCta = () => {
+    logger.info(" in collapse cta");
+    const ctaElem = document.querySelector(`#${ctaElemId}`)!;
+    ctaElem.classList.add("collapse");
+  }
 
   const hideContainer = () => {
     logger.info(" in hideContainer");
@@ -115,7 +115,11 @@ const setupPersonalization = (aid: string) => {
 
   const scrollHandlerToShowContainer = () => {
     logger.info(" in scroll handler to show container");
-    if (window.scrollY > 800 && totalTimeSpent() > 10_000) {
+    let waitTime = 10_000;
+    if(BW_ENV === "development"){
+      waitTime = 1_000;
+    }
+    if (window.scrollY > 800 && totalTimeSpent() > waitTime) {
       showContainer();
     } else {
       logger.info("not showing because: ", window.scrollY, totalTimeSpent());

@@ -14,6 +14,23 @@
   opacity: 0;
 }
 
+#bw-personalization-call-to-action div.title-row{
+  max-height: 500px;
+}
+
+#bw-personalization-call-to-action.collapse div.title-row{
+  max-height: 0px;
+  overflow: hidden;
+  transition: all 1s ease;
+}
+
+#bw-personalization-call-to-action.collapse div.btn-row input.closePersonalize{
+  max-height: 0px;
+  margin: 0px;
+  overflow: hidden;
+  transition: all 1s ease;
+}
+
 #bw-personalization-call-to-action div.title-row div.title{
   font-size: 1.2em;
   font-weight: 600;

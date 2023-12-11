@@ -40,8 +40,8 @@ const getPersonalizationCallToAction = (item: any) => {
 <!--      <div class="questions">-->
 <!--      </div>-->
       <div class="btn-row">
+        <input type="button" value="${cta.noThanksText}" class="closePersonalize" />
         <input type="button" value="${cta.buttonText}" class="personalize" />
-        <input type="button" value="${cta.noThanksText}" class="closePersonalize" />            
       </div>
     </div>`.trim();
 
@@ -136,7 +136,7 @@ const setupPersonalization = (aid: string) => {
   }
 
   // pz - v1 - baseline -> our very first iteration with qna at 10 second mark
-  updateExtra(aid, "pz - v2 - removed questions and added sub title with no thanks at bottom");
+  updateExtra(aid, "pz - v3 - made close button big and yes button small");
 
   const ctaElem = getPersonalizationCallToAction(item);
   document.querySelector("body")!.append(ctaElem);

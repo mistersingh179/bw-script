@@ -62,10 +62,6 @@
 }
 
 #bw-personalization-call-to-action div.btn-row .personalize {
-  font-size: 1.1em;
-}
-
-#bw-personalization-call-to-action div.btn-row .closePersonalize {
   background: none;
   font-size: 14px;
   color: #cccc;
@@ -73,6 +69,10 @@
   padding: 0px;
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+#bw-personalization-call-to-action div.btn-row .closePersonalize {
+  font-size: 1.1em;
 }
 
 

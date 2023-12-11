@@ -62,6 +62,37 @@
     ]
   },
   {
+    "url": "best-tea-for-energy",
+    "cta": {
+      "title": "AI can rewrite this article – personalized for you!",
+      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
+      "buttonText": "Personalize this article",
+      "noThanksText": "No, I rather just read the generic article."
+    },
+    "qna": [
+      {
+        "questionText": "Have you ever fed birds in your yard?",
+        "answers": [
+          { "answerText": "Never" },
+          { "answerText": "Occasionally" },
+          { "answerText": "Regularly" }
+        ]
+      },
+      {
+        "questionText": "Have you ever noticed sick birds at a feeder?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      },
+      {
+        "questionText": "How worried are you regarding disease spread from birds?",
+        "answers": [
+          { "answerText": "Extremely" },
+          { "answerText": "Average" },
+          { "answerText": "None" }
+        ]
+      }
+    ]
+  },
+  {
     "url": "lorem-lipsum.html",
     "cta": {
       "title": "AI can rewrite this article – personalized for you!",

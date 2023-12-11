@@ -70,7 +70,7 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     if(newScrollDepth > previousMaxScrollDepth){
       previousMaxScrollDepth = newScrollDepth;
       updateAuction(aid, {
-        maxScrollDepth: newScrollDepth
+        maxScrollDepth: Math.floor(newScrollDepth)
       })
     }
   }

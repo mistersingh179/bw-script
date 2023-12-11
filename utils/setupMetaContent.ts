@@ -49,19 +49,19 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     personalizationStatus,
   } = settings;
 
-  updateAuction(aid, {
-    scrollPosition: document?.documentElement?.scrollTop,
-  });
+  // updateAuction(aid, {
+  //   scrollPosition: document?.documentElement?.scrollTop,
+  // });
 
-  const timeZero = Date.now();
-  document.addEventListener(
-    "scroll",
-    once(async () => {
-      updateAuction(aid, {
-        firstScrollAt: Date.now() - timeZero,
-      });
-    })
-  );
+  // const timeZero = Date.now();
+  // document.addEventListener(
+  //   "scroll",
+  //   once(async () => {
+  //     updateAuction(aid, {
+  //       firstScrollAt: Date.now() - timeZero,
+  //     });
+  //   })
+  // );
 
   // let previousMaxScrollDepth = 0;
   // const recordMaxScrollDepth = async () => {

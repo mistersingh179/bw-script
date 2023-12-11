@@ -63,20 +63,20 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     })
   );
 
-  let previousMaxScrollDepth = 0;
-  const recordMaxScrollDepth = async () => {
-    logger.info("in recordMaxScrollDepth");
-    const newScrollDepth = window.scrollY;
-    if(newScrollDepth > previousMaxScrollDepth){
-      previousMaxScrollDepth = newScrollDepth;
-      updateAuction(aid, {
-        maxScrollDepth: Math.floor(newScrollDepth)
-      })
-    }
-  }
-
-  document.addEventListener("scrollend", recordMaxScrollDepth);
-  document.addEventListener("touchend", recordMaxScrollDepth);
+  // let previousMaxScrollDepth = 0;
+  // const recordMaxScrollDepth = async () => {
+  //   logger.info("in recordMaxScrollDepth");
+  //   const newScrollDepth = window.scrollY;
+  //   if(newScrollDepth > previousMaxScrollDepth){
+  //     previousMaxScrollDepth = newScrollDepth;
+  //     updateAuction(aid, {
+  //       maxScrollDepth: Math.floor(newScrollDepth)
+  //     })
+  //   }
+  // }
+  //
+  // document.addEventListener("scrollend", recordMaxScrollDepth);
+  // document.addEventListener("touchend", recordMaxScrollDepth);
 
 
   if (metaContentStatus) {

@@ -1,156 +1,109 @@
 [
   {
-    "url": "best-floral-perfumes",
+    "url": "best-nutrient-lower-cholesterol",
     "cta": {
-      "title": "AI can rewrite this article – personalized for you!",
-      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
-      "buttonText": "Yes, Personalize this article",
+      "title": "Enable AI-Powered Personalization",
+      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
+      "buttonText": "Tailor Content to My Preferences",
       "noThanksText": "No, I rather read the generic article"
     },
     "qna": [
       {
-        "questionText": "Have you ever fed birds in your yard?",
-        "answers": [
-          { "answerText": "Never" },
-          { "answerText": "Occasionally" },
-          { "answerText": "Regularly" }
-        ]
-      },
-      {
-        "questionText": "Have you ever noticed sick birds at a feeder?",
+        "questionText": "Are you over-weight?",
         "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
       },
       {
-        "questionText": "How worried are you regarding disease spread from birds?",
-        "answers": [
-          { "answerText": "Extremely" },
-          { "answerText": "Average" },
-          { "answerText": "None" }
-        ]
+        "questionText": "Do you smoke?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      },
+      {
+        "questionText": "Do you exercise 2 or more times a week?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
       }
     ]
   },
   {
-    "url": "feeding-birds-is-good-for-soul",
+    "url": "best-luxury-perfume",
     "cta": {
-      "title": "AI can rewrite this article – personalized for you!",
-      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
-      "buttonText": "Yes, Personalize this article",
+      "title": "Enable AI-Powered Personalization",
+      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
+      "buttonText": "Tailor Content to My Preferences",
       "noThanksText": "No, I rather read the generic article"
     },
     "qna": [
       {
-        "questionText": "Have you ever fed birds in your yard?",
+        "questionText": "What level of detail do you want in the article?",
         "answers": [
-          { "answerText": "Never" },
+          { "answerText": "Summarize the main points for a quick read" },
+          { "answerText": "Delve into intricate details and nuances" },
+          { "answerText": "Rearrange the content to match my specific interests" }
+        ]
+      },
+      {
+        "questionText": "How often do you wear perfume?",
+        "answers": [
+          { "answerText": "Every day" },
           { "answerText": "Occasionally" },
-          { "answerText": "Regularly" }
+          { "answerText": "Rarely" }
         ]
       },
       {
-        "questionText": "Have you ever noticed sick birds at a feeder?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
-      },
-      {
-        "questionText": "How worried are you regarding disease spread from birds?",
-        "answers": [
-          { "answerText": "Extremely" },
-          { "answerText": "Average" },
-          { "answerText": "None" }
-        ]
-      }
-    ]
-  },
-  {
-    "url": "best-tea-for-energy",
-    "cta": {
-      "title": "AI can rewrite this article – personalized for you!",
-      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
-      "buttonText": "Yes, Personalize this article",
-      "noThanksText": "No, I rather read the generic article"
-    },
-    "qna": [
-      {
-        "questionText": "Have you ever fed birds in your yard?",
-        "answers": [
-          { "answerText": "Never" },
-          { "answerText": "Occasionally" },
-          { "answerText": "Regularly" }
-        ]
-      },
-      {
-        "questionText": "Have you ever noticed sick birds at a feeder?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
-      },
-      {
-        "questionText": "How worried are you regarding disease spread from birds?",
-        "answers": [
-          { "answerText": "Extremely" },
-          { "answerText": "Average" },
-          { "answerText": "None" }
-        ]
+        "questionText": "What type of scent do you prefer?",
+        "answers": [{ "answerText": "Floral" }, { "answerText": "Sweet" }, { "answerText":  "Spicy"}]
       }
     ]
   },
   {
     "url": "lorem-lipsum.html",
     "cta": {
-      "title": "AI can rewrite this article – personalized for you!",
-      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
-      "buttonText": "Yes, Personalize this article",
+      "title": "Enable AI-Powered Personalization",
+      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
+      "buttonText": "Tailor Content to My Preferences",
       "noThanksText": "No, I rather read the generic article"
     },
     "qna": [
       {
-        "questionText": "captain?",
-        "answers": [
-          { "answerText": "Never" },
-          { "answerText": "Occasionally" },
-          { "answerText": "Regularly" }
-        ]
-      },
-      {
-        "questionText": "Human, boldly crewmates impressively influence a harmless, lunar admiral?",
+        "questionText": "Are you over-weight?",
         "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
       },
       {
-        "questionText": "Collective, spheroid green people always transform a modern, gravimetric species?",
-        "answers": [
-          { "answerText": "Extremely" },
-          { "answerText": "Average" },
-          { "answerText": "None" }
-        ]
+        "questionText": "Do you smoke?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      },
+      {
+        "questionText": "Do you exercise 2 or more times a week?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
       }
     ]
   },
   {
     "url": "study.html",
     "cta": {
-      "title": "AI can rewrite this article – personalized for you!",
-      "subTitle": "Answer a question related to this article to get a more relevant version of this content.",
-      "buttonText": "Yes, Personalize this article",
+      "title": "Enable AI-Powered Personalization",
+      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
+      "buttonText": "Tailor Content to My Preferences",
       "noThanksText": "No, I rather read the generic article"
     },
     "qna": [
       {
-        "questionText": "mankind ?",
+        "questionText": "What level of detail do you want in the article?",
         "answers": [
-          { "answerText": "Never" },
+          { "answerText": "Summarize the main points for a quick read" },
+          { "answerText": "Delve into intricate details and nuances" },
+          { "answerText": "Rearrange the content to match my specific interests" }
+        ]
+      },
+      {
+        "questionText": "How often do you wear perfume?",
+        "answers": [
+          { "answerText": "Every day" },
           { "answerText": "Occasionally" },
-          { "answerText": "Regularly" }
+          { "answerText": "Rarely" }
         ]
       },
       {
-        "questionText": "Twisted, delighted species rudely invade a photonic, greatly exaggerated alien?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
-      },
-      {
-        "questionText": "This future has only been promised by a post-apocalyptic girl?",
-        "answers": [
-          { "answerText": "Extremely" },
-          { "answerText": "Average" },
-          { "answerText": "None" }
-        ]
+        "questionText": "What type of scent do you prefer?",
+        "answers": [{ "answerText": "Floral" }, { "answerText": "Sweet" }, { "answerText":  "Spicy"}]
       }
     ]
   }

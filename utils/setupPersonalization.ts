@@ -37,36 +37,38 @@ const getPersonalizationCallToAction = (item: any) => {
         <div class="title">${cta.title}</div>
         <div class="sub-title">${cta.subTitle}</div>
       </div>
-<!--      <div class="questions">-->
-<!--      </div>-->
+      <div class="questions">
+      </div>
       <div class="btn-row">
-        <input type="button" value="${cta.noThanksText}" class="closePersonalize" />
         <input type="button" value="${cta.buttonText}" class="personalize" />
+        <input type="button" value="${cta.noThanksText}" class="closePersonalize" />
       </div>
     </div>`.trim();
 
   const ctaDiv = template.content.firstChild as HTMLElement;
 
-  // qna.map((qs: any) => {
-  //   const qsDiv = document.createElement("div");
-  //
-  //   const titleDiv = document.createElement("div");
-  //   titleDiv.innerHTML = qs.questionText;
-  //   qsDiv.append(titleDiv);
-  //
-  //   const selectElem = document.createElement("select");
-  //   qs.answers.map((ans: any) => {
-  //     const optionElem = document.createElement("option");
-  //     optionElem.value = ans.answerText;
-  //     optionElem.text = ans.answerText;
-  //     selectElem.append(optionElem);
-  //   });
-  //   qsDiv.append(selectElem);
-  //
-  //   ctaDiv.querySelector(".questions")!.append(qsDiv);
-  // });
+  qna.map((qs: any) => {
+    const qsDiv = document.createElement("div");
+
+    const titleDiv = document.createElement("div");
+    titleDiv.innerHTML = qs.questionText;
+    qsDiv.append(titleDiv);
+
+    const selectElem = document.createElement("select");
+    qs.answers.map((ans: any) => {
+      const optionElem = document.createElement("option");
+      optionElem.value = ans.answerText;
+      optionElem.text = ans.answerText;
+      selectElem.append(optionElem);
+    });
+    qsDiv.append(selectElem);
+
+    ctaDiv.querySelector(".questions")!.append(qsDiv);
+  });
   return ctaDiv;
 };
+
+// AI can fine-tune this article to remove content not relevant to you and add more detail relevant to your situation
 
 const getPersonalizationAnswer = () => {
   const template = document.createElement("template");
@@ -100,6 +102,7 @@ const setupPersonalization = (aid: string) => {
 
   const showContainer = () => {
     const ctaElem = document.querySelector(`#${ctaElemId}`)!;
+    ctaElem.classList.remove("collapse");
     if (!ctaElem.classList.contains("show")) {
       logger.info(" adding show class to show personalization cta");
       ctaElem.classList.add("show");
@@ -136,7 +139,7 @@ const setupPersonalization = (aid: string) => {
   }
 
   // pz - v1 - baseline -> our very first iteration with qna at 10 second mark
-  updateExtra(aid, "pz - v3 - made close button big and yes button small");
+  updateExtra(aid, "pz - v4 - added questions, title says it adds and remove info, cta button has main color, collapse feature");
 
   const ctaElem = getPersonalizationCallToAction(item);
   document.querySelector("body")!.append(ctaElem);
@@ -162,8 +165,8 @@ const setupPersonalization = (aid: string) => {
     .addEventListener("click", () => {
       document.removeEventListener("scrollend", scrollHandlerToShowContainer);
       document.removeEventListener("touchend", scrollHandlerToShowContainer);
-      // collapseCta();
-      hideContainer();
+      collapseCta();
+      // hideContainer();
 
       updateAuction(aid, {
         closedPersonalized: {

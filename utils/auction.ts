@@ -72,7 +72,6 @@ export const generateAuction = async () => {
 
 export const updateTimeSpent = (aid: string, timeSpent: number) => {
   const body = {
-    userId: getUserId(),
     timeSpent,
   };
   const blob = new Blob([JSON.stringify(body)], { type: "application/json" });

@@ -1,59 +1,5 @@
 [
   {
-    "url": "best-nutrient-lower-cholesterol",
-    "cta": {
-      "title": "Enable AI-Powered Personalization",
-      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
-      "buttonText": "Tailor Content to My Preferences",
-      "noThanksText": "No, I rather read the generic article"
-    },
-    "qna": [
-      {
-        "questionText": "Are you over-weight?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
-      },
-      {
-        "questionText": "Do you smoke?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
-      },
-      {
-        "questionText": "Do you exercise 2 or more times a week?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
-      }
-    ]
-  },
-  {
-    "url": "best-luxury-perfume",
-    "cta": {
-      "title": "Enable AI-Powered Personalization",
-      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
-      "buttonText": "Tailor Content to My Preferences",
-      "noThanksText": "No, I rather read the generic article"
-    },
-    "qna": [
-      {
-        "questionText": "What level of detail do you want in the article?",
-        "answers": [
-          { "answerText": "Summarize the main points for a quick read" },
-          { "answerText": "Delve into intricate details and nuances" },
-          { "answerText": "Rearrange the content to match my specific interests" }
-        ]
-      },
-      {
-        "questionText": "How often do you wear perfume?",
-        "answers": [
-          { "answerText": "Every day" },
-          { "answerText": "Occasionally" },
-          { "answerText": "Rarely" }
-        ]
-      },
-      {
-        "questionText": "What type of scent do you prefer?",
-        "answers": [{ "answerText": "Floral" }, { "answerText": "Sweet" }, { "answerText":  "Spicy"}]
-      }
-    ]
-  },
-  {
     "url": "lorem-lipsum.html",
     "cta": {
       "title": "Enable AI-Powered Personalization",

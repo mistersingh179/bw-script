@@ -1,6 +1,6 @@
 [
   {
-    "url": "best-artificial-christmas-trees",
+    "url": "best-places-to-retire",
     "cta": {
       "title": "Enable AI-Powered Personalization",
       "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
@@ -9,16 +9,50 @@
     },
     "qna": [
       {
-        "questionText": "Do you care for long term use?",
+        "questionText": "Do you need access to top-tier healthcare?",
+        "answers": [
+          { "answerText": "Yes" },
+          { "answerText": "No" }
+        ]
+      },
+      {
+        "questionText": "Are you okay with cold places which get snow?",
         "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
       },
       {
-        "questionText": "Is ease of assembly important to you?",
+        "questionText": "Do statistically high crime rates deter you?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      }
+    ]
+  },
+  {
+    "url": "best-four-wheel-drive-cars",
+    "cta": {
+      "title": "Enable AI-Powered Personalization",
+      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
+      "buttonText": "Tailor Content to My Preferences",
+      "noThanksText": "No, I rather read the generic article"
+    },
+    "qna": [
+      {
+        "questionText": "What do you plan to use the 4-wheel drive for?",
+        "answers": [
+          { "answerText": "Commuting" },
+          { "answerText": "off-roading" },
+          { "answerText": "towing" }
+        ]
+      },
+      {
+        "questionText": "Is fuel efficiency important to you?",
         "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
       },
       {
-        "questionText": "Do you care for flame resistance?",
-        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+        "questionText": "How important is the resale value of the vehicle to you?",
+        "answers": [
+          { "answerText": "Extremely Important" },
+          { "answerText": "Medium Importance" },
+          { "answerText": "I don't care" }
+        ]
       }
     ]
   },
@@ -59,7 +93,9 @@
         "answers": [
           { "answerText": "Summarize the main points for a quick read" },
           { "answerText": "Delve into intricate details and nuances" },
-          { "answerText": "Rearrange the content to match my specific interests" }
+          {
+            "answerText": "Rearrange the content to match my specific interests"
+          }
         ]
       },
       {
@@ -72,7 +108,11 @@
       },
       {
         "questionText": "What type of scent do you prefer?",
-        "answers": [{ "answerText": "Floral" }, { "answerText": "Sweet" }, { "answerText":  "Spicy"}]
+        "answers": [
+          { "answerText": "Floral" },
+          { "answerText": "Sweet" },
+          { "answerText": "Spicy" }
+        ]
       }
     ]
   }

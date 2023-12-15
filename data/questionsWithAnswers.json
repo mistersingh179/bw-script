@@ -1,5 +1,28 @@
 [
   {
+    "url": "best-artificial-christmas-trees",
+    "cta": {
+      "title": "Enable AI-Powered Personalization",
+      "subTitle": "Fine-tune content to your needs — remove irrelevant details, add tailored insights",
+      "buttonText": "Tailor Content to My Preferences",
+      "noThanksText": "No, I rather read the generic article"
+    },
+    "qna": [
+      {
+        "questionText": "Do you care for long term use?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      },
+      {
+        "questionText": "Is ease of assembly important to you?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      },
+      {
+        "questionText": "Do you care for flame resistance?",
+        "answers": [{ "answerText": "Yes" }, { "answerText": "No" }]
+      }
+    ]
+  },
+  {
     "url": "lorem-lipsum.html",
     "cta": {
       "title": "Enable AI-Powered Personalization",

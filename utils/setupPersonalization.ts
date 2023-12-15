@@ -7,6 +7,7 @@ import questionsWithAnswers from "../data/questionsWithAnswers.json";
 
 // @ts-ignore
 import Typewriter from "typewriter-effect/dist/core";
+import secondsTillNow from "./timeOnSite";
 
 declare var BW_FEEDBACK_URL: string;
 declare var BW_ENV: string;
@@ -110,6 +111,7 @@ const setupPersonalization = (aid: string) => {
         personalizeCtaShown: {
           increment: 1,
         },
+        personalizeCtaShownAt: secondsTillNow()
       });
     } else {
       logger.info(" show class already present on personalization cta");
@@ -172,6 +174,7 @@ const setupPersonalization = (aid: string) => {
         closedPersonalized: {
           increment: 1,
         },
+        closedPersonalizedAt: secondsTillNow(),
       });
     });
 
@@ -184,6 +187,7 @@ const setupPersonalization = (aid: string) => {
       personalized: {
         increment: 1,
       },
+      personalizedAt: secondsTillNow(),
     });
 
     document.documentElement.scroll({

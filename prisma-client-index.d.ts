@@ -124,9 +124,12 @@ export type Auction = {
   timeSpent: number
   extra: string | null
   personalized: number | null
+  personalizedAt: number | null
   closedPersonalized: number | null
+  closedPersonalizedAt: number | null
   personalizedOptionSelected: number | null
   personalizeCtaShown: number | null
+  personalizeCtaShownAt: number | null
   maxScrollDepth: number | null
   scrollHeight: number | null
   createdAt: Date
@@ -7277,9 +7280,12 @@ export namespace Prisma {
     firstScrollAt: number | null
     timeSpent: number | null
     personalized: number | null
+    personalizedAt: number | null
     closedPersonalized: number | null
+    closedPersonalizedAt: number | null
     personalizedOptionSelected: number | null
     personalizeCtaShown: number | null
+    personalizeCtaShownAt: number | null
     maxScrollDepth: number | null
     scrollHeight: number | null
   }
@@ -7291,9 +7297,12 @@ export namespace Prisma {
     firstScrollAt: number | null
     timeSpent: number | null
     personalized: number | null
+    personalizedAt: number | null
     closedPersonalized: number | null
+    closedPersonalizedAt: number | null
     personalizedOptionSelected: number | null
     personalizeCtaShown: number | null
+    personalizeCtaShownAt: number | null
     maxScrollDepth: number | null
     scrollHeight: number | null
   }
@@ -7315,9 +7324,12 @@ export namespace Prisma {
     timeSpent: number | null
     extra: string | null
     personalized: number | null
+    personalizedAt: number | null
     closedPersonalized: number | null
+    closedPersonalizedAt: number | null
     personalizedOptionSelected: number | null
     personalizeCtaShown: number | null
+    personalizeCtaShownAt: number | null
     maxScrollDepth: number | null
     scrollHeight: number | null
     createdAt: Date | null
@@ -7341,9 +7353,12 @@ export namespace Prisma {
     timeSpent: number | null
     extra: string | null
     personalized: number | null
+    personalizedAt: number | null
     closedPersonalized: number | null
+    closedPersonalizedAt: number | null
     personalizedOptionSelected: number | null
     personalizeCtaShown: number | null
+    personalizeCtaShownAt: number | null
     maxScrollDepth: number | null
     scrollHeight: number | null
     createdAt: Date | null
@@ -7367,9 +7382,12 @@ export namespace Prisma {
     timeSpent: number
     extra: number
     personalized: number
+    personalizedAt: number
     closedPersonalized: number
+    closedPersonalizedAt: number
     personalizedOptionSelected: number
     personalizeCtaShown: number
+    personalizeCtaShownAt: number
     maxScrollDepth: number
     scrollHeight: number
     createdAt: number
@@ -7385,9 +7403,12 @@ export namespace Prisma {
     firstScrollAt?: true
     timeSpent?: true
     personalized?: true
+    personalizedAt?: true
     closedPersonalized?: true
+    closedPersonalizedAt?: true
     personalizedOptionSelected?: true
     personalizeCtaShown?: true
+    personalizeCtaShownAt?: true
     maxScrollDepth?: true
     scrollHeight?: true
   }
@@ -7399,9 +7420,12 @@ export namespace Prisma {
     firstScrollAt?: true
     timeSpent?: true
     personalized?: true
+    personalizedAt?: true
     closedPersonalized?: true
+    closedPersonalizedAt?: true
     personalizedOptionSelected?: true
     personalizeCtaShown?: true
+    personalizeCtaShownAt?: true
     maxScrollDepth?: true
     scrollHeight?: true
   }
@@ -7423,9 +7447,12 @@ export namespace Prisma {
     timeSpent?: true
     extra?: true
     personalized?: true
+    personalizedAt?: true
     closedPersonalized?: true
+    closedPersonalizedAt?: true
     personalizedOptionSelected?: true
     personalizeCtaShown?: true
+    personalizeCtaShownAt?: true
     maxScrollDepth?: true
     scrollHeight?: true
     createdAt?: true
@@ -7449,9 +7476,12 @@ export namespace Prisma {
     timeSpent?: true
     extra?: true
     personalized?: true
+    personalizedAt?: true
     closedPersonalized?: true
+    closedPersonalizedAt?: true
     personalizedOptionSelected?: true
     personalizeCtaShown?: true
+    personalizeCtaShownAt?: true
     maxScrollDepth?: true
     scrollHeight?: true
     createdAt?: true
@@ -7475,9 +7505,12 @@ export namespace Prisma {
     timeSpent?: true
     extra?: true
     personalized?: true
+    personalizedAt?: true
     closedPersonalized?: true
+    closedPersonalizedAt?: true
     personalizedOptionSelected?: true
     personalizeCtaShown?: true
+    personalizeCtaShownAt?: true
     maxScrollDepth?: true
     scrollHeight?: true
     createdAt?: true
@@ -7589,9 +7622,12 @@ export namespace Prisma {
     timeSpent: number
     extra: string | null
     personalized: number | null
+    personalizedAt: number | null
     closedPersonalized: number | null
+    closedPersonalizedAt: number | null
     personalizedOptionSelected: number | null
     personalizeCtaShown: number | null
+    personalizeCtaShownAt: number | null
     maxScrollDepth: number | null
     scrollHeight: number | null
     createdAt: Date
@@ -7634,9 +7670,12 @@ export namespace Prisma {
     timeSpent?: boolean
     extra?: boolean
     personalized?: boolean
+    personalizedAt?: boolean
     closedPersonalized?: boolean
+    closedPersonalizedAt?: boolean
     personalizedOptionSelected?: boolean
     personalizeCtaShown?: boolean
+    personalizeCtaShownAt?: boolean
     maxScrollDepth?: boolean
     scrollHeight?: boolean
     createdAt?: boolean
@@ -22721,9 +22760,12 @@ export namespace Prisma {
     timeSpent: 'timeSpent',
     extra: 'extra',
     personalized: 'personalized',
+    personalizedAt: 'personalizedAt',
     closedPersonalized: 'closedPersonalized',
+    closedPersonalizedAt: 'closedPersonalizedAt',
     personalizedOptionSelected: 'personalizedOptionSelected',
     personalizeCtaShown: 'personalizeCtaShown',
+    personalizeCtaShownAt: 'personalizeCtaShownAt',
     maxScrollDepth: 'maxScrollDepth',
     scrollHeight: 'scrollHeight',
     createdAt: 'createdAt',
@@ -23473,9 +23515,12 @@ export namespace Prisma {
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
     personalized?: IntNullableFilter | number | null
+    personalizedAt?: IntNullableFilter | number | null
     closedPersonalized?: IntNullableFilter | number | null
+    closedPersonalizedAt?: IntNullableFilter | number | null
     personalizedOptionSelected?: IntNullableFilter | number | null
     personalizeCtaShown?: IntNullableFilter | number | null
+    personalizeCtaShownAt?: IntNullableFilter | number | null
     maxScrollDepth?: IntNullableFilter | number | null
     scrollHeight?: IntNullableFilter | number | null
     createdAt?: DateTimeFilter | Date | string
@@ -23504,9 +23549,12 @@ export namespace Prisma {
     timeSpent?: SortOrder
     extra?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
     createdAt?: SortOrder
@@ -23538,9 +23586,12 @@ export namespace Prisma {
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
     personalized?: IntNullableFilter | number | null
+    personalizedAt?: IntNullableFilter | number | null
     closedPersonalized?: IntNullableFilter | number | null
+    closedPersonalizedAt?: IntNullableFilter | number | null
     personalizedOptionSelected?: IntNullableFilter | number | null
     personalizeCtaShown?: IntNullableFilter | number | null
+    personalizeCtaShownAt?: IntNullableFilter | number | null
     maxScrollDepth?: IntNullableFilter | number | null
     scrollHeight?: IntNullableFilter | number | null
     createdAt?: DateTimeFilter | Date | string
@@ -23569,9 +23620,12 @@ export namespace Prisma {
     timeSpent?: SortOrder
     extra?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
     createdAt?: SortOrder
@@ -23603,9 +23657,12 @@ export namespace Prisma {
     timeSpent?: IntWithAggregatesFilter | number
     extra?: StringNullableWithAggregatesFilter | string | null
     personalized?: IntNullableWithAggregatesFilter | number | null
+    personalizedAt?: IntNullableWithAggregatesFilter | number | null
     closedPersonalized?: IntNullableWithAggregatesFilter | number | null
+    closedPersonalizedAt?: IntNullableWithAggregatesFilter | number | null
     personalizedOptionSelected?: IntNullableWithAggregatesFilter | number | null
     personalizeCtaShown?: IntNullableWithAggregatesFilter | number | null
+    personalizeCtaShownAt?: IntNullableWithAggregatesFilter | number | null
     maxScrollDepth?: IntNullableWithAggregatesFilter | number | null
     scrollHeight?: IntNullableWithAggregatesFilter | number | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
@@ -25205,9 +25262,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -25236,9 +25296,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -25261,9 +25324,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25292,9 +25358,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25320,9 +25389,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -25343,9 +25415,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25369,9 +25444,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27070,9 +27148,12 @@ export namespace Prisma {
     timeSpent?: SortOrder
     extra?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
     createdAt?: SortOrder
@@ -27086,9 +27167,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
   }
@@ -27110,9 +27194,12 @@ export namespace Prisma {
     timeSpent?: SortOrder
     extra?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
     createdAt?: SortOrder
@@ -27136,9 +27223,12 @@ export namespace Prisma {
     timeSpent?: SortOrder
     extra?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
     createdAt?: SortOrder
@@ -27152,9 +27242,12 @@ export namespace Prisma {
     firstScrollAt?: SortOrder
     timeSpent?: SortOrder
     personalized?: SortOrder
+    personalizedAt?: SortOrder
     closedPersonalized?: SortOrder
+    closedPersonalizedAt?: SortOrder
     personalizedOptionSelected?: SortOrder
     personalizeCtaShown?: SortOrder
+    personalizeCtaShownAt?: SortOrder
     maxScrollDepth?: SortOrder
     scrollHeight?: SortOrder
   }
@@ -29828,9 +29921,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -29857,9 +29953,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -30155,9 +30254,12 @@ export namespace Prisma {
     timeSpent?: IntFilter | number
     extra?: StringNullableFilter | string | null
     personalized?: IntNullableFilter | number | null
+    personalizedAt?: IntNullableFilter | number | null
     closedPersonalized?: IntNullableFilter | number | null
+    closedPersonalizedAt?: IntNullableFilter | number | null
     personalizedOptionSelected?: IntNullableFilter | number | null
     personalizeCtaShown?: IntNullableFilter | number | null
+    personalizeCtaShownAt?: IntNullableFilter | number | null
     maxScrollDepth?: IntNullableFilter | number | null
     scrollHeight?: IntNullableFilter | number | null
     createdAt?: DateTimeFilter | Date | string
@@ -30854,9 +30956,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -30883,9 +30988,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -31154,9 +31262,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -31183,9 +31294,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -32582,9 +32696,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -32612,9 +32729,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -32721,9 +32841,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32751,9 +32874,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33006,9 +33132,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -33036,9 +33165,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -33107,9 +33239,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33137,9 +33272,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33243,9 +33381,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -33362,9 +33503,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33391,9 +33535,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33418,9 +33565,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33646,9 +33796,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -33708,9 +33861,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33737,9 +33893,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33791,9 +33950,12 @@ export namespace Prisma {
     timeSpent?: number
     extra?: string | null
     personalized?: number | null
+    personalizedAt?: number | null
     closedPersonalized?: number | null
+    closedPersonalizedAt?: number | null
     personalizedOptionSelected?: number | null
     personalizeCtaShown?: number | null
+    personalizeCtaShownAt?: number | null
     maxScrollDepth?: number | null
     scrollHeight?: number | null
     createdAt?: Date | string
@@ -33921,9 +34083,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33950,9 +34115,12 @@ export namespace Prisma {
     timeSpent?: IntFieldUpdateOperationsInput | number
     extra?: NullableStringFieldUpdateOperationsInput | string | null
     personalized?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     closedPersonalized?: NullableIntFieldUpdateOperationsInput | number | null
+    closedPersonalizedAt?: NullableIntFieldUpdateOperationsInput | number | null
     personalizedOptionSelected?: NullableIntFieldUpdateOperationsInput | number | null
     personalizeCtaShown?: NullableIntFieldUpdateOperationsInput | number | null
+    personalizeCtaShownAt?: NullableIntFieldUpdateOperationsInput | number | null
     maxScrollDepth?: NullableIntFieldUpdateOperationsInput | number | null
     scrollHeight?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

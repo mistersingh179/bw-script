@@ -127,23 +127,23 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
 
   const loadToolTip = () => {
     if (onMobile) {
-      if(personalizationStatus){
-        setupPersonalization(aid);
-      }
-      // setupInlineTooltip(
-      //   aid,
-      //   metaContentSpotSelector,
-      //   metaContentSpotsWithDetail,
-      //   metaContentToolTipTheme
-      // );
+      // if(personalizationStatus){
+      //   setupPersonalization(aid);
+      // }
+      setupInlineTooltip(
+        aid,
+        metaContentSpotSelector,
+        metaContentSpotsWithDetail,
+        metaContentToolTipTheme
+      );
     } else {
-      // setupHoverTooltip(
-      //   aid,
-      //   metaContentSpotSelector,
-      //   metaContentSpotsWithDetail,
-      //   metaContentToolTipTheme,
-      //   metaContentToolTipTextColor
-      // );
+      setupHoverTooltip(
+        aid,
+        metaContentSpotSelector,
+        metaContentSpotsWithDetail,
+        metaContentToolTipTheme,
+        metaContentToolTipTextColor
+      );
     }
   };
 

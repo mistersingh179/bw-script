@@ -3,12 +3,11 @@ import { getCleanUrl } from "./url";
 import {
   Auction,
   MetaContent,
-  MetaContentSpot,
+  MetaContentSpot, MetaContentType,
   Setting,
 } from "../prisma-client-index";
 import superjson from "superjson";
 import { AdWithDetail } from "./dom";
-import { MetaContentType } from "../data/getMetaContent";
 import logger from "./logger";
 
 declare var BW_DASHBOARD_BASE_URL: string;

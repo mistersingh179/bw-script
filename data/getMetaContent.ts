@@ -4,19 +4,13 @@ import metaContent3 from "./metaContent3.json";
 import metaContent4 from "./metaContent4.json";
 import { getCleanUrl } from "../utils/url";
 
-export type MetaContentType = {
-  url: string;
-  input: string;
-  output: string[];
-  content_type?: string;
-};
 
 const getMetaContent = () => {
   const meta = metaContent
     .concat(metaContent2)
     .concat(metaContent3)
     .concat(metaContent4);
-  return meta as MetaContentType[];
+  return meta as any[];
 };
 
 export const getMetaContentUrls = () => {

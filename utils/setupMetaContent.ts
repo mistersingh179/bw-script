@@ -5,6 +5,7 @@ import { generateMetaContentImpression } from "./metaContentImpression";
 import logger from "./logger";
 import { sendEventToGa } from "./sendEvents";
 import setupTopFixedTooltip from "./setupTopFixedTooltip";
+import setupInlineTooltip from "./setupInlineTooltip";
 
 declare var BW_CDN_BASE_URL: string;
 
@@ -112,25 +113,40 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
   if (doTheDisplay) {
     logger.info("random A/B - SHOW: ", random, displayPercentage);
     // sendEventToRaptive({key: 'at_custom_1', value: "studyfinds_test_on"})
-    sendEventToGa("bw_ab_test", {bw_ab_test_result: "yes"});
+    sendEventToGa("bw_ab_test", { bw_ab_test_result: "yes" });
     updateExtra(aid, SHOW_TIPPY);
   } else {
     logger.info("random A/B - DO NOT SHOW: ", random, displayPercentage);
     // sendEventToRaptive({key: 'at_custom_1', value: "studyfinds_test_off"})
-    sendEventToGa("bw_ab_test", {bw_ab_test_result: "no"});
+    sendEventToGa("bw_ab_test", { bw_ab_test_result: "no" });
     updateExtra(aid, SHOW_NOTHING);
     return;
   }
 
+  const bwProd = "clqcvdmohsw03qc273ofqxc2o";
+  const sfProd = "climifncr00wgme08z6uyo3bg";
+  const misterDev = "clhtwckif000098wp207rs2fg";
+
   const loadToolTip = () => {
     if (onMobile) {
-      // setupInlineTooltip(
-      setupTopFixedTooltip(
-        aid,
-        metaContentSpotSelector,
-        metaContentSpotsWithDetail,
-        metaContentToolTipTheme
-      );
+      if (
+        auction.userId &&
+        [bwProd, sfProd, misterDev].includes(auction.userId)
+      ) {
+        setupTopFixedTooltip(
+          aid,
+          metaContentSpotSelector,
+          metaContentSpotsWithDetail,
+          metaContentToolTipTheme
+        );
+      } else {
+        setupInlineTooltip(
+          aid,
+          metaContentSpotSelector,
+          metaContentSpotsWithDetail,
+          metaContentToolTipTheme
+        );
+      }
     } else {
       setupHoverTooltip(
         aid,

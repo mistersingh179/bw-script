@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 import { MetaContentSpotsWithMetaContentAndType } from "./auction";
 
 declare var BW_FEEDBACK_URL: string;
+declare var BW_DASHBOARD_BASE_URL: string;
 
 const topHiddenSpace = 48 + 200;
 const bottomHiddenSpace = 50;
@@ -22,7 +23,7 @@ const getTopFixedTooltipContainer = () => {
         </div>
       </div>
       <div class="bw-ad-unit">
-        <img src="/html/320x50-mobile-ad-2.jpg" />
+        <img src="${BW_DASHBOARD_BASE_URL}/inline-tooltip/320x50-mobile-ad-2.jpg" />
       </div>
       <div class="bw-disclaimer">
         <div>

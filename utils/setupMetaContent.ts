@@ -123,7 +123,7 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     return;
   }
 
-  const bwProd = "clqcvdmohsw03qc273ofqxc2o";
+  const bwProd = "clij1cjb60000mb08uzganxdq";
   const sfProd = "climifncr00wgme08z6uyo3bg";
   const misterDev = "clhtwckif000098wp207rs2fg";
 

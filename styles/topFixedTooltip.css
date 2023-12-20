@@ -15,7 +15,7 @@
 
 #bw-top-fixed-tooltip {
     position: fixed;
-    top: 46px; /* todo - make this dynamic for each website */
+    top: 48px; /* todo - make this dynamic for each website */
     background-color: var(--bw-bg-color);
     color: var(--bw-text-color);
     width: 100%;

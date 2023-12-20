@@ -3,12 +3,10 @@ import "../styles/topFixedTooltip.css";
 import { loadCSS } from "./setupMetaContent";
 import { debounce } from "lodash";
 import { MetaContentSpotsWithMetaContentAndType } from "./auction";
+import { Auction } from "../prisma-client-index";
 
 declare var BW_FEEDBACK_URL: string;
 declare var BW_DASHBOARD_BASE_URL: string;
-
-const topHiddenSpace = 48 + 200;
-const bottomHiddenSpace = 50;
 
 const getTopFixedTooltipContainer = () => {
   const template = document.createElement("template");
@@ -56,61 +54,12 @@ const showContainer = () => {
   ctaElem.classList.add("bw-show");
 };
 
-const getMainElement = (elements: HTMLElement[]) => {
-  logger.info("got items: ", elements.length, elements);
-  logger.info("will remove stuff which does not start in viewport");
-
-  let elemsStartInVp: HTMLElement[] = [];
-  elemsStartInVp = elements.filter((p) => {
-    const { y, height } = p.getBoundingClientRect();
-    if (y <= topHiddenSpace) {
-      logger.info("removing as it starts before viewport: ", y, p);
-      return false;
-    }
-    if (y > document.documentElement.clientHeight - bottomHiddenSpace) {
-      logger.info("removing as it starts after viewport: ", y, p);
-      return false;
-    }
-    return true;
-  });
-  logger.info("we now have: ", elements.length);
-
-  let elemsEndInVp: HTMLElement[] = [];
-  if (elemsStartInVp.length > 1) {
-    logger.info("removing items which dont end in viewport");
-    elemsEndInVp = elemsStartInVp.filter((p) => {
-      const { y, height } = p.getBoundingClientRect();
-      if (
-        y + height >
-        document.documentElement.clientHeight - bottomHiddenSpace
-      ) {
-        logger.info("removing item as not end in viewport: ", y + height, p);
-        return false;
-      }
-      return true;
-    });
-  }
-
-  let finalElems = elemsStartInVp;
-  if (elemsEndInVp.length > 0) {
-    finalElems = elemsEndInVp;
-  }
-
-  if (finalElems.length === 0) {
-    return null;
-  } else if (finalElems.length === 1) {
-    return finalElems[0];
-  } else if (finalElems.length > 1) {
-    // return finalElems[finalElems.length - 1];
-    return finalElems[0];
-  }
-};
-
 const setupTopFixedTooltip = (
   aid: string,
   metaContentSpotSelector: string,
   metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[],
-  metaContentToolTipTheme: string
+  metaContentToolTipTheme: string,
+  auction: Auction
 ) => {
   logger.info("in setupTopFixedTooltip");
 
@@ -120,9 +69,70 @@ const setupTopFixedTooltip = (
     metaContentSpotSelector = "body p";
   }
 
+  let topMenuSpace = 0;
+  const sfProd = "climifncr00wgme08z6uyo3bg";
+  const misterDev = "clhtwckif000098wp207rs2fg";
+  if (auction.userId && [sfProd, misterDev].includes(auction.userId)) {
+    topMenuSpace = 48;
+  }
+  const topHiddenSpace = topMenuSpace + 200;
+  const bottomHiddenSpace = 50;
+
+  const getMainElement = (elements: HTMLElement[]) => {
+    logger.info("got items: ", elements.length, elements);
+    logger.info("will remove stuff which does not start in viewport");
+
+    let elemsStartInVp: HTMLElement[] = [];
+    elemsStartInVp = elements.filter((p) => {
+      const { y, height } = p.getBoundingClientRect();
+      if (y <= topHiddenSpace) {
+        logger.info("removing as it starts before viewport: ", y, p);
+        return false;
+      }
+      if (y > document.documentElement.clientHeight - bottomHiddenSpace) {
+        logger.info("removing as it starts after viewport: ", y, p);
+        return false;
+      }
+      return true;
+    });
+    logger.info("we now have: ", elements.length);
+
+    let elemsEndInVp: HTMLElement[] = [];
+    if (elemsStartInVp.length > 1) {
+      logger.info("removing items which dont end in viewport");
+      elemsEndInVp = elemsStartInVp.filter((p) => {
+        const { y, height } = p.getBoundingClientRect();
+        if (
+          y + height >
+          document.documentElement.clientHeight - bottomHiddenSpace
+        ) {
+          logger.info("removing item as not end in viewport: ", y + height, p);
+          return false;
+        }
+        return true;
+      });
+    }
+
+    let finalElems = elemsStartInVp;
+    if (elemsEndInVp.length > 0) {
+      finalElems = elemsEndInVp;
+    }
+
+    if (finalElems.length === 0) {
+      return null;
+    } else if (finalElems.length === 1) {
+      return finalElems[0];
+    } else if (finalElems.length > 1) {
+      // return finalElems[finalElems.length - 1];
+      return finalElems[0];
+    }
+  };
+
   const tooltipContainer = getTopFixedTooltipContainer();
 
-  if(metaContentToolTipTheme === "light"){
+  tooltipContainer.style.top = `${topMenuSpace}px`
+
+  if (metaContentToolTipTheme === "light") {
     tooltipContainer.classList.add("inverse-colors");
   }
 

@@ -129,24 +129,25 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
 
   const loadToolTip = () => {
     if (onMobile) {
-      if (
-        auction.userId &&
-        [bwProd, sfProd, misterDev].includes(auction.userId)
-      ) {
+      // if (
+      //   auction.userId &&
+      //   [bwProd, sfProd, misterDev].includes(auction.userId)
+      // ) {
         setupTopFixedTooltip(
           aid,
           metaContentSpotSelector,
           metaContentSpotsWithDetail,
-          metaContentToolTipTheme
+          metaContentToolTipTheme,
+          auction,
         );
-      } else {
-        setupInlineTooltip(
-          aid,
-          metaContentSpotSelector,
-          metaContentSpotsWithDetail,
-          metaContentToolTipTheme
-        );
-      }
+      // } else {
+      //   setupInlineTooltip(
+      //     aid,
+      //     metaContentSpotSelector,
+      //     metaContentSpotsWithDetail,
+      //     metaContentToolTipTheme
+      //   );
+      // }
     } else {
       setupHoverTooltip(
         aid,

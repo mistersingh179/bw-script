@@ -25,8 +25,8 @@ export const recordDisplay = async (
   mcid: string,
   contentHasScroll: boolean
 ): Promise<string> => {
-  sendEventToGa("bw_inline_tooltip", { bw_inline_tooltip_displayed: "yes" });
-  updateExtra(aid, SHOW_TIPPY_AND_DISPLAYED);
+  // sendEventToGa("bw_inline_tooltip", { bw_inline_tooltip_displayed: "yes" });
+  // updateExtra(aid, SHOW_TIPPY_AND_DISPLAYED);
   const mci = await generateMetaContentImpression(aid, mcid, contentHasScroll);
   return mci.id;
 };

@@ -21,7 +21,7 @@ const getTopFixedTooltipContainer = () => {
         </div>
       </div>
       <div class="bw-ad-unit">
-        <img src="${BW_DASHBOARD_BASE_URL}/inline-tooltip/320x50-mobile-ad-2.jpg" />
+        <div id='rectangle_5'></div>
       </div>
       <div class="bw-disclaimer">
         <div>
@@ -73,7 +73,7 @@ const setupTopFixedTooltip = (
   const sfProd = "climifncr00wgme08z6uyo3bg";
   const misterDev = "clhtwckif000098wp207rs2fg";
   const rnnProd = "clijcdhfw0000jt081z0sdlsk";
-  if (auction.userId && [sfProd, misterDev].includes(auction.userId)) {
+  if (auction.userId && [sfProd].includes(auction.userId)) {
     topMenuSpace = 48;
   }
   if (auction.userId && [rnnProd].includes(auction.userId)) {
@@ -134,7 +134,7 @@ const setupTopFixedTooltip = (
 
   const tooltipContainer = getTopFixedTooltipContainer();
 
-  tooltipContainer.style.top = `${topMenuSpace}px`
+  tooltipContainer.style.top = `${topMenuSpace}px`;
 
   if (metaContentToolTipTheme === "light") {
     tooltipContainer.classList.add("inverse-colors");

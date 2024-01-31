@@ -9,6 +9,12 @@ import setupInlineTooltip from "./setupInlineTooltip";
 
 declare var BW_CDN_BASE_URL: string;
 
+declare global {
+  interface Window {
+    didna: any;
+  }
+}
+
 export const SHOW_NOTHING = "show nothing";
 export const SHOW_TIPPY = "show tippy";
 export const SHOW_TIPPY_AND_DISPLAYED = "show tippy and it popped up";
@@ -46,6 +52,7 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     metaContentToolTipTheme,
     metaContentToolTipTextColor,
     personalizationStatus,
+    didnaScriptUrl,
   } = settings;
 
   // updateAuction(aid, {
@@ -123,6 +130,26 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     return;
   }
 
+  if (didnaScriptUrl && didnaScriptUrl.length > 0) {
+    const scriptElem = document.createElement("script");
+    scriptElem.type = "text/javascript";
+    scriptElem.src = didnaScriptUrl;
+    scriptElem.async = true;
+    document.body.appendChild(scriptElem);
+    scriptElem.onload = () => {
+      console.log("*** didna script has been loaded ***" + window.didna);
+      window.didna.cmd.push(function () {
+        window.didna.createAdUnits({
+          id: "rectangle_5",
+          adUnitPath: "/170737076/display/Brandweaver/brandweaver.ai",
+          size: [[320, 50]],
+        });
+      });
+    };
+  }else{
+    console.log("*** NO didna script found for user! ***")
+  }
+
   const bwProd = "clij1cjb60000mb08uzganxdq";
   const sfProd = "climifncr00wgme08z6uyo3bg";
   const misterDev = "clhtwckif000098wp207rs2fg";
@@ -133,13 +160,13 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
       //   auction.userId &&
       //   [bwProd, sfProd, misterDev].includes(auction.userId)
       // ) {
-        setupTopFixedTooltip(
-          aid,
-          metaContentSpotSelector,
-          metaContentSpotsWithDetail,
-          metaContentToolTipTheme,
-          auction,
-        );
+      setupTopFixedTooltip(
+        aid,
+        metaContentSpotSelector,
+        metaContentSpotsWithDetail,
+        metaContentToolTipTheme,
+        auction
+      );
       // } else {
       //   setupInlineTooltip(
       //     aid,

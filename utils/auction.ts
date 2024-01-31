@@ -25,6 +25,7 @@ export type LimitedSettingsType = Pick<
   | "metaContentMobileDisplayPercentage"
   | "metaContentToolTipTheme"
   | "metaContentToolTipTextColor"
+  | "didnaScriptUrl"
 >;
 
 export type MetaContentSpotsWithMetaContentAndType = MetaContentSpot & {

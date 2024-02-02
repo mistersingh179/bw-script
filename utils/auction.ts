@@ -26,6 +26,8 @@ export type LimitedSettingsType = Pick<
   | "metaContentToolTipTheme"
   | "metaContentToolTipTextColor"
   | "didnaScriptUrl"
+  | "didnaAdUnitPath"
+  | "topPosTopFixedTooltip"
 >;
 
 export type MetaContentSpotsWithMetaContentAndType = MetaContentSpot & {

@@ -59,7 +59,8 @@ const setupTopFixedTooltip = (
   metaContentSpotSelector: string,
   metaContentSpotsWithDetail: MetaContentSpotsWithMetaContentAndType[],
   metaContentToolTipTheme: string,
-  auction: Auction
+  auction: Auction,
+  topPosTopFixedTooltip: number
 ) => {
   logger.info("in setupTopFixedTooltip");
 
@@ -69,16 +70,7 @@ const setupTopFixedTooltip = (
     metaContentSpotSelector = "body p";
   }
 
-  let topMenuSpace = 0;
-  const sfProd = "climifncr00wgme08z6uyo3bg";
-  const misterDev = "clhtwckif000098wp207rs2fg";
-  const rnnProd = "clijcdhfw0000jt081z0sdlsk";
-  if (auction.userId && [sfProd].includes(auction.userId)) {
-    topMenuSpace = 48;
-  }
-  if (auction.userId && [rnnProd].includes(auction.userId)) {
-    topMenuSpace = 56;
-  }
+  let topMenuSpace = topPosTopFixedTooltip || 0;
   const topHiddenSpace = topMenuSpace + 200;
   const bottomHiddenSpace = 50;
 

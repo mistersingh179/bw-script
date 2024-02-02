@@ -53,6 +53,8 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     metaContentToolTipTextColor,
     personalizationStatus,
     didnaScriptUrl,
+    didnaAdUnitPath,
+    topPosTopFixedTooltip,
   } = settings;
 
   // updateAuction(aid, {
@@ -130,7 +132,12 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
     return;
   }
 
-  if (didnaScriptUrl && didnaScriptUrl.length > 0) {
+  if (
+    didnaScriptUrl &&
+    didnaScriptUrl.length > 0 &&
+    didnaAdUnitPath &&
+    didnaAdUnitPath.length > 0
+  ) {
     const scriptElem = document.createElement("script");
     scriptElem.type = "text/javascript";
     scriptElem.src = didnaScriptUrl;
@@ -141,13 +148,13 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
       window.didna.cmd.push(function () {
         window.didna.createAdUnits({
           id: "rectangle_5",
-          adUnitPath: "/170737076/display/Brandweaver/brandweaver.ai",
+          adUnitPath: didnaAdUnitPath,
           size: [[320, 50]],
         });
       });
     };
-  }else{
-    console.log("*** NO didna script found for user! ***")
+  } else {
+    console.log("*** NO didna script found for user! ***");
   }
 
   const bwProd = "clij1cjb60000mb08uzganxdq";
@@ -165,7 +172,8 @@ const setupMetaContent = async (auctionResponse: AuctionResponse) => {
         metaContentSpotSelector,
         metaContentSpotsWithDetail,
         metaContentToolTipTheme,
-        auction
+        auction,
+        topPosTopFixedTooltip
       );
       // } else {
       //   setupInlineTooltip(

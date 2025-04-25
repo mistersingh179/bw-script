@@ -21,6 +21,13 @@ coverage
 
 # API keys and secrets
 .env
+.env.*
+*.key
+*.crt
+*.pem
+server.key
+server.crt
+credentials*
 
 # Dependency directory
 node_modules

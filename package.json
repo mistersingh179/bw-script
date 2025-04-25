@@ -1,16 +1,20 @@
 {
   "name": "bw-script",
   "version": "1.0.0",
-  "description": "",
+  "description": "BrandWeaver script for web content interactions",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node prod-build.mjs",
     "dev": "node dev-build.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["content", "script", "web", "tooltip"],
+  "author": "MASALSA Inc.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mistersingh179/bw-script"
+  },
+  "license": "MIT",
   "dependencies": {
     "esbuild": "0.17.14",
     "js-cookie": "^3.0.5",
